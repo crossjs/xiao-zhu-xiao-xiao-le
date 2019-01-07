@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="CellSkin" width="144" height="144" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image id="n1" source="numbers_json.1" horizontalCenter="0" verticalCenter="0" touchEnabled="false" pixelHitTest="false" visible="false"/>
+	<e:Image id="n2" source="numbers_json.2" horizontalCenter="0" verticalCenter="0" touchEnabled="false" pixelHitTest="false" visible="false"/>
+	<e:Image id="n3" source="numbers_json.3" horizontalCenter="0" verticalCenter="0" touchEnabled="false" pixelHitTest="false" visible="false"/>
+	<e:Image id="n4" source="numbers_json.4" horizontalCenter="0" verticalCenter="0" touchEnabled="false" pixelHitTest="false" visible="false"/>
+	<e:Image id="n5" source="numbers_json.5" horizontalCenter="0" verticalCenter="0" touchEnabled="false" pixelHitTest="false" visible="false"/>
+	<e:Image id="n6" source="numbers_json.6" horizontalCenter="0" verticalCenter="0" touchEnabled="false" pixelHitTest="false" visible="false"/>
+	<e:Image id="n7" source="numbers_json.7" horizontalCenter="0" verticalCenter="0" touchEnabled="false" pixelHitTest="false" visible="false"/>
+	<e:Image id="n8" source="numbers_json.8" horizontalCenter="0" verticalCenter="0" touchEnabled="false" pixelHitTest="false" visible="false"/>
+</e:Skin>

@@ -1,0 +1,106 @@
+{
+	"groups": [
+		{
+			"name": "preload",
+			"keys": "b1,b2,bg,bgGrey,bloodBar,bloodBarBg,boss,btn_start,buff_blood,enemyBullet,f1,f2,game-over,hp,restart,bullet_mp3,bigplane_bomb_mp3,background_mp3,numbers_json"
+		}
+	],
+	"resources": [
+		{
+			"name": "b1",
+			"type": "image",
+			"url": "assets/b1.png"
+		},
+		{
+			"name": "b2",
+			"type": "image",
+			"url": "assets/b2.png"
+		},
+		{
+			"name": "bg",
+			"type": "image",
+			"url": "assets/bg.jpg"
+		},
+		{
+			"name": "bgGrey",
+			"type": "image",
+			"url": "assets/bgGrey.png"
+		},
+		{
+			"name": "bloodBar",
+			"type": "image",
+			"url": "assets/bloodBar.png"
+		},
+		{
+			"name": "bloodBarBg",
+			"type": "image",
+			"url": "assets/bloodBarBg.png"
+		},
+		{
+			"name": "boss",
+			"type": "image",
+			"url": "assets/boss.png"
+		},
+		{
+			"name": "btn_start",
+			"type": "image",
+			"url": "assets/btn_start.png"
+		},
+		{
+			"name": "buff_blood",
+			"type": "image",
+			"url": "assets/buff_blood.png"
+		},
+		{
+			"name": "enemyBullet",
+			"type": "image",
+			"url": "assets/enemyBullet.png"
+		},
+		{
+			"name": "f1",
+			"type": "image",
+			"url": "assets/f1.png"
+		},
+		{
+			"name": "f2",
+			"type": "image",
+			"url": "assets/f2.png"
+		},
+		{
+			"name": "game-over",
+			"type": "image",
+			"url": "assets/game-over.png"
+		},
+		{
+			"name": "hp",
+			"type": "image",
+			"url": "assets/hp.png"
+		},
+		{
+			"name": "restart",
+			"type": "image",
+			"url": "assets/restart.png"
+		},
+		{
+			"name": "bullet_mp3",
+			"type": "sound",
+			"url": "assets/bullet.mp3"
+		},
+		{
+			"name": "bigplane_bomb_mp3",
+			"type": "sound",
+			"url": "assets/bigplane_bomb.mp3"
+		},
+		{
+			"name": "background_mp3",
+			"type": "sound",
+			"url": "assets/background.mp3"
+		},
+		{
+			"name": "numbers_json",
+			"type": "sheet",
+			"url": "assets/numbers.json",
+			"subkeys": "1,2,3,4,5,6,7,8"
+		}
+	]
+}

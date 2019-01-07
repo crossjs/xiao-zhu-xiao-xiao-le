@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="PlaySkin" width="750" height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+	<w:Config id="168194f5704" ></w:Config>
+	<e:Group id="mainGroup" width="720" height="720" touchChildren="false" horizontalCenter="0" verticalCenter="0"/>
+	<e:Image id="btnReload" source="restart" y="1100" horizontalCenter="0"/>
+</e:Skin>
