@@ -7,6 +7,24 @@ namespace yyw {
     return point1[0] === point2[0] && point1[1] === point2[1];
   }
 
+  /** 是否直线（至少 5 个在一条线上） */
+  export function isStraight(points: game.Point[]): boolean {
+    const map = {};
+    for (const [x, y] of points) {
+      const keyX = `x${x}`;
+      const keyY = `y${y}`;
+      if (!map[keyX]) {
+        map[keyX] = 0;
+      }
+      map[keyX] += 1;
+      if (!map[keyY]) {
+        map[keyY] = 0;
+      }
+      map[keyY] += 1;
+    }
+    return Object.values(map).some((v) => v >= 5);
+  }
+
   export function getIndexOf(points: game.Point[], point: game.Point): number {
     for (let i = 0; i < points.length; i++) {
       const p = points[i];
@@ -40,7 +58,6 @@ namespace yyw {
     let current = from;
     let stop: game.Point;
     while ((stop = yyw.getNeighborOf(current, stops))) {
-      egret.log("===", stop);
       steps.push(stop);
       current = stop;
       if (yyw.isNeighbor(current, to)) {

@@ -2,7 +2,7 @@
 	"groups": [
 		{
 			"name": "preload",
-			"keys": "b1,b2,bg,bgGrey,bloodBar,bloodBarBg,boss,btn_start,buff_blood,enemyBullet,f1,f2,game-over,hp,restart,bullet_mp3,bigplane_bomb_mp3,background_mp3,numbers_json"
+			"keys": "b1,b2,bg,bgGrey,bloodBar,bloodBarBg,boss,btn_start,buff_blood,enemyBullet,f1,f2,game-over,hp,restart,bullet_mp3,bigplane_bomb_mp3,background_mp3,numbers_json,font_fnt,font_png"
 		}
 	],
 	"resources": [
@@ -100,7 +100,17 @@
 			"name": "numbers_json",
 			"type": "sheet",
 			"url": "assets/numbers.json",
-			"subkeys": "1,2,3,4,5,6,7,8"
+			"subkeys": "99,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,bar"
+		},
+		{
+			"name": "font_fnt",
+			"type": "font",
+			"url": "assets/font.fnt"
+		},
+		{
+			"name": "font_png",
+			"type": "image",
+			"url": "assets/font.png"
 		}
 	]
 }

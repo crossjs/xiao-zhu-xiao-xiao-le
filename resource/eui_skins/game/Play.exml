@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="PlaySkin" width="750" height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
 	<w:Config id="168194f5704" ></w:Config>
-	<e:Group id="mainGroup" width="720" height="720" touchChildren="false" horizontalCenter="0" verticalCenter="0"/>
+	<e:Group id="mainGroup" width="720" height="720" touchChildren="false" x="15" y="307"/>
 	<e:Image id="btnReload" source="restart" y="1100" horizontalCenter="0"/>
+	<e:Image id="b1" source="numbers_json.bar" x="15" y="264"/>
+	<e:Image id="b2" source="numbers_json.bar" x="159" y="264"/>
+	<e:Image id="b3" source="numbers_json.bar" x="303.5" y="264"/>
+	<e:Image id="b4" source="numbers_json.bar" x="447.5" y="264"/>
+	<e:Image id="b5" source="numbers_json.bar" x="591" y="264"/>
+	<e:BitmapLabel id="tfdScore" text="0" x="78" y="150" font="font_fnt" height="36" width="180"/>
+	<e:BitmapLabel text="分数" x="15" y="144" font="font_fnt" height="36" width="54"/>
+	<e:BitmapLabel id="tfdDifficulty" text="1" x="699" y="150" font="font_fnt" height="36" width="36"/>
+	<e:BitmapLabel text="难度" x="630" y="144" font="font_fnt" height="36" width="54"/>
 </e:Skin>

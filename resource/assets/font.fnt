@@ -1,0 +1,15 @@
+{"file":"font.png","frames":{
+"0":{"x":48,"y":68,"w":13,"h":19,"offX":3,"offY":6,"sourceW":16,"sourceH":25},
+"1":{"x":30,"y":69,"w":13,"h":18,"offX":3,"offY":6,"sourceW":16,"sourceH":24},
+"2":{"x":30,"y":89,"w":13,"h":18,"offX":2,"offY":6,"sourceW":15,"sourceH":24},
+"3":{"x":0,"y":69,"w":13,"h":19,"offX":2,"offY":6,"sourceW":15,"sourceH":25},
+"4":{"x":48,"y":48,"w":14,"h":18,"offX":2,"offY":6,"sourceW":16,"sourceH":24},
+"5":{"x":16,"y":48,"w":14,"h":19,"offX":2,"offY":6,"sourceW":16,"sourceH":25},
+"6":{"x":15,"y":69,"w":13,"h":19,"offX":3,"offY":6,"sourceW":16,"sourceH":25},
+"7":{"x":50,"y":24,"w":12,"h":19,"offX":3,"offY":6,"sourceW":15,"sourceH":25},
+"8":{"x":32,"y":48,"w":14,"h":19,"offX":2,"offY":6,"sourceW":16,"sourceH":25},
+"9":{"x":0,"y":48,"w":14,"h":19,"offX":2,"offY":6,"sourceW":16,"sourceH":25},
+"分":{"x":0,"y":25,"w":23,"h":21,"offX":3,"offY":9,"sourceW":26,"sourceH":30},
+"数":{"x":25,"y":24,"w":23,"h":22,"offX":3,"offY":8,"sourceW":26,"sourceH":30},
+"难":{"x":0,"y":0,"w":23,"h":23,"offX":2,"offY":8,"sourceW":25,"sourceH":31},
+"度":{"x":25,"y":0,"w":24,"h":22,"offX":2,"offY":8,"sourceW":26,"sourceH":30}}}
