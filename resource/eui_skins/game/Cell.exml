@@ -23,5 +23,5 @@
 		<e:Image id="n19" source="numbers_json.19" touchEnabled="false" pixelHitTest="false" visible="false"/>
 		<e:Image id="n20" source="numbers_json.20" touchEnabled="false" pixelHitTest="false" visible="false"/>
 	</e:Group>
-	<e:BitmapLabel id="tfdScore" font="font_fnt" width="36" height="36" scaleX="2" scaleY="2" text="" x="36" y="36" visible="false" locked="true"/>
+	<e:BitmapLabel id="tfdScore" font="font_fnt" width="72" height="36" scaleX="2" scaleY="2" text="" x="0" y="36" visible="true" touchEnabled="false" textAlign="center"/>
 </e:Skin>

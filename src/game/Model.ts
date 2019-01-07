@@ -59,10 +59,12 @@ namespace game {
         let col = cols;
         while (col--) {
           const num  = numbers[row][col];
-          if (!numMap[`${num}`]) {
-            numMap[`${num}`] = [];
+          if (num !== game.MAGIC_NUMBER) {
+            if (!numMap[`${num}`]) {
+              numMap[`${num}`] = [];
+            }
+            numMap[`${num}`].push([col, row]);
           }
-          numMap[`${num}`].push([col, row]);
         }
       }
       const entries = Object.entries(numMap);
