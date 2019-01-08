@@ -1,116 +1,69 @@
 {
-	"groups": [
+	"groups":[{
+			"keys":"bloodBar,bloodBarBg,btn_start,buff_blood,enemyBullet,game-over,restart,bullet_mp3,bigplane_bomb_mp3,background_mp3,numbers_json,font_fnt",
+			"name":"preload"
+		}],
+	"resources":[
 		{
-			"name": "preload",
-			"keys": "b1,b2,bg,bgGrey,bloodBar,bloodBarBg,boss,btn_start,buff_blood,enemyBullet,f1,f2,game-over,hp,restart,bullet_mp3,bigplane_bomb_mp3,background_mp3,numbers_json,font_fnt,font_png"
-		}
-	],
-	"resources": [
-		{
-			"name": "b1",
-			"type": "image",
-			"url": "assets/b1.png"
+			"name":"bloodBar",
+			"type":"image",
+			"url":"assets/bloodBar.png"
 		},
 		{
-			"name": "b2",
-			"type": "image",
-			"url": "assets/b2.png"
+			"name":"bloodBarBg",
+			"type":"image",
+			"url":"assets/bloodBarBg.png"
 		},
 		{
-			"name": "bg",
-			"type": "image",
-			"url": "assets/bg.jpg"
+			"name":"btn_start",
+			"type":"image",
+			"url":"assets/btn_start.png"
 		},
 		{
-			"name": "bgGrey",
-			"type": "image",
-			"url": "assets/bgGrey.png"
+			"name":"buff_blood",
+			"type":"image",
+			"url":"assets/buff_blood.png"
 		},
 		{
-			"name": "bloodBar",
-			"type": "image",
-			"url": "assets/bloodBar.png"
+			"name":"enemyBullet",
+			"type":"image",
+			"url":"assets/enemyBullet.png"
 		},
 		{
-			"name": "bloodBarBg",
-			"type": "image",
-			"url": "assets/bloodBarBg.png"
+			"name":"game-over",
+			"type":"image",
+			"url":"assets/game-over.png"
 		},
 		{
-			"name": "boss",
-			"type": "image",
-			"url": "assets/boss.png"
+			"name":"restart",
+			"type":"image",
+			"url":"assets/restart.png"
 		},
 		{
-			"name": "btn_start",
-			"type": "image",
-			"url": "assets/btn_start.png"
+			"name":"bullet_mp3",
+			"type":"sound",
+			"url":"assets/bullet.mp3"
 		},
 		{
-			"name": "buff_blood",
-			"type": "image",
-			"url": "assets/buff_blood.png"
+			"name":"bigplane_bomb_mp3",
+			"type":"sound",
+			"url":"assets/bigplane_bomb.mp3"
 		},
 		{
-			"name": "enemyBullet",
-			"type": "image",
-			"url": "assets/enemyBullet.png"
+			"name":"background_mp3",
+			"type":"sound",
+			"url":"assets/background.mp3"
 		},
 		{
-			"name": "f1",
-			"type": "image",
-			"url": "assets/f1.png"
+			"name":"numbers_json",
+			"subkeys":"1,10,11,12,13,14,15,16,17,18,19,2,20,3,4,5,6,7,8,9,99,bar",
+			"type":"sheet",
+			"url":"assets/numbers.json"
 		},
 		{
-			"name": "f2",
-			"type": "image",
-			"url": "assets/f2.png"
-		},
-		{
-			"name": "game-over",
-			"type": "image",
-			"url": "assets/game-over.png"
-		},
-		{
-			"name": "hp",
-			"type": "image",
-			"url": "assets/hp.png"
-		},
-		{
-			"name": "restart",
-			"type": "image",
-			"url": "assets/restart.png"
-		},
-		{
-			"name": "bullet_mp3",
-			"type": "sound",
-			"url": "assets/bullet.mp3"
-		},
-		{
-			"name": "bigplane_bomb_mp3",
-			"type": "sound",
-			"url": "assets/bigplane_bomb.mp3"
-		},
-		{
-			"name": "background_mp3",
-			"type": "sound",
-			"url": "assets/background.mp3"
-		},
-		{
-			"name": "numbers_json",
-			"type": "sheet",
-			"url": "assets/numbers.json",
-			"subkeys": "99,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,bar"
-		},
-		{
-			"name": "font_fnt",
-			"type": "font",
-			"url": "assets/font.fnt"
-		},
-		{
-			"name": "font_png",
-			"type": "image",
-			"url": "assets/font.png"
+			"name":"font_fnt",
+			"type":"font",
+			"url":"assets/font.fnt"
 		}
 	]
 }

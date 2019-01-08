@@ -73,60 +73,18 @@ namespace game {
       mainGroup.touchEnabled = true;
 
       // 是否正在拖动
+      let running: boolean = false;
+      // 是否正在拖动
       let dragging: boolean = false;
       // 起始点
       let fromXY: [number, number];
       // 起始单元格
       let fromPoint: game.Point;
 
-      const handleDrag = async (e: egret.TouchEvent) => {
-        if (dragging) {
-          const { localX, localY } = e;
-          const toXY: [number, number] = [localX, localY];
-          const toPoint: game.Point = [
-            Math.floor(localX / cellWidth),
-            Math.floor(localY / cellWidth),
-          ];
-          const slope = yyw.getSlope(toXY, fromXY);
-          // 角度太模棱两可的，不处理
-          if ((slope > 2 || slope < 0.5) && yyw.isNeighbor(fromPoint, toPoint)) {
-            dragging = false;
-            this.getCellAt(fromPoint).zoomOut();
-            // 普通交换
-            this.tweenFromTo(fromPoint, toPoint, 300);
-            await this.tweenFromTo(toPoint, fromPoint, 300);
-            this.switchNumbers(fromPoint, toPoint);
-            const numFrom = this.model.getNumberAt(fromPoint);
-            const numTo = this.model.getNumberAt(toPoint);
-            if (numFrom === numTo) {
-              return;
-            }
-            let magicPoint: game.Point;
-            let numToGrowUp: number;
-            if (numFrom === game.MAGIC_NUMBER) {
-              magicPoint = fromPoint;
-              numToGrowUp = numTo;
-            } else if (numTo === game.MAGIC_NUMBER) {
-              magicPoint = toPoint;
-              numToGrowUp = numFrom;
-            }
-            if (magicPoint) {
-              await this.growUpCellsOf(numToGrowUp);
-              this.setCellNumber(magicPoint, 0);
-              await this.dropCellsDown();
-            }
-            const hasChain = await this.mergeChains(toPoint, fromPoint);
-            if (!hasChain) {
-              this.increaseSteps(-1);
-              if (this.steps === 0) {
-                egret.log("Game Over");
-              }
-            }
-          }
+      const handleBegin = (e: egret.TouchEvent) => {
+        if (running) {
+          return;
         }
-      };
-
-      mainGroup.addEventListener(egret.TouchEvent.TOUCH_BEGIN, (e: egret.TouchEvent) => {
         dragging = true;
         const { localX, localY } = e;
         fromXY = [localX, localY];
@@ -135,12 +93,77 @@ namespace game {
           Math.floor(localY / cellWidth),
         ];
         this.getCellAt(fromPoint).zoomIn();
-      }, this);
-      mainGroup.addEventListener(egret.TouchEvent.TOUCH_MOVE, handleDrag, this);
-      mainGroup.addEventListener(egret.TouchEvent.TOUCH_END, () => {
+      };
+
+      const handleDrag = async (e: egret.TouchEvent) => {
+        if (!dragging) {
+          return;
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        const { localX, localY } = e;
+        const toPoint: game.Point = [
+          Math.floor(localX / cellWidth),
+          Math.floor(localY / cellWidth),
+        ];
+        // 角度太模棱两可的，不处理
+        if (!yyw.isNeighbor(fromPoint, toPoint)) {
+          return;
+        }
+        const toXY: [number, number] = [localX, localY];
+        const slope = yyw.getSlope(toXY, fromXY);
+        if (slope < 2 && slope > 0.5) {
+          return;
+        }
         dragging = false;
         this.getCellAt(fromPoint).zoomOut();
-      }, this);
+        running = true;
+        // 普通交换
+        this.tweenFromTo(fromPoint, toPoint, 300);
+        await this.tweenFromTo(toPoint, fromPoint, 300);
+        this.switchNumbers(fromPoint, toPoint);
+        const numFrom = this.model.getNumberAt(fromPoint);
+        const numTo = this.model.getNumberAt(toPoint);
+        if (numFrom !== numTo) {
+          let magicPoint: game.Point;
+          let numToGrowUp: number;
+          if (numFrom === game.MAGIC_NUMBER) {
+            magicPoint = fromPoint;
+            numToGrowUp = numTo;
+          } else if (numTo === game.MAGIC_NUMBER) {
+            magicPoint = toPoint;
+            numToGrowUp = numFrom;
+          }
+          if (magicPoint) {
+            await this.growUpCellsOf(numToGrowUp);
+            this.setCellNumber(magicPoint, 0);
+            await this.dropCellsDown();
+          }
+          const hasChain = await this.mergeChains(toPoint, fromPoint);
+          if (!hasChain) {
+            this.increaseSteps(-1);
+            if (this.steps === 0) {
+              egret.log("Game Over");
+            }
+          }
+        }
+        running = false;
+      };
+
+      const handleEnd = () => {
+        if (running) {
+          return;
+        }
+        dragging = false;
+        this.getCellAt(fromPoint).zoomOut();
+      };
+
+      mainGroup.addEventListener(egret.TouchEvent.TOUCH_BEGIN, handleBegin, this);
+      mainGroup.addEventListener(egret.TouchEvent.TOUCH_MOVE, handleDrag, this);
+      mainGroup.addEventListener(egret.TouchEvent.TOUCH_END, handleEnd, this);
+      mainGroup.addEventListener(egret.TouchEvent.TOUCH_RELEASE_OUTSIDE, handleEnd, this);
     }
 
     private growUpCellsOf(num: number) {
@@ -213,7 +236,7 @@ namespace game {
       const [ num, points ] = model.getChain(firstNumber === game.MAGIC_NUMBER ? 0 : firstNumber);
       // 找到
       if (num) {
-        const isMagic = points.length >= 5;
+        const isMagic = yyw.isStraight(points);
         let triggerPointNext: game.Point;
         if (!triggerPoint) {
           triggerPoint = points.shift();
@@ -254,7 +277,7 @@ namespace game {
           this.increaseSteps(1);
         }
         // 继续找，优先消除交换点
-        this.mergeChains(triggerPointNext);
+        await this.mergeChains(triggerPointNext);
       }
 
       return !!num;
@@ -282,7 +305,7 @@ namespace game {
                 pointAbove = [col, 0];
                 this.setCellNumber(pointAbove, model.getRandomNumber());
               }
-              await this.tweenFromTo(pointAbove, point);
+              await this.tweenFromTo(pointAbove, point, 10);
               this.switchNumbers(pointAbove, point);
             }
           }
