@@ -64,31 +64,16 @@ class Main extends eui.UILayer {
     protected async createGameScene(): Promise<void> {
       this.initOpenDataContext();
       // 把 this 设置为场景管理器的根舞台
-      SceneManager.instance.setStage(this);
-      SceneManager.toScene("landing");
-      // // 初始化交叉营销
-      // const recommender = new yyw.Recommender({
-      //   appId: "wxfababee3255ad64b",
-      //   openId: "0",
-      //   // origins: {
-      //   //   box: 'http://127.0.0.1:7001',
-      //   //   log: 'http://127.0.0.1:7002',
-      //   // },
-      // });
-      // // 监听就绪
-      // recommender.onReady(() => {
-      //   SceneManager.toScene("play");
-      // });
-      // // 存起来
-      // yyw.define.set("recommender", recommender);
+      game.SceneManager.instance.setStage(this);
+      game.SceneManager.toScene("landing");
     }
 
     private async runGame() {
-      Platform.initShare();
+      yyw.initShare();
       await this.loadResource();
       await this.createGameScene();
-      const data = await Platform.login();
-      // const userInfo = await Platform.getUserInfo();
+      const data = await yyw.login();
+      // const userInfo = await yyw.getUserInfo();
       egret.log(data);
     }
 
@@ -118,7 +103,7 @@ class Main extends eui.UILayer {
 
     private initOpenDataContext() {
       // 加载资源
-      OpenDataContext.postMessage({
+      yyw.OpenDataContext.postMessage({
         command: "init",
       });
     }

@@ -1,5 +1,6 @@
-import * as regeneratorRuntime from './utils/runtime';
-import { View } from './view';
+// eslint-disable-next-line
+import * as regeneratorRuntime from "./utils/runtime";
+import { View } from "./view";
 
 export const Proxy = {
   init(data) {
@@ -8,15 +9,14 @@ export const Proxy = {
 
   async open(data) {
     wx.getFriendCloudStorage({
-      keyList: ['level'],
+      keyList: ["score"],
       success: ({ data: useGameDataList }) => {
-        console.log('====1, useGameDataList', useGameDataList);
         const { windowWidth, windowHeight } = wx.getSystemInfoSync();
         View.create({
           ...data,
           windowWidth,
           windowHeight,
-          useGameDataList: useGameDataList.map(({ KVDataList, ...rest }, index) => ({
+          useGameDataList: useGameDataList.map(({ KVDataList, ...rest }) => ({
             ...rest,
             score: getScoreFormKVDataList(KVDataList),
           })).sort((a, b) => {
@@ -27,16 +27,13 @@ export const Proxy = {
           // numPerPage: 1,
         });
       },
-      fail: (e) => {
-        console.log('====0', e);
-      },
     });
   },
 
   close() {
     View.destroy();
   }
-}
+};
 
 function getScoreFormKVDataList(KVDataList) {
   const [ KVData ] = KVDataList;
@@ -46,7 +43,6 @@ function getScoreFormKVDataList(KVDataList) {
   try {
     return JSON.parse(KVData.value).wxgame.score;
   } catch (error) {
-    console.error(error);
     return 0;
   }
 }

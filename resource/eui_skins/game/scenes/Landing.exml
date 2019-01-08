@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="LandingSkin" width="750" height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
 	<w:Config id="1682d3c0f34" ></w:Config>
-	<e:Image id="btnStart" source="sprites_json.btn_start" horizontalCenter="0" verticalCenter="0"/>
-	<e:Image id="btnShare" source="sprites_json.share" x="311" y="840"/>
 	<e:Image id="btnBoard" source="sprites_json.board" y="360" horizontalCenter="0"/>
+	<e:Image id="btnStart" source="sprites_json.btn_start" horizontalCenter="0" verticalCenter="0"/>
+	<e:Image id="btnShare" source="sprites_json.share" y="840" horizontalCenter="0"/>
 </e:Skin>

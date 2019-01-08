@@ -1,5 +1,6 @@
-import * as regeneratorRuntime from './utils/runtime';
-import { AssetsManager } from './assets';
+// eslint-disable-next-line
+import * as regeneratorRuntime from "./utils/runtime";
+import { AssetsManager } from "./assets";
 
 // 获取canvas渲染上下文
 const context = sharedCanvas.getContext("2d");
@@ -13,7 +14,6 @@ export const View = {
       await AssetsManager.init();
       this.isReady = true;
     }
-    console.log('========', this);
   },
 
   /**
@@ -25,9 +25,8 @@ export const View = {
       // 确保就绪
       await this.init();
       this._initProps(data);
-      console.log('开放数据域：初始化');
       this.assets = await AssetsManager.getAssets();
-      this._drawRank();
+      this._drawRanking();
       /**
        * 监听点击
        */
@@ -40,7 +39,7 @@ export const View = {
         this._onEnterFrame();
       });
     } else {
-      console.log('创建开放数据域失败，请检查是否加载开放数据域资源');
+      console.error("创建开放数据域失败，请检查是否加载开放数据域资源");
     }
   },
 
@@ -124,7 +123,7 @@ export const View = {
 
   destroy() {
     cancelAnimationFrame(this._rafId);
-    this._rafId = null
+    this._rafId = null;
   },
 
   _renderDirty: false,
@@ -132,7 +131,7 @@ export const View = {
   /**
    * 创建排行榜
    */
-  _drawRank() {
+  _drawRanking() {
     // 绘制主背景
     this._drawImage(this.assets.panel, this.offsetX, this.offsetY, this.width, this.height);
 
@@ -161,12 +160,12 @@ export const View = {
     const startID = this.numPerPage * this.currentPageIndex;
     const currentPageIndexGroup = this.useGameDataList.slice(startID, startID + this.numPerPage);
     // 创建 body
-    this._drawRankItems(currentPageIndexGroup);
+    this._drawRankingItems(currentPageIndexGroup);
   },
 
   _drawFoot() {
     // 创建按钮
-    this._drawButton()
+    this._drawButton();
   },
 
   /**
@@ -182,44 +181,44 @@ export const View = {
     } = this;
     if (currentPageIndex > 0) {
       this._drawImage(this.assets.button, prevButtonX, prevButtonY, buttonWidth, buttonHeight);
-      this._drawText(`前 ${numPerPage} 名`, prevButtonX, prevButtonY + textOffsetY, buttonWidth, { align: 'center', fontSize });
+      this._drawText(`前 ${numPerPage} 名`, prevButtonX, prevButtonY + textOffsetY, buttonWidth, { align: "center", fontSize });
     }
     if (currentPageIndex < numOfPages - 1) {
       this._drawImage(this.assets.button, nextButtonX, nextButtonY, buttonWidth, buttonHeight);
-      this._drawText(`后 ${numPerPage} 名`, nextButtonX, nextButtonY + textOffsetY, buttonWidth, { align: 'center', fontSize });
+      this._drawText(`后 ${numPerPage} 名`, nextButtonX, nextButtonY + textOffsetY, buttonWidth, { align: "center", fontSize });
     }
   },
 
   /**
    * 根据当前绘制组绘制排行榜
    */
-  _drawRankItems(currentPageIndexGroup) {
+  _drawRankingItems(currentPageIndexGroup) {
     currentPageIndexGroup.forEach((data, index) => {
       // 创建行
-      this._drawRankItem(data, index);
+      this._drawRankingItem(data, index);
     });
   },
 
   /**
    * 根据绘制信息以及当前i绘制元素
    */
-  _drawRankItem(data, i) {
+  _drawRankingItem(data, i) {
     const {
-      fontSize, xArr, padding, offsetY, headHeight,
+      xArr, padding, offsetY, headHeight,
       gutterWidth, textOffsetY, barWidth, barHeight,
-      indexWidth, iconWidth, iconHeight, nameWidth, scoreWidth,
+      indexWidth, iconHeight, nameWidth, scoreWidth,
     } = this;
     const y = i * (barHeight + gutterWidth) + padding + offsetY + headHeight;
     // 绘制底框
     this._drawImage(this.assets.box, xArr[0], y, barWidth, barHeight);
     // 绘制序号
-    this._drawText(data.key, xArr[1], y + textOffsetY, indexWidth, { align: 'center' });
+    this._drawText(data.key, xArr[1], y + textOffsetY, indexWidth, { align: "center" });
     // 绘制头像
     this._drawImage(data.avatarUrl, xArr[2], y + (barHeight - iconHeight) / 2, iconHeight, iconHeight);
     // 绘制名称
     this._drawText(data.nickname, xArr[3], y + textOffsetY, nameWidth);
     // 绘制分数
-    this._drawText(data.score, xArr[4], y + textOffsetY, scoreWidth, { align: 'right' });
+    this._drawText(data.score, xArr[4], y + textOffsetY, scoreWidth, { align: "right" });
   },
 
   /**
@@ -255,7 +254,6 @@ export const View = {
       this.prevButtonY += offsetY;
       this.currentPageIndex--;
       this._renderDirty = true;
-      console.log('上一页', this.currentPageIndex);
       setTimeout(() => {
         this.prevButtonY -= offsetY;
         // 重新渲染必须标脏
@@ -266,7 +264,6 @@ export const View = {
       this.nextButtonY += offsetY;
       this.currentPageIndex++;
       this._renderDirty = true;
-      console.log('下一页', this.currentPageIndex);
       setTimeout(() => {
         this.nextButtonY -= offsetY;
         // 重新渲染必须标脏
@@ -279,11 +276,11 @@ export const View = {
    * 图片绘制函数
    */
   _drawImage(image, x, y, width, height) {
-    if (typeof image === 'string') {
+    if (typeof image === "string") {
       const img = wx.createImage();
       img.onload = () => {
         this._drawImage(img, x, y, width, height);
-      }
+      };
       img.src = image;
       return;
     }
@@ -298,15 +295,15 @@ export const View = {
    * 文本绘制函数
    */
   _drawText(text, x, y, width, {
-    align = 'left',
+    align = "left",
     fontSize = this.fontSize,
-    color = '#ffffff',
+    color = "#ffffff",
   } = {}) {
     context.textAlign = align;
-    if (align === 'right') {
+    if (align === "right") {
       x += width;
     }
-    if (align === 'center') {
+    if (align === "center") {
       x += width / 2;
     }
     // 设置字体
@@ -323,14 +320,13 @@ export const View = {
   _onEnterFrame() {
     if (this._renderDirty) {
       context.setTransform(1, 0, 0, 1, 0, 0);
-      // context.clearRect(0, 0, sharedCanvas.width, sharedCanvas.height);
       context.clearRect(
         this.padding,
         this.padding + this.headHeight,
         this.barWidth,
         this.bodyHeight
       );
-      this._drawRank();
+      this._drawRanking();
       this._renderDirty = false;
     }
     this._rafId = requestAnimationFrame(() => {

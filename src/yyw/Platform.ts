@@ -1,7 +1,7 @@
-class Platform {
-  public static async requestWithAuth(options: any): Promise<any> {
-    const accessToken = await this.getAccessToken();
-    return this.request({
+namespace yyw {
+  export async function requestWithAuth(options: any): Promise<any> {
+    const accessToken = await yyw.getAccessToken();
+    return yyw.request({
       ...options,
       header: {
         // 使用 Bearer Token
@@ -10,7 +10,7 @@ class Platform {
     });
   }
 
-  public static async request(options: any): Promise<any> {
+  export async function request(options: any): Promise<any> {
     const { data }: any = await new Promise((success, fail) => {
       wx.request({
         ...options,
@@ -21,32 +21,28 @@ class Platform {
     return data;
   }
 
-  public static initShare() {
+  export function initShare() {
     wx.showShareMenu({
       withShareTicket: true,
     });
   }
 
-  public static share() {
-    wx.shareAppMessage({
-      // title: ,
-      // imageUrl: ,
-      // query: ,
-    });
+  export function share(options = {}) {
+    wx.shareAppMessage(options);
   }
 
-  public static async getUserInfo() {
+  export async function getUserInfo() {
     return { nickName: "username" };
   }
 
-  public static async login(): Promise<any> {
+  export async function login(): Promise<any> {
     const { code }: any = await new Promise((success, fail) => {
       wx.login({
         success,
         fail,
       });
     });
-    const data = await this.request({
+    const data = await yyw.request({
       url: `${yyw.origin}/api/user/login`,
       data: { code },
       method: "POST",
@@ -57,23 +53,23 @@ class Platform {
     return data;
   }
 
-  public static async getAccessToken(): Promise<string> {
+  export async function getAccessToken(): Promise<string> {
     if (yyw.user.accessToken) {
       return yyw.user.accessToken;
     }
-    const { accessToken } = await this.login();
+    const { accessToken } = await yyw.login();
     return accessToken;
   }
 
-  public static async endow(data: any): Promise<any> {
-    return this.requestWithAuth({
-      url: `${yyw.origin}/api/user/endow`,
-      data,
-      method: "POST",
-    });
-  }
+  // export async function endow(data: any): Promise<any> {
+  //   return this.requestWithAuth({
+  //     url: `${yyw.origin}/api/user/endow`,
+  //     data,
+  //     method: "POST",
+  //   });
+  // }
 
-  public static async score(score: number): Promise<any> {
+  export async function saveScore(score: number): Promise<any> {
     // 保存到微信
     wx.setUserCloudStorage({
       KVDataList: [{
@@ -89,7 +85,7 @@ class Platform {
       // fail,
     });
     // 保存到本地
-    return this.requestWithAuth({
+    return yyw.requestWithAuth({
       url: `${yyw.origin}/api/user/score`,
       data: {
         score,

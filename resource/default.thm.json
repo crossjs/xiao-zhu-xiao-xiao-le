@@ -1,14 +1,18 @@
 {
 	"skins": {
-		"game.Cell": "resource/eui_skins/game/Cell.exml",
-		"game.Play": "resource/eui_skins/game/Play.exml",
-		"game.Landing": "resource/eui_skins/game/Landing.exml"
+		"game.Cell": "resource/eui_skins/game/components/Cell.exml",
+		"game.Playing": "resource/eui_skins/game/scenes/Playing.exml",
+		"game.Landing": "resource/eui_skins/game/scenes/Landing.exml",
+		"game.Ranking": "resource/eui_skins/game/scenes/Ranking.exml",
+		"game.Failing": "resource/eui_skins/game/scenes/Failing.exml"
 	},
 	"autoGenerateExmlsList": true,
 	"exmls": [
-		"resource/eui_skins/game/Cell.exml",
-		"resource/eui_skins/game/Landing.exml",
-		"resource/eui_skins/game/Play.exml"
+		"resource/eui_skins/game/components/Cell.exml",
+		"resource/eui_skins/game/scenes/Failing.exml",
+		"resource/eui_skins/game/scenes/Landing.exml",
+		"resource/eui_skins/game/scenes/Playing.exml",
+		"resource/eui_skins/game/scenes/Ranking.exml"
 	],
 	"path": "resource/default.thm.json"
 }

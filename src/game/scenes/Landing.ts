@@ -1,7 +1,8 @@
 namespace game {
   export class Landing extends eui.Component implements eui.UIComponent {
-    private btnShare: eui.Image;
+    private btnBoard: eui.Image;
     private btnStart: eui.Image;
+    private btnShare: eui.Image;
 
     public constructor() {
       super();
@@ -14,10 +15,11 @@ namespace game {
     protected childrenCreated(): void {
       super.childrenCreated();
 
-      this.btnShare.addEventListener(
+      this.btnBoard.addEventListener(
         egret.TouchEvent.TOUCH_TAP,
         () => {
-          Platform.share();
+          const scene: any = SceneManager.toScene("ranking", true);
+          scene.showBoard();
         },
         this,
       );
@@ -25,7 +27,15 @@ namespace game {
       this.btnStart.addEventListener(
         egret.TouchEvent.TOUCH_TAP,
         () => {
-          SceneManager.toScene("play");
+          SceneManager.toScene("playing");
+        },
+        this,
+      );
+
+      this.btnShare.addEventListener(
+        egret.TouchEvent.TOUCH_TAP,
+        () => {
+          yyw.share();
         },
         this,
       );

@@ -1,5 +1,5 @@
 namespace game {
-  export class Play extends eui.Component implements eui.UIComponent {
+  export class Playing extends eui.Component implements eui.UIComponent {
     private mainGroup: eui.Group;
     private btnBack: eui.Image;
     private btnReload: eui.Image;
@@ -18,13 +18,17 @@ namespace game {
     private cells: game.Cell[][];
     /** 可用的剩余步数 */
     private steps: number = 5;
-    private scores: number = 0;
+    private score: number = 0;
     private tweenCells: yyw.Set;
 
     public constructor() {
       super();
       this.model = new game.Model(this.cols, this.rows, this.maxNum);
       this.tweenCells = new yyw.Set();
+    }
+
+    public restart() {
+      this.reset();
     }
 
     protected partAdded(partName: string, instance: any): void {
@@ -53,8 +57,8 @@ namespace game {
       });
       this.steps = 5;
       this.increaseSteps(0);
-      this.scores = 0;
-      this.increaseScores(0);
+      this.score = 0;
+      this.increaseScore(0);
       this.model = new game.Model(this.cols, this.rows, this.maxNum);
       this.updateView();
     }
@@ -151,7 +155,9 @@ namespace game {
           if (!hasChain) {
             this.increaseSteps(-1);
             if (this.steps === 0) {
-              egret.log("Game Over");
+              // egret.log("Game Over");
+              const scene: game.Failing = game.SceneManager.toScene("failing");
+              scene.setScore(this.score);
             }
           }
         }
@@ -199,10 +205,10 @@ namespace game {
     /**
      * 更新分数
      */
-    private increaseScores(n: number) {
-      this.scores += n;
-      this.tfdScore.text = String(this.scores);
-      const difficulty = Math.ceil(this.scores / 3000);
+    private increaseScore(n: number) {
+      this.score += n;
+      this.tfdScore.text = String(this.score);
+      const difficulty = Math.ceil(this.score / 3000);
       this.model.setDifficulty(difficulty);
       this.tfdDifficulty.text = String(difficulty);
     }
@@ -352,7 +358,7 @@ namespace game {
       const cell = this.getCellAt(from);
       this.tweenCells.add(cell);
       cell.flashScore();
-      this.increaseScores(cell.getNumber() * 10);
+      this.increaseScore(cell.getNumber() * 10);
       await cell.tweenTo(increases, 500, () => {
         this.setCellNumber(from, 0);
       });

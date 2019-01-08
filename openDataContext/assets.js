@@ -1,11 +1,11 @@
-import * as regeneratorRuntime from './utils/runtime';
+// eslint-disable-next-line
+import * as regeneratorRuntime from "./utils/runtime";
 
 /**
  * 资源加载组，将所需资源地址以及引用名进行注册
  * 之后可通过assets.引用名方式进行获取
  */
 const assetsUrl = {
-  icon: "openDataContext/assets/icon.png",
   box: "openDataContext/assets/box.png",
   panel: "openDataContext/assets/panel.png",
   button: "openDataContext/assets/button.png",
@@ -25,7 +25,7 @@ export const AssetsManager = {
     /**
      * 资源加载
      */
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       let sofar = 0;
       let total = 0;
       for (let asset in assetsUrl) {
@@ -34,11 +34,10 @@ export const AssetsManager = {
         img.onload = () => {
           sofar++;
           if (sofar === total) {
-            console.log("加载完成");
             initialized = true;
             resolve();
           }
-        }
+        };
         // img.onerror = () => {
         //   sofar++;
         //   if (sofar === total) {
@@ -50,7 +49,7 @@ export const AssetsManager = {
         img.src = assetsUrl[asset];
         assets[asset] = img;
       }
-    })
+    });
   },
 
   async getAssets() {
