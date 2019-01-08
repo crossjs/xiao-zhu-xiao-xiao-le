@@ -1,6 +1,7 @@
 namespace game {
   export class Play extends eui.Component implements eui.UIComponent {
     private mainGroup: eui.Group;
+    private btnBack: eui.Image;
     private btnReload: eui.Image;
     private tfdScore: eui.BitmapLabel;
     private tfdDifficulty: eui.BitmapLabel;
@@ -35,6 +36,11 @@ namespace game {
 
       this.createView();
       this.handleTouch();
+
+      this.btnBack.touchEnabled = true;
+      this.btnBack.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+        SceneManager.toScene("landing");
+      }, this);
 
       this.btnReload.touchEnabled = true;
       this.btnReload.addEventListener(egret.TouchEvent.TOUCH_TAP, this.reset, this);

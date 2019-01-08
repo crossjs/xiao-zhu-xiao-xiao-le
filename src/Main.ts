@@ -28,7 +28,7 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 class Main extends eui.UILayer {
-    private recommender: yyw.Recommender;
+    // private recommender: yyw.Recommender;
     // private sceneRecommender: SceneRecommender;
 
     protected createChildren(): void {
@@ -65,24 +65,26 @@ class Main extends eui.UILayer {
       this.initOpenDataContext();
       // 把 this 设置为场景管理器的根舞台
       SceneManager.instance.setStage(this);
-      // 初始化交叉营销
-      const recommender = new yyw.Recommender({
-        appId: "wx11587d272c5f19a6",
-        openId: "0",
-        // origins: {
-        //   box: 'http://127.0.0.1:7001',
-        //   log: 'http://127.0.0.1:7002',
-        // },
-      });
+      SceneManager.toScene("landing");
+      // // 初始化交叉营销
+      // const recommender = new yyw.Recommender({
+      //   appId: "wxfababee3255ad64b",
+      //   openId: "0",
+      //   // origins: {
+      //   //   box: 'http://127.0.0.1:7001',
+      //   //   log: 'http://127.0.0.1:7002',
+      //   // },
+      // });
       // // 监听就绪
       // recommender.onReady(() => {
-      SceneManager.toScene("play");
+      //   SceneManager.toScene("play");
       // });
       // // 存起来
-      yyw.define.set("recommender", recommender);
+      // yyw.define.set("recommender", recommender);
     }
 
     private async runGame() {
+      Platform.initShare();
       await this.loadResource();
       await this.createGameScene();
       const data = await Platform.login();

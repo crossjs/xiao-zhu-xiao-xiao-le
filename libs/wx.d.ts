@@ -7,6 +7,8 @@ declare namespace egret {
 declare namespace wx {
   const request: Function;
   const login: Function;
+  const showShareMenu: Function;
+  const shareAppMessage: Function;
   const navigateToMiniProgram: Function;
   const getOpenDataContext: Function;
   const getSharedCanvas: Function;

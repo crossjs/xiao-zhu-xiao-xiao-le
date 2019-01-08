@@ -21,6 +21,20 @@ class Platform {
     return data;
   }
 
+  public static initShare() {
+    wx.showShareMenu({
+      withShareTicket: true,
+    });
+  }
+
+  public static share() {
+    wx.shareAppMessage({
+      // title: ,
+      // imageUrl: ,
+      // query: ,
+    });
+  }
+
   public static async getUserInfo() {
     return { nickName: "username" };
   }

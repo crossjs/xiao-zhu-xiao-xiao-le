@@ -1,11 +1,13 @@
 {
 	"skins": {
 		"game.Cell": "resource/eui_skins/game/Cell.exml",
-		"game.Play": "resource/eui_skins/game/Play.exml"
+		"game.Play": "resource/eui_skins/game/Play.exml",
+		"game.Landing": "resource/eui_skins/game/Landing.exml"
 	},
 	"autoGenerateExmlsList": true,
 	"exmls": [
 		"resource/eui_skins/game/Cell.exml",
+		"resource/eui_skins/game/Landing.exml",
 		"resource/eui_skins/game/Play.exml"
 	],
 	"path": "resource/default.thm.json"

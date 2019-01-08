@@ -1,0 +1,8 @@
+{"file":"sprites.png","frames":{
+"board":{"x":0,"y":0,"w":128,"h":128,"offX":0,"offY":0,"sourceW":128,"sourceH":128},
+"share":{"x":130,"y":0,"w":112,"h":112,"offX":8,"offY":8,"sourceW":128,"sourceH":128},
+"main_bg":{"x":423,"y":0,"w":3,"h":3,"offX":0,"offY":0,"sourceW":3,"sourceH":3},
+"bar_bg":{"x":130,"y":114,"w":92,"h":18,"offX":0,"offY":3,"sourceW":92,"sourceH":24},
+"bar":{"x":224,"y":121,"w":90,"h":15,"offX":1,"offY":4,"sourceW":92,"sourceH":24},
+"btn_start":{"x":244,"y":0,"w":177,"h":59,"offX":0,"offY":0,"sourceW":177,"sourceH":59},
+"btn_restart":{"x":244,"y":61,"w":177,"h":58,"offX":0,"offY":0,"sourceW":177,"sourceH":58}}}

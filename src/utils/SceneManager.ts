@@ -59,15 +59,15 @@ class SceneManager {
   private theScene: eui.Component; // 当前场景
 
   private scenes: {
-    // landing: SceneLanding;
-    // play: fighter.Play;
+    landing: game.Landing;
+    play: game.Play;
     // board: SceneBoard;
     // gameOver: SceneGameOver;
   };
 
   constructor() {
     this.scenes = {
-      // landing: new SceneLanding(),
+      landing: new game.Landing(),
       play: new game.Play(),
       // board: new SceneBoard(),
       // gameOver: new SceneGameOver(),

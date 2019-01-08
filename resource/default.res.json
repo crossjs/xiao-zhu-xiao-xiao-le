@@ -1,69 +1,42 @@
 {
-	"groups":[{
-			"keys":"bloodBar,bloodBarBg,btn_start,buff_blood,enemyBullet,game-over,restart,bullet_mp3,bigplane_bomb_mp3,background_mp3,numbers_json,font_fnt",
-			"name":"preload"
-		}],
-	"resources":[
+	"groups": [
 		{
-			"name":"bloodBar",
-			"type":"image",
-			"url":"assets/bloodBar.png"
+			"keys": "bullet_mp3,bigplane_bomb_mp3,background_mp3,numbers_json,font_fnt,sprites_json",
+			"name": "preload"
+		}
+	],
+	"resources": [
+		{
+			"name": "bullet_mp3",
+			"type": "sound",
+			"url": "assets/bullet.mp3"
 		},
 		{
-			"name":"bloodBarBg",
-			"type":"image",
-			"url":"assets/bloodBarBg.png"
+			"name": "bigplane_bomb_mp3",
+			"type": "sound",
+			"url": "assets/bigplane_bomb.mp3"
 		},
 		{
-			"name":"btn_start",
-			"type":"image",
-			"url":"assets/btn_start.png"
+			"name": "background_mp3",
+			"type": "sound",
+			"url": "assets/background.mp3"
 		},
 		{
-			"name":"buff_blood",
-			"type":"image",
-			"url":"assets/buff_blood.png"
+			"name": "numbers_json",
+			"subkeys": "1,10,11,12,13,14,15,16,17,18,19,2,20,3,4,5,6,7,8,9,99",
+			"type": "sheet",
+			"url": "assets/numbers.json"
 		},
 		{
-			"name":"enemyBullet",
-			"type":"image",
-			"url":"assets/enemyBullet.png"
+			"name": "font_fnt",
+			"type": "font",
+			"url": "assets/font.fnt"
 		},
 		{
-			"name":"game-over",
-			"type":"image",
-			"url":"assets/game-over.png"
-		},
-		{
-			"name":"restart",
-			"type":"image",
-			"url":"assets/restart.png"
-		},
-		{
-			"name":"bullet_mp3",
-			"type":"sound",
-			"url":"assets/bullet.mp3"
-		},
-		{
-			"name":"bigplane_bomb_mp3",
-			"type":"sound",
-			"url":"assets/bigplane_bomb.mp3"
-		},
-		{
-			"name":"background_mp3",
-			"type":"sound",
-			"url":"assets/background.mp3"
-		},
-		{
-			"name":"numbers_json",
-			"subkeys":"1,10,11,12,13,14,15,16,17,18,19,2,20,3,4,5,6,7,8,9,99,bar",
-			"type":"sheet",
-			"url":"assets/numbers.json"
-		},
-		{
-			"name":"font_fnt",
-			"type":"font",
-			"url":"assets/font.fnt"
+			"name": "sprites_json",
+			"subkeys": "btn_restart,btn_start,share,board,bar,bar_bg,main_bg",
+			"type": "sheet",
+			"url": "assets/sprites.json"
 		}
 	]
 }
