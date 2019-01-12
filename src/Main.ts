@@ -72,9 +72,6 @@ class Main extends eui.UILayer {
       yyw.initShare();
       await this.loadResource();
       await this.createGameScene();
-      const data = await yyw.login();
-      // const userInfo = await yyw.getUserInfo();
-      egret.log(data);
     }
 
     private async loadResource() {
@@ -104,7 +101,7 @@ class Main extends eui.UILayer {
     private initOpenDataContext() {
       // 加载资源
       yyw.OpenDataContext.postMessage({
-        command: "init",
+        command: "initRanking",
       });
     }
   }

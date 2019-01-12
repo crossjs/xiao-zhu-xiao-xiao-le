@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="PblSkin"
+	 width="750"
+	height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image id="bg" source="bg_jpg" touchEnabled="false" width="750" x="0" height="1334" y="0" fillMode="clip" scale9Grid="0,1250,750,75"/>
+	<e:Label text="最高分数" x="231.908" y="259.457" textColor="9442302"/>
+	<e:Label id="tfdScore" x="403.247" y="259.457" textColor="9442302"/>
+	<e:Label x="231.908" y="357.365" text="最大难度" textColor="9442302"/>
+	<e:Label id="tfdLevel" x="403.247" y="357.365" text="" textColor="9442302"/>
+	<e:Label x="231.908" y="455.273" text="最大连击" textColor="9442302"/>
+	<e:Label id="tfdCombo" x="403.247" y="455.273" text="" textColor="9442302"/>
+	<e:Label x="231.908" y="553.181" text="累计得分" textColor="9442302"/>
+	<e:Label id="tfdScores" x="403.247" y="553.181" textColor="9442302"/>
+	<e:Label x="231.908" y="651.089" text="累计次数" textColor="9442302"/>
+	<e:Label id="tfdPlayed" x="403.247" y="651.089" text="" textColor="9442302"/>
+	<e:Image id="btnBack" source="sprites_json.back" horizontalCenter="0.5" verticalCenter="204"/>
+</e:Skin>

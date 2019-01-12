@@ -1,42 +1,42 @@
 {
 	"groups": [
 		{
-			"keys": "bullet_mp3,bigplane_bomb_mp3,background_mp3,numbers_json,font_fnt,sprites_json",
+			"keys": "numbers_json,font_fnt,sprites_json,switch_mp3,magic_mp3,bg_jpg",
 			"name": "preload"
 		}
 	],
 	"resources": [
 		{
-			"name": "bullet_mp3",
-			"type": "sound",
-			"url": "assets/bullet.mp3"
-		},
-		{
-			"name": "bigplane_bomb_mp3",
-			"type": "sound",
-			"url": "assets/bigplane_bomb.mp3"
-		},
-		{
-			"name": "background_mp3",
-			"type": "sound",
-			"url": "assets/background.mp3"
-		},
-		{
+			"url": "assets/numbers.json",
+			"type": "sheet",
 			"name": "numbers_json",
-			"subkeys": "1,10,11,12,13,14,15,16,17,18,19,2,20,3,4,5,6,7,8,9,99",
-			"type": "sheet",
-			"url": "assets/numbers.json"
+			"subkeys": "1,10,11,12,13,14,15,16,17,18,19,2,20,3,4,5,6,7,8,9,99"
 		},
 		{
-			"name": "font_fnt",
+			"url": "assets/font.fnt",
 			"type": "font",
-			"url": "assets/font.fnt"
+			"name": "font_fnt"
 		},
 		{
-			"name": "sprites_json",
-			"subkeys": "btn_restart,btn_start,share,board,bar,bar_bg,main_bg",
+			"url": "assets/sprites.json",
 			"type": "sheet",
-			"url": "assets/sprites.json"
+			"name": "sprites_json",
+			"subkeys": "add,back,bar,bar_bg,board,close,main_bg,pbl,redpack,restart,share,shuffle,start,title"
+		},
+		{
+			"url": "assets/switch.mp3",
+			"type": "sound",
+			"name": "switch_mp3"
+		},
+		{
+			"url": "assets/magic.mp3",
+			"type": "sound",
+			"name": "magic_mp3"
+		},
+		{
+			"name": "bg_jpg",
+			"type": "image",
+			"url": "assets/bg.jpg"
 		}
 	]
 }

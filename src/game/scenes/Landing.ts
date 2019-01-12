@@ -1,8 +1,9 @@
 namespace game {
-  export class Landing extends eui.Component implements eui.UIComponent {
+  export class Landing extends Base {
     private btnBoard: eui.Image;
-    private btnStart: eui.Image;
+    private btnPbl: eui.Image;
     private btnShare: eui.Image;
+    private btnStart: eui.Image;
 
     public constructor() {
       super();
@@ -15,6 +16,16 @@ namespace game {
     protected childrenCreated(): void {
       super.childrenCreated();
 
+      yyw.createUserInfoButton({
+        left: this.btnStart.x,
+        top: this.btnStart.y,
+        width: this.btnStart.width,
+        height: this.btnStart.height,
+        callback: () => {
+          SceneManager.toScene("playing");
+        },
+      });
+
       this.btnBoard.addEventListener(
         egret.TouchEvent.TOUCH_TAP,
         () => {
@@ -24,10 +35,10 @@ namespace game {
         this,
       );
 
-      this.btnStart.addEventListener(
+      this.btnPbl.addEventListener(
         egret.TouchEvent.TOUCH_TAP,
         () => {
-          SceneManager.toScene("playing");
+          SceneManager.toScene("pbl", true);
         },
         this,
       );
@@ -36,6 +47,14 @@ namespace game {
         egret.TouchEvent.TOUCH_TAP,
         () => {
           yyw.share();
+        },
+        this,
+      );
+
+      this.btnStart.addEventListener(
+        egret.TouchEvent.TOUCH_TAP,
+        () => {
+          SceneManager.toScene("playing");
         },
         this,
       );

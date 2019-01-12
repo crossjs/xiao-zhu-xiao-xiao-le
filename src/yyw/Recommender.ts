@@ -23,39 +23,17 @@ namespace yyw {
 
   function request({ url, data, method = "GET" }: IRequestParams) {
     return new Promise((resolve, reject) => {
-      if (caniuse("request")) {
-        wx.request({
-          url,
-          data: data || {},
-          method,
-          success(res) {
-            resolve(res.data);
-          },
-          fail(res) {
-            reject(res);
-          },
-        });
-      } else {
-        const xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = () => {
-          if (xhr.readyState === 4) {
-            if (xhr.status >= 200 && xhr.status < 400) {
-              let res = xhr.responseText;
-              try {
-                res = JSON.parse(res);
-              } catch (e) {
-                reject(e);
-              }
-              resolve(res);
-            } else {
-              reject("server error: " + xhr.status);
-            }
-          }
-        };
-        xhr.open(method, url, true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.send(data);
-      }
+      wx.request({
+        url,
+        data: data || {},
+        method,
+        success(res) {
+          resolve(res.data);
+        },
+        fail(res) {
+          reject(res);
+        },
+      });
     });
   }
 

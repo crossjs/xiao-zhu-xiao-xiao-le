@@ -1,49 +1,61 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import * as childProcess from 'child_process';
+import * as childProcess from "child_process";
+import * as fs from "fs";
+import * as path from "path";
 
 export class WxgamePlugin implements plugins.Command {
-
-  constructor() {
-  }
-  async onFile(file: plugins.File) {
-    if (file.extname === '.js') {
+  // constructor() {}
+  public async onFile(file: plugins.File) {
+    if (file.extname === ".js") {
       const filename = file.origin;
-      if (filename === "libs/modules/promise/promise.js" || filename === 'libs/modules/promise/promise.min.js') {
+      if (
+        filename === "libs/modules/promise/promise.js" ||
+        filename === "libs/modules/promise/promise.min.js"
+      ) {
         return null;
       }
-      if (filename === 'libs/modules/egret/egret.js' || filename === 'libs/modules/egret/egret.min.js') {
+      if (
+        filename === "libs/modules/egret/egret.js" ||
+        filename === "libs/modules/egret/egret.min.js"
+      ) {
         let content = file.contents.toString();
         content += `;window.egret = egret;`;
-        content = content.replace(/definition = __global/, "definition = window");
+        content = content.replace(
+          /definition = __global/,
+          "definition = window",
+        );
         file.contents = new Buffer(content);
-      }
-      else {
+      } else {
         let content = file.contents.toString();
         if (
           filename === "libs/modules/res/res.js" ||
-          filename === 'libs/modules/res/res.min.js' ||
-          filename === 'libs/modules/assetsmanager/assetsmanager.min.js' ||
-          filename === 'libs/modules/assetsmanager/assetsmanager.js'
+          filename === "libs/modules/res/res.min.js" ||
+          filename === "libs/modules/assetsmanager/assetsmanager.min.js" ||
+          filename === "libs/modules/assetsmanager/assetsmanager.js"
         ) {
-          content += ";window.RES = RES;"
+          content += ";window.RES = RES;";
         }
-        if (filename === "libs/modules/eui/eui.js" || filename === 'libs/modules/eui/eui.min.js') {
-          content += ";window.eui = eui;"
+        if (
+          filename === "libs/modules/eui/eui.js" ||
+          filename === "libs/modules/eui/eui.min.js"
+        ) {
+          content += ";window.eui = eui;";
         }
-        if (filename === 'libs/modules/dragonBones/dragonBones.js' || filename === 'libs/modules/dragonBones/dragonBones.min.js') {
-          content += ';window.dragonBones = dragonBones';
+        if (
+          filename === "libs/modules/dragonBones/dragonBones.js" ||
+          filename === "libs/modules/dragonBones/dragonBones.min.js"
+        ) {
+          content += ";window.dragonBones = dragonBones";
         }
         content = "var egret = window.egret;" + content;
-        if (filename === 'main.js') {
-          content += "\n;window.Main = Main;"
+        if (filename === "main.js") {
+          content += "\n;window.Main = Main;";
         }
         file.contents = new Buffer(content);
       }
     }
     return file;
   }
-  async onFinish(pluginContext: plugins.CommandContext) {
+  public async onFinish(pluginContext: plugins.CommandContext) {
     // 同步 index.html 配置到 game.js
     const gameJSPath = path.join(pluginContext.outputDir, "game.js");
     if (!fs.existsSync(gameJSPath)) {
@@ -64,27 +76,37 @@ export class WxgamePlugin implements plugins.Command {
       `showLog: ${projectConfig.showLog},\n\t\t` +
       `maxTouches: ${projectConfig.maxTouches},`;
     const reg = /\/\/----auto option start----[\s\S]*\/\/----auto option end----/;
-    const replaceStr = '\/\/----auto option start----\n\t\t' + optionStr + '\n\t\t\/\/----auto option end----';
+    const replaceStr =
+      "//----auto option start----\n\t\t" +
+      optionStr +
+      "\n\t\t//----auto option end----";
     gameJSContent = gameJSContent.replace(reg, replaceStr);
     fs.writeFileSync(gameJSPath, gameJSContent);
 
     // 修改横竖屏
-    let orientation;
-    if (projectConfig.orientation === '"landscape"') {
-      orientation = "landscape";
-    } else {
-      orientation = "portrait";
-    }
     const gameJSONPath = path.join(pluginContext.outputDir, "game.json");
-    const gameJSONContent = JSON.parse(fs.readFileSync(gameJSONPath, { encoding: "utf8" }));
-    gameJSONContent.deviceOrientation = orientation;
-    gameJSONContent.navigateToMiniProgramAppIdList = ["wxfed270b54f6a71f0", "wx954573275883779c", "wx88d09e8d4cff63ef", "wxb17a18edcbb93d0a", "wx644ce1d1c71f5a61", "wxc56ba41631181001", "wxc9ab31f29004c413", "wxcffba601f1ed2f43", "wx0e4b81e6ed9e6c44", "wxf188fab12df15673"];
+    const gameJSONContent = JSON.parse(
+      fs.readFileSync(gameJSONPath, { encoding: "utf8" }),
+    );
+    gameJSONContent.deviceOrientation = projectConfig.orientation === '"landscape"' ? "landscape" : "portrait";
+    gameJSONContent.navigateToMiniProgramAppIdList = [
+      "wxfed270b54f6a71f0",
+      "wx954573275883779c",
+      "wx88d09e8d4cff63ef",
+      "wxb17a18edcbb93d0a",
+      "wx644ce1d1c71f5a61",
+      "wxc56ba41631181001",
+      "wxc9ab31f29004c413",
+      "wxcffba601f1ed2f43",
+      "wx0e4b81e6ed9e6c44",
+      "wxf188fab12df15673",
+    ];
     fs.writeFileSync(gameJSONPath, JSON.stringify(gameJSONContent, null, "\t"));
 
     // 拷贝 openDataContext
     const odcTplPath = path.join(pluginContext.projectRoot, "openDataContext");
     const odcTgtPath = path.join(pluginContext.outputDir, "openDataContext");
     childProcess.execSync(`rm -rf ${odcTgtPath}`);
-    childProcess.execSync(`cp -R ${odcTplPath} ${pluginContext.outputDir}`)
+    childProcess.execSync(`cp -R ${odcTplPath} ${pluginContext.outputDir}`);
   }
 }

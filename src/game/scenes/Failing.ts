@@ -1,14 +1,16 @@
 namespace game {
-  export class Failing extends eui.Component implements eui.UIComponent {
-    private btnRestart: eui.ToggleButton;
+  export class Failing extends Base {
+    private btnRestart: eui.Image;
 
     public constructor() {
       super();
     }
 
-    public setScore(score: number) {
-      // 保存分数
-      yyw.saveScore(score);
+    public saveData(data: any) {
+      if (data) {
+        // 保存分数
+        yyw.saveData(data);
+      }
     }
 
     protected partAdded(partName: string, instance: any): void {
@@ -19,7 +21,7 @@ namespace game {
       super.childrenCreated();
 
       this.btnRestart.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
-        const scene: game.Playing = SceneManager.toScene("playing");
+        const scene: Playing = SceneManager.toScene("playing");
         scene.restart();
       }, this);
     }

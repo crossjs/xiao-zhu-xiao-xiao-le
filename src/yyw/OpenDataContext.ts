@@ -31,5 +31,4 @@ namespace yyw {
       openDataContext.postMessage(data);
     }
   }
-
 }

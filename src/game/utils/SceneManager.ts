@@ -1,5 +1,5 @@
 namespace game {
-  // game.Landing | game.Playing | game.Ranking | game.Failing;
+  // Landing | Playing | Ranking | Failing;
   export type Scene = any;
 
   /**
@@ -44,21 +44,17 @@ namespace game {
         if (keepOther) {
           scene.alpha = 0;
           // 创建 Tween 对象
-          egret.Tween
+          PromisedTween
           .get(scene)
-          .to({ alpha: 1 }, 500)
-          .call(() => {
-            egret.log(`scene ${name} show!`);
-          }, this);
+          .to({ alpha: 1 }, 500);
         }
-        egret.log(`add ${name} to stage`);
         // 未被添加到场景，把场景添加到之前设置好的根舞台中
         stage.addChild(scene);
         SceneManager.instance.theScene = scene;
       }
 
       if (!keepOther) {
-        SceneManager.instance.removeOther(name);
+        SceneManager.instance.removeOthers(name);
       }
 
       return scene;
@@ -67,18 +63,20 @@ namespace game {
     private theScene: eui.Component; // 当前场景
 
     private scenes: {
-      landing: game.Landing;
-      playing: game.Playing;
-      ranking: game.Ranking;
-      failing: game.Failing;
+      landing: Landing;
+      pbl: Pbl;
+      playing: Playing;
+      ranking: Ranking;
+      failing: Failing;
     };
 
     constructor() {
       this.scenes = {
-        landing: new game.Landing(),
-        playing: new game.Playing(),
-        ranking: new game.Ranking(),
-        failing: new game.Failing(),
+        landing: new Landing(),
+        pbl: new Pbl(),
+        playing: new Playing(),
+        ranking: new Ranking(),
+        failing: new Failing(),
       };
     }
 
@@ -100,14 +98,14 @@ namespace game {
      * 删除其他场景
      * @param name 不需要删除的场景的名字
      */
-    private removeOther(name: string) {
+    private removeOthers(name: string) {
       Object.keys(this.scenes)
       .filter((key) => key !== name)
       .forEach((key) => {
         const scene = this.getScene(key);
-        if (scene.parent) {
-          // console.log(`remove ${key} from stage`);
-          scene.parent.removeChild(scene);
+        const { parent } = scene;
+        if (parent) {
+          parent.removeChild(scene);
         }
       });
     }

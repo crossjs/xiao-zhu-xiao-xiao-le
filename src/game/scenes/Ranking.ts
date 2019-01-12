@@ -1,6 +1,6 @@
 namespace game {
-  export class Ranking extends eui.Component implements eui.UIComponent {
-    private bitmap: egret.Bitmap;
+  export class Ranking extends Base {
+    private bmpBoard: egret.Bitmap;
     private btnClose: eui.Image;
 
     public constructor() {
@@ -12,18 +12,24 @@ namespace game {
      * Click the button
      */
     public async showBoard() {
-      this.bitmap = yyw.OpenDataContext.createDisplayObject(null, this.stage.stageWidth, this.stage.stageHeight);
-      this.addChild(this.bitmap);
+      const { stageWidth, stageHeight } = this.stage;
+      const x = 48;
+      const y = 288;
+      const width = stageWidth - x * 2;
+      const height = 900;
+      this.bmpBoard = yyw.OpenDataContext.createDisplayObject(null, width, height);
+      this.addChild(this.bmpBoard);
+      this.bmpBoard.x = x;
+      this.bmpBoard.y = y;
 
       // 主域向子域发送自定义消息
       yyw.OpenDataContext.postMessage({
-        command: "open",
-        x: 96,
-        y: 216,
-        width: this.stage.stageWidth - 96 * 2,
-        height: this.stage.stageHeight - (216 + 350),
-        stageWidth: this.stage.stageWidth,
-        stageHeight: this.stage.stageHeight,
+        command: "openRanking",
+        x,
+        y,
+        width,
+        height,
+        openid: yyw.CURRENT_USER.providerId || 0,
       });
     }
 
@@ -35,14 +41,14 @@ namespace game {
       super.childrenCreated();
 
       this.btnClose.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
-        if (this.bitmap) {
-          const { parent } = this.bitmap;
+        if (this.bmpBoard) {
+          const { parent } = this.bmpBoard;
           if (parent) {
-            parent.removeChild(this.bitmap);
+            parent.removeChild(this.bmpBoard);
           }
         }
         yyw.OpenDataContext.postMessage({
-          command: "close",
+          command: "closeRanking",
         });
         SceneManager.escape();
       }, this);

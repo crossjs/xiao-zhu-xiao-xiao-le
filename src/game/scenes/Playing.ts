@@ -1,10 +1,15 @@
 namespace game {
-  export class Playing extends eui.Component implements eui.UIComponent {
+  export class Playing extends Base {
     private mainGroup: eui.Group;
+    private btnAdd: eui.Image;
+    private btnShuffle: eui.Image;
     private btnBack: eui.Image;
-    private btnReload: eui.Image;
     private tfdScore: eui.BitmapLabel;
-    private tfdDifficulty: eui.BitmapLabel;
+    private tfdLevel: eui.BitmapLabel;
+    private tfdCombo: eui.BitmapLabel;
+    private sndSwitch: SwitchSound;
+    private sndMagic: MagicSound;
+    private bmpClosest: egret.Bitmap;
     // private b1: eui.Image;
     // private b2: eui.Image;
     // private b3: eui.Image;
@@ -14,17 +19,39 @@ namespace game {
     private cols: number = 5;
     private rows: number = 5;
     private maxNum: number = 5;
-    private model: game.Model;
-    private cells: game.Cell[][];
+    private model: Model;
+    private cells: Cell[][];
     /** 可用的剩余步数 */
     private steps: number = 5;
     private score: number = 0;
     private tweenCells: yyw.Set;
+    private initialized: boolean = false;
+    /** 连击数 */
+    private maxComboTimes: number = 0;
+    private comboTimes: number = 0;
 
     public constructor() {
       super();
-      this.model = new game.Model(this.cols, this.rows, this.maxNum);
+      this.model = new Model(this.cols, this.rows, this.maxNum);
       this.tweenCells = new yyw.Set();
+      this.addEventListener(
+        egret.Event.ADDED_TO_STAGE,
+        () => {
+          if (this.initialized) {
+            this.restart();
+          }
+        },
+        this,
+      );
+      this.addEventListener(
+        egret.Event.REMOVED_FROM_STAGE,
+        () => {
+          yyw.OpenDataContext.postMessage({
+            command: "closeClosest",
+          });
+        },
+        this,
+      );
     }
 
     public restart() {
@@ -41,17 +68,19 @@ namespace game {
       this.createView();
       this.handleTouch();
 
-      this.btnBack.touchEnabled = true;
-      this.btnBack.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
-        SceneManager.toScene("landing");
-      }, this);
+      this.sndSwitch = new SwitchSound();
+      this.sndMagic = new MagicSound();
 
-      this.btnReload.touchEnabled = true;
-      this.btnReload.addEventListener(egret.TouchEvent.TOUCH_TAP, this.reset, this);
+      this.mainGroup.anchorOffsetX
+        = this.mainGroup.anchorOffsetY = 360;
+      this.mainGroup.x += 360;
+      this.mainGroup.y += 360;
+
+      this.initialized = true;
     }
 
     private reset() {
-      this.tweenCells.each((cell: game.Cell) => {
+      this.tweenCells.each((cell: Cell) => {
         cell.reset();
         this.tweenCells.del(cell);
       });
@@ -59,7 +88,7 @@ namespace game {
       this.increaseSteps(0);
       this.score = 0;
       this.increaseScore(0);
-      this.model = new game.Model(this.cols, this.rows, this.maxNum);
+      this.model = new Model(this.cols, this.rows, this.maxNum);
       this.updateView();
     }
 
@@ -70,7 +99,7 @@ namespace game {
       for (let row = 0; row < rows; row++) {
         const r = this.cells[row] = [];
         for (let col = 0; col < cols; col++) {
-          const cell = r[col] = new game.Cell(col, row, cellWidth);
+          const cell = r[col] = new Cell(col, row, cellWidth);
           this.mainGroup.addChild(cell);
           // 要先 addChild，里面才会有东西
           cell.setNumber(numbers[row][col]);
@@ -89,7 +118,7 @@ namespace game {
       // 起始点
       let fromXY: [number, number];
       // 起始单元格
-      let fromPoint: game.Point;
+      let fromPoint: Point;
 
       const handleBegin = (e: egret.TouchEvent) => {
         if (running) {
@@ -110,20 +139,20 @@ namespace game {
           return;
         }
 
-        e.preventDefault();
-        e.stopPropagation();
+        // e.preventDefault();
+        // e.stopPropagation();
 
         const { localX, localY } = e;
-        const toPoint: game.Point = [
+        const toPoint: Point = [
           Math.floor(localX / cellWidth),
           Math.floor(localY / cellWidth),
         ];
         // 角度太模棱两可的，不处理
-        if (!yyw.isNeighbor(fromPoint, toPoint)) {
+        if (!isNeighbor(fromPoint, toPoint)) {
           return;
         }
         const toXY: [number, number] = [localX, localY];
-        const slope = yyw.getSlope(toXY, fromXY);
+        const slope = getSlope(toXY, fromXY);
         if (slope < 2 && slope > 0.5) {
           return;
         }
@@ -131,33 +160,40 @@ namespace game {
         this.getCellAt(fromPoint).zoomOut();
         running = true;
         // 普通交换
+        this.sndSwitch.play();
         this.tweenFromTo(fromPoint, toPoint, 300);
         await this.tweenFromTo(toPoint, fromPoint, 300);
         this.switchNumbers(fromPoint, toPoint);
         const numFrom = this.model.getNumberAt(fromPoint);
         const numTo = this.model.getNumberAt(toPoint);
         if (numFrom !== numTo) {
-          let magicPoint: game.Point;
+          let magicPoint: Point;
           let numToGrowUp: number;
-          if (numFrom === game.MAGIC_NUMBER) {
+          if (numFrom === MAGIC_NUMBER) {
             magicPoint = fromPoint;
             numToGrowUp = numTo;
-          } else if (numTo === game.MAGIC_NUMBER) {
+          } else if (numTo === MAGIC_NUMBER) {
             magicPoint = toPoint;
             numToGrowUp = numFrom;
           }
           if (magicPoint) {
+            // 魔法效果
+            this.sndMagic.play();
             await this.growUpCellsOf(numToGrowUp);
             this.setCellNumber(magicPoint, 0);
             await this.dropCellsDown();
           }
+          this.resetCombo();
           const hasChain = await this.mergeChains(toPoint, fromPoint);
           if (!hasChain) {
             this.increaseSteps(-1);
             if (this.steps === 0) {
-              // egret.log("Game Over");
-              const scene: game.Failing = game.SceneManager.toScene("failing");
-              scene.setScore(this.score);
+              const scene: Failing = SceneManager.toScene("failing");
+              scene.saveData({
+                score: this.score,
+                level: this.model.getLevel(),
+                combo: this.maxComboTimes,
+              });
             }
           }
         }
@@ -176,10 +212,27 @@ namespace game {
       mainGroup.addEventListener(egret.TouchEvent.TOUCH_MOVE, handleDrag, this);
       mainGroup.addEventListener(egret.TouchEvent.TOUCH_END, handleEnd, this);
       mainGroup.addEventListener(egret.TouchEvent.TOUCH_RELEASE_OUTSIDE, handleEnd, this);
+
+      this.btnAdd.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+        this.increaseSteps(1);
+      }, this);
+
+      this.btnShuffle.addEventListener(egret.TouchEvent.TOUCH_TAP, async () => {
+        if (running) {
+          return;
+        }
+        running = true;
+        await this.shuffle();
+        running = false;
+      }, this);
+
+      this.btnBack.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+        SceneManager.toScene("landing");
+      }, this);
     }
 
     private growUpCellsOf(num: number) {
-      const points: game.Point[] = this.getPointsOf(num);
+      const points: Point[] = this.getPointsOf(num);
       return Promise.all(
         points.map(async (point) => {
           await this.getCellAt(point).tweenUp();
@@ -188,12 +241,12 @@ namespace game {
       );
     }
 
-    private getPointsOf(num: number): game.Point[] {
-      const matchedPoints: game.Point[] = [];
+    private getPointsOf(num: number): Point[] {
+      const matchedPoints: Point[] = [];
       const { model, cols, rows } = this;
       for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
-          const point: game.Point = [col, row];
+          const point: Point = [col, row];
           if (model.getNumberAt(point) === num) {
             matchedPoints.push(point);
           }
@@ -208,9 +261,10 @@ namespace game {
     private increaseScore(n: number) {
       this.score += n;
       this.tfdScore.text = String(this.score);
-      const difficulty = Math.ceil(this.score / 3000);
-      this.model.setDifficulty(difficulty);
-      this.tfdDifficulty.text = String(difficulty);
+      const level = Math.ceil(this.score / 3000);
+      this.model.setLevel(level);
+      this.tfdLevel.text = String(level);
+      this.showClosest();
     }
 
     /**
@@ -223,7 +277,7 @@ namespace game {
       }
     }
 
-    private switchNumbers(from: game.Point, to: game.Point): void {
+    private switchNumbers(from: Point, to: Point): void {
       const { model } = this;
       const numFrom = model.getNumberAt(from);
       const numTo = model.getNumberAt(to);
@@ -231,35 +285,52 @@ namespace game {
       this.setCellNumber(to, numFrom);
     }
 
-    private tweenFromTo(from: game.Point, to: game.Point, duration: number = 100, onResolve?: any): Promise<void> {
+    private tweenFromTo(from: Point, to: Point, duration: number = 100, onResolve?: any): Promise<void> {
       return this.getCellAt(from).tweenTo([{
         x: (to[0] - from[0]) * this.cellWidth,
         y: (to[1] - from[1]) * this.cellWidth,
       }], duration, onResolve);
     }
 
+    private resetCombo() {
+      this.tfdCombo.text = `${this.comboTimes = 0}`;
+    }
+
+    private increaseCombo() {
+      this.tfdCombo.text = `${++this.comboTimes}`;
+      this.maxComboTimes = Math.max(this.maxComboTimes, this.comboTimes);
+    }
+
     /** 寻找可合并的数字链 */
     private async mergeChains(
-      triggerPoint?: game.Point,
-      triggerPoint2?: game.Point,
+      triggerPoint?: Point,
+      triggerPoint2?: Point,
     ): Promise<boolean> {
       const { model } = this;
       const firstNumber = triggerPoint ? model.getNumberAt(triggerPoint) : 0;
-      const [ num, points ] = model.getChain(firstNumber === game.MAGIC_NUMBER ? 0 : firstNumber);
+      const [ num, points ] = model.getChain(firstNumber === MAGIC_NUMBER ? 0 : firstNumber);
       // 找到
       if (num) {
-        const isMagic = yyw.isStraight(points);
-        let triggerPointNext: game.Point;
+        this.increaseCombo();
+        const isMagic = isStraight(points);
+        let triggerPointNext: Point;
         if (!triggerPoint) {
           triggerPoint = points.shift();
         } else {
-          let index = yyw.getIndexOf(points, triggerPoint);
+          let index = getIndexOf(points, triggerPoint);
+          // triggerPoint 在合并链里
           if (index !== -1) {
             points.splice(index, 1);
-            triggerPointNext = triggerPoint2;
+            if (triggerPoint2) {
+              index = getIndexOf(points, triggerPoint2);
+              // triggerPoint2 不在合并链里，才往下传
+              if (index === -1) {
+                triggerPointNext = triggerPoint2;
+              }
+            }
           } else {
             if (triggerPoint2) {
-              index = yyw.getIndexOf(points, triggerPoint2);
+              index = getIndexOf(points, triggerPoint2);
               if (index !== -1) {
                 triggerPointNext = triggerPoint;
                 triggerPoint = triggerPoint2;
@@ -275,13 +346,13 @@ namespace game {
 
         await Promise.all(
           [...points.map((point) => {
-            const steps = yyw.getSteps(
+            const steps = getSteps(
               point,
               triggerPoint,
-              points.filter((p) => !yyw.isEqual(p, point)),
+              points.filter((p) => !isEqual(p, point)),
             );
             return this.collapseCellBySteps(point, steps);
-          }), this.growUpCellAt(triggerPoint, isMagic ? game.MAGIC_NUMBER : +num + 1)],
+          }), this.growUpCellAt(triggerPoint, isMagic ? MAGIC_NUMBER : +num + 1)],
         );
         await this.dropCellsDown();
         // 如果连击，则增加剩余步骤数
@@ -299,16 +370,16 @@ namespace game {
       const { model, cols, rows } = this;
       for (let col = 0; col < cols; col++) {
         let row = rows;
-        while (row--) {
-          const point: game.Point = [col, row];
+        while (row-- > 0) {
+          const point: Point = [col, row];
           const num = model.getNumberAt(point);
-          if (num <= 0) {
+          if (num === 0) {
             if (row === 0) {
               this.setCellNumber(point, model.getRandomNumber());
             } else {
               let rowAbove = row;
               let numAbove: number;
-              let pointAbove: game.Point;
+              let pointAbove: Point;
               while (!numAbove && rowAbove--) {
                 pointAbove = [col, rowAbove];
                 numAbove = model.getNumberAt(pointAbove);
@@ -325,7 +396,7 @@ namespace game {
       }
     }
 
-    private async growUpCellAt(point: game.Point, num: number) {
+    private async growUpCellAt(point: Point, num: number) {
       const cell = this.getCellAt(point);
       this.tweenCells.add(cell);
       await cell.fadeOut();
@@ -335,8 +406,8 @@ namespace game {
     }
 
     private async collapseCellBySteps(
-      from: game.Point,
-      steps: game.Point[],
+      from: Point,
+      steps: Point[],
     ) {
       let current = from;
       const increases = [];
@@ -365,11 +436,11 @@ namespace game {
       this.tweenCells.del(cell);
     }
 
-    private getCellAt(point: game.Point): game.Cell {
+    private getCellAt(point: Point): Cell {
       return this.cells[point[1]][point[0]];
     }
 
-    private setCellNumber(point: game.Point, num: number) {
+    private setCellNumber(point: Point, num: number) {
       // 先更新模型
       this.model.setNumberAt(point, num);
       // 再设置 UI
@@ -379,10 +450,55 @@ namespace game {
     private updateView(): void {
       for (let row = 0; row < this.rows; row++) {
         for (let col = 0; col < this.cols; col++) {
-          const point: game.Point = [col, row];
+          const point: Point = [col, row];
           this.setCellNumber(point, this.model.getNumberAt(point));
         }
       }
+    }
+
+    private async shuffle(): Promise<void> {
+      const tween = PromisedTween.get(this.mainGroup);
+      await tween.to({
+        scaleX: 0,
+        scaleY: 0,
+        alpha: 0,
+        rotation: 360,
+      }, 300);
+
+      this.model.shuffle();
+      this.updateView();
+
+      await tween.to({
+        scaleX: 1,
+        scaleY: 1,
+        alpha: 1,
+        rotation: 0,
+      }, 200);
+
+      await this.mergeChains();
+    }
+
+    /**
+     * 显示分数接近的好友，通过开放数据域
+     */
+    @yyw.debounce(100)
+    private showClosest() {
+      const width = 222;
+      const height = 72;
+      if (!this.bmpClosest) {
+        this.bmpClosest = yyw.OpenDataContext.createDisplayObject(null, width, height);
+        this.body.addChild(this.bmpClosest);
+        this.bmpClosest.x = 21;
+        this.bmpClosest.y = -12;
+      }
+      // 主域向子域发送自定义消息
+      yyw.OpenDataContext.postMessage({
+        command: "openClosest",
+        score: this.score,
+        width,
+        height,
+        openid: yyw.CURRENT_USER.providerId || 0,
+      });
     }
   }
 }

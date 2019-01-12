@@ -6,10 +6,10 @@ import { AssetsManager } from "./assets";
 const context = sharedCanvas.getContext("2d");
 context.globalCompositeOperation = "source-over";
 
-export const View = {
+export const Ranking = {
   isReady: false,
 
-  async init() {
+  async preload() {
     if (!this.isReady) {
       await AssetsManager.init();
       this.isReady = true;
@@ -20,12 +20,25 @@ export const View = {
    * 绘制屏幕
    * 这个函数会在加载完所有资源之后被调用
    */
-  async create(data) {
+  async create({ x, y, width, height, rankingData, numPerPage = 10 }) {
     if (sharedCanvas.width && sharedCanvas.height) {
       // 确保就绪
-      await this.init();
-      this._initProps(data);
+      await this.preload();
       this.assets = await AssetsManager.getAssets();
+      const { windowWidth, windowHeight } =  wx.getSystemInfoSync();
+      this.x = x;
+      this.y = y;
+      this.width = width;
+      this.height = height;
+      this.windowWidth = windowWidth;
+      this.windowHeight = windowHeight;
+      this.rankingData = rankingData;
+      this.numPerPage = numPerPage;
+      this.scaleX = sharedCanvas.width / width;
+      this.scaleY = sharedCanvas.height / height;
+      context.setTransform(this.scaleX, 0, 0, this.scaleY, 0, 0);
+      this._cleanScreen();
+      this._initProps();
       this._drawRanking();
       /**
        * 监听点击
@@ -43,72 +56,49 @@ export const View = {
     }
   },
 
-  _initProps({
-    x,
-    y,
-    width,
-    height,
-    windowWidth,
-    windowHeight,
-    stageWidth,
-    stageHeight,
-    useGameDataList = [],
-    numPerPage = 5,
-  }) {
-    this.useGameDataList = useGameDataList;
-    this.stageWidth = stageWidth;
-    this.stageHeight = stageHeight;
-    this.windowWidth = windowWidth;
-    this.windowHeight = windowHeight;
+  destroy() {
+    this._cleanScreen();
+    cancelAnimationFrame(this._rafId);
+    this._rafId = null;
+  },
 
-    this.scale = sharedCanvas.width / this.stageWidth;
+  _cleanScreen() {
+    context.clearRect(
+      0,
+      0,
+      sharedCanvas.width / this.scaleX,
+      sharedCanvas.height / this.scaleY,
+    );
+  },
 
-    // 外边界
-    this.offsetX = x * this.scale;
-    this.offsetY = y * this.scale;
-
-    this.width = width * this.scale;
-    this.height = height * this.scale;
-
+  _initProps() {
     // 内边界
-    this.padding = 48 * this.scale;
-    this.gutterWidth = 24 * this.scale;
-    this.gridCount = 24;
-
-    this.headHeight = 96 * this.scale;
-    this.footHeight = 96 * this.scale;
-
-    this.bodyHeight = this.height - this.padding * 2 - this.headHeight - this.footHeight;
-
-    this.barWidth = this.width - this.padding * 2;
-    this.barHeight = (this.bodyHeight - this.gutterWidth * 6) / 5;
+    this.gutterWidth = 12;
+    this.barHeight = 72;
 
     // 24 等分，加首尾共有 5 个间隔
-    this.cellWidth = (this.barWidth - this.gutterWidth * 5) / this.gridCount;
-    this.fontSize = Math.floor(this.cellWidth * 3);
+    this.fontSize = 36;
     this.textOffsetY = (this.barHeight + this.fontSize) / 2.2;
 
-    this.indexWidth = this.cellWidth * 3;
-    this.iconWidth = this.cellWidth * 6;
-    this.iconHeight = Math.min(this.iconWidth, this.barHeight);
-    this.nameWidth = this.cellWidth * 9;
-    this.scoreWidth = this.cellWidth * 6;
+    this.indexWidth = 48;
+    this.iconWidth = 72;
+    this.scoreWidth = 216;
+    this.nameWidth = this.width - (48 + 72 + 216) - this.gutterWidth * 4;
 
     this.currentPageIndex = 0;
-    this.numPerPage = numPerPage;
-    this.numOfPages = Math.ceil(this.useGameDataList.length / this.numPerPage);
+    this.numOfPages = Math.ceil(this.rankingData.length / this.numPerPage);
 
-    this.buttonWidth = this.barWidth * 2 / 5;
-    this.buttonHeight = 72 * this.scale;
+    this.buttonWidth = 144;
+    this.buttonHeight = 48;
     this.buttonTextOffsetY = (this.buttonHeight + this.fontSize) / 2.2;
 
-    this.prevButtonX = this.offsetX + this.padding;
-    this.prevButtonY = this.offsetY + this.height - this.padding - (this.footHeight + this.buttonHeight) / 2;
-    this.nextButtonX = this.offsetX + this.padding + this.buttonWidth / 2 * 3;
+    this.prevButtonX = this.buttonWidth;
+    this.prevButtonY = this.height - this.buttonHeight;
+    this.nextButtonX = this.width - this.buttonWidth * 2;
     this.nextButtonY = this.prevButtonY;
 
     // 预先计算各项 X
-    let cellX = this.padding + this.offsetX;
+    let cellX = 0;
     const xArr = this.xArr = [cellX];
     cellX += this.gutterWidth;
     xArr.push(cellX);
@@ -118,12 +108,17 @@ export const View = {
     xArr.push(cellX);
     cellX += this.nameWidth + this.gutterWidth;
     xArr.push(cellX);
-    xArr[2] += (this.iconWidth - this.iconHeight) / 2;
-  },
+    xArr[2] += (this.iconWidth - this.iconWidth) / 2;
 
-  destroy() {
-    cancelAnimationFrame(this._rafId);
-    this._rafId = null;
+    // 预先计算响应范围
+    this.x0 = this.prevButtonX + this.x;
+    this.x1 = this.x0 + this.buttonWidth;
+    this.x2 = this.nextButtonX + this.x;
+    this.x3 = this.x2 + this.buttonWidth;
+    this.y0 = this.prevButtonY + this.y;
+    this.y1 = this.y0 + this.buttonHeight;
+    this.xr = 750 / this.windowWidth; // 因为是 fixedWidth
+    this.yr = sharedCanvas.height / this.windowHeight * (750 / sharedCanvas.width);
   },
 
   _renderDirty: false,
@@ -132,12 +127,6 @@ export const View = {
    * 创建排行榜
    */
   _drawRanking() {
-    // 绘制主背景
-    this._drawImage(this.assets.panel, this.offsetX, this.offsetY, this.width, this.height);
-
-    // 绘制页头
-    this._drawHead();
-
     // 绘制列表
     this._drawBody();
 
@@ -145,27 +134,20 @@ export const View = {
     this._drawFoot();
   },
 
-  _drawHead() {
-    // 绘制标题
-    const { title } = this.assets;
-    // 根据 title 的宽高计算一下位置;
-    const titleX = (this.barWidth - title.width) / 2 + this.padding + this.offsetX;
-    const titleY = this.padding + this.offsetY;
-    this._drawImage(title, titleX, titleY);
-  },
-
   _drawBody() {
     // 获取当前要渲染的数据组
-    // 起始id
+    // 起始 id
     const startID = this.numPerPage * this.currentPageIndex;
-    const currentPageIndexGroup = this.useGameDataList.slice(startID, startID + this.numPerPage);
+    const currentPageIndexGroup = this.rankingData.slice(startID, startID + this.numPerPage);
     // 创建 body
     this._drawRankingItems(currentPageIndexGroup);
   },
 
   _drawFoot() {
-    // 创建按钮
-    this._drawButton();
+    if (this.numOfPages > 1) {
+      // 创建按钮
+      this._drawButton();
+    }
   },
 
   /**
@@ -179,14 +161,10 @@ export const View = {
       nextButtonX, nextButtonY,
       buttonTextOffsetY: textOffsetY, fontSize,
     } = this;
-    if (currentPageIndex > 0) {
-      this._drawImage(this.assets.button, prevButtonX, prevButtonY, buttonWidth, buttonHeight);
-      this._drawText(`前 ${numPerPage} 名`, prevButtonX, prevButtonY + textOffsetY, buttonWidth, { align: "center", fontSize });
-    }
-    if (currentPageIndex < numOfPages - 1) {
-      this._drawImage(this.assets.button, nextButtonX, nextButtonY, buttonWidth, buttonHeight);
-      this._drawText(`后 ${numPerPage} 名`, nextButtonX, nextButtonY + textOffsetY, buttonWidth, { align: "center", fontSize });
-    }
+    this._drawImage(currentPageIndex > 0 ? this.assets.button : this.assets.buttonDisabled, prevButtonX, prevButtonY, buttonWidth, buttonHeight);
+    this._drawText(`< 前 ${numPerPage}`, prevButtonX, prevButtonY + textOffsetY, buttonWidth, { align: "center", fontSize });
+    this._drawImage(currentPageIndex < numOfPages - 1 ? this.assets.button : this.assets.buttonDisabled, nextButtonX, nextButtonY, buttonWidth, buttonHeight);
+    this._drawText(`后 ${numPerPage} >`, nextButtonX, nextButtonY + textOffsetY, buttonWidth, { align: "center", fontSize });
   },
 
   /**
@@ -204,17 +182,15 @@ export const View = {
    */
   _drawRankingItem(data, i) {
     const {
-      xArr, padding, offsetY, headHeight,
-      gutterWidth, textOffsetY, barWidth, barHeight,
-      indexWidth, iconHeight, nameWidth, scoreWidth,
+      xArr,
+      gutterWidth, textOffsetY, barHeight,
+      indexWidth, iconWidth, nameWidth, scoreWidth,
     } = this;
-    const y = i * (barHeight + gutterWidth) + padding + offsetY + headHeight;
-    // 绘制底框
-    this._drawImage(this.assets.box, xArr[0], y, barWidth, barHeight);
+    const y = i * (barHeight + gutterWidth);
     // 绘制序号
     this._drawText(data.key, xArr[1], y + textOffsetY, indexWidth, { align: "center" });
     // 绘制头像
-    this._drawImage(data.avatarUrl, xArr[2], y + (barHeight - iconHeight) / 2, iconHeight, iconHeight);
+    this._drawImage(data.avatarUrl, xArr[2], y + (barHeight - iconWidth) / 2, iconWidth, iconWidth);
     // 绘制名称
     this._drawText(data.nickname, xArr[3], y + textOffsetY, nameWidth);
     // 绘制分数
@@ -225,19 +201,19 @@ export const View = {
    * 点击处理
    */
   _onTouchEnd(event) {
-    const x = event.clientX * sharedCanvas.width / this.windowWidth;
-    const y = event.clientY * sharedCanvas.height / this.windowHeight;
+    const x = event.clientX * this.xr;
+    const y = event.clientY * this.yr;
     if (this.currentPageIndex > 0) {
       // 在 prev 按钮的范围内
-      if (x > this.prevButtonX && x < this.prevButtonX + this.buttonWidth &&
-        y > this.prevButtonY && y < this.prevButtonY + this.buttonHeight) {
+      if (x > this.x0 && x < this.x1 &&
+        y > this.y0 && y < this.y1) {
         this._goPage(-1);
       }
     }
     if (this.currentPageIndex < this.numOfPages - 1) {
       // 在 next 按钮的范围内
-      if (x > this.nextButtonX && x < this.nextButtonX + this.buttonWidth &&
-        y > this.nextButtonY && y < this.nextButtonY + this.buttonHeight) {
+      if (x > this.x2 && x < this.x3 &&
+        y > this.y0 && y < this.y1) {
         this._goPage(1);
       }
     }
@@ -319,13 +295,7 @@ export const View = {
    */
   _onEnterFrame() {
     if (this._renderDirty) {
-      context.setTransform(1, 0, 0, 1, 0, 0);
-      context.clearRect(
-        this.padding,
-        this.padding + this.headHeight,
-        this.barWidth,
-        this.bodyHeight
-      );
+      this._cleanScreen();
       this._drawRanking();
       this._renderDirty = false;
     }

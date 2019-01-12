@@ -1,27 +1,27 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="CellSkin" width="144" height="144" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Group id="numGroup" width="144" height="144" touchEnabled="false" x="0" y="0" locked="true">
-		<e:Image id="n99" source="numbers_json.99" touchEnabled="false" pixelHitTest="false" visible="false"/>
-		<e:Image id="n1" source="numbers_json.1" touchEnabled="false" pixelHitTest="false" visible="false"/>
-		<e:Image id="n2" source="numbers_json.2" touchEnabled="false" pixelHitTest="false" visible="false"/>
-		<e:Image id="n3" source="numbers_json.3" touchEnabled="false" pixelHitTest="false" visible="false"/>
-		<e:Image id="n4" source="numbers_json.4" touchEnabled="false" pixelHitTest="false" visible="false"/>
-		<e:Image id="n5" source="numbers_json.5" touchEnabled="false" pixelHitTest="false" visible="false"/>
-		<e:Image id="n6" source="numbers_json.6" touchEnabled="false" pixelHitTest="false" visible="false"/>
-		<e:Image id="n7" source="numbers_json.7" touchEnabled="false" pixelHitTest="false" visible="false"/>
-		<e:Image id="n8" source="numbers_json.8" touchEnabled="false" pixelHitTest="false" visible="false"/>
-		<e:Image id="n9" source="numbers_json.9" touchEnabled="false" pixelHitTest="false" visible="false"/>
-		<e:Image id="n10" source="numbers_json.10" touchEnabled="false" pixelHitTest="false" visible="false"/>
-		<e:Image id="n11" source="numbers_json.11" touchEnabled="false" pixelHitTest="false" visible="false"/>
-		<e:Image id="n12" source="numbers_json.12" touchEnabled="false" pixelHitTest="false" visible="false"/>
-		<e:Image id="n13" source="numbers_json.13" touchEnabled="false" pixelHitTest="false" visible="false"/>
-		<e:Image id="n14" source="numbers_json.14" touchEnabled="false" pixelHitTest="false" visible="false"/>
-		<e:Image id="n15" source="numbers_json.15" touchEnabled="false" pixelHitTest="false" visible="false"/>
-		<e:Image id="n16" source="numbers_json.16" touchEnabled="false" pixelHitTest="false" visible="false"/>
-		<e:Image id="n17" source="numbers_json.17" touchEnabled="false" pixelHitTest="false" visible="false"/>
-		<e:Image id="n18" source="numbers_json.18" touchEnabled="false" pixelHitTest="false" visible="false"/>
-		<e:Image id="n19" source="numbers_json.19" touchEnabled="false" pixelHitTest="false" visible="false"/>
-		<e:Image id="n20" source="numbers_json.20" touchEnabled="false" pixelHitTest="false" visible="false"/>
+	<e:Group id="numGroup" width="144" height="144" touchEnabled="false" x="0" y="0">
+		<e:Image id="n99" source="numbers_json.99" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="n1" source="numbers_json.1" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="n2" source="numbers_json.2" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="n3" source="numbers_json.3" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="n4" source="numbers_json.4" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="n5" source="numbers_json.5" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="n6" source="numbers_json.6" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="n7" source="numbers_json.7" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="n8" source="numbers_json.8" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="n9" source="numbers_json.9" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="n10" source="numbers_json.10" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="n11" source="numbers_json.11" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="n12" source="numbers_json.12" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="n13" source="numbers_json.13" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="n14" source="numbers_json.14" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="n15" source="numbers_json.15" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="n16" source="numbers_json.16" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="n17" source="numbers_json.17" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="n18" source="numbers_json.18" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="n19" source="numbers_json.19" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="n20" source="numbers_json.20" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
 	</e:Group>
-	<e:BitmapLabel id="tfdScore" font="font_fnt" width="72" height="36" scaleX="2" scaleY="2" text="" x="0" y="36" visible="true" touchEnabled="false" textAlign="center"/>
+	<e:BitmapLabel id="tfdScore" font="font_fnt" height="72" scaleX="0.75" scaleY="0.75" text="" visible="false" touchEnabled="false" textAlign="center" anchorOffsetX="0" width="192" x="0" y="45"/>
 </e:Skin>
