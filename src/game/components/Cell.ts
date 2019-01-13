@@ -4,6 +4,7 @@ namespace game {
      * 99 魔法数，可以触发其它数 + 1
      * -1 不可用
      */
+    private anchorOffset: number = 0;
     private num: number = 0;
     private tfdScore: eui.BitmapLabel;
     private numGroup: eui.Group;
@@ -11,19 +12,14 @@ namespace game {
 
     constructor(col: number, row: number, width: number) {
       super();
-      const anchorOffset = width / 2;
-      this.x = col * width + anchorOffset;
-      this.y = row * width + anchorOffset;
-      this.anchorOffsetX = this.anchorOffsetY = anchorOffset;
+      this.anchorOffset = width / 2;
+      this.x = col * width + this.anchorOffset;
+      this.y = row * width + this.anchorOffset;
+      this.anchorOffsetX = this.anchorOffsetY = this.anchorOffset;
 
       // 加到场景后才能取到
-      this.once(egret.Event.ADDED_TO_STAGE, () => {
-        this.numGroup.x
-          = this.numGroup.y
-          = this.numGroup.anchorOffsetX
-          = this.numGroup.anchorOffsetY
-          = anchorOffset;
-      }, this);
+      // this.once(egret.Event.ADDED_TO_STAGE, () => {
+      // }, this);
     }
 
     public setNumber(num: number): void {
@@ -71,7 +67,7 @@ namespace game {
       numImage.visible = false;
       numImage.alpha = 1;
 
-      const nextImage = this[`n${this.num + 1}`];
+      const nextImage = this[`n${this.num === BIGGEST_NUMBER ? MAGIC_NUMBER : this.num + 1}`];
       nextImage.alpha = 0;
       nextImage.visible = true;
       // 淡入下张
@@ -164,6 +160,20 @@ namespace game {
       this.tfdScore.y = 45;
       this.numGroup.scaleX = this.numGroup.scaleY = this.numGroup.alpha = 1;
       this.numGroup.rotation = 0;
+    }
+
+    protected partAdded(partName: string, instance: any): void {
+      super.partAdded(partName, instance);
+    }
+
+    protected childrenCreated(): void {
+      super.childrenCreated();
+
+      this.numGroup.x
+        = this.numGroup.y
+        = this.numGroup.anchorOffsetX
+        = this.numGroup.anchorOffsetY
+        = this.anchorOffset;
     }
   }
 }

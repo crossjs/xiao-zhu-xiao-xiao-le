@@ -7,8 +7,8 @@ namespace game {
     return point1[0] === point2[0] && point1[1] === point2[1];
   }
 
-  /** 是否直线（至少 5 个在一条线上） */
-  export function isStraight(points: Point[]): boolean {
+  /** 是否存在 5 个在一条线上 */
+  export function isStraightFive(points: Point[]): boolean {
     const map = {};
     for (const [x, y] of points) {
       const keyX = `x${x}`;
@@ -83,43 +83,5 @@ namespace game {
     const dx = Math.abs(point1[0] - point2[0]);
     const dy = Math.abs(point1[1] - point2[1]);
     return dx === 0 ? Number.MAX_SAFE_INTEGER : dy / dx;
-  }
-
-  export class PromisedTween {
-    public static get(target: any, options?: any) {
-      return new PromisedTween(target, options);
-    }
-
-    public static removeTweens(target: any) {
-      egret.Tween.removeTweens(target);
-    }
-
-    public static pauseTweens(target: any) {
-      egret.Tween.pauseTweens(target);
-    }
-
-    public static resumeTweens(target: any) {
-      egret.Tween.resumeTweens(target);
-    }
-
-    public static removeAllTweens() {
-      egret.Tween.removeAllTweens();
-    }
-
-    private tween: egret.Tween;
-
-    constructor(target: any, options: any = {}) {
-      this.tween = egret.Tween.get(target, options);
-    }
-
-    public to(
-      props: any,
-      duration: number = 100,
-      ease: any = egret.Ease.quadOut,
-    ): Promise<void> {
-      return new Promise((resolve) => {
-        this.tween.setPaused(false).to(props, duration, ease).call(resolve);
-      });
-    }
   }
 }

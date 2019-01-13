@@ -1,9 +1,20 @@
 namespace game {
   export class Pbl extends Base {
     private btnBack: eui.Image;
+    private initialized: boolean = false;
 
     public constructor() {
       super();
+
+      this.addEventListener(
+        egret.Event.ADDED_TO_STAGE,
+        () => {
+          if (this.initialized) {
+            this.createView();
+          }
+        },
+        this,
+      );
     }
 
     protected partAdded(partName: string, instance: any): void {
@@ -25,6 +36,8 @@ namespace game {
       Object.entries(pbl).forEach(([ key, value ]) => {
         (this[`tfd${key.replace(/^\w/, ($0) => $0.toUpperCase())}`] as eui.Label).text = String(value);
       });
+
+      this.initialized = true;
     }
   }
 }

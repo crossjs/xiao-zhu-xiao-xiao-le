@@ -13,5 +13,7 @@
 	<e:Label id="tfdScores" x="403.247" y="553.181" textColor="9442302"/>
 	<e:Label x="231.908" y="651.089" text="累计次数" textColor="9442302"/>
 	<e:Label id="tfdPlayed" x="403.247" y="651.089" text="" textColor="9442302"/>
+	<e:Label x="233.908" y="734.089" text="红包余额" textColor="0x9013FE"/>
+	<e:Label id="tfdBalance" x="405.247" y="734.089" text="" textColor="0x9013FE"/>
 	<e:Image id="btnBack" source="sprites_json.back" horizontalCenter="0.5" verticalCenter="204"/>
 </e:Skin>

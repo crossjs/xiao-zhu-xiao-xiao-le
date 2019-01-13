@@ -1,6 +1,7 @@
 {
 	"skins": {
 		"game.Cell": "resource/eui_skins/game/components/Cell.exml",
+		"game.Redpack": "resource/eui_skins/game/components/Redpack.exml",
 		"game.Failing": "resource/eui_skins/game/scenes/Failing.exml",
 		"game.Landing": "resource/eui_skins/game/scenes/Landing.exml",
 		"game.Pbl": "resource/eui_skins/game/scenes/Pbl.exml",
@@ -10,6 +11,7 @@
 	"autoGenerateExmlsList": true,
 	"exmls": [
 		"resource/eui_skins/game/components/Cell.exml",
+		"resource/eui_skins/game/components/Redpack.exml",
 		"resource/eui_skins/game/scenes/Failing.exml",
 		"resource/eui_skins/game/scenes/Landing.exml",
 		"resource/eui_skins/game/scenes/Pbl.exml",

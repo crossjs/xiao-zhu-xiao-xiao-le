@@ -152,9 +152,9 @@ namespace yyw {
             this.dispatchReady(null);
           });
       } else {
-        setTimeout(() => {
+        egret.setTimeout(() => {
           this.dispatchReady(null);
-        }, 100);
+        }, this, 100);
       }
     }
 
@@ -165,7 +165,7 @@ namespace yyw {
 
     public pause() {
       if (this.loopHandler) {
-        clearTimeout(this.loopHandler);
+        egret.clearTimeout(this.loopHandler);
         this.loopHandler = 0;
       }
     }
@@ -180,9 +180,9 @@ namespace yyw {
 
       if (this.games.length > 1) {
         this.nextIndex = (this.nextIndex + 1) % this.games.length;
-        this.loopHandler = setTimeout(() => {
+        this.loopHandler = egret.setTimeout(() => {
           this.next();
-        }, this.delay * 1000);
+        }, this, this.delay * 1000);
       }
     }
 

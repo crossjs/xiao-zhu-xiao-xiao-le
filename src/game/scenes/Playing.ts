@@ -4,6 +4,7 @@ namespace game {
     private btnAdd: eui.Image;
     private btnShuffle: eui.Image;
     private btnBack: eui.Image;
+    private redpack: Redpack;
     private tfdScore: eui.BitmapLabel;
     private tfdLevel: eui.BitmapLabel;
     private tfdCombo: eui.BitmapLabel;
@@ -65,7 +66,8 @@ namespace game {
     protected childrenCreated(): void {
       super.childrenCreated();
 
-      this.createView();
+      this.createNumbersView();
+      this.createRedpackView();
       this.handleTouch();
 
       this.sndSwitch = new SwitchSound();
@@ -92,7 +94,7 @@ namespace game {
       this.updateView();
     }
 
-    private createView(): void {
+    private createNumbersView(): void {
       const { model, cellWidth, cols, rows } = this;
       const numbers = model.geNumbers();
       this.cells = [];
@@ -105,6 +107,11 @@ namespace game {
           cell.setNumber(numbers[row][col]);
         }
       }
+    }
+
+    private createRedpackView() {
+      this.redpack = new Redpack();
+      this.body.addChild(this.redpack);
     }
 
     private handleTouch() {
@@ -231,14 +238,22 @@ namespace game {
       }, this);
     }
 
-    private growUpCellsOf(num: number) {
+    private async growUpCellsOf(num: number) {
       const points: Point[] = this.getPointsOf(num);
-      return Promise.all(
+      num++;
+      if (num > BIGGEST_NUMBER) {
+        num = MAGIC_NUMBER;
+      }
+      await Promise.all(
         points.map(async (point) => {
           await this.getCellAt(point).tweenUp();
-          return this.setCellNumber(point, num + 1);
+          return this.setCellNumber(point, num);
         }),
       );
+      // 发红包
+      if (num === MAGIC_NUMBER) {
+        this.redpack.show();
+      }
     }
 
     private getPointsOf(num: number): Point[] {
@@ -312,7 +327,7 @@ namespace game {
       // 找到
       if (num) {
         this.increaseCombo();
-        const isMagic = isStraight(points);
+        const isSF = isStraightFive(points);
         let triggerPointNext: Point;
         if (!triggerPoint) {
           triggerPoint = points.shift();
@@ -352,7 +367,7 @@ namespace game {
               points.filter((p) => !isEqual(p, point)),
             );
             return this.collapseCellBySteps(point, steps);
-          }), this.growUpCellAt(triggerPoint, isMagic ? MAGIC_NUMBER : +num + 1)],
+          }), this.growUpCellAt(triggerPoint, isSF ? MAGIC_NUMBER : +num + 1)],
         );
         await this.dropCellsDown();
         // 如果连击，则增加剩余步骤数
@@ -400,7 +415,14 @@ namespace game {
       const cell = this.getCellAt(point);
       this.tweenCells.add(cell);
       await cell.fadeOut();
+      if (num > BIGGEST_NUMBER) {
+        num = MAGIC_NUMBER;
+      }
       this.setCellNumber(point, num);
+      // 发红包
+      if (num === MAGIC_NUMBER) {
+        this.redpack.show();
+      }
       await cell.fadeIn();
       this.tweenCells.del(cell);
     }

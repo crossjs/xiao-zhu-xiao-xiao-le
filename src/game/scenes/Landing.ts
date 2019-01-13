@@ -58,6 +58,8 @@ namespace game {
         },
         this,
       );
+
+      // yyw.createBannerAd("xxxx", 0, 0, 375, 200);
     }
   }
 }

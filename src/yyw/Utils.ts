@@ -29,11 +29,11 @@ namespace yyw {
 
       descriptor.value = function(...args: any[]) {
         if (handle) {
-          clearTimeout(handle);
+          egret.clearTimeout(handle);
         }
-        handle = setTimeout(() => {
+        handle = egret.setTimeout(() => {
           originalMethod.apply(this, args);
-        }, timeout);
+        }, this, timeout);
       };
 
       return descriptor;

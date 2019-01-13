@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "numbers_json,font_fnt,sprites_json,switch_mp3,magic_mp3,bg_jpg",
+			"keys": "numbers_json,font_fnt,sprites_json,switch_mp3,magic_mp3,bg_jpg,redpack_large_png",
 			"name": "preload"
 		}
 	],
@@ -21,7 +21,7 @@
 			"url": "assets/sprites.json",
 			"type": "sheet",
 			"name": "sprites_json",
-			"subkeys": "add,back,bar,bar_bg,board,close,main_bg,pbl,redpack,restart,share,shuffle,start,title"
+			"subkeys": "add,back,bar,bar_bg,board,close,main_bg,pbl,pig,redpack,restart,share,shuffle,start,title"
 		},
 		{
 			"url": "assets/switch.mp3",
@@ -37,6 +37,11 @@
 			"name": "bg_jpg",
 			"type": "image",
 			"url": "assets/bg.jpg"
+		},
+		{
+			"name": "redpack_large_png",
+			"type": "image",
+			"url": "assets/redpack_large.png"
 		}
 	]
 }

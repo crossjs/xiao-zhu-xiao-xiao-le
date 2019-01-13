@@ -2,9 +2,10 @@
 <e:Skin class="LandingSkin" width="750" height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
 	<w:Config id="1682d3c0f34" ></w:Config>
 	<e:Image id="bg" source="bg_jpg" touchEnabled="false" width="750" x="0" height="1334" y="0" fillMode="clip" scale9Grid="0,1250,750,75"/>
-	<e:Image source="sprites_json.title" y="342" horizontalCenter="0"/>
-	<e:Image id="btnBoard" source="sprites_json.board" y="480" x="255"/>
-	<e:Image id="btnStart" source="sprites_json.start" x="255" y="620"/>
-	<e:Image id="btnShare" source="sprites_json.share" y="480" x="399"/>
-	<e:Image id="btnPbl" source="sprites_json.pbl" y="750" horizontalCenter="0"/>
+	<e:Image source="sprites_json.title" y="544.5" horizontalCenter="0"/>
+	<e:Image id="btnBoard" source="sprites_json.board" y="682.5" x="255"/>
+	<e:Image id="btnStart" source="sprites_json.start" x="255" y="822.5"/>
+	<e:Image id="btnShare" source="sprites_json.share" y="682.5" x="399"/>
+	<e:Image id="btnPbl" source="sprites_json.pbl" y="952.5" horizontalCenter="0.5"/>
+	<e:Image source="sprites_json.pig" x="305" y="315"/>
 </e:Skin>

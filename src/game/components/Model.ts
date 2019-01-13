@@ -3,6 +3,7 @@ namespace game {
   export type Matrix = number[][];
 
   export const MAGIC_NUMBER = 99;
+  export const BIGGEST_NUMBER = 20;
 
   export class Model {
     private cols: number;
@@ -21,7 +22,7 @@ namespace game {
       this.rows = rows;
       this.maxNumber = maxNumber;
       this.setLevel(level);
-      this.createNumbers(false);
+      this.createNumbers();
     }
 
     public setLevel(level: number) {
@@ -127,13 +128,13 @@ namespace game {
       return num;
     }
 
-    private createNumbers(debugging?: boolean) {
+    private createNumbers() {
       this.matrix = [];
       this.numbers = [];
-      // if (debugging) {
+      // if (DEBUG) {
       //   this.matrix = [
       //     [4, 3, 3, 4, 3],
-      //     [3, 1, 4, 7, 4],
+      //     [3, 19, 19, 7, 19],
       //     [3, 3, 99, 3, 3],
       //     [4, 4, 3, 4, 4],
       //     [3, 2, 4, 2, 3],

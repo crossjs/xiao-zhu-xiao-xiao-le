@@ -21,6 +21,19 @@ namespace yyw {
     }
   }
 
+  export async function saveRedpack(amount: number): Promise<any> {
+    if (amount) {
+      // 保存到自己的服务器
+      if (GAME_SERVER_ENABLED) {
+        return requestWithAuth({
+          url: `${GAME_SERVER_ORIGIN}/api/user/redpack`,
+          data: { amount },
+          method: "POST",
+        });
+      }
+    }
+  }
+
   export async function getPbl(): Promise<any> {
     // 保存到自己的服务器
     if (GAME_SERVER_ENABLED) {
