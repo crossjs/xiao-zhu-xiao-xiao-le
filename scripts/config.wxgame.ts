@@ -1,10 +1,10 @@
 import {
   CleanPlugin,
   CompilePlugin,
-  EmitResConfigFilePlugin,
+  // EmitResConfigFilePlugin,
   ExmlPlugin,
   ManifestPlugin,
-  TextureMergerPlugin,
+  // TextureMergerPlugin,
   UglifyPlugin,
 } from "built-in";
 import * as defaultConfig from "./config";
@@ -21,7 +21,7 @@ const config: ResourceManagerConfig = {
           new CleanPlugin({ matchers: ["js", "resource"] }),
           new CompilePlugin({
             libraryType: "debug",
-            defines: { DEBUG: true, RELEASE: false },
+            defines: { DEBUG: process.env.NODE_ENV !== "TEST", RELEASE: false, VERSION: version },
           }),
           new ExmlPlugin("commonjs"), // 非 EUI 项目关闭此设置
           new WxgamePlugin(),
@@ -35,7 +35,7 @@ const config: ResourceManagerConfig = {
           new CleanPlugin({ matchers: ["js", "resource"] }),
           new CompilePlugin({
             libraryType: "release",
-            defines: { DEBUG: false, RELEASE: true },
+            defines: { DEBUG: false, RELEASE: true, VERSION: version },
           }),
           new ExmlPlugin("commonjs"), // 非 EUI 项目关闭此设置
           new WxgamePlugin(),

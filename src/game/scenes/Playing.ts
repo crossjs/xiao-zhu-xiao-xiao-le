@@ -5,6 +5,7 @@ namespace game {
     private btnShuffle: eui.Image;
     private btnBack: eui.Image;
     private redpack: Redpack;
+    private words: Words;
     private tfdScore: eui.BitmapLabel;
     private tfdLevel: eui.BitmapLabel;
     private tfdCombo: eui.BitmapLabel;
@@ -30,6 +31,7 @@ namespace game {
     /** 连击数 */
     private maxComboTimes: number = 0;
     private comboTimes: number = 0;
+    private wordsThreshold: number = 2;
 
     public constructor() {
       super();
@@ -68,6 +70,7 @@ namespace game {
 
       this.createNumbersView();
       this.createRedpackView();
+      this.createWordsView();
       this.handleTouch();
 
       this.sndSwitch = new SwitchSound();
@@ -114,8 +117,13 @@ namespace game {
       this.body.addChild(this.redpack);
     }
 
+    private createWordsView() {
+      this.words = new Words();
+      this.body.addChild(this.words);
+    }
+
     private handleTouch() {
-      const { mainGroup, cellWidth } = this;
+      const { mainGroup, cellWidth, cols } = this;
       mainGroup.touchEnabled = true;
 
       // 是否正在拖动
@@ -127,6 +135,10 @@ namespace game {
       // 起始单元格
       let fromPoint: Point;
 
+      function xy2p(xy: number): number {
+        return Math.max(0, Math.min(cols, Math.floor(xy / cellWidth)));
+      }
+
       const handleBegin = (e: egret.TouchEvent) => {
         if (running) {
           return;
@@ -135,8 +147,8 @@ namespace game {
         const { localX, localY } = e;
         fromXY = [localX, localY];
         fromPoint = [
-          Math.floor(localX / cellWidth),
-          Math.floor(localY / cellWidth),
+          xy2p(localX),
+          xy2p(localY),
         ];
         this.getCellAt(fromPoint).zoomIn();
       };
@@ -151,8 +163,8 @@ namespace game {
 
         const { localX, localY } = e;
         const toPoint: Point = [
-          Math.floor(localX / cellWidth),
-          Math.floor(localY / cellWidth),
+          xy2p(localX),
+          xy2p(localY),
         ];
         // 角度太模棱两可的，不处理
         if (!isNeighbor(fromPoint, toPoint)) {
@@ -313,6 +325,16 @@ namespace game {
 
     private increaseCombo() {
       this.tfdCombo.text = `${++this.comboTimes}`;
+      // 2
+      if (this.comboTimes >= this.wordsThreshold) {
+        // 2,3 -> 0
+        // 4,5 -> 1
+        // 6,7 -> 2
+        // 8,9,10,... -> 3
+        this.words.showWord(
+          Math.floor((this.comboTimes - this.wordsThreshold) / this.wordsThreshold),
+        );
+      }
       this.maxComboTimes = Math.max(this.maxComboTimes, this.comboTimes);
     }
 

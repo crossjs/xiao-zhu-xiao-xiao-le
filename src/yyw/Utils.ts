@@ -18,6 +18,10 @@ namespace yyw {
     return value.substring(0, size);
   }
 
+  export function toFixed(value: number, fractionDigits: number = 2) {
+    return +value.toFixed(fractionDigits);
+  }
+
   export function debounce(timeout: number) {
     return (target: any, key: string, descriptor: PropertyDescriptor) => {
       if (descriptor === undefined) {

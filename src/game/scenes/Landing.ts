@@ -4,6 +4,8 @@ namespace game {
     private btnPbl: eui.Image;
     private btnShare: eui.Image;
     private btnStart: eui.Image;
+    private btnSound: eui.ToggleButton;
+    private tfdVersion: eui.Label;
 
     public constructor() {
       super();
@@ -58,6 +60,18 @@ namespace game {
         },
         this,
       );
+
+      this.btnSound.addEventListener(
+        egret.TouchEvent.TOUCH_TAP,
+        () => {
+          const { selected } = this.btnSound;
+          this.btnSound.currentState = selected ? "selected" : "up";
+          yyw.setMute(!selected);
+        },
+        this,
+      );
+
+      this.tfdVersion.text = VERSION;
 
       // yyw.createBannerAd("xxxx", 0, 0, 375, 200);
     }

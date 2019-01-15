@@ -33,7 +33,10 @@ namespace game {
 
     private async createView() {
       const pbl = await yyw.getPbl();
-      Object.entries(pbl).forEach(([ key, value ]) => {
+      Object.entries(pbl).forEach(([ key, value ]: [string, number]) => {
+        if (key === "balance") {
+          value = yyw.toFixed(value);
+        }
         (this[`tfd${key.replace(/^\w/, ($0) => $0.toUpperCase())}`] as eui.Label).text = String(value);
       });
 

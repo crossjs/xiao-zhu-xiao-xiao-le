@@ -7,7 +7,7 @@ namespace yyw {
           resolve(res.data);
         },
         fail(e) {
-          reject(e);
+          resolve(null);
         },
       });
     });

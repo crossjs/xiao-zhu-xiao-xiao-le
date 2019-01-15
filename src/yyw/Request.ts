@@ -10,22 +10,25 @@ namespace yyw {
     });
   }
 
-  export async function request(options: any): Promise<any> {
-    const { data }: any = await new Promise((success, fail) => {
-      wx.request({
-        ...options,
-        success,
-        fail,
-      });
-    });
-    return data;
+  function isOk(statusCode: number): boolean {
+    return statusCode >= 200 && statusCode < 400;
   }
 
-  export async function getAccessToken(): Promise<string> {
-    if (CURRENT_USER.accessToken) {
-      return CURRENT_USER.accessToken;
-    }
-    const { accessToken } = await login();
-    return accessToken;
+  export async function request(options: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      wx.request({
+        ...options,
+        success({ statusCode, data }) {
+          if (isOk(statusCode)) {
+            resolve(data);
+          } else {
+            reject(data);
+          }
+        },
+        fail(res) {
+          reject(res);
+        },
+      });
+    });
   }
 }

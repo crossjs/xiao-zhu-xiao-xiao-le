@@ -9,5 +9,7 @@ export class CustomPlugin implements plugins.Command {
     return file;
   }
 
-  public async onFinish(commandContext: plugins.CommandContext) {}
+  public async onFinish(commandContext: plugins.CommandContext) {
+    // empty
+  }
 }

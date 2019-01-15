@@ -1,11 +1,11 @@
 import {
   CompilePlugin,
-  EmitResConfigFilePlugin,
+  // EmitResConfigFilePlugin,
   ExmlPlugin,
   IncrementCompilePlugin,
   ManifestPlugin,
   RenamePlugin,
-  TextureMergerPlugin,
+  // TextureMergerPlugin,
   UglifyPlugin,
 } from "built-in";
 import { CustomPlugin } from "./myplugin";

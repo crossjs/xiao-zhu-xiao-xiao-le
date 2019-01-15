@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="RedpackSkin" width="750" height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image id="imgAmazing" source="sprites_json.amazing" touchEnabled="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+	<e:Image id="imgGood" source="sprites_json.good" touchEnabled="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+	<e:Image id="imgGreat" source="sprites_json.great" touchEnabled="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+	<e:Image id="imgExcellent" source="sprites_json.excellent" touchEnabled="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+</e:Skin>

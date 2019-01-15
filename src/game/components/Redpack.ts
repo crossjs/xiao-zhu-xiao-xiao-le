@@ -8,16 +8,16 @@ namespace game {
     private tfdBalance: eui.BitmapLabel;
     private btnRedpackLarge: eui.Image;
 
-    constructor() {
-      super();
+    // constructor() {
+    //   super();
 
-      // 加到场景后才能取到
-      // this.once(egret.Event.ADDED_TO_STAGE, () => {
-      // }, this);
-    }
+    //   // 加到场景后才能取到
+    //   // this.once(egret.Event.ADDED_TO_STAGE, () => {
+    //   // }, this);
+    // }
 
     public async show() {
-      this.amount = Math.floor(Math.random() * 100) / 100;
+      this.amount = yyw.toFixed(Math.floor(Math.random() * 99) / 100 + 0.01);
       this.tfdAmount.text = `￥${this.amount}`;
       this.main.scaleX = 0;
       this.main.scaleY = 0;
@@ -31,9 +31,9 @@ namespace game {
       });
     }
 
-    protected partAdded(partName: string, instance: any): void {
-      super.partAdded(partName, instance);
-    }
+    // protected partAdded(partName: string, instance: any): void {
+    //   super.partAdded(partName, instance);
+    // }
 
     protected childrenCreated(): void {
       super.childrenCreated();
@@ -59,7 +59,7 @@ namespace game {
         this.main.scaleY = 1;
         await yyw.saveRedpack(this.amount);
         const { balance } = await yyw.getPbl();
-        this.tfdBalance.text = `￥${balance}`;
+        this.tfdBalance.text = `￥${yyw.toFixed(balance)}`;
       }, this);
     }
   }

@@ -8,4 +8,6 @@
 	<e:Image id="btnShare" source="sprites_json.share" y="682.5" x="399"/>
 	<e:Image id="btnPbl" source="sprites_json.pbl" y="952.5" horizontalCenter="0.5"/>
 	<e:Image source="sprites_json.pig" x="305" y="315"/>
+	<e:ToggleButton id="btnSound" y="1110" x="327" skinName="SoundSkin" enabled="true" selected="true"/>
+	<e:Label id="tfdVersion" height="30" width="300" bottom="0" size="18" horizontalCenter="0" touchEnabled="false" textAlign="center" verticalAlign="middle" alpha="0.5"/>
 </e:Skin>

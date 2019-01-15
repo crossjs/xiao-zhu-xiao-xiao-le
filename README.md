@@ -1,12 +1,10 @@
-# 数字大合体
+# 小猪数字消
 
 ## 账号
 
-g4@minipx.cn
-liwf8712
+g2@crossjs.com
 
-appId: wxfababee3255ad64b
-appSecret: eb73e7258167af8993a105152ea6eeef
+appId: wx2d01e63038198832
 
 ## 想法
 
