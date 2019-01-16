@@ -1,4 +1,4 @@
-namespace yyw {
+namespace box {
   const ACTION_INIT = 0;
   const ACTION_JUMP = 1;
   const ACTION_FAIL = 2;
@@ -129,16 +129,15 @@ namespace yyw {
 
       this.games = [];
       if (caniuse("navigateToMiniProgram")) {
-        const { box } = this.origins;
         request({
-          url: `${box}/api/client/unions?appId=${this.appId}`,
+          url: `${this.origins.box}/api/client/unions?appId=${this.appId}`,
         })
           .then((data: any) => {
             if (data && data.items && data.items.length) {
               this.unionId = data.id;
               this.games = data.items.map((item) =>
                 (Object as any).assign(item, {
-                  iconUrl: `${box}${item.iconUrl}`,
+                  iconUrl: `${this.origins.box}${item.iconUrl}`,
                 }),
               );
               this.dispatchReady(this.games);
@@ -245,6 +244,9 @@ namespace yyw {
       }
       if (this.readyHandlers.indexOf(cb) === -1) {
         this.readyHandlers.push(cb);
+        return () => {
+          this.offReady(cb);
+        };
       }
     }
 
@@ -254,6 +256,9 @@ namespace yyw {
       }
       if (this.changeHandlers.indexOf(cb) === -1) {
         this.changeHandlers.push(cb);
+        return () => {
+          this.offChange(cb);
+        };
       }
     }
 
@@ -278,6 +283,20 @@ namespace yyw {
         if (this.hasOwnProperty(i)) {
           this[i] = null;
         }
+      }
+    }
+
+    private offReady(cb) {
+      const index = this.readyHandlers.indexOf(cb);
+      if (index !== -1) {
+        this.readyHandlers.splice(index, 1);
+      }
+    }
+
+    private offChange(cb) {
+      const index = this.changeHandlers.indexOf(cb);
+      if (index !== -1) {
+        this.changeHandlers.splice(index, 1);
       }
     }
   }

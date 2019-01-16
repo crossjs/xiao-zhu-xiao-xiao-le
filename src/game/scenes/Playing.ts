@@ -1,9 +1,13 @@
 namespace game {
+  const SNAPSHOT_KEY = "YYW_G4_PLAYING";
+
   export class Playing extends Base {
+    protected initialized: boolean = false;
     private mainGroup: eui.Group;
     private btnAdd: eui.Image;
     private btnShuffle: eui.Image;
     private btnBack: eui.Image;
+    private btnPbl: eui.Image;
     private redpack: Redpack;
     private words: Words;
     private tfdScore: eui.BitmapLabel;
@@ -27,87 +31,134 @@ namespace game {
     private steps: number = 5;
     private score: number = 0;
     private tweenCells: yyw.Set;
-    private initialized: boolean = false;
     /** 连击数 */
     private maxComboTimes: number = 0;
     private comboTimes: number = 0;
     private wordsThreshold: number = 2;
+    private gameOver: boolean = false;
+    private recommender: box.One;
 
     public constructor() {
       super();
-      this.model = new Model(this.cols, this.rows, this.maxNum);
+      this.sndSwitch = new SwitchSound();
+      this.sndMagic = new MagicSound();
       this.tweenCells = new yyw.Set();
-      this.addEventListener(
-        egret.Event.ADDED_TO_STAGE,
-        () => {
-          if (this.initialized) {
-            this.restart();
-          }
-        },
-        this,
-      );
-      this.addEventListener(
-        egret.Event.REMOVED_FROM_STAGE,
-        () => {
-          yyw.OpenDataContext.postMessage({
-            command: "closeClosest",
-          });
-        },
-        this,
-      );
     }
 
-    public restart() {
-      this.reset();
+    protected destroy() {
+      this.setSnapshot();
+      this.resetClosest();
+      this.resetRedpack();
+      this.resetRecommender();
+      this.resetTweens();
     }
 
-    protected partAdded(partName: string, instance: any): void {
-      super.partAdded(partName, instance);
-    }
+    // protected partAdded(partName: string, instance: any): void {
+    //   super.partAdded(partName, instance);
+    // }
 
     protected childrenCreated(): void {
       super.childrenCreated();
 
-      this.createNumbersView();
-      this.createRedpackView();
-      this.createWordsView();
-      this.handleTouch();
-
-      this.sndSwitch = new SwitchSound();
-      this.sndMagic = new MagicSound();
-
-      this.mainGroup.anchorOffsetX
-        = this.mainGroup.anchorOffsetY = 360;
-      this.mainGroup.x += 360;
-      this.mainGroup.y += 360;
+      this.createView();
+      this.initMainGroup();
+      this.initTouchHandlers();
 
       this.initialized = true;
     }
 
-    private reset() {
-      this.tweenCells.each((cell: Cell) => {
-        cell.reset();
-        this.tweenCells.del(cell);
-      });
-      this.steps = 5;
-      this.increaseSteps(0);
-      this.score = 0;
-      this.increaseScore(0);
-      this.model = new Model(this.cols, this.rows, this.maxNum);
-      this.updateView();
+    protected async createView(): Promise<void> {
+      if (this.initialized) {
+        this.mainGroup.alpha = 0.2;
+        let snapshot: any;
+        let restore: boolean;
+        if (!this.gameOver) {
+          snapshot = await this.getSnapshot();
+          if (snapshot) {
+            restore = await yyw.showModal("接着玩？");
+          }
+        }
+        this.resetRedpack();
+        this.resetTweens();
+        if (restore) {
+          this.resetStepsAndScore(snapshot);
+        } else {
+          this.resetStepsAndScore();
+        }
+        await this.createModel(restore);
+        this.mainGroup.alpha = 1;
+        this.updateView();
+      } else {
+        await this.createModel();
+        this.createCellsView();
+        this.createRedpackView();
+        this.createWordsView();
+      }
+      this.createRecommender();
+      this.gameOver = false;
     }
 
-    private createNumbersView(): void {
-      const { model, cellWidth, cols, rows } = this;
+    private resetStepsAndScore({
+      steps = 5, score = 0, maxComboTimes = 0, comboTimes = 0,
+    }: any = {}) {
+      this.steps = steps;
+      this.increaseSteps(0);
+      this.score = score;
+      this.increaseScore(0);
+      this.maxComboTimes = maxComboTimes;
+      this.comboTimes = comboTimes;
+      this.tfdCombo.text = `${this.comboTimes}`;
+    }
+
+    private resetTweens() {
+      const { tweenCells } = this;
+      tweenCells.each((cell: Cell) => {
+        cell.reset();
+        tweenCells.del(cell);
+      });
+    }
+
+    private resetRedpack() {
+      this.redpack.hide();
+    }
+
+    private resetRecommender() {
+      this.recommender.destroy();
+      this.recommender = null;
+    }
+
+    private async getSnapshot() {
+      return yyw.getStorage(SNAPSHOT_KEY);
+    }
+
+    private setSnapshot(value?: any) {
+      this.model.setSnapshot(value);
+      if (value === null) {
+        yyw.setStorage(SNAPSHOT_KEY, null);
+      } else {
+        const { steps, score, maxComboTimes, comboTimes } = this;
+        yyw.setStorage(SNAPSHOT_KEY, {
+          steps, score, maxComboTimes, comboTimes,
+        });
+      }
+    }
+
+    private async createModel(fromSnapshot?: boolean): Promise<void> {
+      this.model = fromSnapshot
+        ? await Model.restore()
+        : new Model(this.cols, this.rows, this.maxNum);
+    }
+
+    private createCellsView(): void {
+      const { model, cellWidth, cols, rows, mainGroup } = this;
       const numbers = model.geNumbers();
-      this.cells = [];
+      const cells = this.cells = [];
       for (let row = 0; row < rows; row++) {
-        const r = this.cells[row] = [];
+        const r = cells[row] = [];
         for (let col = 0; col < cols; col++) {
-          const cell = r[col] = new Cell(col, row, cellWidth);
-          this.mainGroup.addChild(cell);
-          // 要先 addChild，里面才会有东西
-          cell.setNumber(numbers[row][col]);
+          mainGroup.addChild(
+            r[col] = new Cell(col, row, cellWidth, numbers[row][col]),
+          );
         }
       }
     }
@@ -122,11 +173,22 @@ namespace game {
       this.body.addChild(this.words);
     }
 
-    private handleTouch() {
-      const { mainGroup, cellWidth, cols } = this;
-      mainGroup.touchEnabled = true;
+    private initMainGroup() {
+      const { mainGroup } = this;
+      const { width, height } = mainGroup;
+      const anchorOffsetX = width / 2;
+      const anchorOffsetY = height / 2;
+      mainGroup.anchorOffsetX = anchorOffsetX;
+      mainGroup.x += anchorOffsetX;
+      mainGroup.anchorOffsetY = anchorOffsetY;
+      mainGroup.y += anchorOffsetY;
+    }
 
-      // 是否正在拖动
+    private initTouchHandlers() {
+      const { mainGroup, cellWidth, cols } = this;
+      // mainGroup.touchEnabled = true;
+
+      // 是否正在执行（动画等）
       let running: boolean = false;
       // 是否正在拖动
       let dragging: boolean = false;
@@ -136,7 +198,7 @@ namespace game {
       let fromPoint: Point;
 
       function xy2p(xy: number): number {
-        return Math.max(0, Math.min(cols, Math.floor(xy / cellWidth)));
+        return Math.max(0, Math.min(cols - 1, Math.floor(xy / cellWidth)));
       }
 
       const handleBegin = (e: egret.TouchEvent) => {
@@ -207,12 +269,7 @@ namespace game {
           if (!hasChain) {
             this.increaseSteps(-1);
             if (this.steps === 0) {
-              const scene: Failing = SceneManager.toScene("failing");
-              scene.saveData({
-                score: this.score,
-                level: this.model.getLevel(),
-                combo: this.maxComboTimes,
-              });
+              this.setGameOver();
             }
           }
         }
@@ -246,8 +303,30 @@ namespace game {
       }, this);
 
       this.btnBack.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+        if (running) {
+          return;
+        }
         SceneManager.toScene("landing");
       }, this);
+
+      this.btnPbl.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+        if (running) {
+          return;
+        }
+        SceneManager.toScene("pbl", true);
+      }, this);
+    }
+
+    private setGameOver() {
+      this.gameOver = true;
+      // TODO 设置当前游戏状态为 over
+      SceneManager.toScene("failing");
+      this.setSnapshot(null);
+      yyw.saveData({
+        score: this.score,
+        level: this.model.getLevel(),
+        combo: this.maxComboTimes,
+      });
     }
 
     private async growUpCellsOf(num: number) {
@@ -291,7 +370,7 @@ namespace game {
       const level = Math.ceil(this.score / 3000);
       this.model.setLevel(level);
       this.tfdLevel.text = String(level);
-      this.showClosest();
+      this.createClosest();
     }
 
     /**
@@ -492,10 +571,11 @@ namespace game {
     }
 
     private updateView(): void {
-      for (let row = 0; row < this.rows; row++) {
-        for (let col = 0; col < this.cols; col++) {
+      const { cols, rows, model } = this;
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
           const point: Point = [col, row];
-          this.setCellNumber(point, this.model.getNumberAt(point));
+          this.setCellNumber(point, model.getNumberAt(point));
         }
       }
     }
@@ -526,7 +606,7 @@ namespace game {
      * 显示分数接近的好友，通过开放数据域
      */
     @yyw.debounce(100)
-    private showClosest() {
+    private createClosest() {
       const width = 222;
       const height = 72;
       if (!this.bmpClosest) {
@@ -541,8 +621,23 @@ namespace game {
         score: this.score,
         width,
         height,
-        openid: yyw.CURRENT_USER.providerId || 0,
+        openid: yyw.CURRENT_USER.openId || 0,
       });
+    }
+
+    private resetClosest() {
+      yyw.removeFromStage(this.bmpClosest);
+      this.bmpClosest = null;
+      yyw.OpenDataContext.postMessage({
+        command: "closeClosest",
+      });
+    }
+
+    private createRecommender() {
+      this.recommender = new box.One();
+      this.recommender.x = 375;
+      this.recommender.y = 30;
+      this.body.addChild(this.recommender);
     }
   }
 }

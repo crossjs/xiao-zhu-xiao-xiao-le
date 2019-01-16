@@ -28,80 +28,78 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 class Main extends eui.UILayer {
-    // private recommender: yyw.Recommender;
-    // private sceneRecommender: SceneRecommender;
+  // private recommender: yyw.Recommender;
+  // private sceneRecommender: SceneRecommender;
 
-    protected createChildren(): void {
-      super.createChildren();
+  protected createChildren(): void {
+    super.createChildren();
 
-      egret.lifecycle.addLifecycleListener((context) => {
-        // custom lifecycle plugin
-        egret.log("addLifecycleListener", context);
-      });
+    // egret.lifecycle.addLifecycleListener((context) => {
+    //   // custom lifecycle plugin
+    //   egret.log("addLifecycleListener", context);
+    // });
 
-      egret.lifecycle.onPause = () => {
-        egret.ticker.pause();
-      };
+    egret.lifecycle.onPause = () => {
+      egret.ticker.pause();
+    };
 
-      egret.lifecycle.onResume = () => {
-        egret.ticker.resume();
-      };
+    egret.lifecycle.onResume = () => {
+      egret.ticker.resume();
+    };
 
-      // inject the custom material parser
-      // 注入自定义的素材解析器
-      egret.registerImplementation("eui.IAssetAdapter", new AssetAdapter());
-      egret.registerImplementation("eui.IThemeAdapter", new ThemeAdapter());
+    // inject the custom material parser
+    // 注入自定义的素材解析器
+    egret.registerImplementation("eui.IAssetAdapter", new AssetAdapter());
+    egret.registerImplementation("eui.IThemeAdapter", new ThemeAdapter());
 
-      this.runGame().catch((e) => {
-        egret.log(e);
-      });
-    }
+    this.runGame().catch((e) => {
+      egret.log(e);
+    });
+  }
 
-    /**
-     * 创建场景界面
-     * Create scene interface
-     */
-    protected async createGameScene(): Promise<void> {
-      this.initOpenDataContext();
-      // 把 this 设置为场景管理器的根舞台
-      game.SceneManager.instance.setStage(this);
-      game.SceneManager.toScene("landing");
-    }
+  /**
+   * 创建场景界面
+   * Create scene interface
+   */
+  private createGameScene(): void {
+    this.initOpenDataContext();
+    // 把 this 设置为场景管理器的根舞台
+    game.SceneManager.setStage(this);
+    game.SceneManager.toScene("landing");
+  }
 
-    private async runGame() {
-      yyw.initShare();
-      await this.loadResource();
-      await this.createGameScene();
-    }
+  private async runGame() {
+    yyw.initShare();
+    await this.loadResource();
+    await this.createGameScene();
+  }
 
-    private async loadResource() {
-      try {
-        const loadingView = new LoadingUI();
-        this.stage.addChild(loadingView);
-        await RES.loadConfig("resource/default.res.json", "resource/");
-        await this.loadTheme();
-        await RES.loadGroup("preload", 0, loadingView);
-        this.stage.removeChild(loadingView);
-      } catch (e) {
-        egret.error(e);
-      }
-    }
-
-    private loadTheme() {
-      return new Promise((resolve, reject) => {
-        // load skin theme configuration file, you can manually modify the file. And replace the default skin.
-        // 加载皮肤主题配置文件,可以手动修改这个文件。替换默认皮肤。
-        const theme = new eui.Theme("resource/default.thm.json", this.stage);
-        theme.addEventListener(eui.UIEvent.COMPLETE, () => {
-          resolve();
-        }, this);
-      });
-    }
-
-    private initOpenDataContext() {
-      // 加载资源
-      yyw.OpenDataContext.postMessage({
-        command: "initRanking",
-      });
+  private async loadResource() {
+    try {
+      const loadingView = new LoadingUI();
+      this.stage.addChild(loadingView);
+      await RES.loadConfig("resource/default.res.json", "resource/");
+      await this.loadTheme();
+      await RES.loadGroup("preload", 0, loadingView);
+      this.stage.removeChild(loadingView);
+    } catch (e) {
+      egret.error(e);
     }
   }
+
+  private loadTheme() {
+    return new Promise((resolve, reject) => {
+      // load skin theme configuration file, you can manually modify the file. And replace the default skin.
+      // 加载皮肤主题配置文件,可以手动修改这个文件。替换默认皮肤。
+      const theme = new eui.Theme("resource/default.thm.json", this.stage);
+      theme.addEventListener(eui.UIEvent.COMPLETE, resolve, this);
+    });
+  }
+
+  private initOpenDataContext() {
+    // 加载资源
+    yyw.OpenDataContext.postMessage({
+      command: "initRanking",
+    });
+  }
+}

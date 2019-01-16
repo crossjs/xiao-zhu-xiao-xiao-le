@@ -8,10 +8,14 @@
 		"game.Landing": "resource/eui_skins/game/scenes/Landing.exml",
 		"game.Pbl": "resource/eui_skins/game/scenes/Pbl.exml",
 		"game.Playing": "resource/eui_skins/game/scenes/Playing.exml",
-		"game.Ranking": "resource/eui_skins/game/scenes/Ranking.exml"
+		"game.Ranking": "resource/eui_skins/game/scenes/Ranking.exml",
+		"box.All": "resource/eui_skins/box/All.exml",
+		"box.One": "resource/eui_skins/box/One.exml"
 	},
 	"autoGenerateExmlsList": true,
 	"exmls": [
+		"resource/eui_skins/box/All.exml",
+		"resource/eui_skins/box/One.exml",
 		"resource/eui_skins/game/components/Cell.exml",
 		"resource/eui_skins/game/components/Redpack.exml",
 		"resource/eui_skins/game/components/Sound.exml",

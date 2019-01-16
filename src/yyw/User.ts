@@ -7,10 +7,13 @@ namespace yyw {
     createdAt?: number;
     enabled?: boolean;
     id?: string;
+    level?: number;
     nickname?: string;
-    point?: number;
+    openId?: string;
+    points?: number;
     provider?: string;
-    providerId?: string;
+    score?: number;
+    unionId?: string;
     updatedAt?: number;
     username?: string;
   }
@@ -108,10 +111,10 @@ namespace yyw {
    * 创建一个的获取用户信息的隐形按钮
    */
   export async function createUserInfoButton({
-    left, top, width, height, callback,
-  }: any) {
+    left, top, width, height, onTap,
+  }: any): Promise<wx.UserInfoButton> {
     if (!await _isLoggedIn()) {
-      const scale = 750 / SYSTEM_INFO.windowWidth; // 因为是 fixedWidth
+      const scale = 750 / WX_SYSTEM_INFO.windowWidth; // 因为是 fixedWidth
 
       const button = wx.createUserInfoButton({
         type: "text",
@@ -148,10 +151,12 @@ namespace yyw {
           // 再试一次
           await login(null);
         }
-        if (callback) {
-          callback();
+        if (onTap) {
+          onTap();
         }
       });
+
+      return button;
     }
   }
 }

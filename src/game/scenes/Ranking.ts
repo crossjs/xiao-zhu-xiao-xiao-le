@@ -1,18 +1,21 @@
 namespace game {
   export class Ranking extends Base {
+    protected initialized: boolean = false;
     private bmpBoard: egret.Bitmap;
     private btnClose: eui.Image;
 
-    public constructor() {
-      super();
+    protected destroy() {
+      yyw.removeFromStage(this.bmpBoard);
+      yyw.OpenDataContext.postMessage({
+        command: "closeRanking",
+      });
     }
 
     /**
-     * 点击按钮
-     * Click the button
+     * 准备榜单
      */
-    public async showBoard() {
-      const { stageWidth, stageHeight } = this.stage;
+    protected createView() {
+      const { stageWidth } = this.stage;
       const x = 48;
       const y = 288;
       const width = stageWidth - x * 2;
@@ -29,29 +32,23 @@ namespace game {
         y,
         width,
         height,
-        openid: yyw.CURRENT_USER.providerId || 0,
+        openid: yyw.CURRENT_USER.openId || 0,
       });
     }
 
-    protected partAdded(partName: string, instance: any): void {
-      super.partAdded(partName, instance);
-    }
+    // protected partAdded(partName: string, instance: any): void {
+    //   super.partAdded(partName, instance);
+    // }
 
     protected childrenCreated(): void {
       super.childrenCreated();
 
+      this.createView();
       this.btnClose.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
-        if (this.bmpBoard) {
-          const { parent } = this.bmpBoard;
-          if (parent) {
-            parent.removeChild(this.bmpBoard);
-          }
-        }
-        yyw.OpenDataContext.postMessage({
-          command: "closeRanking",
-        });
         SceneManager.escape();
       }, this);
+
+      this.initialized = true;
     }
   }
 }

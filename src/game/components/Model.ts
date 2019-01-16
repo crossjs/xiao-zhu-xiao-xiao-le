@@ -5,7 +5,14 @@ namespace game {
   export const MAGIC_NUMBER = 99;
   export const BIGGEST_NUMBER = 20;
 
+  const SNAPSHOT_KEY = "YYW_G4_MODEL";
+
   export class Model {
+    public static async restore(): Promise<Model> {
+      const { cols, rows, maxNumber, level, matrix, numbers } = await yyw.getStorage(SNAPSHOT_KEY);
+      return new Model(cols, rows, maxNumber, level, matrix, numbers);
+    }
+
     private cols: number;
     private rows: number;
     /** 最大数值 */
@@ -17,12 +24,35 @@ namespace game {
     private matrix: Matrix;
     private numbers: number[];
 
-    constructor(cols: number = 5, rows: number = 5, maxNumber: number = 5, level: number = 1) {
+    constructor(
+      cols: number = 5,
+      rows: number = 5,
+      maxNumber: number = 5,
+      level: number = 1,
+      matrix?: Matrix,
+      numbers?: number[],
+    ) {
       this.cols = cols;
       this.rows = rows;
       this.maxNumber = maxNumber;
       this.setLevel(level);
-      this.createNumbers();
+      if (!(matrix && numbers)) {
+        this.createNumbers();
+      } else {
+        this.matrix = matrix;
+        this.numbers = numbers;
+      }
+    }
+
+    public setSnapshot(value?: any) {
+      if (value === null) {
+        yyw.setStorage(SNAPSHOT_KEY, null);
+      } else {
+        const { cols, rows, maxNumber, level, matrix, numbers } = this;
+        yyw.setStorage(SNAPSHOT_KEY, {
+          cols, rows, maxNumber, level, matrix, numbers,
+        });
+      }
     }
 
     public setLevel(level: number) {

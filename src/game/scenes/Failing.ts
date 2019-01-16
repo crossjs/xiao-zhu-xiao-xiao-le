@@ -1,28 +1,29 @@
 namespace game {
   export class Failing extends Base {
+    protected initialized: boolean = false;
     private btnRestart: eui.Image;
 
-    public constructor() {
-      super();
+    // public constructor() {
+    //   super();
+    // }
+
+    protected createView(): void {
+      // empty
     }
 
-    public saveData(data: any) {
-      if (data) {
-        // 保存分数
-        yyw.saveData(data);
-      }
+    protected destroy(): void {
+      // empty
     }
 
-    protected partAdded(partName: string, instance: any): void {
-      super.partAdded(partName, instance);
-    }
+    // protected partAdded(partName: string, instance: any): void {
+    //   super.partAdded(partName, instance);
+    // }
 
     protected childrenCreated(): void {
       super.childrenCreated();
 
       this.btnRestart.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
-        const scene: Playing = SceneManager.toScene("playing");
-        scene.restart();
+        SceneManager.toScene("playing");
       }, this);
     }
   }

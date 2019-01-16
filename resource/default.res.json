@@ -21,7 +21,7 @@
 			"url": "assets/sprites.json",
 			"type": "sheet",
 			"name": "sprites_json",
-			"subkeys": "add,back,bar,bar_bg,board,close,good,great,amazing,excellent,main_bg,pbl,pig,redpack,restart,share,shuffle,start,title,sound-off,sound-on"
+			"subkeys": "add,amazing,back,bar,bar_bg,board,close,excellent,good,great,important,main_bg,pbl,pig,redpack,restart,share,shuffle,single,start,title,sound-off,sound-on"
 		},
 		{
 			"url": "assets/amazing.mp3",

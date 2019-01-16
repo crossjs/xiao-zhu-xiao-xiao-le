@@ -991,6 +991,7 @@ declare namespace wx {
     title?: string;
     imageUrl?: string;
     query?: string;
+    cancel?: Function;
   }): void;
 
   /**

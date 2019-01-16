@@ -12,7 +12,7 @@ import { WxgamePlugin } from "./wxgame/wxgame";
 
 const config: ResourceManagerConfig = {
   buildConfig: (params) => {
-    const { target, command, projectName, version } = params;
+    const { target, command, projectName, version = "0.0.0" } = params;
     const outputDir = `../${projectName}_wxgame`;
     if (command === "build") {
       return {

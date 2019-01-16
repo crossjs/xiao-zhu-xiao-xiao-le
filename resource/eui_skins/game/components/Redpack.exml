@@ -7,5 +7,4 @@
 		<e:Label y="150" anchorOffsetX="0" anchorOffsetY="0" text="恭喜获得红包" touchEnabled="false" textAlign="center" horizontalCenter="0" size="48"/>
 		<e:BitmapLabel id="tfdAmount" width="288" height="96" anchorOffsetX="0" anchorOffsetY="0" font="font_fnt" text="" touchEnabled="false" textAlign="center" horizontalCenter="0" verticalCenter="192"/>
 	</e:Group>
-	<e:Label id="tfdMessage" y="165" anchorOffsetX="0" anchorOffsetY="0" text="满20可以提现" touchEnabled="false" size="48" verticalAlign="middle" horizontalCenter="0" width="375" height="60" textAlign="center" visible="false"/>
 </e:Skin>

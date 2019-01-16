@@ -1,6 +1,5 @@
 namespace game {
-  // Landing | Playing | Ranking | Failing;
-  export type Scene = any;
+  export type Scene = Landing & Playing & Ranking & Failing;
 
   /**
    * 场景管理类
@@ -18,17 +17,16 @@ namespace game {
      */
     public static sceneManager: SceneManager;
 
+    public static setStage(stage: egret.DisplayObjectContainer): void {
+      SceneManager.instance.setStage(stage);
+    }
+
     public static getScene(name: string): Scene {
       return SceneManager.instance.getScene(name);
     }
 
     public static escape(): void {
-      const { theScene } = SceneManager.instance;
-      if (theScene) {
-        if (theScene.parent) {
-          theScene.parent.removeChild(theScene);
-        }
-      }
+      yyw.removeFromStage(SceneManager.instance.theScene);
     }
 
     public static toScene(
@@ -83,8 +81,8 @@ namespace game {
     /**
      * 设置根场景
      */
-    public setStage(s: egret.DisplayObjectContainer) {
-      this.theStage = s;
+    public setStage(stage: egret.DisplayObjectContainer) {
+      this.theStage = stage;
     }
 
     /**
@@ -102,11 +100,7 @@ namespace game {
       Object.keys(this.scenes)
       .filter((key) => key !== name)
       .forEach((key) => {
-        const scene = this.getScene(key);
-        const { parent } = scene;
-        if (parent) {
-          parent.removeChild(scene);
-        }
+        yyw.removeFromStage(this.getScene(key));
       });
     }
   }

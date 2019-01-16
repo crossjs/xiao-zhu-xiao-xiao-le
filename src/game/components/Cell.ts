@@ -10,16 +10,13 @@ namespace game {
     private numGroup: eui.Group;
     private numImage: eui.Image;
 
-    constructor(col: number, row: number, width: number) {
+    constructor(col: number, row: number, width: number, num: number) {
       super();
+      this.num = num;
       this.anchorOffset = width / 2;
       this.x = col * width + this.anchorOffset;
       this.y = row * width + this.anchorOffset;
       this.anchorOffsetX = this.anchorOffsetY = this.anchorOffset;
-
-      // 加到场景后才能取到
-      // this.once(egret.Event.ADDED_TO_STAGE, () => {
-      // }, this);
     }
 
     public setNumber(num: number): void {
@@ -29,11 +26,8 @@ namespace game {
       if (this.numImage) {
         this.numImage.visible = false;
       }
-      if (num) {
-        this.numImage = this[`n${num}`];
-        this.numImage.visible = true;
-      }
       this.num = num;
+      this.showCurrent();
     }
 
     public getNumber(): number {
@@ -162,9 +156,9 @@ namespace game {
       this.numGroup.rotation = 0;
     }
 
-    protected partAdded(partName: string, instance: any): void {
-      super.partAdded(partName, instance);
-    }
+    // protected partAdded(partName: string, instance: any): void {
+    //   super.partAdded(partName, instance);
+    // }
 
     protected childrenCreated(): void {
       super.childrenCreated();
@@ -174,6 +168,15 @@ namespace game {
         = this.numGroup.anchorOffsetX
         = this.numGroup.anchorOffsetY
         = this.anchorOffset;
+
+      this.showCurrent();
+    }
+
+    private showCurrent(): void {
+      if (this.num) {
+        this.numImage = this[`n${this.num}`];
+        this.numImage.visible = true;
+      }
     }
   }
 }

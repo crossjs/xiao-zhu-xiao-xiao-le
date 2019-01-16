@@ -3,18 +3,9 @@ namespace game {
     private amount: number;
     private main: eui.Group;
     private btnRedpack: eui.Image;
-    private tfdMessage: eui.Label;
     private tfdAmount: eui.BitmapLabel;
     private tfdBalance: eui.BitmapLabel;
     private btnRedpackLarge: eui.Image;
-
-    // constructor() {
-    //   super();
-
-    //   // 加到场景后才能取到
-    //   // this.once(egret.Event.ADDED_TO_STAGE, () => {
-    //   // }, this);
-    // }
 
     public async show() {
       this.amount = yyw.toFixed(Math.floor(Math.random() * 99) / 100 + 0.01);
@@ -31,6 +22,19 @@ namespace game {
       });
     }
 
+    public async hide() {
+      await PromisedTween
+      .get(this.main)
+      .to({
+        scaleX: 0,
+        scaleY: 0,
+        rotation: 0,
+      });
+      this.main.visible = false;
+      this.main.scaleX = 1;
+      this.main.scaleY = 1;
+    }
+
     // protected partAdded(partName: string, instance: any): void {
     //   super.partAdded(partName, instance);
     // }
@@ -39,24 +43,12 @@ namespace game {
       super.childrenCreated();
 
       this.btnRedpack.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
-        this.tfdMessage.visible = true;
-        egret.setTimeout(() => {
-          this.tfdMessage.visible = false;
-        }, this, 500);
+        yyw.showToast("满20可以提现");
       }, this);
 
       this.btnRedpackLarge.addEventListener(egret.TouchEvent.TOUCH_TAP, async () => {
         // 看完视频广告后领红包
-        await PromisedTween
-        .get(this.main)
-        .to({
-          scaleX: 0,
-          scaleY: 0,
-          rotation: 0,
-        });
-        this.main.visible = false;
-        this.main.scaleX = 1;
-        this.main.scaleY = 1;
+        await this.hide();
         await yyw.saveRedpack(this.amount);
         const { balance } = await yyw.getPbl();
         this.tfdBalance.text = `￥${yyw.toFixed(balance)}`;

@@ -90,8 +90,16 @@ export class WxgamePlugin implements plugins.Command {
     );
     gameJSONContent.deviceOrientation = projectConfig.orientation === '"landscape"' ? "landscape" : "portrait";
     gameJSONContent.navigateToMiniProgramAppIdList = [
-      // 目前只跳转到 游鱼玩
+      "wxfed270b54f6a71f0",
+      "wx954573275883779c",
+      "wx88d09e8d4cff63ef",
       "wxb17a18edcbb93d0a",
+      "wx644ce1d1c71f5a61",
+      "wxc56ba41631181001",
+      "wxc9ab31f29004c413",
+      "wxcffba601f1ed2f43",
+      "wx0e4b81e6ed9e6c44",
+      "wxf188fab12df15673",
     ];
     fs.writeFileSync(gameJSONPath, JSON.stringify(gameJSONContent, null, "\t"));
 

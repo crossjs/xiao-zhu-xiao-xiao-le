@@ -1,46 +1,57 @@
 namespace game {
   export class Landing extends Base {
+    protected initialized: boolean = false;
     private btnBoard: eui.Image;
-    private btnPbl: eui.Image;
     private btnShare: eui.Image;
     private btnStart: eui.Image;
     private btnSound: eui.ToggleButton;
     private tfdVersion: eui.Label;
+    private button: wx.UserInfoButton;
+    private recommender: box.All;
 
-    public constructor() {
-      super();
+    // public constructor() {
+    //   super();
+    // }
+
+    // protected partAdded(partName: string, instance: any): void {
+    //   super.partAdded(partName, instance);
+    // }
+
+    protected async createView(): Promise<void> {
+      const { x: left, y: top, width, height } = this.btnStart;
+      this.button = await yyw.createUserInfoButton({
+        left,
+        top,
+        width,
+        height,
+        onTap: () => {
+          SceneManager.toScene("playing");
+        },
+      });
+
+      this.createRecommender();
+
+      this.tfdVersion.text = VERSION;
     }
 
-    protected partAdded(partName: string, instance: any): void {
-      super.partAdded(partName, instance);
+    protected destroy(): void {
+      if (this.button) {
+        this.button.destroy();
+      }
+      if (this.recommender) {
+        this.recommender.destroy();
+      }
     }
 
     protected childrenCreated(): void {
       super.childrenCreated();
 
-      yyw.createUserInfoButton({
-        left: this.btnStart.x,
-        top: this.btnStart.y,
-        width: this.btnStart.width,
-        height: this.btnStart.height,
-        callback: () => {
-          SceneManager.toScene("playing");
-        },
-      });
+      this.createView();
 
       this.btnBoard.addEventListener(
         egret.TouchEvent.TOUCH_TAP,
         () => {
-          const scene: any = SceneManager.toScene("ranking", true);
-          scene.showBoard();
-        },
-        this,
-      );
-
-      this.btnPbl.addEventListener(
-        egret.TouchEvent.TOUCH_TAP,
-        () => {
-          SceneManager.toScene("pbl", true);
+          SceneManager.toScene("ranking", true);
         },
         this,
       );
@@ -71,9 +82,16 @@ namespace game {
         this,
       );
 
-      this.tfdVersion.text = VERSION;
+      this.initialized = true;
 
       // yyw.createBannerAd("xxxx", 0, 0, 375, 200);
+    }
+
+    private createRecommender() {
+      this.recommender = new box.All();
+      this.recommender.x = 0;
+      this.recommender.y = this.stage.stageHeight - 208;
+      this.addChild(this.recommender);
     }
   }
 }
