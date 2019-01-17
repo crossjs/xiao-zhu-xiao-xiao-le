@@ -17,10 +17,18 @@ namespace box {
   }
 
   export function onReady(onRecommenderReady: any): any {
-    return getInstance().onReady(onRecommenderReady);
+    try {
+      return getInstance().onReady(onRecommenderReady);
+    } catch (error) {
+      egret.error(error);
+    }
   }
 
   export function onChange(onRecommenderChange: any): any {
-    return getInstance().onChange(onRecommenderChange);
+    try {
+      return getInstance().onChange(onRecommenderChange);
+    } catch (error) {
+      egret.error(error);
+    }
   }
 }

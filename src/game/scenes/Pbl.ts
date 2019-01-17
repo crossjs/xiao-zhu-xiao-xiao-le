@@ -1,6 +1,5 @@
 namespace game {
   export class Pbl extends Base {
-    protected initialized: boolean = false;
     private btnBack: eui.Image;
 
     protected destroy() {

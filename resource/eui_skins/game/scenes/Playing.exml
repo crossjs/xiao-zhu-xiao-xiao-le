@@ -2,27 +2,12 @@
 <e:Skin class="PlayingSkin" width="750" height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:game="game.*" >
 	<e:Image id="bg" source="bg_jpg" touchEnabled="false" width="750" x="0" height="1334" y="0" fillMode="clip" scale9Grid="0,1250,750,75"/>
 	<e:Group id="body" width="750" height="1294" x="0" y="40">
-		<e:Image source="sprites_json.main_bg" x="0" y="292" width="750" height="750" scale9Grid="1,1,1,1"/>
-    <e:Group id="mainGroup" width="720" height="720" touchChildren="false" x="15" y="307">
-    </e:Group>
 		<e:Image id="btnBack" y="1092" source="sprites_json.back" x="107.138"/>
-    <e:Group id="stepGroup" width="720" height="24" x="15" y="264">
-      <e:Image source="sprites_json.bar_bg" x="0" y="0" scale9Grid="13,3,66,18" width="144" scaleX="1" scaleY="1"/>
-      <e:Image source="sprites_json.bar_bg" x="144" y="0" scale9Grid="13,3,66,18" width="144" scaleX="1" scaleY="1"/>
-      <e:Image source="sprites_json.bar_bg" x="288" y="0" scale9Grid="13,3,66,18" width="144" scaleX="1" scaleY="1"/>
-      <e:Image source="sprites_json.bar_bg" x="432" y="0" scale9Grid="13,3,66,18" width="144" scaleX="1" scaleY="1"/>
-      <e:Image source="sprites_json.bar_bg" x="576" y="0" scale9Grid="13,3,66,18" width="144" scaleX="1" scaleY="1"/>
-      <e:Image id="b1" x="0" y="0" source="sprites_json.bar" scale9Grid="13,3,66,18" width="144"/>
-      <e:Image id="b2" x="144" y="0" source="sprites_json.bar" scale9Grid="13,3,66,18" width="144"/>
-      <e:Image id="b3" x="288" y="0" source="sprites_json.bar" scale9Grid="13,3,66,18" width="144"/>
-      <e:Image id="b4" x="432" y="0" source="sprites_json.bar" scale9Grid="13,3,66,18" width="144"/>
-      <e:Image id="b5" x="576" y="0" source="sprites_json.bar" scale9Grid="13,3,66,18" width="144"/>
-    </e:Group>
     <e:BitmapLabel id="tfdScore" text="0" x="102" y="192" font="font_fnt" height="72" width="360" scaleX="0.5" scaleY="0.5"/>
     <e:BitmapLabel text="分数" y="192" font="font_fnt" height="72" width="156" scaleX="0.5" scaleY="0.5" x="21"/>
-    <e:BitmapLabel id="tfdLevel" text="1" x="102" y="92" font="font_fnt" height="72" width="144" scaleX="0.5" scaleY="0.5"/>
+    <e:BitmapLabel id="tfdLevel" text="0" x="102" y="92" font="font_fnt" height="72" width="144" scaleX="0.5" scaleY="0.5"/>
     <e:BitmapLabel text="难度" x="21" y="92" font="font_fnt" height="72" width="156" scaleX="0.5" scaleY="0.5"/>
-    <e:BitmapLabel id="tfdCombo" text="1" x="102" y="142" font="font_fnt" height="72" width="144" scaleX="0.5" scaleY="0.5"/>
+    <e:BitmapLabel id="tfdCombo" text="0" x="102" y="142" font="font_fnt" height="72" width="144" scaleX="0.5" scaleY="0.5"/>
     <e:BitmapLabel text="连击" x="21" y="142" font="font_fnt" height="72" width="156" scaleX="0.5" scaleY="0.5"/>
     <e:Image id="btnAdd" source="sprites_json.add" y="142" x="429"/>
     <e:Image id="btnShuffle" source="sprites_json.shuffle" y="142" x="531"/>

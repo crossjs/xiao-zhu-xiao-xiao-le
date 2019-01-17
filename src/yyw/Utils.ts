@@ -52,6 +52,17 @@ namespace yyw {
     };
   }
 
+  export async function eachMatrix(matrix: any[][], handler: any): Promise<void> {
+    const rows = matrix.length;
+    for (let row = 0; row < rows; row++) {
+      const r = matrix[row];
+      const cols = r.length;
+      for (let col = 0; col < cols; col++) {
+        await handler(r[col], col, row);
+      }
+    }
+  }
+
   export function removeFromStage(target: any) {
     if (target) {
       const { parent } = target;

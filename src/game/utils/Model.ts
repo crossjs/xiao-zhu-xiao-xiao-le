@@ -8,7 +8,7 @@ namespace game {
   const SNAPSHOT_KEY = "YYW_G4_MODEL";
 
   export class Model {
-    public static async restore(): Promise<Model> {
+    public static async fromSnapshot(): Promise<Model> {
       const { cols, rows, maxNumber, level, matrix, numbers } = await yyw.getStorage(SNAPSHOT_KEY);
       return new Model(cols, rows, maxNumber, level, matrix, numbers);
     }

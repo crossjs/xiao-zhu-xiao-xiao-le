@@ -1,6 +1,5 @@
 namespace game {
   export class Ranking extends Base {
-    protected initialized: boolean = false;
     private bmpBoard: egret.Bitmap;
     private btnClose: eui.Image;
 
@@ -14,41 +13,34 @@ namespace game {
     /**
      * 准备榜单
      */
-    protected createView() {
-      const { stageWidth } = this.stage;
-      const x = 48;
-      const y = 288;
-      const width = stageWidth - x * 2;
-      const height = 900;
-      this.bmpBoard = yyw.OpenDataContext.createDisplayObject(null, width, height);
-      this.addChild(this.bmpBoard);
-      this.bmpBoard.x = x;
-      this.bmpBoard.y = y;
+    protected createView(fromChildrenCreated?: boolean) {
+      if (fromChildrenCreated) {
+        const { stageWidth } = this.stage;
+        const x = 48;
+        const y = 288;
+        const width = stageWidth - x * 2;
+        const height = 900;
+        this.bmpBoard = yyw.OpenDataContext.createDisplayObject(null, width, height);
+        this.addChild(this.bmpBoard);
+        this.bmpBoard.x = x;
+        this.bmpBoard.y = y;
 
-      // 主域向子域发送自定义消息
-      yyw.OpenDataContext.postMessage({
-        command: "openRanking",
-        x,
-        y,
-        width,
-        height,
-        openid: yyw.CURRENT_USER.openId || 0,
-      });
-    }
+        // 主域向子域发送自定义消息
+        yyw.OpenDataContext.postMessage({
+          command: "openRanking",
+          x,
+          y,
+          width,
+          height,
+          openid: yyw.CURRENT_USER.openId || 0,
+        });
 
-    // protected partAdded(partName: string, instance: any): void {
-    //   super.partAdded(partName, instance);
-    // }
+        this.btnClose.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+          SceneManager.escape();
+        }, this);
 
-    protected childrenCreated(): void {
-      super.childrenCreated();
-
-      this.createView();
-      this.btnClose.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
-        SceneManager.escape();
-      }, this);
-
-      this.initialized = true;
+        this.initialized = true;
+      }
     }
   }
 }

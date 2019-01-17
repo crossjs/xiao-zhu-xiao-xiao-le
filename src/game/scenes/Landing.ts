@@ -1,6 +1,5 @@
 namespace game {
   export class Landing extends Base {
-    protected initialized: boolean = false;
     private btnBoard: eui.Image;
     private btnShare: eui.Image;
     private btnStart: eui.Image;
@@ -9,29 +8,59 @@ namespace game {
     private button: wx.UserInfoButton;
     private recommender: box.All;
 
-    // public constructor() {
-    //   super();
-    // }
+    protected async createView(fromChildrenCreated?: boolean): Promise<void> {
+      if (fromChildrenCreated) {
+        const { x: left, y: top, width, height } = this.btnStart;
+        this.button = await yyw.createUserInfoButton({
+          left,
+          top,
+          width,
+          height,
+          onTap: () => {
+            SceneManager.toScene("playing");
+          },
+        });
 
-    // protected partAdded(partName: string, instance: any): void {
-    //   super.partAdded(partName, instance);
-    // }
+        this.createRecommender();
 
-    protected async createView(): Promise<void> {
-      const { x: left, y: top, width, height } = this.btnStart;
-      this.button = await yyw.createUserInfoButton({
-        left,
-        top,
-        width,
-        height,
-        onTap: () => {
-          SceneManager.toScene("playing");
-        },
-      });
+        this.tfdVersion.text = VERSION;
 
-      this.createRecommender();
+        this.btnBoard.addEventListener(
+          egret.TouchEvent.TOUCH_TAP,
+          () => {
+            SceneManager.toScene("ranking", true);
+          },
+          this,
+        );
 
-      this.tfdVersion.text = VERSION;
+        this.btnShare.addEventListener(
+          egret.TouchEvent.TOUCH_TAP,
+          () => {
+            yyw.share();
+          },
+          this,
+        );
+
+        this.btnStart.addEventListener(
+          egret.TouchEvent.TOUCH_TAP,
+          () => {
+            SceneManager.toScene("playing");
+          },
+          this,
+        );
+
+        this.btnSound.addEventListener(
+          egret.TouchEvent.TOUCH_TAP,
+          () => {
+            const { selected } = this.btnSound;
+            this.btnSound.currentState = selected ? "selected" : "up";
+            yyw.setMute(!selected);
+          },
+          this,
+        );
+
+        this.initialized = true;
+      }
     }
 
     protected destroy(): void {
@@ -43,55 +72,15 @@ namespace game {
       }
     }
 
-    protected childrenCreated(): void {
-      super.childrenCreated();
-
-      this.createView();
-
-      this.btnBoard.addEventListener(
-        egret.TouchEvent.TOUCH_TAP,
-        () => {
-          SceneManager.toScene("ranking", true);
-        },
-        this,
-      );
-
-      this.btnShare.addEventListener(
-        egret.TouchEvent.TOUCH_TAP,
-        () => {
-          yyw.share();
-        },
-        this,
-      );
-
-      this.btnStart.addEventListener(
-        egret.TouchEvent.TOUCH_TAP,
-        () => {
-          SceneManager.toScene("playing");
-        },
-        this,
-      );
-
-      this.btnSound.addEventListener(
-        egret.TouchEvent.TOUCH_TAP,
-        () => {
-          const { selected } = this.btnSound;
-          this.btnSound.currentState = selected ? "selected" : "up";
-          yyw.setMute(!selected);
-        },
-        this,
-      );
-
-      this.initialized = true;
-
-      // yyw.createBannerAd("xxxx", 0, 0, 375, 200);
-    }
-
     private createRecommender() {
-      this.recommender = new box.All();
-      this.recommender.x = 0;
-      this.recommender.y = this.stage.stageHeight - 208;
-      this.addChild(this.recommender);
+      try {
+        this.recommender = new box.All();
+        this.recommender.x = 0;
+        this.recommender.y = this.stage.stageHeight - 208;
+        this.addChild(this.recommender);
+      } catch (error) {
+        egret.error(error);
+      }
     }
   }
 }

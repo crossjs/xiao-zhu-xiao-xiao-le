@@ -1,5 +1,5 @@
 namespace game {
-  export class Cell extends eui.Component implements eui.UIComponent {
+  export class Cell extends Base {
     /**
      * 99 魔法数，可以触发其它数 + 1
      * -1 不可用
@@ -156,18 +156,19 @@ namespace game {
       this.numGroup.rotation = 0;
     }
 
-    // protected partAdded(partName: string, instance: any): void {
-    //   super.partAdded(partName, instance);
-    // }
+    protected destroy() {
+      this.reset();
+    }
 
-    protected childrenCreated(): void {
-      super.childrenCreated();
-
-      this.numGroup.x
-        = this.numGroup.y
-        = this.numGroup.anchorOffsetX
-        = this.numGroup.anchorOffsetY
-        = this.anchorOffset;
+    protected async createView(fromChildrenCreated?: boolean): Promise<void> {
+      if (fromChildrenCreated) {
+        this.numGroup.x
+          = this.numGroup.y
+          = this.numGroup.anchorOffsetX
+          = this.numGroup.anchorOffsetY
+          = this.anchorOffset;
+        this.initialized = true;
+      }
 
       this.showCurrent();
     }

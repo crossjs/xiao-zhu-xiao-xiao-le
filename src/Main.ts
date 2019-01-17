@@ -36,7 +36,6 @@ class Main extends eui.UILayer {
 
     // egret.lifecycle.addLifecycleListener((context) => {
     //   // custom lifecycle plugin
-    //   egret.log("addLifecycleListener", context);
     // });
 
     egret.lifecycle.onPause = () => {
@@ -52,9 +51,11 @@ class Main extends eui.UILayer {
     egret.registerImplementation("eui.IAssetAdapter", new AssetAdapter());
     egret.registerImplementation("eui.IThemeAdapter", new ThemeAdapter());
 
-    this.runGame().catch((e) => {
-      egret.log(e);
-    });
+    try {
+      this.runGame();
+    } catch (error) {
+      egret.error(error);
+    }
   }
 
   /**
