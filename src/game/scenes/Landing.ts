@@ -21,8 +21,6 @@ namespace game {
           },
         });
 
-        this.createRecommender();
-
         this.tfdVersion.text = VERSION;
 
         this.btnBoard.addEventListener(
@@ -61,6 +59,8 @@ namespace game {
 
         this.initialized = true;
       }
+
+      this.createRecommender();
     }
 
     protected destroy(): void {
