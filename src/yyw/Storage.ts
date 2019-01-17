@@ -24,7 +24,7 @@ namespace yyw {
         success({ data }) {
           if (data) {
             const { value, expiresAt } = data;
-            resolve(expiresAt > Date.now() ? value : null);
+            resolve((expiresAt && expiresAt > Date.now()) ? value : null);
           } else {
             resolve(null);
             removeStorage(key);
