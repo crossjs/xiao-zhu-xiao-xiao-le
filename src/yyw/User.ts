@@ -6,6 +6,7 @@ namespace yyw {
     coins?: number;
     createdAt?: number;
     enabled?: boolean;
+    expiresIn?: number;
     id?: string;
     level?: number;
     nickname?: string;
@@ -18,22 +19,22 @@ namespace yyw {
     username?: string;
   }
 
-  const CURRENT_USER_KEY = "CURRENT_USER";
+  const CURRENT_USER_KEY = "YYW_CURRENT_USER";
 
   export const CURRENT_USER: IUser = {};
 
-  function _checkSession() {
-    return new Promise((resolve) => {
-      wx.checkSession({
-        success() {
-          resolve(true);
-        },
-        fail() {
-          resolve(false);
-        },
-      });
-    });
-  }
+  // function _checkSession() {
+  //   return new Promise((resolve) => {
+  //     wx.checkSession({
+  //       success() {
+  //         resolve(true);
+  //       },
+  //       fail() {
+  //         resolve(false);
+  //       },
+  //     });
+  //   });
+  // }
 
   function _login(): Promise<any> {
     return new Promise((success, fail) => {
@@ -61,17 +62,17 @@ namespace yyw {
   }
 
   async function _isLoggedIn() {
-    const valid = await _checkSession();
-    if (!valid) {
-      return false;
-    }
-    if (!CURRENT_USER.nickname) {
+    // const valid = await _checkSession();
+    // if (!valid) {
+    //   return false;
+    // }
+    if (!CURRENT_USER.accessToken) {
       const cachedUserInfo = await getStorage(CURRENT_USER_KEY);
       if (cachedUserInfo) {
         Object.assign(CURRENT_USER, cachedUserInfo);
       }
     }
-    return !!CURRENT_USER.nickname;
+    return !!CURRENT_USER.accessToken;
   }
 
   export async function login(res: any): Promise<any> {
@@ -86,15 +87,15 @@ namespace yyw {
     if (!res) {
       res = await _getUserInfo();
     }
-    const data = await request({
+    const { expiresIn = 0, ...currentUser } = await request({
       url: `${GAME_SERVER_ORIGIN}/api/user/login`,
       data: { code, ...res },
       method: "POST",
     });
     // 合入到全局
-    Object.assign(CURRENT_USER, data);
-    setStorage(CURRENT_USER_KEY, CURRENT_USER);
-    return data;
+    Object.assign(CURRENT_USER, currentUser);
+    setStorage(CURRENT_USER_KEY, CURRENT_USER, expiresIn);
+    return currentUser;
   }
 
   export async function getAccessToken(): Promise<string> {
