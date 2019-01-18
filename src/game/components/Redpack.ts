@@ -1,11 +1,12 @@
 namespace game {
-  export class Redpack extends eui.Component implements eui.UIComponent {
-    private amount: number;
+  export class Redpack extends Base {
     private main: eui.Group;
     private btnRedpack: eui.Image;
+    private btnClose: eui.Image;
+    private btnRedpackLarge: eui.Image;
     private tfdAmount: eui.BitmapLabel;
     private tfdBalance: eui.BitmapLabel;
-    private btnRedpackLarge: eui.Image;
+    private amount: number;
 
     public async show() {
       this.amount = yyw.toFixed(Math.floor(Math.random() * 99) / 100 + 0.01);
@@ -35,24 +36,33 @@ namespace game {
       this.main.scaleY = 1;
     }
 
-    // protected partAdded(partName: string, instance: any): void {
-    //   super.partAdded(partName, instance);
-    // }
+    protected destroy() {
+      this.hide();
+    }
 
-    protected childrenCreated(): void {
-      super.childrenCreated();
+    protected createView(formChildrenCreated?: boolean): void {
+      if (formChildrenCreated) {
+        this.btnRedpack.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+          yyw.showToast("满20可以提现");
+        }, this);
 
-      this.btnRedpack.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
-        yyw.showToast("满20可以提现");
-      }, this);
+        this.btnClose.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+          this.hide();
+        }, this);
 
-      this.btnRedpackLarge.addEventListener(egret.TouchEvent.TOUCH_TAP, async () => {
-        // 看完视频广告后领红包
-        await this.hide();
-        await yyw.saveRedpack(this.amount);
-        const { balance } = await yyw.getPbl();
-        this.tfdBalance.text = `￥${yyw.toFixed(balance)}`;
-      }, this);
+        this.btnRedpackLarge.addEventListener(egret.TouchEvent.TOUCH_TAP, async () => {
+          // 看完视频广告后领红包
+          if (await yyw.share()) {
+            await yyw.saveRedpack(this.amount);
+            const { balance } = await yyw.getPbl();
+            this.tfdBalance.text = `￥${yyw.toFixed(balance)}`;
+            await this.hide();
+          } else {
+            yyw.showToast("转发才能🉐红包");
+          }
+        }, this);
+        this.initialized = true;
+      }
     }
   }
 }

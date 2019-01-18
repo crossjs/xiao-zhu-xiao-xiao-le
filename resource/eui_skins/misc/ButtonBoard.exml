@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="ButtonBoardSkin"
+	 width="96"
+	height="96" currentState="up" xmlns:e="http://ns.egret.com/eui" states="down,up" >
+	<e:Image includeIn="up" source="sprites_json.board"/>
+	<e:Image includeIn="down" y="6" x="6" source="sprites_json.board"/>
+</e:Skin>

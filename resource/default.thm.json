@@ -25,6 +25,8 @@
 		"resource/eui_skins/game/components/Sound.exml",
 		"resource/eui_skins/game/components/Words.exml",
 		"resource/eui_skins/game/scenes/Failing.exml",
+		"resource/eui_skins/misc/ButtonBoard.exml",
+		"resource/eui_skins/misc/ButtonShare.exml",
 		"resource/eui_skins/game/scenes/Landing.exml",
 		"resource/eui_skins/game/scenes/Pbl.exml",
 		"resource/eui_skins/game/scenes/Playing.exml",

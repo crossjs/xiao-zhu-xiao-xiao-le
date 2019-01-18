@@ -1,7 +1,7 @@
 namespace game {
   export class Landing extends Base {
-    private btnBoard: eui.Image;
-    private btnShare: eui.Image;
+    private btnBoard: eui.Button;
+    private btnShare: eui.Button;
     private btnStart: eui.Image;
     private btnSound: eui.ToggleButton;
     private tfdVersion: eui.Label;
@@ -23,6 +23,7 @@ namespace game {
 
         this.tfdVersion.text = VERSION;
 
+        // 排行榜
         this.btnBoard.addEventListener(
           egret.TouchEvent.TOUCH_TAP,
           () => {
@@ -31,6 +32,7 @@ namespace game {
           this,
         );
 
+        // 转发
         this.btnShare.addEventListener(
           egret.TouchEvent.TOUCH_TAP,
           () => {
@@ -39,6 +41,7 @@ namespace game {
           this,
         );
 
+        // 开始游戏
         this.btnStart.addEventListener(
           egret.TouchEvent.TOUCH_TAP,
           () => {
@@ -47,6 +50,7 @@ namespace game {
           this,
         );
 
+        // 声音
         this.btnSound.addEventListener(
           egret.TouchEvent.TOUCH_TAP,
           () => {

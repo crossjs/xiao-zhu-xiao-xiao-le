@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="LandingSkin" width="750" height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+	<w:Config id="1685fda8098"/>
 	<e:Image id="bg" source="bg_jpg" touchEnabled="false" width="750" x="0" height="1334" y="0" fillMode="clip" scale9Grid="0,1250,750,75"/>
 	<e:Image source="sprites_json.title" y="544.5" horizontalCenter="0"/>
-	<e:Image id="btnBoard" source="sprites_json.board" y="682.5" x="255"/>
+	<e:Button id="btnBoard" y="682.5" x="255" enabled="true" skinName="ButtonBoardSkin"/>
 	<e:Image id="btnStart" source="sprites_json.start" x="255" y="822.5"/>
-	<e:Image id="btnShare" source="sprites_json.share" y="682.5" x="399"/>
+	<e:Button id="btnShare" y="682.5" x="399" enabled="true" skinName="ButtonShareSkin"/>
 	<e:Image source="sprites_json.pig" x="305" y="315"/>
 	<e:ToggleButton id="btnSound" y="960" x="327" skinName="SoundSkin" enabled="true" selected="true"/>
 	<e:Label id="tfdVersion" width="300" size="18" horizontalCenter="0" touchEnabled="false" textAlign="center" verticalAlign="middle" alpha="0.5" height="30" top="0"/>
