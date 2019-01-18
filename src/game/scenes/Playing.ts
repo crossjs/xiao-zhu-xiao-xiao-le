@@ -3,10 +3,8 @@ namespace game {
 
   export class Playing extends Base {
     private isGameOver: boolean = false;
-    private btnAdd: eui.Image;
-    private btnShuffle: eui.Image;
-    private btnBack: eui.Image;
-    private btnPbl: eui.Image;
+    private btnBack: eui.Button;
+    private btnPbl: eui.Button;
     private tfdLevel: eui.BitmapLabel;
     private tfdCombo: eui.BitmapLabel;
     private tfdScore: eui.BitmapLabel;
@@ -15,12 +13,12 @@ namespace game {
     // private b3: eui.Image;
     // private b4: eui.Image;
     // private b5: eui.Image;
-    /** 可用的剩余步数 */
-    /** 连击数 */
+    /** 单局最大连击数 */
     private maxCombo: number = 0;
     // TODO MOVE TO WORDS
     private wordsThreshold: number = 2;
     private arena: Arena;
+    private tools: Tools;
     private closest: Closest;
     private redpack: Redpack;
     private words: Words;
@@ -28,11 +26,15 @@ namespace game {
 
     protected destroy() {
       this.setSnapshot();
-      yyw.removeFromStage(this.arena);
-      this.arena.removeEventListener("change", this.onArenaChange, this);
+      this.arena.removeEventListener("STATE_CHANGE", this.onArenaStateChange, this);
+      this.arena.removeEventListener("DATA_CHANGE", this.onArenaDataChange, this);
       this.arena.removeEventListener("MAGIC_GOT", this.onArenaMagicGot, this);
       this.arena.removeEventListener("GAME_OVER", this.onArenaGameOver, this);
+      yyw.removeFromStage(this.arena);
       this.arena = null;
+      this.tools.removeEventListener("TOOL_USED", this.onToolUsed, this);
+      yyw.removeFromStage(this.tools);
+      this.tools = null;
       yyw.removeFromStage(this.closest);
       this.closest = null;
       yyw.removeFromStage(this.redpack);
@@ -52,6 +54,7 @@ namespace game {
           useSnapshot = await yyw.showModal("接着玩？");
         }
       }
+      this.createTools();
       this.createClosest();
       this.createRecommender();
       await this.createArena(useSnapshot);
@@ -83,10 +86,43 @@ namespace game {
       this.arena = useSnapshot ? await Arena.fromSnapshot() : new Arena();
       this.arena.y = 264;
       // 更新 score/level/combo 显示
-      this.arena.addEventListener("change", this.onArenaChange, this);
+      this.arena.addEventListener("STATE_CHANGE", this.onArenaStateChange, this);
+      this.arena.addEventListener("DATA_CHANGE", this.onArenaDataChange, this);
       this.arena.addEventListener("MAGIC_GOT", this.onArenaMagicGot, this);
       this.arena.addEventListener("GAME_OVER", this.onArenaGameOver, this);
       this.body.addChild(this.arena);
+    }
+
+    private onArenaStateChange({ data: {
+      running,
+    } }: egret.Event) {
+      this.tools.enabled = !running;
+      this.btnBack.enabled = !running;
+      this.btnPbl.enabled = !running;
+    }
+
+    private onArenaDataChange({ data: {
+      level,
+      combo,
+      score,
+    } }: egret.Event) {
+      this.tfdLevel.text = `${level}`;
+      this.tfdCombo.text = `${combo}`;
+      this.tfdScore.text = `${score}`;
+
+      if (combo >= this.wordsThreshold) {
+        // 2,3 -> 0
+        // 4,5 -> 1
+        // 6,7 -> 2
+        // 8,9,10,... -> 3
+        this.words.show(
+          Math.floor((combo - this.wordsThreshold) / this.wordsThreshold),
+        );
+      }
+
+      this.maxCombo = Math.max(this.maxCombo, combo);
+
+      this.closest.update(score);
     }
 
     private onArenaMagicGot() {
@@ -108,28 +144,25 @@ namespace game {
       SceneManager.toScene("failing");
     }
 
-    private onArenaChange({ data: {
-      level,
-      combo,
-      score,
+    private createTools() {
+      this.tools = new Tools();
+      this.tools.x = 429;
+      this.tools.y = 142;
+      this.tools.addEventListener("TOOL_USED", this.onToolUsed, this);
+      this.body.addChild(this.tools);
+    }
+
+    private onToolUsed({ data: {
+      type,
     } }: egret.Event) {
-      this.tfdLevel.text = `${level}`;
-      this.tfdCombo.text = `${combo}`;
-      this.tfdScore.text = `${score}`;
-
-      if (combo >= this.wordsThreshold) {
-        // 2,3 -> 0
-        // 4,5 -> 1
-        // 6,7 -> 2
-        // 8,9,10,... -> 3
-        this.words.showWord(
-          Math.floor((combo - this.wordsThreshold) / this.wordsThreshold),
-        );
+      switch (type) {
+        case "shuffle":
+          return this.arena.shuffle();
+        case "livesUp":
+          return this.arena.livesUp();
+        default:
+          return;
       }
-
-      this.maxCombo = Math.max(this.maxCombo, combo);
-
-      this.closest.update(score);
     }
 
     private createClosest() {
@@ -150,20 +183,6 @@ namespace game {
     }
 
     private initTouchHandlers() {
-      this.btnAdd.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
-        if (this.isGameOver || this.arena.isRunning) {
-          return;
-        }
-        this.arena.livesUp();
-      }, this);
-
-      this.btnShuffle.addEventListener(egret.TouchEvent.TOUCH_TAP, async () => {
-        if (this.isGameOver || this.arena.isRunning) {
-          return;
-        }
-        this.arena.shuffle();
-      }, this);
-
       this.btnBack.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
         if (this.arena.isRunning) {
           return;

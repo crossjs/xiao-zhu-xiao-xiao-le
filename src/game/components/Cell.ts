@@ -38,15 +38,22 @@ namespace game {
       this.tfdScore.text = `${this.num * 10}`;
       this.tfdScore.visible = true;
       this.tfdScore.alpha = 0;
-      await PromisedTween
-      .get(this.tfdScore)
-      .to({
-        y: -18,
+      const tween = await PromisedTween.get(this.tfdScore);
+      await tween.to({
+        y: 0,
         alpha: 1,
-      }, 500);
+      }, 300);
+      await tween.to({
+        y: -36,
+        alpha: 0,
+        scaleX: 1.5,
+        scaleY: 1.5,
+      }, 200);
       this.tfdScore.visible = false;
       this.tfdScore.alpha = 1;
-      this.tfdScore.y = 45;
+      this.tfdScore.y = 36;
+      this.tfdScore.scaleX = 1;
+      this.tfdScore.scaleY = 1;
     }
 
     public async tweenUp(duration: number = 300): Promise<void> {
@@ -151,7 +158,7 @@ namespace game {
       PromisedTween.removeTweens(this.numImage);
       this.tfdScore.visible = false;
       this.tfdScore.alpha = 1;
-      this.tfdScore.y = 45;
+      this.tfdScore.y = 36;
       this.numGroup.scaleX = this.numGroup.scaleY = this.numGroup.alpha = 1;
       this.numGroup.rotation = 0;
     }

@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="ToolsSkin"
+	 width="198"
+	height="96" xmlns:e="http://ns.egret.com/eui">
+	<e:Image id="btnLivesUp" source="sprites_json.add" y="0" x="0"/>
+	<e:BitmapLabel id="tfdLivesUp" width="36" height="72" x="80" y="-16" font="font_fnt" text="" scaleX="0.5" scaleY="0.5" touchEnabled="false"/>
+	<e:Image id="btnShuffle" source="sprites_json.shuffle" y="0" x="102"/>
+	<e:BitmapLabel id="tfdShuffle" width="36" height="72" x="182" y="-16" font="font_fnt" text="" scaleX="0.5" scaleY="0.5" touchEnabled="false"/>
+</e:Skin>

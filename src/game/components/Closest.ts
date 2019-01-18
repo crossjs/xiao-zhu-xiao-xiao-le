@@ -17,6 +17,14 @@ namespace game {
       });
     }
 
+    protected destroy() {
+      yyw.removeFromStage(this.bmpClosest);
+      this.bmpClosest = null;
+      yyw.OpenDataContext.postMessage({
+        command: "closeClosest",
+      });
+    }
+
     protected async createView(fromChildrenCreated?: boolean) {
       this.bmpClosest = yyw.OpenDataContext.createDisplayObject(
         null, this.width, this.height);
@@ -25,14 +33,6 @@ namespace game {
       if (fromChildrenCreated) {
         this.initialized = true;
       }
-    }
-
-    protected destroy() {
-      yyw.removeFromStage(this.bmpClosest);
-      this.bmpClosest = null;
-      yyw.OpenDataContext.postMessage({
-        command: "closeClosest",
-      });
     }
   }
 }

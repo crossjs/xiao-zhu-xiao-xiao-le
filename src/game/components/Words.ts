@@ -1,5 +1,5 @@
 namespace game {
-  export class Words extends eui.Component implements eui.UIComponent {
+  export class Words extends Base {
     private imgGood: eui.Image;
     private imgGreat: eui.Image;
     private imgAmazing: eui.Image;
@@ -20,8 +20,8 @@ namespace game {
     }
 
     @yyw.debounce(1000)
-    public async showWord(index: number) {
-      await this.hideWord();
+    public async show(index: number) {
+      await this.hide();
       this.index = Math.min(3, index);
       this.sounds[this.index].play();
       const target = this.words[this.index];
@@ -36,10 +36,26 @@ namespace game {
         scaleY: 1,
         alpha: 1,
       });
-      egret.setTimeout(this.hideWord, this, 300);
+      egret.setTimeout(this.hide, this, 300);
     }
 
-    public async hideWord() {
+    protected destroy() {
+      this.hide();
+    }
+
+    protected async createView(fromChildrenCreated?: boolean) {
+      if (fromChildrenCreated) {
+        this.words = [
+          this.imgGood,
+          this.imgGreat,
+          this.imgAmazing,
+          this.imgExcellent,
+        ];
+        this.initialized = true;
+      }
+    }
+
+    private async hide() {
       if (this.index >= 0) {
         const target = this.words[this.index];
         await PromisedTween
@@ -55,21 +71,6 @@ namespace game {
         target.alpha = 1;
         this.index = -1;
       }
-    }
-
-    protected partAdded(partName: string, instance: any): void {
-      super.partAdded(partName, instance);
-    }
-
-    protected childrenCreated(): void {
-      super.childrenCreated();
-
-      this.words = [
-        this.imgGood,
-        this.imgGreat,
-        this.imgAmazing,
-        this.imgExcellent,
-      ];
     }
   }
 }

@@ -48,6 +48,13 @@ namespace game {
       return this.running;
     }
 
+    public set isRunning(running: boolean) {
+      this.running = running;
+      this.dispatchEventWith("STATE_CHANGE", false, {
+        running,
+      });
+    }
+
     /**
      * 增加生命
      */
@@ -59,7 +66,7 @@ namespace game {
      * 随机重排
      */
     public async shuffle(): Promise<void> {
-      this.running = true;
+      this.isRunning = true;
       const tween = PromisedTween.get(this.main);
       await tween.to({
         scaleX: 0,
@@ -79,7 +86,7 @@ namespace game {
       }, 200);
 
       await this.mergeChains();
-      this.running = false;
+      this.isRunning = false;
     }
 
     protected destroy() {
@@ -119,11 +126,7 @@ namespace game {
       this.score = score;
       this.increaseScore(0);
       this.combo = combo;
-      this.dispatchEventWith("change", false, {
-        score: this.score,
-        level: this.level,
-        combo: this.combo,
-      });
+      this.notify();
     }
 
     private resetTweens() {
@@ -218,7 +221,7 @@ namespace game {
         }
         dragging = false;
         this.getCellAt(fromPoint).zoomOut();
-        this.running = true;
+        this.isRunning = true;
         // 普通交换
         this.sndSwitch.play();
         this.tweenFromTo(fromPoint, toPoint, 300);
@@ -252,7 +255,7 @@ namespace game {
             }
           }
         }
-        this.running = false;
+        this.isRunning = false;
       };
 
       const handleEnd = () => {
@@ -322,7 +325,7 @@ namespace game {
 
     @yyw.debounce(100)
     private notify() {
-      this.dispatchEventWith("change", false, {
+      this.dispatchEventWith("DATA_CHANGE", false, {
         score: this.score,
         level: this.level,
         combo: this.combo,

@@ -27,7 +27,7 @@ namespace game {
         if (key === "balance") {
           value = yyw.toFixed(value);
         }
-        (this[`tfd${key.replace(/^\w/, ($0) => $0.toUpperCase())}`] as eui.Label).text = String(value);
+        (this[`tfd${key.replace(/^\w/, ($0) => $0.toUpperCase())}`] as eui.BitmapLabel).text = String(value);
       });
     }
   }
