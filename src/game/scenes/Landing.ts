@@ -4,6 +4,7 @@ namespace game {
     private btnShare: eui.Button;
     private btnStart: eui.Button;
     private btnSound: eui.ToggleButton;
+    private btnVibration: eui.ToggleButton;
     private tfdVersion: eui.Label;
     private userInfoButton: wx.UserInfoButton;
     private recommender: box.All;
@@ -18,6 +19,7 @@ namespace game {
           width,
           height,
           onTap: () => {
+            yyw.vibrateLong();
             SceneManager.toScene("playing");
           },
         });
@@ -48,7 +50,7 @@ namespace game {
         this.btnStart.addEventListener(
           egret.TouchEvent.TOUCH_TAP,
           () => {
-            yyw.vibrateShort();
+            yyw.vibrateLong();
             SceneManager.toScene("playing");
           },
           this,
@@ -61,6 +63,17 @@ namespace game {
             const { selected } = this.btnSound;
             this.btnSound.currentState = selected ? "selected" : "up";
             yyw.USER_CONFIG.soundEnabled = selected;
+          },
+          this,
+        );
+
+        // 振动
+        this.btnVibration.addEventListener(
+          egret.TouchEvent.TOUCH_TAP,
+          () => {
+            const { selected } = this.btnVibration;
+            this.btnVibration.currentState = selected ? "selected" : "up";
+            yyw.USER_CONFIG.vibrationEnabled = selected;
           },
           this,
         );

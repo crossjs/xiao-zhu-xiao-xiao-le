@@ -1,9 +1,13 @@
 namespace yyw {
   export function vibrateShort() {
-    wx.vibrateShort();
+    if (USER_CONFIG.vibrationEnabled) {
+      wx.vibrateShort();
+    }
   }
 
   export function vibrateLong() {
-    wx.vibrateLong();
+    if (USER_CONFIG.vibrationEnabled) {
+      wx.vibrateLong();
+    }
   }
 }
