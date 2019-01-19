@@ -81,8 +81,11 @@ export class WxgamePlugin implements plugins.Command {
       optionStr +
       "\n\t\t//----auto option end----";
     gameJSContent = gameJSContent.replace(reg, replaceStr);
-    fs.writeFileSync(gameJSPath, gameJSContent);
-
+    fs.writeFileSync(gameJSPath, gameJSContent.replace("require('./platform.js');", ""));
+    const platformJSPath = path.join(pluginContext.outputDir, "platform.js");
+    if (fs.existsSync(platformJSPath)) {
+      fs.unlinkSync(platformJSPath);
+    }
     // 修改横竖屏
     const gameJSONPath = path.join(pluginContext.outputDir, "game.json");
     const gameJSONContent = JSON.parse(

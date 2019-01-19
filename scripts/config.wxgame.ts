@@ -8,6 +8,7 @@ import {
   UglifyPlugin,
 } from "built-in";
 import * as defaultConfig from "./config";
+// import { CustomPlugin } from "./myplugin";
 import { WxgamePlugin } from "./wxgame/wxgame";
 
 const config: ResourceManagerConfig = {
@@ -26,6 +27,7 @@ const config: ResourceManagerConfig = {
           new ExmlPlugin("commonjs"), // 非 EUI 项目关闭此设置
           new WxgamePlugin(),
           new ManifestPlugin({ output: "manifest.js" }),
+          // new CustomPlugin(),
         ],
       };
     } else if (command === "publish") {
@@ -44,8 +46,13 @@ const config: ResourceManagerConfig = {
               sources: ["main.js"],
               target: "main.min.js",
             },
+            // {
+            //   sources: ["resource/default.thm.js"],
+            //   target: "resource/default.thm.min.js",
+            // },
           ]),
           new ManifestPlugin({ output: "manifest.js" }),
+          // new CustomPlugin(),
         ],
       };
     } else {

@@ -1,15 +1,31 @@
-/**
- * 示例自定义插件，您可以查阅 http://developer.egret.com/cn/github/egret-docs/Engine2D/projectConfig/cmdExtensionPlugin/index.html
- * 了解如何开发一个自定义插件
- */
 export class CustomPlugin implements plugins.Command {
-  // constructor() {}
+  private buffer: any;
 
   public async onFile(file: plugins.File) {
+    // 保存 manifest.js 文件的内容
+    if (file.basename.indexOf("manifest.js") > -1) {
+      this.buffer = file.contents;
+    }
     return file;
   }
 
   public async onFinish(commandContext: plugins.CommandContext) {
-    // empty
+    // 把 lib.min.js 移到第一位
+    if (this.buffer) {
+      const contents: string = this.buffer.toString();
+      const arr = contents.split("\n");
+      let lib: string = "";
+      arr.forEach((item, index) => {
+        if (item.indexOf("lib.min.js") > -1) {
+          lib = item;
+          arr.splice(index, 1);
+        }
+      });
+      if (lib) {
+        arr.unshift(lib);
+      }
+      const newContent = arr.join("\n");
+      commandContext.createFile("manifest.js", new Buffer(newContent));
+    }
   }
 }

@@ -26,14 +26,15 @@ namespace game {
       this.tween = egret.Tween.get(target, options);
     }
 
-    public to(
+    public async to(
       props: any,
       duration: number = 100,
       ease: any = egret.Ease.quadOut,
-    ): Promise<void> {
-      return new Promise((resolve) => {
-        this.tween.setPaused(false).to(props, duration, ease).call(resolve);
+    ): Promise<PromisedTween> {
+      await new Promise((resolve) => {
+        this.tween.setPaused(false).to(props, duration * SPEED_RATIO, ease).call(resolve);
       });
+      return this;
     }
   }
 }

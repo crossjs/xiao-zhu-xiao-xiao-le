@@ -16,11 +16,10 @@ namespace yyw {
         // 调用其接口 WebGLRenderingContext.wxBindCanvasTexture(number texture, Canvas canvas)
         // 如果没有该接口，会进行如下处理，保证画面渲染正确，但会占用内存。
         if (!context.wxBindCanvasTexture) {
-          egret.startTick((timeStamp) => {
+          egret.setInterval(() => {
             egret.WebGLUtils.deleteWebGLTexture(bitmapData.webGLTexture);
             bitmapData.webGLTexture = null;
-            return false;
-          }, this);
+          }, this, 1000);
         }
       }
       return bitmap;

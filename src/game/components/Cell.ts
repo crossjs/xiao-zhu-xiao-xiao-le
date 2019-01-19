@@ -72,7 +72,7 @@ namespace game {
       nextImage.alpha = 0;
       nextImage.visible = true;
       // 淡入下张
-      return PromisedTween
+      await PromisedTween
       .get(nextImage)
       .to({
         alpha: 1,
@@ -130,8 +130,8 @@ namespace game {
       numGroup.alpha = oAlpha;
     }
 
-    public fadeOut(duration: number = 300): Promise<void> {
-      return PromisedTween
+    public async fadeOut(duration: number = 300): Promise<void> {
+      await PromisedTween
       .get(this.numGroup)
       .to({
         scaleX: 0,
@@ -141,8 +141,8 @@ namespace game {
       }, duration);
     }
 
-    public fadeIn(duration: number = 200): Promise<void> {
-      return PromisedTween
+    public async fadeIn(duration: number = 200): Promise<void> {
+      await PromisedTween
       .get(this.numGroup)
       .to({
         scaleX: 1,
