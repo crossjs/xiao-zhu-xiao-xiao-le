@@ -1,17 +1,18 @@
 namespace game {
-  export class Landing extends Base {
+  export class Landing extends yyw.Base {
     private btnBoard: eui.Button;
     private btnShare: eui.Button;
-    private btnStart: eui.Image;
+    private btnStart: eui.Button;
     private btnSound: eui.ToggleButton;
     private tfdVersion: eui.Label;
-    private button: wx.UserInfoButton;
+    private userInfoButton: wx.UserInfoButton;
     private recommender: box.All;
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       if (fromChildrenCreated) {
         const { x: left, y: top, width, height } = this.btnStart;
-        this.button = await yyw.createUserInfoButton({
+        // TODO 封装成 Component
+        this.userInfoButton = await yyw.createUserInfoButton({
           left,
           top,
           width,
@@ -27,6 +28,7 @@ namespace game {
         this.btnBoard.addEventListener(
           egret.TouchEvent.TOUCH_TAP,
           () => {
+            yyw.vibrateShort();
             SceneManager.toScene("ranking", true);
           },
           this,
@@ -36,6 +38,7 @@ namespace game {
         this.btnShare.addEventListener(
           egret.TouchEvent.TOUCH_TAP,
           () => {
+            yyw.vibrateShort();
             yyw.share();
           },
           this,
@@ -45,6 +48,7 @@ namespace game {
         this.btnStart.addEventListener(
           egret.TouchEvent.TOUCH_TAP,
           () => {
+            yyw.vibrateShort();
             SceneManager.toScene("playing");
           },
           this,
@@ -56,7 +60,7 @@ namespace game {
           () => {
             const { selected } = this.btnSound;
             this.btnSound.currentState = selected ? "selected" : "up";
-            yyw.setMute(!selected);
+            yyw.USER_CONFIG.soundEnabled = selected;
           },
           this,
         );
@@ -68,12 +72,11 @@ namespace game {
     }
 
     protected destroy(): void {
-      if (this.button) {
-        this.button.destroy();
+      if (this.userInfoButton) {
+        this.userInfoButton.destroy();
       }
-      if (this.recommender) {
-        this.recommender.destroy();
-      }
+      yyw.removeFromStage(this.recommender);
+      this.recommender = null;
     }
 
     private createRecommender() {

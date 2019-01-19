@@ -1,5 +1,5 @@
 namespace game {
-  export class Failing extends Base {
+  export class Failing extends yyw.Base {
     private btnRestart: eui.Image;
 
     protected destroy(): void {

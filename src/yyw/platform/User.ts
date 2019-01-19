@@ -23,19 +23,6 @@ namespace yyw {
 
   export const CURRENT_USER: IUser = {};
 
-  // function _checkSession() {
-  //   return new Promise((resolve) => {
-  //     wx.checkSession({
-  //       success() {
-  //         resolve(true);
-  //       },
-  //       fail() {
-  //         resolve(false);
-  //       },
-  //     });
-  //   });
-  // }
-
   function _login(): Promise<any> {
     return new Promise((success, fail) => {
       wx.login({
@@ -62,10 +49,6 @@ namespace yyw {
   }
 
   async function _isLoggedIn() {
-    // const valid = await _checkSession();
-    // if (!valid) {
-    //   return false;
-    // }
     if (!CURRENT_USER.accessToken) {
       const cachedUserInfo = await getStorage(CURRENT_USER_KEY);
       if (cachedUserInfo) {
@@ -73,6 +56,15 @@ namespace yyw {
       }
     }
     return !!CURRENT_USER.accessToken;
+  }
+
+  export async function logout(): Promise<any> {
+    for (const key in CURRENT_USER) {
+      if (CURRENT_USER.hasOwnProperty(key)) {
+        delete CURRENT_USER[key];
+      }
+    }
+    await removeStorage(CURRENT_USER_KEY);
   }
 
   export async function login(res: any): Promise<any> {
@@ -102,8 +94,6 @@ namespace yyw {
     if (CURRENT_USER.accessToken) {
       return CURRENT_USER.accessToken;
     }
-    // 正常不会执行到这里
-    egret.warn("正常不会执行到这里：getAccessToken from login");
     const { accessToken } = await login(null);
     return accessToken;
   }

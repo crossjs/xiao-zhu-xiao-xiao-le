@@ -42,7 +42,7 @@ namespace game {
         if (keepOther) {
           scene.alpha = 0;
           // 创建 Tween 对象
-          PromisedTween
+          yyw.PromisedTween
           .get(scene)
           .to({ alpha: 1 }, 500);
         }

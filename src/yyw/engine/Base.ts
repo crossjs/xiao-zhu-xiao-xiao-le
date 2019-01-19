@@ -1,5 +1,4 @@
-namespace game {
-
+namespace yyw {
   export abstract class Base extends eui.Component implements eui.UIComponent {
     protected initialized: boolean = false;
     protected bg: eui.Image;

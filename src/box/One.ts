@@ -1,51 +1,27 @@
 namespace box {
-  export class One extends eui.Component implements eui.UIComponent {
+  export class One extends yyw.Base {
     private container: eui.Group;
     private cover: eui.Group;
     private offChange: any;
+    private anchorOffset: number = 44;
 
     public constructor() {
       super();
-
-      this.anchorOffsetX = 44;
-      this.anchorOffsetY = 44;
-
-      this.x += 44;
-      this.y += 44;
+      this.x += (this.anchorOffsetX = this.anchorOffset);
+      this.y += (this.anchorOffsetY = this.anchorOffset);
     }
 
-    // protected partAdded(partName: string, instance: any): void {
-    //   super.partAdded(partName, instance);
-    // }
-
-    public destroy() {
+    protected destroy() {
       egret.Tween.removeTweens(this);
       if (this.offChange) {
         this.offChange();
+        this.offChange = null;
       }
-      yyw.removeFromStage(this);
     }
 
-    protected childrenCreated(): void {
-      super.childrenCreated();
-
+    protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       let currentGame;
       let instance;
-
-      this.cover.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
-        if (currentGame) {
-          instance.navigateTo(currentGame);
-        }
-      }, this);
-
-      // 创建 Tween 对象
-      egret.Tween.get(this, { loop: true })
-        .to({ rotation: 15 }, 50)
-        .to({ rotation: -15 }, 50)
-        .to({ rotation: 15 }, 50)
-        .to({ rotation: -15 }, 50)
-        .to({ rotation: 0 }, 50)
-        .wait(1000);
 
       this.offChange = box.onChange((game, recommender) => {
         this.cover.visible = true;
@@ -53,6 +29,32 @@ namespace box {
         instance = recommender;
         this.setImage(game.iconUrl);
       });
+
+      this.animate();
+
+      if (fromChildrenCreated) {
+        this.cover.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+          if (currentGame) {
+            instance.navigateTo(currentGame);
+          }
+        }, this);
+      }
+    }
+
+    // 循环抖动
+    private async animate() {
+      // 创建 Tween 对象
+      const tween = yyw.PromisedTween.get(this);
+      await tween.to({ rotation: 15 }, 50);
+      await tween.to({ rotation: -15 }, 50);
+      await tween.to({ rotation: 15 }, 50);
+      await tween.to({ rotation: -15 }, 50);
+      await tween.to({ rotation: 0 }, 50);
+      egret.setTimeout(() => {
+        if (this.offChange) {
+          this.animate();
+        }
+      }, this, 1000);
     }
 
     private async setImage(url: string) {

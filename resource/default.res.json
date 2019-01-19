@@ -29,6 +29,11 @@
 			"name": "amazing_mp3"
 		},
 		{
+			"url": "assets/click.mp3",
+			"type": "sound",
+			"name": "click_mp3"
+		},
+		{
 			"url": "assets/end.mp3",
 			"type": "sound",
 			"name": "end_mp3"

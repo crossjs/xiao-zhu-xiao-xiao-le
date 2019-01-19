@@ -1,5 +1,5 @@
 namespace game {
-  export class Cell extends Base {
+  export class Cell extends yyw.Base {
     /**
      * 99 魔法数，可以触发其它数 + 1
      * -1 不可用
@@ -38,7 +38,7 @@ namespace game {
       this.tfdScore.text = `${this.num * 10}`;
       this.tfdScore.visible = true;
       this.tfdScore.alpha = 0;
-      const tween = await PromisedTween.get(this.tfdScore);
+      const tween = await yyw.PromisedTween.get(this.tfdScore);
       await tween.to({
         y: 0,
         alpha: 1,
@@ -59,7 +59,7 @@ namespace game {
     public async tweenUp(duration: number = 300): Promise<void> {
       const { numImage } = this;
       // 淡出当前
-      await PromisedTween
+      await yyw.PromisedTween
       .get(numImage)
       .to({
         alpha: 0,
@@ -72,7 +72,7 @@ namespace game {
       nextImage.alpha = 0;
       nextImage.visible = true;
       // 淡入下张
-      await PromisedTween
+      await yyw.PromisedTween
       .get(nextImage)
       .to({
         alpha: 1,
@@ -80,8 +80,8 @@ namespace game {
     }
 
     public zoomOut(duration: number = 100) {
-      PromisedTween.removeTweens(this);
-      return PromisedTween
+      yyw.PromisedTween.removeTweens(this);
+      return yyw.PromisedTween
       .get(this)
       .to({
         scaleX: 1,
@@ -90,8 +90,8 @@ namespace game {
     }
 
     public zoomIn(duration: number = 100) {
-      PromisedTween.removeTweens(this);
-      return PromisedTween
+      yyw.PromisedTween.removeTweens(this);
+      return yyw.PromisedTween
       .get(this)
       .to({
         scaleX: 1.2,
@@ -102,7 +102,7 @@ namespace game {
     public async tweenTo(increases: any[], duration: number, onResolve?: any): Promise<void> {
       const { numGroup } = this;
       const { x: oX, y: oY, rotation: oRotation, alpha: oAlpha } = numGroup;
-      const tween = PromisedTween.get(numGroup);
+      const tween = yyw.PromisedTween.get(numGroup);
       duration /= increases.length;
       let tX = oX;
       let tY = oY;
@@ -131,7 +131,7 @@ namespace game {
     }
 
     public async fadeOut(duration: number = 300): Promise<void> {
-      await PromisedTween
+      await yyw.PromisedTween
       .get(this.numGroup)
       .to({
         scaleX: 0,
@@ -142,7 +142,7 @@ namespace game {
     }
 
     public async fadeIn(duration: number = 200): Promise<void> {
-      await PromisedTween
+      await yyw.PromisedTween
       .get(this.numGroup)
       .to({
         scaleX: 1,
@@ -153,9 +153,9 @@ namespace game {
     }
 
     public reset() {
-      PromisedTween.removeTweens(this.tfdScore);
-      PromisedTween.removeTweens(this.numGroup);
-      PromisedTween.removeTweens(this.numImage);
+      yyw.PromisedTween.removeTweens(this.tfdScore);
+      yyw.PromisedTween.removeTweens(this.numGroup);
+      yyw.PromisedTween.removeTweens(this.numImage);
       this.tfdScore.visible = false;
       this.tfdScore.alpha = 1;
       this.tfdScore.y = 36;

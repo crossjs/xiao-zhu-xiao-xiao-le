@@ -1,10 +1,10 @@
 namespace yyw {
-  export class Set {
-    private store: any[];
+  export class UniqueSet {
+    private store: any[] = [];
 
-    constructor() {
-      this.store = [];
-    }
+    // constructor() {
+    //   this.store = [];
+    // }
 
     public add(value: any) {
       if (this.store.indexOf(value) === -1) {

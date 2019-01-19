@@ -1,5 +1,5 @@
 namespace game {
-  export class Ranking extends Base {
+  export class Ranking extends yyw.Base {
     private bmpBoard: egret.Bitmap;
     private btnClose: eui.Image;
 

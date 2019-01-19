@@ -12,7 +12,7 @@ namespace yyw {
     } catch (error) {
       // 如果登录失效，则尝试重新登录
       if (error && error.status && error.status === 401) {
-        await login(null);
+        await logout();
         return requestWithAuth(options);
       }
       throw error;

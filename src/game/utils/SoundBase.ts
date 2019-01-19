@@ -6,7 +6,7 @@ namespace game {
     protected sound: egret.Sound;
 
     public play() {
-      if (yyw.getMute()) {
+      if (!yyw.USER_CONFIG.soundEnabled) {
         return;
       }
       const soundChannel = this.sound.play(0, 1);

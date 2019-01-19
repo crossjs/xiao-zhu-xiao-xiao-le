@@ -1,5 +1,7 @@
 {
 	"skins": {
+		"box.All": "resource/eui_skins/box/All.exml",
+		"box.One": "resource/eui_skins/box/One.exml",
 		"game.Arena": "resource/eui_skins/game/components/Arena.exml",
 		"game.Cell": "resource/eui_skins/game/components/Cell.exml",
 		"game.Closest": "resource/eui_skins/game/components/Closest.exml",
@@ -11,9 +13,7 @@
 		"game.Landing": "resource/eui_skins/game/scenes/Landing.exml",
 		"game.Pbl": "resource/eui_skins/game/scenes/Pbl.exml",
 		"game.Playing": "resource/eui_skins/game/scenes/Playing.exml",
-		"game.Ranking": "resource/eui_skins/game/scenes/Ranking.exml",
-		"box.All": "resource/eui_skins/box/All.exml",
-		"box.One": "resource/eui_skins/box/One.exml"
+		"game.Ranking": "resource/eui_skins/game/scenes/Ranking.exml"
 	},
 	"autoGenerateExmlsList": true,
 	"exmls": [
@@ -22,6 +22,7 @@
 		"resource/eui_skins/game/components/Arena.exml",
 		"resource/eui_skins/game/components/Cell.exml",
 		"resource/eui_skins/game/components/Closest.exml",
+		"resource/eui_skins/misc/ButtonReject.exml",
 		"resource/eui_skins/game/components/Redpack.exml",
 		"resource/eui_skins/game/components/Sound.exml",
 		"resource/eui_skins/game/components/Tools.exml",
@@ -29,10 +30,12 @@
 		"resource/eui_skins/game/scenes/Failing.exml",
 		"resource/eui_skins/misc/ButtonBoard.exml",
 		"resource/eui_skins/misc/ButtonShare.exml",
+		"resource/eui_skins/misc/ButtonStart.exml",
 		"resource/eui_skins/game/scenes/Landing.exml",
 		"resource/eui_skins/game/scenes/Pbl.exml",
 		"resource/eui_skins/game/scenes/Playing.exml",
-		"resource/eui_skins/game/scenes/Ranking.exml"
+		"resource/eui_skins/game/scenes/Ranking.exml",
+		"resource/eui_skins/misc/ButtonClose.exml"
 	],
 	"path": "resource/default.thm.json"
 }

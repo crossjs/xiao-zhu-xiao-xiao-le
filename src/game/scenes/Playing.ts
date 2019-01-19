@@ -1,7 +1,7 @@
 namespace game {
   const SNAPSHOT_KEY = "YYW_G4_PLAYING";
 
-  export class Playing extends Base {
+  export class Playing extends yyw.Base {
     private isGameOver: boolean = false;
     private btnBack: eui.Button;
     private btnPbl: eui.Button;
@@ -15,8 +15,6 @@ namespace game {
     // private b5: eui.Image;
     /** 单局最大连击数 */
     private maxCombo: number = 0;
-    // TODO MOVE TO WORDS
-    private wordsThreshold: number = 2;
     private arena: Arena;
     private tools: Tools;
     private closest: Closest;
@@ -25,9 +23,10 @@ namespace game {
     private recommender: box.One;
 
     protected destroy() {
-      this.setSnapshot();
+      this.setSnapshot(this.isGameOver ? null : undefined);
       this.arena.removeEventListener("STATE_CHANGE", this.onArenaStateChange, this);
       this.arena.removeEventListener("DATA_CHANGE", this.onArenaDataChange, this);
+      this.arena.removeEventListener("LIVES_LOW", this.onArenaLivesLow, this);
       this.arena.removeEventListener("MAGIC_GOT", this.onArenaMagicGot, this);
       this.arena.removeEventListener("GAME_OVER", this.onArenaGameOver, this);
       yyw.removeFromStage(this.arena);
@@ -54,10 +53,10 @@ namespace game {
           useSnapshot = await yyw.showModal("接着玩？");
         }
       }
-      this.createTools();
       this.createClosest();
       this.createRecommender();
       await this.createArena(useSnapshot);
+      this.createTools();
       this.createRedpack();
       this.createWords();
       this.isGameOver = false;
@@ -88,6 +87,7 @@ namespace game {
       // 更新 score/level/combo 显示
       this.arena.addEventListener("STATE_CHANGE", this.onArenaStateChange, this);
       this.arena.addEventListener("DATA_CHANGE", this.onArenaDataChange, this);
+      this.arena.addEventListener("LIVES_LOW", this.onArenaLivesLow, this);
       this.arena.addEventListener("MAGIC_GOT", this.onArenaMagicGot, this);
       this.arena.addEventListener("GAME_OVER", this.onArenaGameOver, this);
       this.body.addChild(this.arena);
@@ -106,23 +106,16 @@ namespace game {
       combo,
       score,
     } }: egret.Event) {
+      this.words.update(combo);
+      this.closest.update(score);
       this.tfdLevel.text = `${level}`;
       this.tfdCombo.text = `${combo}`;
       this.tfdScore.text = `${score}`;
-
-      if (combo >= this.wordsThreshold) {
-        // 2,3 -> 0
-        // 4,5 -> 1
-        // 6,7 -> 2
-        // 8,9,10,... -> 3
-        this.words.show(
-          Math.floor((combo - this.wordsThreshold) / this.wordsThreshold),
-        );
-      }
-
       this.maxCombo = Math.max(this.maxCombo, combo);
+    }
 
-      this.closest.update(score);
+    private onArenaLivesLow() {
+      this.tools.showTip();
     }
 
     private onArenaMagicGot() {
@@ -146,7 +139,6 @@ namespace game {
 
     private createTools() {
       this.tools = new Tools();
-      this.tools.x = 429;
       this.tools.y = 142;
       this.tools.addEventListener("TOOL_USED", this.onToolUsed, this);
       this.body.addChild(this.tools);

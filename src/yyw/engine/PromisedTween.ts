@@ -1,7 +1,7 @@
-namespace game {
+namespace yyw {
   export class PromisedTween {
-    public static get(target: any, options?: any) {
-      return new PromisedTween(target, options);
+    public static get(target: any) {
+      return new PromisedTween(target);
     }
 
     public static removeTweens(target: any) {
@@ -22,19 +22,18 @@ namespace game {
 
     private tween: egret.Tween;
 
-    constructor(target: any, options: any = {}) {
-      this.tween = egret.Tween.get(target, options);
+    constructor(target: any) {
+      this.tween = egret.Tween.get(target);
     }
 
-    public async to(
+    public to(
       props: any,
       duration: number = 100,
       ease: any = egret.Ease.quadOut,
-    ): Promise<PromisedTween> {
-      await new Promise((resolve) => {
+    ): Promise<any> {
+      return new Promise((resolve) => {
         this.tween.setPaused(false).to(props, duration * SPEED_RATIO, ease).call(resolve);
       });
-      return this;
     }
   }
 }

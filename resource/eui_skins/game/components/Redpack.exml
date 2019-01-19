@@ -3,9 +3,9 @@
 	<e:Image id="btnRedpack" y="157" x="634" source="sprites_json.redpack"/>
 	<e:BitmapLabel id="tfdBalance" width="288" height="96" x="635" y="144" anchorOffsetX="0" anchorOffsetY="0" font="font_fnt" text="" scaleX="0.333333" scaleY="0.333333" touchEnabled="false" textAlign="center"/>
 	<e:Group id="main" width="750" height="750" horizontalCenter="0" verticalCenter="0" visible="false">
-		<e:Image id="btnRedpackLarge" source="redpack_large_png" visible="true" x="166.001" y="76"/>
-		<e:Label y="150" anchorOffsetX="0" anchorOffsetY="0" text="恭喜获得红包" touchEnabled="false" textAlign="center" horizontalCenter="0" size="48"/>
+		<e:Image id="btnMain" source="redpack_large_png" visible="true" x="166.001" y="76"/>
+		<e:BitmapLabel y="150" anchorOffsetX="0" anchorOffsetY="0" font="font_fnt" text="恭喜获得福包" touchEnabled="false" textAlign="center" horizontalCenter="0" scaleX="0.8" scaleY="0.8"/>
 		<e:BitmapLabel id="tfdAmount" width="288" height="96" anchorOffsetX="0" anchorOffsetY="0" font="font_fnt" text="" touchEnabled="false" textAlign="center" horizontalCenter="0" verticalCenter="192"/>
-		<e:Image id="btnClose" source="sprites_json.close" x="254" y="654"/>
+	  <e:Button id="btnClose" skinName="ButtonRejectSkin" x="254" y="684" enabled="true"/>
 	</e:Group>
 </e:Skin>

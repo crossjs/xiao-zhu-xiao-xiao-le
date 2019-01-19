@@ -1,5 +1,5 @@
 namespace game {
-  export class Closest extends Base {
+  export class Closest extends yyw.Base {
     private bmpClosest: egret.Bitmap;
 
     /**

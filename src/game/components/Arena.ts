@@ -1,7 +1,7 @@
 namespace game {
   const SNAPSHOT_KEY = "YYW_G4_ARENA";
 
-  export class Arena extends Base {
+  export class Arena extends yyw.Base {
     public static async fromSnapshot(): Promise<Arena> {
       const { lives, score, combo } = await yyw.getStorage(SNAPSHOT_KEY);
       const arena = new Arena(true, { lives, score, combo });
@@ -31,7 +31,7 @@ namespace game {
     /** 连击数 */
     private combo: number = 0;
     private level: number = 0;
-    private tweenCells: yyw.Set;
+    private tweenCells: yyw.UniqueSet;
     /** 是否正在执行（动画等） */
     private running: boolean = false;
 
@@ -40,7 +40,7 @@ namespace game {
       this.useSnapshot = useSnapshot;
       this.sndSwitch = new SwitchSound();
       this.sndMagic = new MagicSound();
-      this.tweenCells = new yyw.Set();
+      this.tweenCells = new yyw.UniqueSet();
       this.dataToSync = data;
     }
 
@@ -67,7 +67,7 @@ namespace game {
      */
     public async shuffle(): Promise<void> {
       this.isRunning = true;
-      const tween = PromisedTween.get(this.main);
+      const tween = yyw.PromisedTween.get(this.main);
       await tween.to({
         scaleX: 0,
         scaleY: 0,
@@ -90,7 +90,7 @@ namespace game {
     }
 
     protected destroy() {
-      this.setSnapshot();
+      this.setSnapshot(this.isGameOver ? null : undefined);
       this.resetTweens();
       yyw.eachMatrix(this.cells, (cell: Cell, col: number, row: number) => {
         yyw.removeFromStage(cell);
@@ -115,6 +115,11 @@ namespace game {
       this.lives = Math.max(0, Math.min(5, this.lives + n));
       for (let step = 1; step <= 5; step++) {
         this[`b${step}`].visible = step <= this.lives;
+      }
+      if (n < 0) {
+        if (this.lives === 1) {
+          this.dispatchEventWith("LIVES_LOW");
+        }
       }
     }
 
@@ -329,6 +334,7 @@ namespace game {
         score: this.score,
         level: this.level,
         combo: this.combo,
+        lives: this.lives,
       });
     }
 

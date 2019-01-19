@@ -1,13 +1,9 @@
 namespace yyw {
-  export const GAME_SERVER_ENABLED: boolean = true;
-  export const GAME_SERVER_ORIGIN: string = DEBUG ? "http://127.0.0.1:7014" : "https://g4.minipx.cn";
-  export const WX_SYSTEM_INFO: wx.systemInfo = wx.getSystemInfoSync();
-
   export function noop() {
     // empty
   }
 
-  export function slice(value: string, size: number, asciiAsHalf?: boolean) {
+  export function sliceString(value: string, size: number, asciiAsHalf?: boolean) {
     if (asciiAsHalf) {
       const chars = [];
       const maxIndex = value.length;
@@ -59,15 +55,6 @@ namespace yyw {
       const cols = r.length;
       for (let col = 0; col < cols; col++) {
         await handler(r[col], col, row);
-      }
-    }
-  }
-
-  export function removeFromStage(target: any) {
-    if (target) {
-      const { parent } = target;
-      if (parent) {
-        parent.removeChild(target);
       }
     }
   }
