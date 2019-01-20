@@ -6,8 +6,8 @@ import * as regeneratorRuntime from "./utils/runtime";
  * 之后可通过assets.引用名方式进行获取
  */
 const assetsUrl = {
-  button: "openDataContext/assets/button.png",
-  buttonDisabled: "openDataContext/assets/button-disabled.png",
+  button: "sub/assets/button.png",
+  buttonDisabled: "sub/assets/button-disabled.png",
 };
 
 /**

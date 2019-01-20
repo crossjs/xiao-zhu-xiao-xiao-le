@@ -57,13 +57,22 @@ export class WxgamePlugin implements plugins.Command {
   }
 
   public async onFinish(pluginContext: plugins.CommandContext) {
-    // 移除 openDataContext
-    const odcTgtPath = path.join(pluginContext.outputDir, "openDataContext");
-    childProcess.execSync(`rm -Rf ${odcTgtPath}`);
+    console.log("拷贝静态资源目录，比如 images");
+    const imgSource = path.join(pluginContext.projectRoot, "images");
+    const imgTarget = path.join(pluginContext.outputDir, "images");
+    childProcess.execSync(`rm -Rf ${imgTarget}`);
+    childProcess.execSync(`cp -Rf ${imgSource} ${pluginContext.outputDir}`);
 
-    console.log("拷贝 template 目录，包括 openDataContext");
+    console.log("拷贝 sub 目录（开放数据域）");
+    // 拷贝 openDataContext
+    const subSource = path.join(pluginContext.projectRoot, "sub");
+    const subTarget = path.join(pluginContext.outputDir, "sub");
+    childProcess.execSync(`rm -Rf ${subTarget}`);
+    childProcess.execSync(`cp -Rf ${subSource} ${pluginContext.outputDir}`);
+
+    console.log("拷贝 template 目录");
     // 拷贝 template，无视 egret 提供的 template
-    const wxgTplPath = path.join(__dirname, "template");
-    childProcess.execSync(`cp -Rf ${wxgTplPath}/* ${pluginContext.outputDir}`);
+    const wxgTemplate = path.join(__dirname, "template");
+    childProcess.execSync(`cp -Rf ${wxgTemplate}/* ${pluginContext.outputDir}`);
   }
 }
