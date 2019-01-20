@@ -1,6 +1,6 @@
-require("./weapp-adapter.js");
-require("./manifest.js");
-require("./egret.wxgame.js");
+import "./weapp-adapter.js";
+import "./manifest.js";
+import "./egret.wxgame.js";
 
 // 启动微信小游戏本地缓存，如果开发者不需要此功能，只需注释即可
 // 只有使用 assets-manager 的项目可以使用
@@ -20,7 +20,7 @@ egret.runEgret({
   contentHeight: 1334,
   showFPS: false,
   fpsStyles: "x:0,y:0,size:12,textColor:0xffffff,bgAlpha:0.9",
-  showLog: false,
+  showLog: true,
   maxTouches: 2,
   renderMode: "webgl",
   audioType: 0,

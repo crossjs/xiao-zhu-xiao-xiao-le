@@ -1,5 +1,6 @@
 *.bak
 .DS_Store
+.wing
 bin-debug
 design
 dist

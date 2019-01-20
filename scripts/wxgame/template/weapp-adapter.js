@@ -1,45 +1,35 @@
 (function(modules) {
-  // webpackBootstrap
-  // The module cache
   var installedModules = {}; // The require function
 
   function __webpack_require__(moduleId) {
-    // Check if module is in cache
     if (installedModules[moduleId]) return installedModules[moduleId].exports; // Create a new module (and put it into the cache)
 
     var module = (installedModules[moduleId] = {
       exports: {},
       id: moduleId,
       loaded: false
-      /******/
-    }); // Execute the module function
+    });
 
     modules[moduleId].call(
       module.exports,
       module,
       module.exports,
       __webpack_require__
-    ); // Flag the module as loaded
+    );
 
-    module.loaded = true; // Return the exports of the module
+    module.loaded = true;
 
     return module.exports;
-    /******/
-  } // expose the modules object (__webpack_modules__)
+  }
 
-  __webpack_require__.m = modules; // expose the module cache
-
-  __webpack_require__.c = installedModules; // __webpack_public_path__
-
-  __webpack_require__.p = ""; // Load entry module and return exports
+  __webpack_require__.m = modules;
+  __webpack_require__.c = installedModules;
+  __webpack_require__.p = "";
 
   return __webpack_require__(0);
-  /******/
 })(
-  /************************************************************************/
   [
-    /* 0 */
-    /***/ function(module, exports, __webpack_require__) {
+    function(module, exports, __webpack_require__) {
       "use strict";
 
       var _window2 = __webpack_require__(1);
@@ -124,11 +114,8 @@
         GameGlobal.__isAdapterInjected = true;
         inject();
       }
-
-      /***/
     },
-    /* 1 */
-    /***/ function(module, exports, __webpack_require__) {
+    function(module, exports, __webpack_require__) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
@@ -229,11 +216,8 @@
       exports.clearInterval = clearInterval;
       exports.requestAnimationFrame = requestAnimationFrame;
       exports.cancelAnimationFrame = cancelAnimationFrame;
-
-      /***/
     },
-    /* 2 */
-    /***/ function(module, exports) {
+    function(module, exports) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
@@ -260,11 +244,8 @@
       var ontouchstart = (exports.ontouchstart = null);
       var ontouchmove = (exports.ontouchmove = null);
       var ontouchend = (exports.ontouchend = null);
-
-      /***/
     },
-    /* 3 */
-    /***/ function(module, exports, __webpack_require__) {
+    function(module, exports, __webpack_require__) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
@@ -357,11 +338,8 @@
 
         return HTMLCanvasElement;
       })(_HTMLElement4.default));
-
-      /***/
     },
-    /* 4 */
-    /***/ function(module, exports, __webpack_require__) {
+    function(module, exports, __webpack_require__) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
@@ -517,11 +495,8 @@
       })(_Element3.default);
 
       exports.default = HTMLElement;
-
-      /***/
     },
-    /* 5 */
-    /***/ function(module, exports, __webpack_require__) {
+    function(module, exports, __webpack_require__) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
@@ -594,11 +569,8 @@
       })(_Node3.default);
 
       exports.default = ELement;
-
-      /***/
     },
-    /* 6 */
-    /***/ function(module, exports, __webpack_require__) {
+    function(module, exports, __webpack_require__) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
@@ -724,11 +696,8 @@
       })(_EventTarget3.default);
 
       exports.default = Node;
-
-      /***/
     },
-    /* 7 */
-    /***/ function(module, exports) {
+    function(module, exports) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
@@ -842,11 +811,8 @@
       })();
 
       exports.default = EventTarget;
-
-      /***/
     },
-    /* 8 */
-    /***/ function(module, exports) {
+    function(module, exports) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
@@ -854,11 +820,8 @@
       });
       exports.noop = noop;
       function noop() {}
-
-      /***/
     },
-    /* 9 */
-    /***/ function(module, exports, __webpack_require__) {
+    function(module, exports, __webpack_require__) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
@@ -905,11 +868,8 @@
 
         return canvas;
       }
-
-      /***/
     },
-    /* 10 */
-    /***/ function(module, exports, __webpack_require__) {
+    function(module, exports, __webpack_require__) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
@@ -1053,11 +1013,8 @@
       };
 
       exports.default = document;
-
-      /***/
     },
-    /* 11 */
-    /***/ function(module, exports) {
+    function(module, exports) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
@@ -1069,11 +1026,8 @@
 
         return image;
       }
-
-      /***/
     },
-    /* 12 */
-    /***/ function(module, exports, __webpack_require__) {
+    function(module, exports, __webpack_require__) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
@@ -1190,12 +1144,12 @@
             _this.dispatchEvent({ type: "play" });
           });
           /******************************************
-           * !!! 打开此项，Android 上会出现声音丢失 !!!
+           * !!! 打开此项，Android 上 MP3 声音播放异常 !!!
            * @crossjs 2019-01-20 18:35:21
            ******************************************/
-          // innerAudioContext.onPause(function () {
-          //     _this.dispatchEvent({ type: 'pause' });
-          // });
+          innerAudioContext.onPause(function () {
+              _this.dispatchEvent({ type: 'pause' });
+          });
           innerAudioContext.onEnded(function() {
             _this.dispatchEvent({ type: "ended" });
             _this.readyState = HAVE_ENOUGH_DATA;
@@ -1318,11 +1272,8 @@
       })(_HTMLAudioElement3.default);
 
       exports.default = Audio;
-
-      /***/
     },
-    /* 13 */
-    /***/ function(module, exports, __webpack_require__) {
+    function(module, exports, __webpack_require__) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
@@ -1394,11 +1345,8 @@
       })(_HTMLMediaElement3.default);
 
       exports.default = HTMLAudioElement;
-
-      /***/
     },
-    /* 14 */
-    /***/ function(module, exports, __webpack_require__) {
+    function(module, exports, __webpack_require__) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
@@ -1514,19 +1462,13 @@
       })(_HTMLElement3.default);
 
       exports.default = HTMLMediaElement;
-
-      /***/
     },
-    /* 15 */
-    /***/ function(module, exports, __webpack_require__) {
+    function(module, exports, __webpack_require__) {
       "use strict";
 
       __webpack_require__(16);
-
-      /***/
     },
-    /* 16 */
-    /***/ function(module, exports, __webpack_require__) {
+    function(module, exports, __webpack_require__) {
       "use strict";
 
       var _window = __webpack_require__(1);
@@ -1595,11 +1537,8 @@
       wx.onTouchMove(touchEventHandlerFactory("touchmove"));
       wx.onTouchEnd(touchEventHandlerFactory("touchend"));
       wx.onTouchCancel(touchEventHandlerFactory("touchcancel"));
-
-      /***/
     },
-    /* 17 */
-    /***/ function(module, exports, __webpack_require__) {
+    function(module, exports, __webpack_require__) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
@@ -1630,11 +1569,8 @@
       };
 
       exports.default = navigator;
-
-      /***/
     },
-    /* 18 */
-    /***/ function(module, exports) {
+    function(module, exports) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
@@ -1866,11 +1802,8 @@
       XMLHttpRequest.LOADING = 3;
       XMLHttpRequest.DONE = 4;
       exports.default = XMLHttpRequest;
-
-      /***/
     },
-    /* 19 */
-    /***/ function(module, exports) {
+    function(module, exports) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
@@ -2016,11 +1949,8 @@
       WebSocket.CLOSING = 2;
       WebSocket.CLOSED = 3;
       exports.default = WebSocket;
-
-      /***/
     },
-    /* 20 */
-    /***/ function(module, exports) {
+    function(module, exports) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
@@ -2041,11 +1971,8 @@
       };
 
       exports.default = FileReader;
-
-      /***/
     },
-    /* 21 */
-    /***/ function(module, exports) {
+    function(module, exports) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
@@ -2080,11 +2007,8 @@
       };
 
       exports.default = localStorage;
-
-      /***/
     },
-    /* 22 */
-    /***/ function(module, exports) {
+    function(module, exports) {
       "use strict";
 
       Object.defineProperty(exports, "__esModule", {
@@ -2096,9 +2020,6 @@
       };
 
       exports.default = location;
-
-      /***/
     }
-    /******/
   ]
 );
