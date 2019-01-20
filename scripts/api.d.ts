@@ -78,6 +78,7 @@ type ProjectConfig = {
   showLog: boolean;
   maxTouches: number;
 };
+
 /**
  * 匹配机制，将满足 from 的文件输出为 to 格式的文件
  * from 采用 glob 表达式 , to 包含 [path][name][hash][ext]四个变量
