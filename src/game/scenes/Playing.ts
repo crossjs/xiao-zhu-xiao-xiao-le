@@ -175,14 +175,14 @@ namespace game {
     }
 
     private initTouchHandlers() {
-      this.btnBack.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+      yyw.onTap(this.btnBack, () => {
         if (this.arena.isRunning) {
           return;
         }
         SceneManager.toScene("landing");
-      }, this);
+      });
 
-      this.btnPbl.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+      yyw.onTap(this.btnPbl, () => {
         if (this.arena.isRunning) {
           return;
         }

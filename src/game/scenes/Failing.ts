@@ -8,9 +8,9 @@ namespace game {
 
     protected createView(fromChildrenCreated?: boolean): void {
       if (fromChildrenCreated) {
-        this.btnRestart.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+        yyw.onTap(this.btnRestart, () => {
           SceneManager.toScene("playing");
-        }, this);
+        });
 
         this.initialized = true;
       }

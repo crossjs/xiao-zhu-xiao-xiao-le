@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="ButtonRejectSkin"
-	 width="240"
-	height="96" currentState="up" xmlns:e="http://ns.egret.com/eui" states="down,up">
-	<e:BitmapLabel includeIn="down" text="残忍拒绝" font="font_fnt" scaleX="0.8" scaleY="0.8" left="6" right="-6" textAlign="center" verticalAlign="middle" height="120" width="300" y="6"/>
-	<e:BitmapLabel includeIn="up" text="残忍拒绝" font="font_fnt" scaleX="0.8" scaleY="0.8" left="0" right="0" textAlign="center" verticalAlign="middle" height="120" width="300"/>
-</e:Skin>

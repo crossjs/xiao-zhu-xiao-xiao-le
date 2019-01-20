@@ -1,9 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="ButtonStartSkin"
-	 width="240"
-	height="96" currentState="up" xmlns:e="http://ns.egret.com/eui" states="down,up" width.up="240" width.down="240">
-	<e:Image source="sprites_json.start" includeIn="down" x="6" y="6"/>
-	<e:Image source="sprites_json.start" includeIn="up"/>
-	<e:BitmapLabel includeIn="down" text="开始游戏" font="font_fnt" scaleX="0.8" scaleY="0.8" textAlign="center" verticalAlign="middle" height="120" width="300" y="6" x="6"/>
-	<e:BitmapLabel includeIn="up" text="开始游戏" font="font_fnt" scaleX="0.8" scaleY="0.8" textAlign="center" verticalAlign="middle" height="120" width="300" x="0"/>
-</e:Skin>

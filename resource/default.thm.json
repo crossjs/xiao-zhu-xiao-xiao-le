@@ -21,21 +21,21 @@
 		"resource/eui_skins/game/components/Arena.exml",
 		"resource/eui_skins/game/components/Cell.exml",
 		"resource/eui_skins/game/components/Closest.exml",
-		"resource/eui_skins/misc/ButtonReject.exml",
+		"resource/eui_skins/misc/ButtonNormal.exml",
 		"resource/eui_skins/game/components/Redpack.exml",
 		"resource/eui_skins/game/components/Tools.exml",
 		"resource/eui_skins/game/components/Words.exml",
+		"resource/eui_skins/misc/ButtonDefault.exml",
 		"resource/eui_skins/game/scenes/Failing.exml",
 		"resource/eui_skins/misc/ButtonBoard.exml",
 		"resource/eui_skins/misc/ButtonShare.exml",
 		"resource/eui_skins/misc/ButtonSound.exml",
 		"resource/eui_skins/misc/ButtonVibration.exml",
-		"resource/eui_skins/misc/ButtonStart.exml",
+		"resource/eui_skins/misc/ButtonPrimary.exml",
 		"resource/eui_skins/game/scenes/Landing.exml",
 		"resource/eui_skins/game/scenes/Pbl.exml",
 		"resource/eui_skins/game/scenes/Playing.exml",
-		"resource/eui_skins/game/scenes/Ranking.exml",
-		"resource/eui_skins/misc/ButtonClose.exml"
+		"resource/eui_skins/game/scenes/Ranking.exml"
 	],
 	"path": "resource/default.thm.json"
 }

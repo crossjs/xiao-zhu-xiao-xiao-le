@@ -2,13 +2,13 @@
 <e:Skin class="PlayingSkin" width="750" height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:game="game.*" >
 	<e:Image id="bg" source="bg_jpg" touchEnabled="false" width="750" x="0" height="1334" y="0" fillMode="clip" scale9Grid="0,1250,750,75"/>
 	<e:Group id="body" width="750" height="1294" x="0" y="40">
-		<e:Image id="btnBack" y="1092" source="sprites_json.back" x="107.138"/>
-    <e:BitmapLabel id="tfdScore" text="0" x="102" y="189" font="font_fnt" height="72" width="360" scaleX="0.5" scaleY="0.5"/>
-    <e:BitmapLabel text="分数" y="192" font="font_fnt" height="72" width="156" scaleX="0.5" scaleY="0.5" x="21"/>
-    <e:BitmapLabel id="tfdLevel" text="0" x="102" y="89" font="font_fnt" height="72" width="144" scaleX="0.5" scaleY="0.5"/>
-    <e:BitmapLabel text="难度" x="21" y="92" font="font_fnt" height="72" width="156" scaleX="0.5" scaleY="0.5"/>
-    <e:BitmapLabel id="tfdCombo" text="0" x="102" y="139" font="font_fnt" height="72" width="144" scaleX="0.5" scaleY="0.5"/>
-    <e:BitmapLabel text="连击" x="21" y="142" font="font_fnt" height="72" width="156" scaleX="0.5" scaleY="0.5"/>
-		<e:Image id="btnPbl" source="sprites_json.pbl" y="1092" x="400.862"/>
+    <e:BitmapLabel id="tfdScore" text="0" x="122" y="192" font="font_fnt" height="72" width="360"/>
+    <e:BitmapLabel text="分数" y="195" font="font_fnt" height="72" width="156" x="21"/>
+    <e:BitmapLabel id="tfdLevel" text="0" x="122" y="90" font="font_fnt" height="72" width="144"/>
+    <e:BitmapLabel text="难度" x="21" y="93" font="font_fnt" height="72" width="156"/>
+    <e:BitmapLabel id="tfdCombo" text="0" x="122" y="141" font="font_fnt" height="72" width="144"/>
+    <e:BitmapLabel text="连击" x="21" y="144" font="font_fnt" height="72" width="156"/>
+		<e:Button id="btnBack" y="1092" x="107.138" skinName="ButtonDefaultSkin" label="主页"/>
+		<e:Button id="btnPbl" y="1092" x="400.862" skinName="ButtonDefaultSkin" label="我的"/>
   </e:Group>
 </e:Skin>

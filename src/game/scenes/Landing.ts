@@ -19,7 +19,6 @@ namespace game {
           width,
           height,
           onTap: () => {
-            yyw.vibrateLong();
             SceneManager.toScene("playing");
           },
         });
@@ -27,56 +26,33 @@ namespace game {
         this.tfdVersion.text = VERSION;
 
         // 排行榜
-        this.btnBoard.addEventListener(
-          egret.TouchEvent.TOUCH_TAP,
-          () => {
-            yyw.vibrateShort();
-            SceneManager.toScene("ranking", true);
-          },
-          this,
-        );
+        yyw.onTap(this.btnBoard, () => {
+          SceneManager.toScene("ranking", true);
+        });
 
         // 转发
-        this.btnShare.addEventListener(
-          egret.TouchEvent.TOUCH_TAP,
-          () => {
-            yyw.vibrateShort();
-            yyw.share();
-          },
-          this,
-        );
+        yyw.onTap(this.btnShare, () => {
+          yyw.share();
+        });
 
         // 开始游戏
-        this.btnStart.addEventListener(
-          egret.TouchEvent.TOUCH_TAP,
-          () => {
-            yyw.vibrateLong();
-            SceneManager.toScene("playing");
-          },
-          this,
-        );
+        yyw.onTap(this.btnStart, () => {
+          SceneManager.toScene("playing");
+        });
 
         // 声音
-        this.btnSound.addEventListener(
-          egret.TouchEvent.TOUCH_TAP,
-          () => {
-            const { selected } = this.btnSound;
-            this.btnSound.currentState = selected ? "selected" : "up";
-            yyw.USER_CONFIG.soundEnabled = selected;
-          },
-          this,
-        );
+        yyw.onTap(this.btnSound, () => {
+          const { selected } = this.btnSound;
+          this.btnSound.currentState = selected ? "selected" : "up";
+          yyw.USER_CONFIG.soundEnabled = selected;
+        });
 
         // 振动
-        this.btnVibration.addEventListener(
-          egret.TouchEvent.TOUCH_TAP,
-          () => {
-            const { selected } = this.btnVibration;
-            this.btnVibration.currentState = selected ? "selected" : "up";
-            yyw.USER_CONFIG.vibrationEnabled = selected;
-          },
-          this,
-        );
+        yyw.onTap(this.btnVibration, () => {
+          const { selected } = this.btnVibration;
+          this.btnVibration.currentState = selected ? "selected" : "up";
+          yyw.USER_CONFIG.vibrationEnabled = selected;
+        });
 
         this.initialized = true;
       }

@@ -3,5 +3,5 @@
 	 width="750"
 	height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Image id="bg" source="bg_jpg" touchEnabled="false" width="750" x="0" height="1334" y="0" fillMode="clip" scale9Grid="0,1250,750,75"/>
-	<e:Image id="btnRestart" source="sprites_json.restart" horizontalCenter="0" verticalCenter="0"/>
+	<e:Button id="btnRestart" horizontalCenter="0" verticalCenter="0" skinName="ButtonDefaultSkin" label="重新开始"/>
 </e:Skin>

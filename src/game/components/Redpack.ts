@@ -45,15 +45,15 @@ namespace game {
 
     protected createView(fromChildrenCreated?: boolean): void {
       if (fromChildrenCreated) {
-        this.btnRedpack.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+        yyw.onTap(this.btnRedpack, () => {
           yyw.showToast("满20可以提现");
-        }, this);
+        });
 
-        this.btnClose.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+        yyw.onTap(this.btnClose, () => {
           this.hide();
-        }, this);
+        });
 
-        this.btnMain.addEventListener(egret.TouchEvent.TOUCH_TAP, async () => {
+        yyw.onTap(this.btnMain, async () => {
           // 转发/看完视频广告后领福包
           if (await yyw.share()) {
             await yyw.saveRedpack(this.amount);
@@ -63,7 +63,7 @@ namespace game {
           } else {
             yyw.showToast("转发才能🉐福包");
           }
-        }, this);
+        });
 
         this.initialized = true;
       }

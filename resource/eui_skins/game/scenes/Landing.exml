@@ -8,7 +8,7 @@
 	<e:Button id="btnShare" y="624" x="399" enabled="true" skinName="ButtonShareSkin"/>
 	<e:ToggleButton id="btnSound" y="870" x="255" enabled="true" selected="true" skinName="ButtonSoundSkin"/>
 	<e:ToggleButton id="btnVibration" y="870" x="399" enabled="true" selected="true" skinName="ButtonVibrationSkin"/>
-	<e:Button id="btnStart" y="750" x="255" skinName="ButtonStartSkin"/>
-	<e:BitmapLabel x="268" y="987" text="音效" font="font_fnt" scaleX="0.5" scaleY="0.5"/>
-	<e:BitmapLabel x="412" y="987" text="振动" font="font_fnt" scaleX="0.5" scaleY="0.5"/>
+	<e:Button id="btnStart" y="750" x="255" label="开始游戏" skinName="ButtonPrimarySkin"/>
+	<e:BitmapLabel x="256" y="972" text="音效" font="font_fnt"/>
+	<e:BitmapLabel x="400" y="972" text="振动" font="font_fnt"/>
 </e:Skin>

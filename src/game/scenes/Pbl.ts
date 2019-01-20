@@ -16,9 +16,9 @@ namespace game {
       });
 
       if (fromChildrenCreated) {
-        this.btnBack.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+        yyw.onTap(this.btnBack, () => {
           SceneManager.escape();
-        }, this);
+        });
 
         this.initialized = true;
       }

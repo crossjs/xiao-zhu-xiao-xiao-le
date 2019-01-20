@@ -58,7 +58,7 @@ namespace game {
       this.update();
 
       if (fromChildrenCreated) {
-        this.btnLivesUp.addEventListener(egret.TouchEvent.TOUCH_TAP, async () => {
+        yyw.onTap(this.btnLivesUp, async () => {
           if (!this.numLivesUp) {
             if (await yyw.share()) {
               this.numLivesUp++;
@@ -73,9 +73,9 @@ namespace game {
           this.dispatchEventWith("TOOL_USED", false, {
             type: "livesUp",
           });
-        }, this);
+        });
 
-        this.btnShuffle.addEventListener(egret.TouchEvent.TOUCH_TAP, async () => {
+        yyw.onTap(this.btnShuffle, async () => {
           if (!this.numShuffle) {
             if (await yyw.share()) {
               this.numShuffle++;
@@ -90,13 +90,13 @@ namespace game {
           this.dispatchEventWith("TOOL_USED", false, {
             type: "shuffle",
           });
-        }, this);
+        });
 
-        this.btnClose.addEventListener(egret.TouchEvent.TOUCH_TAP, () => {
+        yyw.onTap(this.btnClose, () => {
           this.hideTip();
-        }, this);
+        });
 
-        this.btnMain.addEventListener(egret.TouchEvent.TOUCH_TAP, async () => {
+        yyw.onTap(this.btnMain, async () => {
           // 转发/看完视频广告后领道具
           if (await yyw.share()) {
             await this.hideTip();
@@ -105,7 +105,7 @@ namespace game {
           } else {
             yyw.showToast("转发才能🉐道具");
           }
-        }, this);
+        });
 
         this.initialized = true;
       }

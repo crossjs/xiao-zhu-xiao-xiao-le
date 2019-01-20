@@ -2,6 +2,6 @@
 <e:Skin class="RankingSkin"
 	 width="750"
 	height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image id="bg" source="bg_jpg" touchEnabled="false" width="750" x="0" height="1334" y="0" fillMode="clip" scale9Grid="0,1250,750,75"/>
-	<e:Image id="btnClose" y="120" horizontalCenter="0.5" source="sprites_json.close"/>
+	<e:Image id="bg" source="bg_jpg" touchEnabled="false" width="750" x="0" height="1334" y="0" fillMode="clip" scale9Grid="0,1250,750,75" visible="true" locked="true"/>
+	<e:Button id="btnClose" y="120" horizontalCenter="0.5" skinName="ButtonDefaultSkin" label="关闭"/>
 </e:Skin>

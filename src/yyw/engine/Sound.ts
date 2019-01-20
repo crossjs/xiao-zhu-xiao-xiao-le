@@ -1,12 +1,21 @@
-namespace game {
+namespace yyw {
   /**
    * 声效基类
    */
-  export class SoundBase {
+  export class Sound {
+    public static play() {
+      if (!this.instance) {
+        this.instance = new this();
+      }
+      this.instance.play();
+    }
+
+    private static instance: Sound;
+
     protected sound: egret.Sound;
 
     public play() {
-      if (!yyw.USER_CONFIG.soundEnabled) {
+      if (!USER_CONFIG.soundEnabled) {
         return;
       }
       const soundChannel = this.sound.play(0, 1);

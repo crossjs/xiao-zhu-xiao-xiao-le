@@ -8,7 +8,7 @@ namespace yyw {
    */
   export const SPEED_RATIO = 1.5;
 
-  let soundEnabled: boolean = false;
+  let soundEnabled: boolean = true;
   let vibrationEnabled: boolean = true;
 
   export const USER_CONFIG = {
