@@ -12,7 +12,7 @@ namespace game {
     private useSnapshot: boolean = false;
     private dataToSync: any;
     private main: eui.Group;
-    private sndSwitch: SwitchSound;
+    private sndSwitch: SwapSound;
     private sndMagic: MagicSound;
     // private b1: eui.Image;
     // private b2: eui.Image;
@@ -38,7 +38,7 @@ namespace game {
     public constructor(useSnapshot: boolean = false, data?: any) {
       super();
       this.useSnapshot = useSnapshot;
-      this.sndSwitch = new SwitchSound();
+      this.sndSwitch = new SwapSound();
       this.sndMagic = new MagicSound();
       this.tweenCells = new yyw.UniqueSet();
       this.dataToSync = data;
@@ -279,6 +279,7 @@ namespace game {
 
     private setGameOver() {
       this.isGameOver = true;
+      this.isRunning = false;
       this.setSnapshot(null);
       this.dispatchEventWith("GAME_OVER", false, {
         score: this.score,

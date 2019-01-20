@@ -55,61 +55,15 @@ export class WxgamePlugin implements plugins.Command {
     }
     return file;
   }
-  public async onFinish(pluginContext: plugins.CommandContext) {
-    // 同步 index.html 配置到 game.js
-    const gameJSPath = path.join(pluginContext.outputDir, "game.js");
-    if (!fs.existsSync(gameJSPath)) {
-      console.log(`${gameJSPath} 不存在，请先使用 Launcher 发布微信小游戏`);
-      return;
-    }
-    let gameJSContent = fs.readFileSync(gameJSPath, { encoding: "utf8" });
-    const projectConfig = pluginContext.buildConfig.projectConfig;
-    const optionStr =
-      `entryClassName: ${projectConfig.entryClassName},\n\t\t` +
-      `orientation: ${projectConfig.orientation},\n\t\t` +
-      `frameRate: ${projectConfig.frameRate},\n\t\t` +
-      `scaleMode: ${projectConfig.scaleMode},\n\t\t` +
-      `contentWidth: ${projectConfig.contentWidth},\n\t\t` +
-      `contentHeight: ${projectConfig.contentHeight},\n\t\t` +
-      `showFPS: ${projectConfig.showFPS},\n\t\t` +
-      `fpsStyles: ${projectConfig.fpsStyles},\n\t\t` +
-      `showLog: ${projectConfig.showLog},\n\t\t` +
-      `maxTouches: ${projectConfig.maxTouches},`;
-    const reg = /\/\/----auto option start----[\s\S]*\/\/----auto option end----/;
-    const replaceStr =
-      "//----auto option start----\n\t\t" +
-      optionStr +
-      "\n\t\t//----auto option end----";
-    gameJSContent = gameJSContent.replace(reg, replaceStr);
-    fs.writeFileSync(gameJSPath, gameJSContent.replace("require('./platform.js');", ""));
-    const platformJSPath = path.join(pluginContext.outputDir, "platform.js");
-    if (fs.existsSync(platformJSPath)) {
-      fs.unlinkSync(platformJSPath);
-    }
-    // 修改横竖屏
-    const gameJSONPath = path.join(pluginContext.outputDir, "game.json");
-    const gameJSONContent = JSON.parse(
-      fs.readFileSync(gameJSONPath, { encoding: "utf8" }),
-    );
-    gameJSONContent.deviceOrientation = projectConfig.orientation === '"landscape"' ? "landscape" : "portrait";
-    gameJSONContent.navigateToMiniProgramAppIdList = [
-      "wxfed270b54f6a71f0",
-      "wx954573275883779c",
-      "wx88d09e8d4cff63ef",
-      "wxb17a18edcbb93d0a",
-      "wx644ce1d1c71f5a61",
-      "wxc56ba41631181001",
-      "wxc9ab31f29004c413",
-      "wxcffba601f1ed2f43",
-      "wx0e4b81e6ed9e6c44",
-      "wxf188fab12df15673",
-    ];
-    fs.writeFileSync(gameJSONPath, JSON.stringify(gameJSONContent, null, "\t"));
 
-    // 拷贝 openDataContext
-    const odcTplPath = path.join(pluginContext.projectRoot, "openDataContext");
+  public async onFinish(pluginContext: plugins.CommandContext) {
+    // 移除 openDataContext
     const odcTgtPath = path.join(pluginContext.outputDir, "openDataContext");
-    childProcess.execSync(`rm -rf ${odcTgtPath}`);
-    childProcess.execSync(`cp -R ${odcTplPath} ${pluginContext.outputDir}`);
+    childProcess.execSync(`rm -Rf ${odcTgtPath}`);
+
+    console.log("拷贝 template 目录，包括 openDataContext");
+    // 拷贝 template，无视 egret 提供的 template
+    const wxgTplPath = path.join(__dirname, "template");
+    childProcess.execSync(`cp -Rf ${wxgTplPath}/* ${pluginContext.outputDir}`);
   }
 }

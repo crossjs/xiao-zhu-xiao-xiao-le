@@ -5,7 +5,7 @@ namespace yyw {
   class ClickSound extends Sound {
     public constructor() {
       super();
-      this.sound = RES.getRes("click_mp3");
+      this.sound = RES.getRes("click_m4a");
     }
   }
 

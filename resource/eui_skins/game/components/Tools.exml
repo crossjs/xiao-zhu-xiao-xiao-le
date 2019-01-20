@@ -10,6 +10,6 @@
 		<e:Image id="btnMain" source="redpack_large_png" visible="true" x="166.001" y="76"/>
 		<e:BitmapLabel y="150" anchorOffsetX="0" anchorOffsetY="0" font="font_fnt" text="危险！生命力过低" touchEnabled="false" textAlign="center" horizontalCenter="0" scaleX="0.8" scaleY="0.8"/>
 		<e:BitmapLabel anchorOffsetX="0" anchorOffsetY="0" font="font_fnt" text="转发赢取道具" touchEnabled="false" textAlign="center" scaleX="0.875" scaleY="0.875" horizontalCenter="0" y="552"/>
-		<e:Button id="btnClose" skinName="ButtonRejectSkin" x="254" y="684" enabled="true"/>
+		<e:Button id="btnClose" y="684" enabled="true" skinName="ButtonNormalSkin" label="残忍拒绝" horizontalCenter="0"/>
 	</e:Group>
 </e:Skin>

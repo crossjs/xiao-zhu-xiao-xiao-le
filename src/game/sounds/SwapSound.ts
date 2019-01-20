@@ -2,10 +2,10 @@ namespace game {
   /**
    * 切换声效
    */
-  export class SwitchSound extends yyw.Sound {
+  export class SwapSound extends yyw.Sound {
     public constructor() {
       super();
-      this.sound = RES.getRes("switch_mp3");
+      this.sound = RES.getRes("swap_m4a");
     }
   }
 }

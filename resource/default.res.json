@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "numbers_json,font_fnt,sprites_json,amazing_mp3,click_mp3,end_mp3,excellent_mp3,good_mp3,great_mp3,switch_mp3,magic_mp3,bg_jpg,redpack_large_png",
+			"keys": "numbers_json,font_fnt,sprites_json,amazing_m4a,click_m4a,end_m4a,excellent_m4a,good_m4a,great_m4a,magic_m4a,bg_jpg,redpack_large_png,swap_m4a",
 			"name": "preload"
 		}
 	],
@@ -24,44 +24,44 @@
 			"subkeys": "add,amazing,bar,bar_bg,board,default,excellent,good,great,important,main_bg,pig,primary,redpack,share,shuffle,single,title,sound-off,sound-on"
 		},
 		{
-			"url": "assets/amazing.mp3",
+			"url": "assets/amazing.m4a",
 			"type": "sound",
-			"name": "amazing_mp3"
+			"name": "amazing_m4a"
 		},
 		{
-			"url": "assets/click.mp3",
+			"url": "assets/click.m4a",
 			"type": "sound",
-			"name": "click_mp3"
+			"name": "click_m4a"
 		},
 		{
-			"url": "assets/end.mp3",
+			"url": "assets/end.m4a",
 			"type": "sound",
-			"name": "end_mp3"
+			"name": "end_m4a"
 		},
 		{
-			"url": "assets/excellent.mp3",
+			"url": "assets/excellent.m4a",
 			"type": "sound",
-			"name": "excellent_mp3"
+			"name": "excellent_m4a"
 		},
 		{
-			"url": "assets/good.mp3",
+			"url": "assets/good.m4a",
 			"type": "sound",
-			"name": "good_mp3"
+			"name": "good_m4a"
 		},
 		{
-			"url": "assets/great.mp3",
+			"url": "assets/great.m4a",
 			"type": "sound",
-			"name": "great_mp3"
+			"name": "great_m4a"
 		},
 		{
-			"url": "assets/switch.mp3",
+			"url": "assets/swap.m4a",
 			"type": "sound",
-			"name": "switch_mp3"
+			"name": "swap_m4a"
 		},
 		{
-			"url": "assets/magic.mp3",
+			"url": "assets/magic.m4a",
 			"type": "sound",
-			"name": "magic_mp3"
+			"name": "magic_m4a"
 		},
 		{
 			"name": "bg_jpg",

@@ -5,7 +5,7 @@ namespace game {
   export class AmazingSound extends yyw.Sound {
     public constructor() {
       super();
-      this.sound = RES.getRes("amazing_mp3");
+      this.sound = RES.getRes("amazing_m4a");
     }
   }
 }

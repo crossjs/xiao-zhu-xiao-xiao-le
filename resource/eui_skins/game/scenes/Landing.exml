@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="LandingSkin" width="750" height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
 	<e:Image id="bg" source="bg_jpg" touchEnabled="false" width="750" x="0" height="1334" y="0" fillMode="clip" scale9Grid="0,1250,750,75"/>
-	<e:BitmapLabel id="tfdVersion" font="font_fnt" touchEnabled="false" textAlign="center" verticalAlign="middle" alpha="0.5" y="0" left="0" right="0" scaleX="0.2" scaleY="0.2"/>
+	<e:BitmapLabel id="tfdVersion" touchEnabled="false" textAlign="center" verticalAlign="middle" alpha="0.5" y="0" left="0" right="0" font="font_fnt" text=""/>
 	<e:Image source="sprites_json.pig" x="305" y="285"/>
 	<e:Image source="sprites_json.title" y="484.5" horizontalCenter="0"/>
 	<e:Button id="btnBoard" y="624" x="255" enabled="true" skinName="ButtonBoardSkin"/>
