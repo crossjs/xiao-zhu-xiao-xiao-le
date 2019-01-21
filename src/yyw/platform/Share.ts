@@ -21,7 +21,7 @@ namespace yyw {
   export function share(options = {}): Promise<boolean> {
     return new Promise((resolve, reject) => {
       // 开发者工具没有分享
-      if (WX_SYSTEM_INFO.platform === "devtools") {
+      if (CONFIG.systemInfo.platform === "devtools") {
         resolve(true);
       } else {
         let cancelled: boolean = false;

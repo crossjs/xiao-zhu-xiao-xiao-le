@@ -12,7 +12,7 @@ namespace box {
     }
 
     protected destroy() {
-      egret.Tween.removeTweens(this);
+      yyw.PromisedTween.removeTweens(this);
       if (this.offChange) {
         this.offChange();
         this.offChange = null;

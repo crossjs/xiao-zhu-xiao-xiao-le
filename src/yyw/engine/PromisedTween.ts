@@ -32,7 +32,7 @@ namespace yyw {
       ease: any = egret.Ease.quadOut,
     ): Promise<any> {
       return new Promise((resolve) => {
-        this.tween.setPaused(false).to(props, duration * SPEED_RATIO, ease).call(resolve);
+        this.tween.setPaused(false).to(props, duration * CONFIG.speedRatio, ease).call(resolve);
       });
     }
   }

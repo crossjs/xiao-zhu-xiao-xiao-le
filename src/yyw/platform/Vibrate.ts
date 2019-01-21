@@ -1,12 +1,12 @@
 namespace yyw {
   export function vibrateShort() {
-    if (USER_CONFIG.vibrationEnabled && wx.vibrateShort) {
+    if (CONFIG.vibrationEnabled && wx.vibrateShort) {
       wx.vibrateShort();
     }
   }
 
   export function vibrateLong() {
-    if (USER_CONFIG.vibrationEnabled && wx.vibrateLong) {
+    if (CONFIG.vibrationEnabled && wx.vibrateLong) {
       wx.vibrateLong();
     }
   }

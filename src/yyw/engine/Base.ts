@@ -43,7 +43,7 @@ namespace yyw {
 
       // 匹配刘海屏
       if (this.body) {
-        const { statusBarHeight, pixelRatio } = WX_SYSTEM_INFO;
+        const { statusBarHeight, pixelRatio } = CONFIG.systemInfo;
         if (statusBarHeight === 44 && pixelRatio === 3) {
           this.body.y = statusBarHeight * 2;
         } else {

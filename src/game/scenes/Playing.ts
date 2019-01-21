@@ -15,7 +15,7 @@ namespace game {
     private tools: Tools;
     private me: Me;
     private closest: Closest;
-    private redpack: Redpack;
+    private award: Award;
     private words: Words;
     private recommender: box.All;
 
@@ -35,8 +35,8 @@ namespace game {
       this.me = null;
       yyw.removeFromStage(this.closest);
       this.closest = null;
-      yyw.removeFromStage(this.redpack);
-      this.redpack = null;
+      yyw.removeFromStage(this.award);
+      this.award = null;
       yyw.removeFromStage(this.words);
       this.words = null;
       yyw.removeFromStage(this.recommender);
@@ -57,7 +57,7 @@ namespace game {
       this.createRecommender();
       await this.createArena(useSnapshot);
       this.createTools();
-      this.createRedpack();
+      this.createAward();
       this.createWords();
       this.isGameOver = false;
       if (fromChildrenCreated) {
@@ -112,7 +112,7 @@ namespace game {
     }
 
     private onArenaMagicGot() {
-      this.redpack.show();
+      this.award.show();
     }
 
     private onArenaGameOver({ data: {
@@ -122,7 +122,7 @@ namespace game {
     } }: egret.Event) {
       this.isGameOver = true;
       this.setSnapshot(null);
-      yyw.saveData({
+      yyw.savePbl({
         score,
         level,
         combo: Math.max(combo, this.maxCombo),
@@ -162,10 +162,10 @@ namespace game {
       this.body.addChild(this.closest);
     }
 
-    private createRedpack() {
-      this.redpack = new Redpack();
-      this.redpack.y = 318;
-      this.body.addChild(this.redpack);
+    private createAward() {
+      this.award = new Award();
+      this.award.y = 318;
+      this.body.addChild(this.award);
     }
 
     private createWords() {

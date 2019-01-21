@@ -5,7 +5,7 @@ namespace game {
 
     protected destroy() {
       yyw.removeFromStage(this.bmpBoard);
-      yyw.OpenDataContext.postMessage({
+      yyw.sub.postMessage({
         command: "closeRanking",
       });
     }
@@ -19,13 +19,13 @@ namespace game {
       const y = 288;
       const width = stageWidth - x * 2;
       const height = 900;
-      this.bmpBoard = yyw.OpenDataContext.createDisplayObject(null, width, height);
+      this.bmpBoard = yyw.sub.createDisplayObject(null, width, height);
       this.addChild(this.bmpBoard);
       this.bmpBoard.x = x;
       this.bmpBoard.y = y;
 
       // 主域向子域发送自定义消息
-      yyw.OpenDataContext.postMessage({
+      yyw.sub.postMessage({
         command: "openRanking",
         x,
         y,

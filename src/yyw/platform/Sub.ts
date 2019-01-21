@@ -1,6 +1,6 @@
 namespace yyw {
-  export class OpenDataContext {
-    public static createDisplayObject(type: string, width: number, height: number) {
+  export const sub = {
+    createDisplayObject(type: string, width: number, height: number) {
       const bitmapData = new egret.BitmapData(sharedCanvas);
       bitmapData.$deleteSource = false;
       const texture = new egret.Texture();
@@ -23,11 +23,11 @@ namespace yyw {
         }
       }
       return bitmap;
-    }
+    },
 
-    public static postMessage(data: any) {
+    postMessage(data: any) {
       const openDataContext = wx.getOpenDataContext();
       openDataContext.postMessage(data);
-    }
-  }
+    },
+  };
 }

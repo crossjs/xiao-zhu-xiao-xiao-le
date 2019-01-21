@@ -15,7 +15,7 @@ namespace yyw {
     protected sound: egret.Sound;
 
     public play() {
-      if (!USER_CONFIG.soundEnabled) {
+      if (!CONFIG.soundEnabled) {
         return;
       }
       const soundChannel = this.sound.play(0, 1);

@@ -63,6 +63,7 @@ namespace game {
         yyw.onTap(this.btnLivesUp, async () => {
           if (!this.numLivesUp) {
             if (await yyw.share()) {
+              yyw.showToast("获得道具：生命力+1");
               this.numLivesUp++;
               this.update();
             } else {
@@ -80,6 +81,7 @@ namespace game {
         yyw.onTap(this.btnShuffle, async () => {
           if (!this.numShuffle) {
             if (await yyw.share()) {
+              yyw.showToast("获得道具：随机重新排列");
               this.numShuffle++;
               this.update();
             } else {

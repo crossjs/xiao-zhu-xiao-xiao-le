@@ -80,7 +80,7 @@ namespace yyw {
       res = await _getUserInfo();
     }
     const { expiresIn = 0, ...currentUser } = await request({
-      url: `${GAME_SERVER_ORIGIN}/api/user/login`,
+      url: `${CONFIG.serverOrigin}/api/user/login`,
       data: { code, ...res },
       method: "POST",
     });
@@ -105,7 +105,7 @@ namespace yyw {
     left, top, width, height, onTap,
   }: any): Promise<wx.UserInfoButton> {
     if (!await _isLoggedIn()) {
-      const scale = 750 / WX_SYSTEM_INFO.windowWidth; // 因为是 fixedWidth
+      const scale = 750 / CONFIG.systemInfo.windowWidth; // 因为是 fixedWidth
 
       const button = wx.createUserInfoButton({
         type: "text",

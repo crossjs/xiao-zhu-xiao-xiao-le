@@ -8,7 +8,7 @@ namespace game {
     @yyw.debounce(100)
     public update(score: number) {
       // 主域向子域发送自定义消息
-      yyw.OpenDataContext.postMessage({
+      yyw.sub.postMessage({
         command: "openClosest",
         score,
         width: this.width,
@@ -20,13 +20,13 @@ namespace game {
     protected destroy() {
       yyw.removeFromStage(this.bmpClosest);
       this.bmpClosest = null;
-      yyw.OpenDataContext.postMessage({
+      yyw.sub.postMessage({
         command: "closeClosest",
       });
     }
 
     protected async createView(fromChildrenCreated?: boolean) {
-      this.bmpClosest = yyw.OpenDataContext.createDisplayObject(
+      this.bmpClosest = yyw.sub.createDisplayObject(
         null, this.width, this.height);
       this.addChild(this.bmpClosest);
 

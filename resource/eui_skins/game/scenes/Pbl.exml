@@ -2,19 +2,21 @@
 <e:Skin class="PblSkin"
 	 width="750"
 	height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image id="bg" touchEnabled="false" width="750" x="0" height="1334" y="0" fillMode="clip" source="bg_png" scale9Grid="0,867,750,18"/>
-	<e:BitmapLabel x="180" y="258" text="最高分数" width="222" height="60" font="white_fnt"/>
-	<e:BitmapLabel id="tfdScore" x="402" y="255" width="180" height="60" font="white_fnt"/>
-	<e:BitmapLabel x="180" y="351" text="最大难度" width="222" height="60" font="white_fnt"/>
-	<e:BitmapLabel id="tfdLevel" x="402" y="348" width="180" height="60" font="white_fnt"/>
-	<e:BitmapLabel x="180" y="444" text="最大连击" width="222" height="60" font="white_fnt"/>
-	<e:BitmapLabel id="tfdCombo" x="402" y="441" width="180" height="60" font="white_fnt"/>
-	<e:BitmapLabel x="180" y="537" text="累计得分" width="222" height="60" font="white_fnt"/>
-	<e:BitmapLabel id="tfdScores" x="402" y="534" width="180" height="60" font="white_fnt"/>
-	<e:BitmapLabel x="180" y="630" text="累计次数" width="222" height="60" font="white_fnt"/>
-	<e:BitmapLabel id="tfdPlayed" x="402" y="627" width="180" height="60" font="white_fnt"/>
-	<e:BitmapLabel x="180" y="723" text="福包余额" width="222" height="60" font="white_fnt"/>
-	<e:BitmapLabel id="tfdBalance" x="402" y="720" width="180" height="60" font="white_fnt"/>
-	<e:Button id="btnHome" y="828" skinName="ButtonDefaultSkin" label="主页" x="124"/>
-	<e:Button id="btnBack" skinName="ButtonDefaultSkin" label="关闭" y="828" x="384"/>
+	<e:Image id="bg" touchEnabled="false" width="750" x="0" height="1334" y="0" fillMode="clip" source="bg_png" scale9Grid="0,867,750,18" locked="true"/>
+	<e:BitmapLabel x="168" y="198" text="最高分数" width="222" height="60" font="white_fnt"/>
+	<e:BitmapLabel id="tfdScore" x="390" y="192" width="180" height="60" font="white_fnt"/>
+	<e:BitmapLabel x="168" y="291" text="最高难度" width="222" height="60" font="white_fnt"/>
+	<e:BitmapLabel id="tfdLevel" x="390" y="285" width="180" height="60" font="white_fnt"/>
+	<e:BitmapLabel x="168" y="384" text="最高连击" width="222" height="60" font="white_fnt"/>
+	<e:BitmapLabel id="tfdCombo" x="390" y="378" width="180" height="60" font="white_fnt"/>
+	<e:BitmapLabel x="168" y="477" text="累计得分" width="222" height="60" font="white_fnt"/>
+	<e:BitmapLabel id="tfdScores" x="390" y="471" width="180" height="60" font="white_fnt"/>
+	<e:BitmapLabel x="168" y="570" text="累计次数" width="222" height="60" font="white_fnt"/>
+	<e:BitmapLabel id="tfdPlayed" x="390" y="564" width="180" height="60" font="white_fnt"/>
+	<e:BitmapLabel x="168" y="663" text="积分" width="222" height="60" font="white_fnt"/>
+	<e:BitmapLabel id="tfdPoints" x="390" y="657" width="180" height="60" font="white_fnt"/>
+	<e:BitmapLabel x="168" y="756" text="金币" width="222" height="60" font="white_fnt"/>
+	<e:BitmapLabel id="tfdCoins" x="390" y="750" width="180" height="60" font="white_fnt"/>
+	<e:Button id="btnHome" y="888" skinName="ButtonDefaultSkin" label="主页" x="124"/>
+	<e:Button id="btnBack" skinName="ButtonDefaultSkin" label="关闭" y="888" x="384"/>
 </e:Skin>

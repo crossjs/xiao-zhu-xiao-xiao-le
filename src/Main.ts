@@ -28,9 +28,6 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 class Main extends eui.UILayer {
-  // private recommender: yyw.Recommender;
-  // private sceneRecommender: SceneRecommender;
-
   protected createChildren(): void {
     super.createChildren();
 
@@ -46,8 +43,6 @@ class Main extends eui.UILayer {
       egret.ticker.resume();
     };
 
-    // inject the custom material parser
-    // 注入自定义的素材解析器
     egret.registerImplementation("eui.IAssetAdapter", new AssetAdapter());
     egret.registerImplementation("eui.IThemeAdapter", new ThemeAdapter());
 
@@ -58,19 +53,7 @@ class Main extends eui.UILayer {
     }
   }
 
-  /**
-   * 创建场景界面
-   * Create scene interface
-   */
-  private createGameScene(): void {
-    this.initOpenDataContext();
-    // 把 this 设置为场景管理器的根舞台
-    game.SceneManager.setStage(this);
-    game.SceneManager.toScene("landing");
-  }
-
   private async runGame() {
-    yyw.initShare();
     await this.loadResource();
     await this.createGameScene();
   }
@@ -82,7 +65,7 @@ class Main extends eui.UILayer {
       await RES.loadConfig("resource/default.res.json", "resource/");
       await this.loadTheme();
       await RES.loadGroup("preload", 0, loadingView);
-      this.stage.removeChild(loadingView);
+      yyw.removeFromStage(loadingView);
     } catch (e) {
       egret.error(e);
     }
@@ -90,17 +73,28 @@ class Main extends eui.UILayer {
 
   private loadTheme() {
     return new Promise((resolve, reject) => {
-      // load skin theme configuration file, you can manually modify the file. And replace the default skin.
-      // 加载皮肤主题配置文件,可以手动修改这个文件。替换默认皮肤。
+      // 加载皮肤主题配置文件。
       const theme = new eui.Theme("resource/default.thm.json", this.stage);
-      theme.addEventListener(eui.UIEvent.COMPLETE, resolve, this);
+      theme.once(eui.UIEvent.COMPLETE, resolve, this);
     });
   }
 
-  private initOpenDataContext() {
-    // 加载资源
-    yyw.OpenDataContext.postMessage({
+  /**
+   * 创建场景界面
+   * Create scene interface
+   */
+  private async createGameScene(): Promise<void> {
+    // 初始化全局配置
+    await yyw.initConfig();
+    // 初始化转发参数
+    yyw.initShare();
+    // 初始化视频广告
+    yyw.initVideoAd();
+    // 初始化子域资源
+    yyw.sub.postMessage({
       command: "initRanking",
     });
+    game.SceneManager.setStage(this);
+    game.SceneManager.toScene("landing");
   }
 }

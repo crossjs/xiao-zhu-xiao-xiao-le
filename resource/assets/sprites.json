@@ -6,7 +6,7 @@
 "single":{"x":767,"y":0,"w":176,"h":176,"offX":0,"offY":0,"sourceW":176,"sourceH":176},
 "pig":{"x":589,"y":0,"w":176,"h":200,"offX":0,"offY":0,"sourceW":176,"sourceH":200},
 "title":{"x":451,"y":527,"w":478,"h":97,"offX":0,"offY":0,"sourceW":478,"sourceH":97},
-"redpack":{"x":668,"y":856,"w":104,"h":108,"offX":0,"offY":0,"sourceW":104,"sourceH":108},
+"award":{"x":668,"y":856,"w":104,"h":108,"offX":0,"offY":0,"sourceW":104,"sourceH":108},
 "main_bg":{"x":989,"y":58,"w":30,"h":30,"offX":0,"offY":0,"sourceW":30,"sourceH":30},
 "share":{"x":922,"y":722,"w":96,"h":96,"offX":0,"offY":0,"sourceW":96,"sourceH":96},
 "board":{"x":922,"y":820,"w":96,"h":96,"offX":0,"offY":0,"sourceW":96,"sourceH":96},

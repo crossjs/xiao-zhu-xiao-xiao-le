@@ -1,20 +1,20 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="ToolsSkin"
  xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Group id="btnLivesUp" x="287" y="-168">
+	<e:Group id="btnLivesUp" x="284" y="-168">
 		<e:Image source="sprites_json.tool_livesup" touchEnabled="false"/>
-		<e:Image source="sprites_json.circle_red" x="48" y="-12"/>
-		<e:BitmapLabel id="tfdLivesUp" width="54" height="54" text="" touchEnabled="false" x="56" y="-8" font="white_fnt" textAlign="center" visible="false" scaleY="0.5" scaleX="0.5"/>
-		<e:Image id="imgLivesUp" source="sprites_json.circle_add" touchEnabled="false" x="48" y="-12" visible="false"/>
+		<e:Image source="sprites_json.circle_red" x="51" y="-18"/>
+		<e:BitmapLabel id="tfdLivesUp" width="54" height="54" text="" touchEnabled="false" x="57" y="-14" font="white_fnt" textAlign="center" visible="false" scaleY="0.5" scaleX="0.5"/>
+		<e:Image id="imgLivesUp" source="sprites_json.circle_add" touchEnabled="false" x="51" y="-18" visible="false"/>
 	</e:Group>
-	<e:Group id="btnShuffle" x="385" y="-168">
+	<e:Group id="btnShuffle" x="388" y="-168">
 		<e:Image source="sprites_json.tool_shuffle" touchEnabled="false"/>
-		<e:Image source="sprites_json.circle_red" x="48" y="-12"/>
-		<e:BitmapLabel id="tfdShuffle" text="" touchEnabled="false" font="white_fnt" width="54" height="54" x="56" y="-8" textAlign="center" visible="false" scaleX="0.5" scaleY="0.5"/>
-		<e:Image id="imgShuffle" source="sprites_json.circle_add" touchEnabled="false" x="48" y="-12" visible="false"/>
+		<e:Image source="sprites_json.circle_red" x="51" y="-18"/>
+		<e:BitmapLabel id="tfdShuffle" text="" touchEnabled="false" font="white_fnt" width="54" height="54" x="57" y="-14" textAlign="center" visible="false" scaleX="0.5" scaleY="0.5"/>
+		<e:Image id="imgShuffle" source="sprites_json.circle_add" touchEnabled="false" x="51" y="-18" visible="false"/>
 	</e:Group>
 	<e:Group id="main" width="750" height="750" visible="false" anchorOffsetX="375" anchorOffsetY="375" x="375" y="375" locked="true">
-		<e:Image id="btnMain" source="redpack_large_png" visible="true" x="166" y="76"/>
+		<e:Image id="btnMain" source="award_large_png" visible="true" x="166" y="76"/>
 		<e:BitmapLabel y="150" anchorOffsetX="0" anchorOffsetY="0" text="危险！生命力过低" touchEnabled="false" textAlign="center" horizontalCenter="0" font="white_fnt"/>
 		<e:BitmapLabel anchorOffsetX="0" anchorOffsetY="0" text="转发赢取道具" touchEnabled="false" textAlign="center" horizontalCenter="0" y="552" font="white_fnt"/>
 		<e:Button id="btnClose" y="684" enabled="true" skinName="ButtonNormalSkin" label="残忍拒绝" horizontalCenter="0"/>

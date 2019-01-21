@@ -1,45 +1,48 @@
 namespace yyw {
-  export async function saveData(data: {
+  export async function getPbl(): Promise<any> {
+    // 保存到自己的服务器
+    if (CONFIG.serverEnabled) {
+      return requestWithAuth({
+        url: `${CONFIG.serverOrigin}/api/user/pbl`,
+      });
+    }
+    return {};
+  }
+
+  export async function savePbl(data: {
     score: number,
     level: number,
     combo: number,
   }): Promise<any> {
     if (data.score) {
-      yyw.OpenDataContext.postMessage({
+      yyw.sub.postMessage({
         command: "saveScore",
         score: data.score,
       });
     }
     // 保存到自己的服务器
-    if (GAME_SERVER_ENABLED) {
-      // const lastScore = await yyw.getStorage("score") || 0;
-      requestWithAuth({
-        url: `${GAME_SERVER_ORIGIN}/api/user/score`,
+    if (CONFIG.serverEnabled) {
+      return requestWithAuth({
+        url: `${CONFIG.serverOrigin}/api/user/pbl`,
         data,
         method: "POST",
       });
     }
+    return {};
   }
 
-  export async function saveRedpack(amount: number): Promise<any> {
-    if (amount) {
+  export async function saveAward({
+    coins,
+  }: { coins?: number, points?: number }): Promise<any> {
+    if (coins) {
       // 保存到自己的服务器
-      if (GAME_SERVER_ENABLED) {
+      if (CONFIG.serverEnabled) {
         return requestWithAuth({
-          url: `${GAME_SERVER_ORIGIN}/api/user/redpack`,
-          data: { amount },
+          url: `${CONFIG.serverOrigin}/api/user/award`,
+          data: { coins },
           method: "POST",
         });
       }
-    }
-  }
-
-  export async function getPbl(): Promise<any> {
-    // 保存到自己的服务器
-    if (GAME_SERVER_ENABLED) {
-      return requestWithAuth({
-        url: `${GAME_SERVER_ORIGIN}/api/user/pbl`,
-      });
     }
     return {};
   }

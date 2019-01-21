@@ -44,14 +44,14 @@ namespace game {
         yyw.onTap(this.btnSound, () => {
           const { selected } = this.btnSound;
           this.btnSound.currentState = selected ? "selected" : "up";
-          yyw.USER_CONFIG.soundEnabled = selected;
+          yyw.CONFIG.soundEnabled = selected;
         });
 
         // 振动
         yyw.onTap(this.btnVibration, () => {
           const { selected } = this.btnVibration;
           this.btnVibration.currentState = selected ? "selected" : "up";
-          yyw.USER_CONFIG.vibrationEnabled = selected;
+          yyw.CONFIG.vibrationEnabled = selected;
         });
 
         this.initialized = true;
