@@ -432,7 +432,7 @@
           );
 
           _this.className = "";
-          _this.childern = [];
+          _this.children = [];
           _this.style = {
             width: _WindowProperties.innerWidth + "px",
             height: _WindowProperties.innerHeight + "px"
