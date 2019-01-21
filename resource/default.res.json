@@ -1,7 +1,7 @@
 {
 	"groups": [
 		{
-			"keys": "numbers_json,font_fnt,sprites_json,amazing_m4a,click_m4a,end_m4a,excellent_m4a,good_m4a,great_m4a,magic_m4a,bg_jpg,redpack_large_png,swap_m4a",
+			"keys": "numbers_json,score_fnt,white_fnt,blue_fnt,sprites_json,amazing_m4a,click_m4a,end_m4a,excellent_m4a,good_m4a,great_m4a,magic_m4a,point_m4a,swap_m4a,bg_png,redpack_large_png",
 			"name": "preload"
 		}
 	],
@@ -13,15 +13,25 @@
 			"subkeys": "1,10,11,12,13,14,15,16,17,18,19,2,20,3,4,5,6,7,8,9,99"
 		},
 		{
-			"url": "assets/font.fnt",
+			"url": "assets/score.fnt",
 			"type": "font",
-			"name": "font_fnt"
+			"name": "score_fnt"
+		},
+		{
+			"url": "assets/blue.fnt",
+			"type": "font",
+			"name": "blue_fnt"
+		},
+		{
+			"url": "assets/white.fnt",
+			"type": "font",
+			"name": "white_fnt"
 		},
 		{
 			"url": "assets/sprites.json",
 			"type": "sheet",
 			"name": "sprites_json",
-			"subkeys": "add,amazing,bar,bar_bg,board,default,excellent,good,great,important,main_bg,pig,primary,redpack,share,shuffle,single,title,sound-off,sound-on"
+			"subkeys": "add,amazing,board,bottom_bg,chase_bg,circle_add,circle_red,default,excellent,good,great,heart,heart_gray,important,lantern,lives_bg,main_bg,me_bg,pig,primary,redpack,share,shuffle,single,title,tool_livesup,tool_shuffle,sound-off,sound-on"
 		},
 		{
 			"url": "assets/amazing.m4a",
@@ -64,9 +74,14 @@
 			"name": "magic_m4a"
 		},
 		{
-			"name": "bg_jpg",
+			"url": "assets/point.m4a",
+			"type": "sound",
+			"name": "point_m4a"
+		},
+		{
+			"name": "bg_png",
 			"type": "image",
-			"url": "assets/bg.jpg"
+			"url": "assets/bg.png"
 		},
 		{
 			"name": "redpack_large_png",

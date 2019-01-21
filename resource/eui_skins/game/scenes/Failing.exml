@@ -2,6 +2,6 @@
 <e:Skin class="FailingSkin"
 	 width="750"
 	height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image id="bg" source="bg_jpg" touchEnabled="false" width="750" x="0" height="1334" y="0" fillMode="clip" scale9Grid="0,1250,750,75"/>
+	<e:Image id="bg" touchEnabled="false" width="750" x="0" height="1334" y="0" fillMode="clip" source="bg_png" scale9Grid="0,867,750,18"/>
 	<e:Button id="btnRestart" horizontalCenter="0" verticalCenter="0" skinName="ButtonDefaultSkin" label="重新开始"/>
 </e:Skin>

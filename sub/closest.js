@@ -20,11 +20,11 @@ export const Closest = {
       this._cleanScreen();
       this.lastOpenid = openid;
       // 绘制头像
-      this._drawImage(avatarUrl, 0, 0, 72, 72);
+      this._drawImage(avatarUrl, 21, 12, 48, 48);
       // 绘制名称
-      this._drawText(nickname, 78, 33, 144);
+      this._drawText(nickname, 45, 90, 84);
       // 绘制分数
-      this._drawText(score, 78, 69, 144);
+      this._drawText(score, 45, 114, 84);
     } else {
       console.error("创建开放数据域失败，请检查是否加载开放数据域资源");
     }
@@ -67,11 +67,11 @@ export const Closest = {
    * 文本绘制函数
    */
   _drawText(text, x, y, width, {
-    color = "#ffffff",
+    color = "#d33d56",
   } = {}) {
     // 设置字体
-    context.textAlign = "left";
-    context.font = "30px Arial";
+    context.textAlign = "center";
+    context.font = "24px Arial";
     context.fillStyle = color;
     context.fillText(String(text), x, y, width);
   },

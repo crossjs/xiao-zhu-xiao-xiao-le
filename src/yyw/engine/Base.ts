@@ -43,7 +43,12 @@ namespace yyw {
 
       // 匹配刘海屏
       if (this.body) {
-        this.body.y = yyw.WX_SYSTEM_INFO.statusBarHeight * 2;
+        const { statusBarHeight, pixelRatio } = WX_SYSTEM_INFO;
+        if (statusBarHeight === 44 && pixelRatio === 3) {
+          this.body.y = statusBarHeight * 2;
+        } else {
+          this.body.y = statusBarHeight;
+        }
       }
 
       this.createView(true);

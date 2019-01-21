@@ -42,7 +42,7 @@ namespace box {
             label.textAlign = "center";
             label.y = 140;
             label.size = 24;
-            label.textColor = 0xFFFFFF;
+            label.textColor = 0x000000;
             group.addChild(icon);
             group.addChild(rect);
             group.addChild(important);

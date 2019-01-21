@@ -1,6 +1,7 @@
 namespace game {
   export class Pbl extends yyw.Base {
-    private btnBack: eui.Image;
+    private btnHome: eui.Button;
+    private btnBack: eui.Button;
 
     protected destroy() {
       // empty
@@ -16,6 +17,10 @@ namespace game {
       });
 
       if (fromChildrenCreated) {
+        yyw.onTap(this.btnHome, () => {
+          SceneManager.toScene("landing");
+        });
+
         yyw.onTap(this.btnBack, () => {
           SceneManager.escape();
         });

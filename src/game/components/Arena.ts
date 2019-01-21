@@ -14,6 +14,7 @@ namespace game {
     private main: eui.Group;
     private sndSwitch: SwapSound;
     private sndMagic: MagicSound;
+    private sndPoint: PointSound;
     // private b1: eui.Image;
     // private b2: eui.Image;
     // private b3: eui.Image;
@@ -40,6 +41,7 @@ namespace game {
       this.useSnapshot = useSnapshot;
       this.sndSwitch = new SwapSound();
       this.sndMagic = new MagicSound();
+      this.sndPoint = new PointSound();
       this.tweenCells = new yyw.UniqueSet();
       this.dataToSync = data;
     }
@@ -406,7 +408,9 @@ namespace game {
             }
           }
         }
-
+        // 播放得分音效
+        this.sndPoint.play();
+        // 同步合并
         await Promise.all(
           [...points.map((point) => {
             const lives = getSteps(

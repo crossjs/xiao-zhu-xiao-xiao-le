@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="O1Skin" width="88" height="88" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
-	<e:Group id="container" width="72" height="72" x="8" y="8" scaleX="1" scaleY="1" touchEnabled="false" touchChildren="false"/>
+	<e:Group id="container" width="72" height="72" x="8" y="8" touchEnabled="false" touchChildren="false"/>
 	<e:Group id="cover" width="88" height="88" x="0" y="0" touchChildren="false" visible="true">
 		<e:Image source="sprites_json.single" touchEnabled="false" width="88" height="88" y="0" x="0"/>
 		<e:Image source="sprites_json.important" touchEnabled="false" y="0" x="62"/>

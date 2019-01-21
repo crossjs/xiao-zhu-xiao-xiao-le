@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <e:Skin class="ButtonNormalSkin" states="up,down,disabled" minHeight="50" minWidth="100" currentState="up" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
   <e:BitmapLabel id="labelDisplay"
-    font="font_fnt" verticalAlign="middle" textAlign="center" left.down="6" right.down="-6" top.down="6" bottom.down="-6" left="0" right="0" top="0" bottom="0" alpha.disabled="0.5"/>
+    verticalAlign="middle" textAlign="center" left.down="6" right.down="-6" top.down="6" bottom.down="-6" left="0" right="0" top="0" bottom="0" alpha.disabled="0.5" font="white_fnt"/>
   <e:Image id="iconDisplay" horizontalCenter="0" verticalCenter="0" horizontalCenter.down="15" verticalCenter.down="15"/>
 </e:Skin>

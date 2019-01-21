@@ -4,6 +4,6 @@
     source="sprites_json.default"
     source.down="sprites_json.default" x.down="6" y.down="6"/>
   <e:BitmapLabel id="labelDisplay" top="9" bottom="15" left="12"
-    font="font_fnt" verticalAlign="middle" textAlign="center" right="12" left.down="18" right.down="6" top.down="18" bottom.down="6"/>
+    verticalAlign="middle" textAlign="center" right="12" left.down="18" right.down="6" top.down="18" bottom.down="6" font="white_fnt"/>
   <e:Image id="iconDisplay" horizontalCenter="0" verticalCenter="0" horizontalCenter.down="15" verticalCenter.down="15"/>
 </e:Skin>

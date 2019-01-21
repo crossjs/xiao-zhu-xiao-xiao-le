@@ -1,19 +1,22 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="ArenaSkin"
 	 width="750"
-	height="780" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image source="sprites_json.main_bg" x="0" y="30" width="750" height="750" scale9Grid="1,1,1,1"/>
-	<e:Group id="main" width="720" height="720" touchChildren="false" x="375" y="405" anchorOffsetX="360" anchorOffsetY="360"/>
-	<e:Group id="blood" width="720" height="24" x="15" y="2" touchChildren="false" touchEnabled="false">
-		<e:Image source="sprites_json.bar_bg" x="0" y="0" scale9Grid="13,3,66,18" width="144" scaleX="1" scaleY="1"/>
-		<e:Image source="sprites_json.bar_bg" x="144" y="0" scale9Grid="13,3,66,18" width="144" scaleX="1" scaleY="1"/>
-		<e:Image source="sprites_json.bar_bg" x="288" y="0" scale9Grid="13,3,66,18" width="144" scaleX="1" scaleY="1"/>
-		<e:Image source="sprites_json.bar_bg" x="432" y="0" scale9Grid="13,3,66,18" width="144" scaleX="1" scaleY="1"/>
-		<e:Image source="sprites_json.bar_bg" x="576" y="0" scale9Grid="13,3,66,18" width="144" scaleX="1" scaleY="1"/>
-		<e:Image id="b1" x="0" y="0" source="sprites_json.bar" scale9Grid="13,3,66,18" width="144"/>
-		<e:Image id="b2" x="144" y="0" source="sprites_json.bar" scale9Grid="13,3,66,18" width="144"/>
-		<e:Image id="b3" x="288" y="0" source="sprites_json.bar" scale9Grid="13,3,66,18" width="144"/>
-		<e:Image id="b4" x="432" y="0" source="sprites_json.bar" scale9Grid="13,3,66,18" width="144"/>
-		<e:Image id="b5" x="576" y="0" source="sprites_json.bar" scale9Grid="13,3,66,18" width="144"/>
+	height="750" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image source="sprites_json.main_bg" x="21" y="21" width="708" height="708" scale9Grid="10,10,10,10"/>
+	<e:Group width="720" height="720" touchChildren="true" x="375" y="375" anchorOffsetX="360" anchorOffsetY="360" scaleX="0.944" scaleY="0.944" touchEnabled="false">
+	  <e:Group id="main" width="720" height="720" touchChildren="false" x="360" y="360" anchorOffsetX="360" anchorOffsetY="360"/>
+	</e:Group>
+  <e:Group id="blood" width="708" height="144" x="21" y="-126" touchChildren="false" touchEnabled="false">
+		<e:Image source="sprites_json.lives_bg" x="45" y="0"/>
+		<e:Image source="sprites_json.heart_gray" x="108" y="96"/>
+		<e:Image source="sprites_json.heart_gray" x="206" y="96"/>
+		<e:Image source="sprites_json.heart_gray" x="303" y="96"/>
+		<e:Image source="sprites_json.heart_gray" x="400" y="96"/>
+		<e:Image source="sprites_json.heart_gray" x="496" y="96"/>
+		<e:Image id="b1" x="108" y="96" source="sprites_json.heart"/>
+		<e:Image id="b2" x="206" y="96" source="sprites_json.heart"/>
+		<e:Image id="b3" x="303" y="96" source="sprites_json.heart"/>
+		<e:Image id="b4" x="400" y="96" source="sprites_json.heart"/>
+		<e:Image id="b5" x="496" y="96" source="sprites_json.heart"/>
 	</e:Group>
 </e:Skin>

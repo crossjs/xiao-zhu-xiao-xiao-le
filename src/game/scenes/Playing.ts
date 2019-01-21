@@ -3,10 +3,6 @@ namespace game {
 
   export class Playing extends yyw.Base {
     private isGameOver: boolean = false;
-    private btnBack: eui.Button;
-    private btnPbl: eui.Button;
-    private tfdLevel: eui.BitmapLabel;
-    private tfdCombo: eui.BitmapLabel;
     private tfdScore: eui.BitmapLabel;
     // private b1: eui.Image;
     // private b2: eui.Image;
@@ -17,10 +13,11 @@ namespace game {
     private maxCombo: number = 0;
     private arena: Arena;
     private tools: Tools;
+    private me: Me;
     private closest: Closest;
     private redpack: Redpack;
     private words: Words;
-    private recommender: box.One;
+    private recommender: box.All;
 
     protected destroy() {
       this.setSnapshot(this.isGameOver ? null : undefined);
@@ -34,6 +31,8 @@ namespace game {
       this.tools.removeEventListener("TOOL_USED", this.onToolUsed, this);
       yyw.removeFromStage(this.tools);
       this.tools = null;
+      yyw.removeFromStage(this.me);
+      this.me = null;
       yyw.removeFromStage(this.closest);
       this.closest = null;
       yyw.removeFromStage(this.redpack);
@@ -53,6 +52,7 @@ namespace game {
           useSnapshot = await yyw.showModal("接着玩？");
         }
       }
+      this.createMe();
       this.createClosest();
       this.createRecommender();
       await this.createArena(useSnapshot);
@@ -61,7 +61,6 @@ namespace game {
       this.createWords();
       this.isGameOver = false;
       if (fromChildrenCreated) {
-        this.initTouchHandlers();
         this.initialized = true;
       }
     }
@@ -83,8 +82,7 @@ namespace game {
 
     private async createArena(useSnapshot?: boolean): Promise<void> {
       this.arena = useSnapshot ? await Arena.fromSnapshot() : new Arena();
-      this.arena.y = 264;
-      // 更新 score/level/combo 显示
+      this.arena.y = 318;
       this.arena.addEventListener("STATE_CHANGE", this.onArenaStateChange, this);
       this.arena.addEventListener("DATA_CHANGE", this.onArenaDataChange, this);
       this.arena.addEventListener("LIVES_LOW", this.onArenaLivesLow, this);
@@ -97,21 +95,16 @@ namespace game {
       running,
     } }: egret.Event) {
       this.tools.enabled = !running;
-      this.btnBack.enabled = !running;
-      this.btnPbl.enabled = !running;
     }
 
     private onArenaDataChange({ data: {
-      level,
       combo,
       score,
     } }: egret.Event) {
       this.words.update(combo);
       this.closest.update(score);
-      this.tfdLevel.text = `${level}`;
-      this.tfdCombo.text = `${combo}`;
       this.tfdScore.text = `${score}`;
-      this.maxCombo = Math.max(this.maxCombo, combo);
+      this.maxCombo = Math.max(combo, this.maxCombo);
     }
 
     private onArenaLivesLow() {
@@ -139,7 +132,7 @@ namespace game {
 
     private createTools() {
       this.tools = new Tools();
-      this.tools.y = 142;
+      this.tools.y = 318;
       this.tools.addEventListener("TOOL_USED", this.onToolUsed, this);
       this.body.addChild(this.tools);
     }
@@ -157,44 +150,39 @@ namespace game {
       }
     }
 
+    private createMe() {
+      this.me = new Me();
+      this.body.addChild(this.me);
+    }
+
     private createClosest() {
       this.closest = new Closest();
       this.closest.x = 21;
-      this.closest.y = -12;
+      this.closest.y = 133;
       this.body.addChild(this.closest);
     }
 
     private createRedpack() {
       this.redpack = new Redpack();
+      this.redpack.y = 318;
       this.body.addChild(this.redpack);
     }
 
     private createWords() {
       this.words = new Words();
+      this.words.y = 318;
       this.body.addChild(this.words);
     }
 
-    private initTouchHandlers() {
-      yyw.onTap(this.btnBack, () => {
-        if (this.arena.isRunning) {
-          return;
-        }
-        SceneManager.toScene("landing");
-      });
-
-      yyw.onTap(this.btnPbl, () => {
-        if (this.arena.isRunning) {
-          return;
-        }
-        SceneManager.toScene("pbl", true);
-      }, this);
-    }
-
     private createRecommender() {
-      this.recommender = new box.One();
-      this.recommender.x = 375;
-      this.recommender.y = 30;
-      this.body.addChild(this.recommender);
+      try {
+        this.recommender = new box.All();
+        this.recommender.x = 0;
+        this.recommender.y = this.stage.stageHeight - 208;
+        this.addChild(this.recommender);
+      } catch (error) {
+        egret.error(error);
+      }
     }
   }
 }

@@ -5,10 +5,12 @@ namespace game {
     private main: eui.Group;
     private btnClose: eui.Button;
     private btnMain: eui.Image;
-    private btnLivesUp: eui.Image;
-    private btnShuffle: eui.Image;
+    private btnLivesUp: eui.Group;
+    private btnShuffle: eui.Group;
     private tfdLivesUp: eui.BitmapLabel;
     private tfdShuffle: eui.BitmapLabel;
+    private imgLivesUp: eui.Image;
+    private imgShuffle: eui.Image;
     private numLivesUp: number = 0;
     private numShuffle: number = 0;
 
@@ -112,8 +114,13 @@ namespace game {
     }
 
     private update() {
-      this.tfdShuffle.text = `${this.numShuffle}`;
-      this.tfdLivesUp.text = `${this.numLivesUp}`;
+      const { numLivesUp, numShuffle, tfdLivesUp, tfdShuffle, imgLivesUp, imgShuffle } = this;
+      tfdLivesUp.text = `${numLivesUp}`;
+      tfdShuffle.text = `${numShuffle}`;
+      tfdLivesUp.visible = !!numLivesUp;
+      tfdShuffle.visible = !!numShuffle;
+      imgLivesUp.visible = !numLivesUp;
+      imgShuffle.visible = !numShuffle;
     }
   }
 }

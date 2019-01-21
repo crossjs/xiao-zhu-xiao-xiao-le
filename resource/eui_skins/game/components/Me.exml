@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="ClosestSkin"
+<e:Skin class="MeSkin"
  xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image source="sprites_json.chase_bg" y="-30"/>
+	<e:Image id="main" source="sprites_json.me_bg"/>
 </e:Skin>
