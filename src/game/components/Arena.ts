@@ -21,6 +21,7 @@ namespace game {
     // private b4: eui.Image;
     // private b5: eui.Image;
     private cellWidth: number = 144;
+    private cellHeight: number = 144;
     private cols: number = 5;
     private rows: number = 5;
     private maxNum: number = 5;
@@ -32,7 +33,6 @@ namespace game {
     /** 连击数 */
     private combo: number = 0;
     private level: number = 0;
-    private tweenCells: yyw.UniqueSet;
     /** 是否正在执行（动画等） */
     private running: boolean = false;
 
@@ -42,7 +42,6 @@ namespace game {
       this.sndSwitch = new SwapSound();
       this.sndMagic = new MagicSound();
       this.sndPoint = new PointSound();
-      this.tweenCells = new yyw.UniqueSet();
       this.dataToSync = data;
     }
 
@@ -58,45 +57,132 @@ namespace game {
     }
 
     /**
-     * 增加生命
+     * 生命力满格
      */
-    public livesUp(): void {
-      this.increaseLives(1);
+    public get isLivesFull(): boolean {
+      return this.lives >= 5;
+    }
+
+    /**
+     * 指定单元格数字+1
+     */
+    public preValueUp(x: number, y: number, cancel: any): void {
+      if (this.isRunning) {
+        cancel();
+        return;
+      }
+      this.resetCellsZoom();
+      if (x === undefined || y === undefined) {
+        cancel();
+        return;
+      }
+      const cell = this.getCellAt([
+        this.x2p(x),
+        this.y2p(y),
+      ]);
+      cell.zoomIn();
+    }
+
+    /**
+     * 指定单元格数字+1
+     */
+    public async doValueUp(x: number, y: number, confirm: any): Promise<void> {
+      if (this.isRunning) {
+        return;
+      }
+      // 确定消费
+      confirm();
+      this.resetCells();
+      const point: [number, number] = [
+        this.x2p(x),
+        this.y2p(y),
+      ];
+      // 开始工作
+      this.isRunning = true;
+      await this.growUpCellAt(point);
+      this.getCellAt(point).zoomOut();
+      await this.mergeChains(point);
+      this.isRunning = false;
     }
 
     /**
      * 随机重排
      */
-    public async shuffle(): Promise<void> {
+    public async doShuffle(confirm: any): Promise<void> {
+      // 确定消费
+      confirm();
+      // 开始工作
       this.isRunning = true;
-      const tween = yyw.PromisedTween.get(this.main);
-      await tween.to({
-        scaleX: 0,
-        scaleY: 0,
-        alpha: 0,
-        rotation: 360,
-      }, 300);
+      await yyw.twirlOut(this.main, 300);
 
-      this.model.shuffle();
+      this.model.doShuffle();
       this.updateView();
 
-      await tween.to({
-        scaleX: 1,
-        scaleY: 1,
-        alpha: 1,
-        rotation: 0,
-      }, 200);
+      await yyw.twirlIn(this.main, 200);
 
       await this.mergeChains();
       this.isRunning = false;
     }
 
+    /**
+     * 销毁指定单元格
+     */
+    public preBreaker(x: number, y: number, cancel: any): void {
+      if (this.isRunning) {
+        cancel();
+        return;
+      }
+      this.resetCellsZoom();
+      if (x === undefined || y === undefined) {
+        cancel();
+        return;
+      }
+      const cell = this.getCellAt([
+        this.x2p(x),
+        this.y2p(y),
+      ]);
+      cell.zoomIn();
+    }
+
+    /**
+     * 销毁指定单元格
+     */
+    public async doBreaker(x: number, y: number, confirm: any): Promise<void> {
+      if (this.isRunning) {
+        return;
+      }
+      // 确定消费
+      confirm();
+      this.resetCells();
+      const point: [number, number] = [
+        this.x2p(x),
+        this.y2p(y),
+      ];
+      // 开始工作
+      this.isRunning = true;
+      const cell = this.getCellAt(point);
+      await cell.fadeOut();
+      this.setCellNumber(point, 0);
+      await this.dropCellsDown();
+      cell.fadeIn();
+      await this.mergeChains(point);
+      this.isRunning = false;
+    }
+
+    /**
+     * 增加生命力
+     */
+    public doLivesUp(confirm: any): void {
+      // 确定消费
+      confirm();
+      // 开始工作
+      this.increaseLives(1);
+    }
+
     protected destroy() {
       this.setSnapshot(this.isGameOver ? null : undefined);
-      this.resetTweens();
-      yyw.eachMatrix(this.cells, (cell: Cell, col: number, row: number) => {
-        yyw.removeFromStage(cell);
-      });
+      this.resetCells();
+      yyw.eachMatrix(this.cells, yyw.removeFromStage);
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
@@ -136,11 +222,15 @@ namespace game {
       this.notify();
     }
 
-    private resetTweens() {
-      const { tweenCells } = this;
-      tweenCells.each((cell: Cell) => {
+    private resetCells() {
+      yyw.eachMatrix(this.cells, (cell: Cell) => {
         cell.reset();
-        tweenCells.del(cell);
+      });
+    }
+
+    private resetCellsZoom() {
+      yyw.eachMatrix(this.cells, (cell: Cell) => {
+        cell.zoomOut();
       });
     }
 
@@ -163,59 +253,54 @@ namespace game {
     }
 
     private createCellsView(): void {
-      const { model, cellWidth, cols, rows, main } = this;
+      const { model, cellWidth, cellHeight, cols, rows, main } = this;
       const numbers = model.geNumbers();
       const cells = this.cells = [];
       for (let row = 0; row < rows; row++) {
         const r = cells[row] = [];
         for (let col = 0; col < cols; col++) {
           main.addChild(
-            r[col] = new Cell(col, row, cellWidth, numbers[row][col]),
+            r[col] = new Cell(col, row, cellWidth, cellHeight, numbers[row][col]),
           );
         }
       }
     }
 
-    private initTouchHandlers() {
-      const { main, cellWidth, cols, rows } = this;
+    private x2p(x: number): number {
+      return Math.max(0, Math.min(this.cols - 1, Math.floor(x / this.cellWidth)));
+    }
 
-      // 是否正在拖动
-      let dragging: boolean = false;
+    private y2p(y: number): number {
+      return Math.max(0, Math.min(this.rows - 1, Math.floor(y / this.cellHeight)));
+    }
+
+    private initTouchHandlers() {
+      const { main } = this;
+
       // 起始点
       let fromXY: [number, number];
       // 起始单元格
       let fromPoint: Point;
 
-      function x2p(x: number): number {
-        return Math.max(0, Math.min(cols - 1, Math.floor(x / cellWidth)));
-      }
-      function y2p(y: number): number {
-        return Math.max(0, Math.min(rows - 1, Math.floor(y / cellWidth)));
-      }
-
-      const handleBegin = (e: egret.TouchEvent) => {
+      const handleBegin = (e: egret.TouchEvent, cancel: any) => {
         if (this.running) {
+          cancel();
           return;
         }
-        dragging = true;
         const { localX, localY } = e;
         fromXY = [localX, localY];
         fromPoint = [
-          x2p(localX),
-          y2p(localY),
+          this.x2p(localX),
+          this.y2p(localY),
         ];
         this.getCellAt(fromPoint).zoomIn();
       };
 
-      const handleDrag = async (e: egret.TouchEvent) => {
-        if (!dragging) {
-          return;
-        }
-
+      const handleDrag = async (e: egret.TouchEvent, cancel: any) => {
         const { localX, localY } = e;
         const toPoint: Point = [
-          x2p(localX),
-          y2p(localY),
+          this.x2p(localX),
+          this.y2p(localY),
         ];
         // 角度太模棱两可的，不处理
         if (!isNeighbor(fromPoint, toPoint)) {
@@ -226,7 +311,7 @@ namespace game {
         if (slope < 2 && slope > 0.5) {
           return;
         }
-        dragging = false;
+        cancel();
         this.getCellAt(fromPoint).zoomOut();
         this.isRunning = true;
         // 普通交换
@@ -265,18 +350,14 @@ namespace game {
         this.isRunning = false;
       };
 
-      const handleEnd = () => {
-        if (this.running || !dragging) {
+      const handleEnd = (e: egret.TouchEvent, cancel: any) => {
+        if (this.running) {
           return;
         }
-        dragging = false;
         this.getCellAt(fromPoint).zoomOut();
       };
 
-      main.addEventListener(egret.TouchEvent.TOUCH_BEGIN, handleBegin, this);
-      main.addEventListener(egret.TouchEvent.TOUCH_MOVE, handleDrag, this);
-      main.addEventListener(egret.TouchEvent.TOUCH_END, handleEnd, this);
-      main.addEventListener(egret.TouchEvent.TOUCH_RELEASE_OUTSIDE, handleEnd, this);
+      yyw.onDnd(main, handleBegin, handleDrag, handleEnd, true);
     }
 
     private setGameOver() {
@@ -352,7 +433,7 @@ namespace game {
     private tweenFromTo(from: Point, to: Point, duration: number = 100, onResolve?: any): Promise<void> {
       return this.getCellAt(from).tweenTo([{
         x: (to[0] - from[0]) * this.cellWidth,
-        y: (to[1] - from[1]) * this.cellWidth,
+        y: (to[1] - from[1]) * this.cellHeight,
       }], duration, onResolve);
     }
 
@@ -455,7 +536,7 @@ namespace game {
                 pointAbove = [col, 0];
                 this.setCellNumber(pointAbove, model.getRandomNumber());
               }
-              await this.tweenFromTo(pointAbove, point, 10);
+              await this.tweenFromTo(pointAbove, point, 50);
               this.switchNumbers(pointAbove, point);
             }
           }
@@ -463,9 +544,11 @@ namespace game {
       }
     }
 
-    private async growUpCellAt(point: Point, num: number) {
+    private async growUpCellAt(point: Point, num?: number) {
       const cell = this.getCellAt(point);
-      this.tweenCells.add(cell);
+      if (num === undefined) {
+        num = cell.getNumber() + 1;
+      }
       await cell.fadeOut();
       if (num > BIGGEST_NUMBER) {
         num = MAGIC_NUMBER;
@@ -476,7 +559,6 @@ namespace game {
         this.dispatchEventWith("MAGIC_GOT");
       }
       await cell.fadeIn();
-      this.tweenCells.del(cell);
     }
 
     private async collapseCellBySteps(
@@ -491,7 +573,7 @@ namespace game {
         // 位移
         increases.push({
           x: (step[0] - current[0]) * this.cellWidth,
-          y: (step[1] - current[1]) * this.cellWidth,
+          y: (step[1] - current[1]) * this.cellHeight,
         });
         current = step;
       }
@@ -501,13 +583,11 @@ namespace game {
         alpha: -1,
       });
       const cell = this.getCellAt(from);
-      this.tweenCells.add(cell);
       cell.flashScore();
       this.increaseScore(cell.getNumber() * 10);
       await cell.tweenTo(increases, 500, () => {
         this.setCellNumber(from, 0);
       });
-      this.tweenCells.del(cell);
     }
 
     private getCellAt(point: Point): Cell {

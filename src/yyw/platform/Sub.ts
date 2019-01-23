@@ -1,4 +1,7 @@
 namespace yyw {
+  /**
+   * 开放数据域
+   */
   export const sub = {
     createDisplayObject(type: string, width: number, height: number) {
       const bitmapData = new egret.BitmapData(sharedCanvas);
@@ -12,14 +15,12 @@ namespace yyw {
       if (egret.Capabilities.renderMode === "webgl") {
         const renderContext = egret.wxgame.WebGLRenderContext.getInstance();
         const context = renderContext.context;
-        // 需要用到最新的微信版本
-        // 调用其接口 WebGLRenderingContext.wxBindCanvasTexture(number texture, Canvas canvas)
-        // 如果没有该接口，会进行如下处理，保证画面渲染正确，但会占用内存。
         if (!context.wxBindCanvasTexture) {
+          // 每半秒调用一次，避免性能问题
           egret.setInterval(() => {
             egret.WebGLUtils.deleteWebGLTexture(bitmapData.webGLTexture);
             bitmapData.webGLTexture = null;
-          }, this, 1000);
+          }, this, 500);
         }
       }
       return bitmap;

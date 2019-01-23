@@ -1,5 +1,6 @@
 namespace game {
   export class Words extends yyw.Base {
+    private main: eui.Group;
     private imgGood: eui.Image;
     private imgGreat: eui.Image;
     private imgAmazing: eui.Image;
@@ -53,35 +54,31 @@ namespace game {
       await this.hide();
       this.index = Math.min(3, index);
       this.sounds[this.index].play();
-      const target = this.words[this.index];
-      target.scaleX = 0;
-      target.scaleY = 0;
-      target.alpha = 0;
-      target.visible = true;
-      await yyw.PromisedTween
-      .get(target)
-      .to({
+      this.words[this.index].visible = true;
+      this.main.scaleX = 0;
+      this.main.scaleY = 0;
+      this.main.alpha = 0;
+      this.main.visible = true;
+      await yyw.getTween(this.main).to({
         scaleX: 1,
         scaleY: 1,
         alpha: 1,
-      });
-      egret.setTimeout(this.hide, this, 300);
+      }, 200);
+      egret.setTimeout(this.hide, this, 500);
     }
 
     private async hide() {
+      await yyw.getTween(this.main).to({
+        scaleX: 0,
+        scaleY: 0,
+        alpha: 0,
+      });
+      this.main.visible = false;
+      this.main.scaleX = 1;
+      this.main.scaleY = 1;
+      this.main.alpha = 1;
       if (this.index >= 0) {
-        const target = this.words[this.index];
-        await yyw.PromisedTween
-        .get(target)
-        .to({
-          scaleX: 0,
-          scaleY: 0,
-          alpha: 0,
-        });
-        target.visible = false;
-        target.scaleX = 1;
-        target.scaleY = 1;
-        target.alpha = 1;
+        this.words[this.index].visible = false;
         this.index = -1;
       }
     }

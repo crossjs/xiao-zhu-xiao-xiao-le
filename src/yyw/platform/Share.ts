@@ -24,23 +24,17 @@ namespace yyw {
       if (CONFIG.systemInfo.platform === "devtools") {
         resolve(true);
       } else {
-        let cancelled: boolean = false;
+        const start = Date.now();
         const onShow = () => {
-          resolve(!cancelled);
+          // 3 秒内完成，判定为未完成转发·
+          resolve(Date.now() - start > 3000);
           wx.offShow(onShow);
         };
+        wx.onShow(onShow);
         wx.shareAppMessage({
           ...SHARE_OPTIONS[currentIndex++ % 2],
           ...options,
-          cancel() {
-            wx.showToast({
-              title: "你取消了分享",
-              icon: "none",
-            });
-            cancelled = true;
-          },
         });
-        wx.onShow(onShow);
       }
     });
   }

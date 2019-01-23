@@ -8,8 +8,8 @@ namespace box {
         appId: "wx2d01e63038198832",
         openId: yyw.CURRENT_USER.openId,
         // origins: {
-        //   box: 'http://127.0.0.1:7001',
-        //   log: 'http://127.0.0.1:7002',
+        //   box: "http://127.0.0.1:7001",
+        //   log: "http://127.0.0.1:7002",
         // },
       });
     }

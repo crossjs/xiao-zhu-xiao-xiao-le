@@ -49,6 +49,7 @@ namespace yyw {
         } else {
           this.body.y = statusBarHeight;
         }
+        this.body.height = this.stage.stageHeight - this.body.y;
       }
 
       this.createView(true);

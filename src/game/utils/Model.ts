@@ -83,7 +83,7 @@ namespace game {
       this.saveNumberAt(point, num);
     }
 
-    public shuffle() {
+    public doShuffle() {
       const { numbers, cols, rows} = this;
       const slicedNumbers = numbers.slice(0);
       let row = rows;

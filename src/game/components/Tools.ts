@@ -2,53 +2,48 @@ namespace game {
   const SNAPSHOT_KEY = "YYW_G4_TOOLS";
 
   export class Tools extends yyw.Base {
-    private main: eui.Group;
-    private btnClose: eui.Button;
-    private btnMain: eui.Image;
-    private btnLivesUp: eui.Group;
-    private btnShuffle: eui.Group;
-    private tfdLivesUp: eui.BitmapLabel;
-    private tfdShuffle: eui.BitmapLabel;
-    private imgLivesUp: eui.Image;
-    private imgShuffle: eui.Image;
-    private numLivesUp: number = 0;
-    private numShuffle: number = 0;
+    private modal: eui.Group;
+    private images: eui.Group;
+    private tools: eui.Group;
+    private btnOK: eui.Button;
+    private btnKO: eui.Button;
+    private valueUp: number = 0;
+    private shuffle: number = 0;
+    private breaker: number = 0;
+    private livesUp: number = 0;
 
-    public async showTip() {
-      this.main.scaleX = 0;
-      this.main.scaleY = 0;
-      this.main.visible = true;
-      await yyw.PromisedTween
-      .get(this.main)
-      .to({
-        scaleX: 1,
-        scaleY: 1,
-        rotation: 360,
+    public set targetRect(targetRect: egret.Rectangle) {
+      yyw.eachChild(this.tools, (tool: ToolBase) => {
+        tool.targetRect = targetRect;
       });
     }
 
-    public async hideTip() {
-      await yyw.PromisedTween
-      .get(this.main)
-      .to({
-        scaleX: 0,
-        scaleY: 0,
-        rotation: 0,
-      });
-      this.main.visible = false;
-      this.main.scaleX = 1;
-      this.main.scaleY = 1;
+    public async showModal() {
+      yyw.fadeIn(this.bg);
+      await yyw.twirlIn(this.modal);
+      this.btnOK.visible = true;
+      this.btnKO.visible = true;
+      this.animate();
+    }
+
+    public async hideModal() {
+      this.btnOK.visible = false;
+      this.btnKO.visible = false;
+      yyw.fadeOut(this.bg);
+      await yyw.twirlOut(this.modal);
     }
 
     protected destroy() {
-      yyw.PromisedTween.removeTweens(this.main);
-      this.main.visible = false;
-      this.main.scaleX = 1;
-      this.main.scaleY = 1;
-      const { numLivesUp, numShuffle } = this;
+      yyw.removeTweens(this.bg);
+      yyw.removeTweens(this.modal);
+      this.bg.visible = false;
+      this.modal.visible = false;
+      const { valueUp, shuffle, breaker, livesUp } = this;
       yyw.setStorage(SNAPSHOT_KEY, {
-        numLivesUp,
-        numShuffle,
+        valueUp,
+        shuffle,
+        breaker,
+        livesUp,
       });
     }
 
@@ -57,72 +52,85 @@ namespace game {
       if (snapshot) {
         Object.assign(this, snapshot);
       }
-      this.update();
 
       if (fromChildrenCreated) {
-        yyw.onTap(this.btnLivesUp, async () => {
-          if (!this.numLivesUp) {
-            if (await yyw.share()) {
-              yyw.showToast("获得道具：生命力+1");
-              this.numLivesUp++;
-              this.update();
-            } else {
-              yyw.showToast("转发才能🉐道具");
-            }
-            return;
-          }
-          this.numLivesUp--;
-          this.update();
-          this.dispatchEventWith("TOOL_USED", false, {
-            type: "livesUp",
-          });
+        yyw.eachChild(this.tools, (tool: ToolBase) => {
+          tool.addEventListener("USING", this.onToolUsing, this);
         });
 
-        yyw.onTap(this.btnShuffle, async () => {
-          if (!this.numShuffle) {
-            if (await yyw.share()) {
-              yyw.showToast("获得道具：随机重新排列");
-              this.numShuffle++;
-              this.update();
-            } else {
-              yyw.showToast("转发才能🉐道具");
-            }
-            return;
-          }
-          this.numShuffle--;
-          this.update();
-          this.dispatchEventWith("TOOL_USED", false, {
-            type: "shuffle",
-          });
+        yyw.onTap(this.btnKO, () => {
+          this.hideModal();
         });
 
-        yyw.onTap(this.btnClose, () => {
-          this.hideTip();
-        });
-
-        yyw.onTap(this.btnMain, async () => {
-          // 转发/看完视频广告后领道具
-          if (await yyw.share()) {
-            await this.hideTip();
-            this.numLivesUp++;
-            this.update();
+        // 广告启用
+        if (yyw.CONFIG.adEnabled) {
+          // 有 UnitId
+          if (yyw.CONFIG.adUnitId) {
+            yyw.onTap(this.btnOK, async () => {
+              // 看完视频广告后领道具
+              const videoPlayed = await yyw.showVideoAd();
+              if (videoPlayed) {
+                await this.hideModal();
+                this.getRandomTool();
+              } else {
+                if (videoPlayed === false) {
+                  yyw.showToast("完整看完广告才能🉐道具");
+                } else {
+                  // yyw.showToast("当前没有可以播放的广告");
+                  // 转发后领道具
+                  if (await yyw.share()) {
+                    await this.hideModal();
+                    this.getRandomTool();
+                  } else {
+                    yyw.showToast("转发才能🉐道具");
+                  }
+                }
+              }
+            });
           } else {
-            yyw.showToast("转发才能🉐道具");
+            yyw.onTap(this.btnOK, async () => {
+              // 转发后领道具
+              if (await yyw.share()) {
+                await this.hideModal();
+                this.getRandomTool();
+              } else {
+                yyw.showToast("转发才能🉐道具");
+              }
+            });
           }
-        });
+        }
 
         this.initialized = true;
       }
+
+      yyw.eachChild(this.tools, (tool: ToolBase) => {
+        tool.setNum(this[tool.type]);
+      });
     }
 
-    private update() {
-      const { numLivesUp, numShuffle, tfdLivesUp, tfdShuffle, imgLivesUp, imgShuffle } = this;
-      tfdLivesUp.text = `${numLivesUp}`;
-      tfdShuffle.text = `${numShuffle}`;
-      tfdLivesUp.visible = !!numLivesUp;
-      tfdShuffle.visible = !!numShuffle;
-      imgLivesUp.visible = !numLivesUp;
-      imgShuffle.visible = !numShuffle;
+    private onToolUsing({ data }: any) {
+      this.dispatchEventWith("TOOL_USING", false, data);
+    }
+
+    private getRandomTool() {
+      yyw.randomChild(this.tools).increaseNum(1);
+    }
+
+    private animate() {
+      const n = this.images.numChildren;
+      let currentIndex = 0;
+      const tween = async () => {
+        const image: any = this.images.getChildAt(currentIndex);
+        yyw.setZIndex(image);
+        await yyw.fadeIn(image, 2000);
+        currentIndex = (currentIndex + 1) % n;
+        if (this.modal.visible) {
+          tween();
+        }
+      };
+      if (this.modal.visible) {
+        tween();
+      }
     }
   }
 }

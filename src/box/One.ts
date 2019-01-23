@@ -12,7 +12,7 @@ namespace box {
     }
 
     protected destroy() {
-      yyw.PromisedTween.removeTweens(this);
+      yyw.removeTweens(this);
       if (this.offChange) {
         this.offChange();
         this.offChange = null;
@@ -44,7 +44,7 @@ namespace box {
     // 循环抖动
     private async animate() {
       // 创建 Tween 对象
-      const tween = yyw.PromisedTween.get(this);
+      const tween = yyw.getTween(this);
       await tween.to({ rotation: 15 }, 50);
       await tween.to({ rotation: -15 }, 50);
       await tween.to({ rotation: 15 }, 50);

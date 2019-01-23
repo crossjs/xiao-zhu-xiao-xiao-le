@@ -1,48 +1,36 @@
 namespace game {
   export class Award extends yyw.Base {
-    private main: eui.Group;
+    private modal: eui.Group;
     private btnAward: eui.Image;
-    private btnClose: eui.Button;
-    private btnMain: eui.Image;
+    private btnOK: eui.Button;
+    private btnKO: eui.Button;
     private tfdCoins: eui.BitmapLabel;
     private coins: number;
 
-    public async show() {
+    public async showModal() {
       if (!yyw.CONFIG.adEnabled) {
         return;
       }
+      yyw.fadeIn(this.bg);
+      await yyw.twirlIn(this.modal);
+      this.btnOK.visible = true;
+      this.btnKO.visible = true;
       this.coins = Math.floor(Math.random() * 99) + 1;
       this.tfdCoins.text = `${this.coins}`;
-      this.main.scaleX = 0;
-      this.main.scaleY = 0;
-      this.main.visible = true;
-      await yyw.PromisedTween
-      .get(this.main)
-      .to({
-        scaleX: 1,
-        scaleY: 1,
-        rotation: 360,
-      });
     }
 
-    public async hide() {
-      await yyw.PromisedTween
-      .get(this.main)
-      .to({
-        scaleX: 0,
-        scaleY: 0,
-        rotation: 0,
-      });
-      this.main.visible = false;
-      this.main.scaleX = 1;
-      this.main.scaleY = 1;
+    public async hideModal() {
+      this.btnOK.visible = false;
+      this.btnKO.visible = false;
+      yyw.fadeOut(this.bg);
+      await yyw.twirlOut(this.modal);
     }
 
     protected destroy() {
-      yyw.PromisedTween.removeTweens(this.main);
-      this.main.visible = false;
-      this.main.scaleX = 1;
-      this.main.scaleY = 1;
+      yyw.removeTweens(this.bg);
+      yyw.removeTweens(this.modal);
+      this.bg.visible = false;
+      this.modal.visible = false;
     }
 
     protected createView(fromChildrenCreated?: boolean): void {
@@ -51,38 +39,47 @@ namespace game {
           yyw.showToast("积分兑换：待实现");
         });
 
-        yyw.onTap(this.btnClose, () => {
-          this.hide();
+        yyw.onTap(this.btnKO, () => {
+          this.hideModal();
         });
 
         // 广告启用
         if (yyw.CONFIG.adEnabled) {
           // 有 UnitId
           if (yyw.CONFIG.adUnitId) {
-            yyw.onTap(this.btnMain, async () => {
-              // 看完视频广告后领金币福包
+            yyw.onTap(this.btnOK, async () => {
+              // 看完视频广告后领 coin
               const videoPlayed = await yyw.showVideoAd();
               if (videoPlayed) {
                 await yyw.saveAward({
                   coins: this.coins,
                 });
-                await this.hide();
+                await this.hideModal();
               } else {
                 if (videoPlayed === false) {
                   yyw.showToast("完整看完广告才能🉐福包");
                 } else {
-                  yyw.showToast("当前没有可以播放的广告");
+                  // yyw.showToast("当前没有可以播放的广告");
+                  // 转发后领 coin
+                  if (await yyw.share()) {
+                    await yyw.saveAward({
+                      coins: this.coins,
+                    });
+                    await this.hideModal();
+                  } else {
+                    yyw.showToast("转发才能🉐福包");
+                  }
                 }
               }
             });
           } else {
-            yyw.onTap(this.btnMain, async () => {
-              // 转发后领金币福包
+            yyw.onTap(this.btnOK, async () => {
+              // 转发后领 coin
               if (await yyw.share()) {
                 await yyw.saveAward({
                   coins: this.coins,
                 });
-                await this.hide();
+                await this.hideModal();
               } else {
                 yyw.showToast("转发才能🉐福包");
               }

@@ -22,10 +22,6 @@ namespace yyw {
     return value.substring(0, size);
   }
 
-  export function toFixed(value: number, fractionDigits: number = 2) {
-    return +value.toFixed(fractionDigits);
-  }
-
   export function debounce(timeout: number) {
     return (target: any, key: string, descriptor: PropertyDescriptor) => {
       if (descriptor === undefined) {
@@ -48,13 +44,13 @@ namespace yyw {
     };
   }
 
-  export async function eachMatrix(matrix: any[][], handler: any): Promise<void> {
+  export function eachMatrix(matrix: any[][], handler: any): void {
     const rows = matrix.length;
     for (let row = 0; row < rows; row++) {
       const r = matrix[row];
       const cols = r.length;
       for (let col = 0; col < cols; col++) {
-        await handler(r[col], col, row);
+        handler(r[col], col, row);
       }
     }
   }

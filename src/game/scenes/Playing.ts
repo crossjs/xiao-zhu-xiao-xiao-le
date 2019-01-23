@@ -28,19 +28,8 @@ namespace game {
       this.arena.removeEventListener("GAME_OVER", this.onArenaGameOver, this);
       yyw.removeFromStage(this.arena);
       this.arena = null;
-      this.tools.removeEventListener("TOOL_USED", this.onToolUsed, this);
-      yyw.removeFromStage(this.tools);
-      this.tools = null;
-      yyw.removeFromStage(this.me);
-      this.me = null;
       yyw.removeFromStage(this.closest);
       this.closest = null;
-      yyw.removeFromStage(this.award);
-      this.award = null;
-      yyw.removeFromStage(this.words);
-      this.words = null;
-      yyw.removeFromStage(this.recommender);
-      this.recommender = null;
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
@@ -52,15 +41,12 @@ namespace game {
           useSnapshot = await yyw.showModal("接着玩？");
         }
       }
-      this.createMe();
       this.createClosest();
-      this.createRecommender();
       await this.createArena(useSnapshot);
-      this.createTools();
-      this.createAward();
-      this.createWords();
       this.isGameOver = false;
       if (fromChildrenCreated) {
+        this.initRecommender();
+        this.initTools();
         this.initialized = true;
       }
     }
@@ -78,6 +64,13 @@ namespace game {
           maxCombo,
         });
       }
+    }
+
+    private createClosest() {
+      this.closest = new Closest();
+      this.closest.x = 21;
+      this.closest.y = 133;
+      this.body.addChild(this.closest);
     }
 
     private async createArena(useSnapshot?: boolean): Promise<void> {
@@ -108,11 +101,13 @@ namespace game {
     }
 
     private onArenaLivesLow() {
-      this.tools.showTip();
+      yyw.setZIndex(this.award);
+      this.tools.showModal();
     }
 
     private onArenaMagicGot() {
-      this.award.show();
+      yyw.setZIndex(this.award);
+      this.award.showModal();
     }
 
     private onArenaGameOver({ data: {
@@ -130,59 +125,51 @@ namespace game {
       SceneManager.toScene("failing");
     }
 
-    private createTools() {
-      this.tools = new Tools();
-      this.tools.y = 318;
-      this.tools.addEventListener("TOOL_USED", this.onToolUsed, this);
-      this.body.addChild(this.tools);
+    private initTools() {
+      const { x, y, width, height } = this.arena;
+      const padding = 21;
+      const rect = new egret.Rectangle(
+        x + padding,
+        y + padding,
+        width - padding * 2,
+        height - padding * 2,
+      );
+      this.tools.targetRect = rect;
+      this.tools.addEventListener("TOOL_USING", this.onToolUsing, this);
     }
 
-    private onToolUsed({ data: {
+    private onToolUsing({ data: {
       type,
+      targetX,
+      targetY,
+      confirm,
+      cancel,
     } }: egret.Event) {
       switch (type) {
+        case "valueUp":
+          if (cancel) {
+            return this.arena.preValueUp(targetX, targetY, cancel);
+          }
+          return this.arena.doValueUp(targetX, targetY, confirm);
         case "shuffle":
-          return this.arena.shuffle();
+          return this.arena.doShuffle(confirm);
+        case "breaker":
+          if (cancel) {
+            return this.arena.preBreaker(targetX, targetY, cancel);
+          }
+          return this.arena.doBreaker(targetX, targetY, confirm);
         case "livesUp":
-          return this.arena.livesUp();
+          if (this.arena.isLivesFull) {
+            return yyw.showToast("生命力已满，无须使用此道具");
+          }
+          return this.arena.doLivesUp(confirm);
         default:
           return;
       }
     }
 
-    private createMe() {
-      this.me = new Me();
-      this.body.addChild(this.me);
-    }
-
-    private createClosest() {
-      this.closest = new Closest();
-      this.closest.x = 21;
-      this.closest.y = 133;
-      this.body.addChild(this.closest);
-    }
-
-    private createAward() {
-      this.award = new Award();
-      this.award.y = 318;
-      this.body.addChild(this.award);
-    }
-
-    private createWords() {
-      this.words = new Words();
-      this.words.y = 318;
-      this.body.addChild(this.words);
-    }
-
-    private createRecommender() {
-      try {
-        this.recommender = new box.All();
-        this.recommender.x = 0;
-        this.recommender.y = this.stage.stageHeight - 208;
-        this.addChild(this.recommender);
-      } catch (error) {
-        egret.error(error);
-      }
+    private initRecommender() {
+      this.recommender.y = this.stage.stageHeight - 208;
     }
   }
 }

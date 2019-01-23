@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="CellSkin" width="144" height="144" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Group id="numGroup" width="144" height="144" touchEnabled="false" x="0" y="0">
-		<e:Image id="n99" source="numbers_json.99" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="n99" source="numbers_json.99" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" y="0"/>
 		<e:Image id="n1" source="numbers_json.1" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
 		<e:Image id="n2" source="numbers_json.2" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
 		<e:Image id="n3" source="numbers_json.3" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
@@ -23,5 +23,5 @@
 		<e:Image id="n19" source="numbers_json.19" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
 		<e:Image id="n20" source="numbers_json.20" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
 	</e:Group>
-	<e:BitmapLabel id="tfdScore" font="score_fnt" height="72" text="" visible="true" touchEnabled="false" textAlign="center" anchorOffsetX="72" width="144" x="72" y="72" anchorOffsetY="36" scaleX="1.5" scaleY="1.5"/>
+	<e:BitmapLabel id="tfdScore" height="72" text="" visible="true" touchEnabled="false" textAlign="center" anchorOffsetX="72" width="144" x="72" y="72" anchorOffsetY="36" scaleX="1" scaleY="1" font="score_fnt"/>
 </e:Skin>

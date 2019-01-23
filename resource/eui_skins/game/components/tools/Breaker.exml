@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="BreakerSkin"
+ xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" width="78" height="78">
+	<e:Group id="main" visible="true" touchChildren="false" x="39" y="39" anchorOffsetX="39" anchorOffsetY="39">
+		<e:Image touchEnabled="false" source="sprites_json.tool_breaker"/>
+		<e:Image source="sprites_json.circle_red" x="51" y="-18"/>
+		<e:BitmapLabel id="tfd" width="54" height="54" text="" touchEnabled="false" x="57" y="-14" font="white_fnt" textAlign="center" visible="true" scaleY="0.5" scaleX="0.5"/>
+		<e:Image id="img" source="sprites_json.circle_add" touchEnabled="false" x="51" y="-18" visible="false"/>
+	</e:Group>
+</e:Skin>

@@ -25,8 +25,10 @@ namespace game {
       return SceneManager.instance.getScene(name);
     }
 
-    public static escape(): void {
-      yyw.removeFromStage(SceneManager.instance.theScene);
+    public static async escape(): Promise<void> {
+      const { theScene } = SceneManager.instance;
+      await yyw.fadeOut(theScene);
+      yyw.removeFromStage(theScene);
     }
 
     public static toScene(
@@ -40,11 +42,8 @@ namespace game {
       // 判断场景是否有父级（如果有，说明已经被添加到了场景中）
       if (!scene.parent) {
         if (keepOther) {
-          scene.alpha = 0;
           // 创建 Tween 对象
-          yyw.PromisedTween
-          .get(scene)
-          .to({ alpha: 1 }, 500);
+          yyw.fadeIn(scene, 500);
         }
         // 未被添加到场景，把场景添加到之前设置好的根舞台中
         stage.addChild(scene);

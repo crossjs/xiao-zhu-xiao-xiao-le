@@ -9,17 +9,22 @@ namespace game {
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
-      this.bmpMe = await yyw.RemoteLoader.loadImage(yyw.CURRENT_USER.avatarUrl);
-      this.bmpMe.width = 48;
-      this.bmpMe.height = 48;
-      this.bmpMe.x = 21;
-      this.bmpMe.y = 12;
-      this.addChild(this.bmpMe);
+      try {
+        this.bmpMe = await yyw.RemoteLoader.loadImage(yyw.CURRENT_USER.avatarUrl);
+        this.bmpMe.width = 48;
+        this.bmpMe.height = 48;
+        this.bmpMe.x = 21;
+        this.bmpMe.y = 12;
+        this.addChildAt(this.bmpMe, 0);
+      } catch (error) {
+        egret.error(error);
+      }
 
       if (fromChildrenCreated) {
         yyw.onTap(this.main, () => {
           SceneManager.toScene("pbl", true);
         });
+
         this.initialized = true;
       }
     }

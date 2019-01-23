@@ -1,7 +1,7 @@
 namespace game {
   export class Ranking extends yyw.Base {
     private bmpBoard: egret.Bitmap;
-    private btnClose: eui.Image;
+    private btnKO: eui.Button;
 
     protected destroy() {
       yyw.removeFromStage(this.bmpBoard);
@@ -20,9 +20,9 @@ namespace game {
       const width = stageWidth - x * 2;
       const height = 900;
       this.bmpBoard = yyw.sub.createDisplayObject(null, width, height);
-      this.addChild(this.bmpBoard);
       this.bmpBoard.x = x;
       this.bmpBoard.y = y;
+      this.addChild(this.bmpBoard);
 
       // 主域向子域发送自定义消息
       yyw.sub.postMessage({
@@ -35,7 +35,7 @@ namespace game {
       });
 
       if (fromChildrenCreated) {
-        yyw.onTap(this.btnClose, () => {
+        yyw.onTap(this.btnKO, () => {
           SceneManager.escape();
         });
 

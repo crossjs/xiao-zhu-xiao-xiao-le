@@ -25,7 +25,7 @@ const config: ResourceManagerConfig = {
             defines: { DEBUG: process.env.NODE_ENV !== "TEST", RELEASE: false, VERSION: version },
           }),
           new ExmlPlugin("commonjs"), // 非 EUI 项目关闭此设置
-          new WxgamePlugin(),
+          new WxgamePlugin("debug"),
           new ManifestPlugin({ output: "manifest.js" }),
           // new CustomPlugin(),
         ],
@@ -40,7 +40,7 @@ const config: ResourceManagerConfig = {
             defines: { DEBUG: false, RELEASE: true, VERSION: version },
           }),
           new ExmlPlugin("commonjs"), // 非 EUI 项目关闭此设置
-          new WxgamePlugin(),
+          new WxgamePlugin("release"),
           new UglifyPlugin([
             {
               sources: ["main.js"],

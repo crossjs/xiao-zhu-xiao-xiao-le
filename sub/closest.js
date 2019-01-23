@@ -67,7 +67,7 @@ export const Closest = {
    * 文本绘制函数
    */
   _drawText(text, x, y, width, {
-    color = "#d33d56",
+    color = "#d078b4",
   } = {}) {
     // 设置字体
     context.textAlign = "center";

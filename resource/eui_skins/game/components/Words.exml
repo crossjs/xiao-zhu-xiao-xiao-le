@@ -1,7 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="AwardSkin" width="750" height="750" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image id="imgAmazing" source="sprites_json.amazing" touchEnabled="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
-	<e:Image id="imgGood" source="sprites_json.good" touchEnabled="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
-	<e:Image id="imgGreat" source="sprites_json.great" touchEnabled="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
-	<e:Image id="imgExcellent" source="sprites_json.excellent" touchEnabled="false" visible="false" horizontalCenter="0" verticalCenter="0"/>
+<e:Skin class="AwardSkin" width="750" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Group id="main" width="750" height="750" x="375" y="645" anchorOffsetX="375" anchorOffsetY="375" touchEnabled="false" touchChildren="false">
+		<e:Image id="imgAmazing" source="sprites_json.amazing" touchEnabled="false" visible="false" x="109" y="112"/>
+		<e:Image id="imgGood" source="sprites_json.good" touchEnabled="false" visible="false" x="151" y="112"/>
+		<e:Image id="imgGreat" source="sprites_json.great" touchEnabled="false" visible="false" x="145" y="112"/>
+		<e:Image id="imgExcellent" source="sprites_json.excellent" touchEnabled="false" visible="false" x="82" y="107"/>
+	</e:Group>
 </e:Skin>

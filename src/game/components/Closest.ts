@@ -18,19 +18,18 @@ namespace game {
     }
 
     protected destroy() {
-      yyw.removeFromStage(this.bmpClosest);
-      this.bmpClosest = null;
+      // yyw.removeFromStage(this.bmpClosest);
+      // this.bmpClosest = null;
       yyw.sub.postMessage({
         command: "closeClosest",
       });
     }
 
     protected async createView(fromChildrenCreated?: boolean) {
-      this.bmpClosest = yyw.sub.createDisplayObject(
-        null, this.width, this.height);
-      this.addChild(this.bmpClosest);
-
       if (fromChildrenCreated) {
+        this.bmpClosest = yyw.sub.createDisplayObject(
+          null, this.width, this.height);
+        this.addChild(this.bmpClosest);
         this.initialized = true;
       }
     }

@@ -3,7 +3,12 @@ import * as fs from "fs";
 import * as path from "path";
 
 export class WxgamePlugin implements plugins.Command {
-  // constructor() {}
+  private mode: string = "debug";
+
+  constructor(mode: string) {
+    this.mode = mode;
+  }
+
   public async onFile(file: plugins.File) {
     if (file.extname === ".js") {
       const filename = file.origin;
@@ -48,7 +53,7 @@ export class WxgamePlugin implements plugins.Command {
         }
         content = "var egret = window.egret;" + content;
         if (filename === "main.js") {
-          content += "\n;window.Main = Main;";
+          content += "\n;window.Main = Main;window.game = game;window.box = box;window.yyw = yyw";
         }
         file.contents = new Buffer(content);
       }
@@ -74,5 +79,16 @@ export class WxgamePlugin implements plugins.Command {
     // 拷贝 template，无视 egret 提供的 template
     const wxgTemplate = path.join(__dirname, "template");
     childProcess.execSync(`cp -Rf ${wxgTemplate}/* ${pluginContext.outputDir}`);
+
+    if (this.mode === "debug") {
+      console.log("修改 setting.urlCheck");
+      // 修改 project.config.json
+      const configPath = path.join(pluginContext.outputDir, "project.config.json");
+      const content = require(configPath);
+      content.setting.urlCheck = false;
+      fs.writeFileSync(configPath, JSON.stringify(content, null, 2), {
+        encoding: "utf8",
+      });
+    }
   }
 }

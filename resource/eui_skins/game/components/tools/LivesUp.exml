@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="LivesUpSkin"
+ xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" width="126" height="138">
+	<e:Group id="main" touchChildren="false">
+		<e:Image source="sprites_json.tool_livesup"/>
+		<e:Image source="sprites_json.circle_red" x="84" y="96"/>
+		<e:BitmapLabel id="tfd" width="54" height="54" text="1" touchEnabled="false" x="90" y="100" font="white_fnt" textAlign="center" visible="true" scaleY="0.5" scaleX="0.5"/>
+		<e:Image id="img" source="sprites_json.circle_add" touchEnabled="false" x="84" y="96" visible="false"/>
+	</e:Group>
+</e:Skin>

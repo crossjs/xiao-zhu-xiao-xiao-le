@@ -1,22 +1,28 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="ToolsSkin"
- xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Group id="btnLivesUp" x="284" y="-168">
-		<e:Image source="sprites_json.tool_livesup" touchEnabled="false"/>
-		<e:Image source="sprites_json.circle_red" x="51" y="-18"/>
-		<e:BitmapLabel id="tfdLivesUp" width="54" height="54" text="" touchEnabled="false" x="57" y="-14" font="white_fnt" textAlign="center" visible="false" scaleY="0.5" scaleX="0.5"/>
-		<e:Image id="imgLivesUp" source="sprites_json.circle_add" touchEnabled="false" x="51" y="-18" visible="false"/>
+ xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:game="game.*">
+	<e:Group id="body" y="40" touchEnabled="false" width="750">
+		<e:Group id="tools" x="0" y="156">
+			<game:ValueUp width="78" height="78" y="0" x="186" touchChildren="false"/>
+			<game:Shuffle width="78" height="78" y="0" x="336" touchChildren="false"/>
+			<game:Breaker width="78" height="78" y="0" x="486" touchChildren="false"/>
+			<game:LivesUp width="126" height="138" x="600" y="38" touchChildren="false"/>
+		</e:Group>
 	</e:Group>
-	<e:Group id="btnShuffle" x="388" y="-168">
-		<e:Image source="sprites_json.tool_shuffle" touchEnabled="false"/>
-		<e:Image source="sprites_json.circle_red" x="51" y="-18"/>
-		<e:BitmapLabel id="tfdShuffle" text="" touchEnabled="false" font="white_fnt" width="54" height="54" x="57" y="-14" textAlign="center" visible="false" scaleX="0.5" scaleY="0.5"/>
-		<e:Image id="imgShuffle" source="sprites_json.circle_add" touchEnabled="false" x="51" y="-18" visible="false"/>
-	</e:Group>
-	<e:Group id="main" width="750" height="750" visible="false" anchorOffsetX="375" anchorOffsetY="375" x="375" y="375" locked="true">
-		<e:Image id="btnMain" source="award_large_png" visible="true" x="166" y="76"/>
-		<e:BitmapLabel y="150" anchorOffsetX="0" anchorOffsetY="0" text="危险！生命力过低" touchEnabled="false" textAlign="center" horizontalCenter="0" font="white_fnt"/>
-		<e:BitmapLabel anchorOffsetX="0" anchorOffsetY="0" text="转发赢取道具" touchEnabled="false" textAlign="center" horizontalCenter="0" y="552" font="white_fnt"/>
-		<e:Button id="btnClose" y="684" enabled="true" skinName="ButtonNormalSkin" label="残忍拒绝" horizontalCenter="0"/>
+	<e:Image id="bg" source="sprites_json.mask_bg" width="750" scale9Grid="2,2,2,2" visible="false"/>
+  <e:Group visible="true" y="270" width="750" touchEnabled="false">
+    <e:Group id="modal" y="330" visible="false" anchorOffsetX="240" anchorOffsetY="300" x="375" touchEnabled="false" touchChildren="false">
+      <e:Image source="sprites_json.modal_bg" width="480" scale9Grid="18,102,66,84" height="600" horizontalCenter="0"/>
+      <e:BitmapLabel y="27" anchorOffsetX="0" anchorOffsetY="0" text="生命力只剩一格了！" touchEnabled="false" textAlign="center" font="white_fnt" horizontalCenter="0"/>
+      <e:Image source="sprites_json.fu" y="234" horizontalCenter="0"/>
+      <e:Group id="images" y="150" horizontalCenter="0">
+        <e:Image source="sprites_json.breaker" y="0" visible="true" x="0"/>
+        <e:Image source="sprites_json.valueup" y="0" visible="true" x="0"/>
+        <e:Image source="sprites_json.shuffle" y="0" visible="true" x="0"/>
+      </e:Group>
+      <e:BitmapLabel y="132" anchorOffsetX="0" anchorOffsetY="0" text="转发获得随机幸运道具" touchEnabled="false" textAlign="center" font="red_fnt" horizontalCenter="0.5" visible="true"/>
+    </e:Group>
+    <e:Button id="btnOK" label="立即获得" y="678" skinName="ButtonDefaultSkin" width="360" height="102" horizontalCenter="0" visible="false" enabled="true"/>
+    <e:Button id="btnKO" y="786" enabled="true" skinName="ButtonNormalSkin" label="不，谢谢" horizontalCenter="0.5" scaleX="0.75" scaleY="0.75" visible="false"/>
 	</e:Group>
 </e:Skin>
