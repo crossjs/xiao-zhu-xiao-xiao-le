@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node compress.js"
+    "image": "node compress.js",
+    "start": "cd .. && egret build",
+    "build": "cd .. && egret publish"
   },
   "author": "",
   "license": "ISC",
