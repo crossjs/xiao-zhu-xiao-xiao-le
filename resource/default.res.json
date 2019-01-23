@@ -31,7 +31,7 @@
 			"url": "assets/sprites.json",
 			"type": "sheet",
 			"name": "sprites_json",
-			"subkeys": "amazing,award,board,bottom_bg,breaker,button_disabled,button_down,button_up,chase_bg,circle_add,circle_red,fu,excellent,good,great,heart,heart_gray,important,lantern,lives_bg,main_bg,mask_bg,me_bg,modal_bg,pig,redpack,share,shuffle,single,sound-off,sound-on,title,tool_bg,tool_breaker,tool_livesup,tool_shuffle,tool_valueup,valueup"
+			"subkeys": "amazing,award,board,bottom_bg,breaker,button_disabled,button_down,button_up,card,chase_bg,circle_add,circle_red,coin,fu,excellent,good,great,heart,heart_gray,hot,important,lantern,left,lives_bg,main_bg,mask_bg,me_bg,modal_bg,pig,redpack,share,shuffle,single,sound-off,sound-on,title,tool_bg,tool_breaker,tool_livesup,tool_shuffle,tool_valueup,valueup"
 		},
 		{
 			"url": "assets/amazing.m4a",

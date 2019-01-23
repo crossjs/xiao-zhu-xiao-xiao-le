@@ -14,6 +14,7 @@
 		"game.Shuffle": "resource/eui_skins/game/components/tools/Shuffle.exml",
 		"game.ValueUp": "resource/eui_skins/game/components/tools/ValueUp.exml",
 		"game.Failing": "resource/eui_skins/game/scenes/Failing.exml",
+		"game.Shop": "resource/eui_skins/game/scenes/Shop.exml",
 		"game.Landing": "resource/eui_skins/game/scenes/Landing.exml",
 		"game.Pbl": "resource/eui_skins/game/scenes/Pbl.exml",
 		"game.Playing": "resource/eui_skins/game/scenes/Playing.exml",
@@ -44,7 +45,8 @@
 		"resource/eui_skins/game/scenes/Landing.exml",
 		"resource/eui_skins/game/scenes/Pbl.exml",
 		"resource/eui_skins/game/scenes/Playing.exml",
-		"resource/eui_skins/game/scenes/Ranking.exml"
+		"resource/eui_skins/game/scenes/Ranking.exml",
+		"resource/eui_skins/game/scenes/Shop.exml"
 	],
 	"path": "resource/default.thm.json"
 }

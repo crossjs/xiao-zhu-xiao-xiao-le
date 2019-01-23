@@ -11,8 +11,8 @@
   },
   "compileType": "game",
   "libVersion": "game",
-  "appid": "wx2d01e63038198832",
-  "projectname": "小猪消消乐",
+  "appid": "",
+  "projectname": "",
   "condition": {
     "search": {
       "current": -1,

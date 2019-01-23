@@ -9,7 +9,7 @@ import {
 } from "built-in";
 import * as defaultConfig from "./config";
 // import { CustomPlugin } from "./myplugin";
-import { WxgamePlugin } from "./wxgame/wxgame";
+import { Constants, WxgamePlugin } from "./wxgame/wxgame";
 
 const config: ResourceManagerConfig = {
   buildConfig: (params) => {
@@ -22,7 +22,12 @@ const config: ResourceManagerConfig = {
           new CleanPlugin({ matchers: ["js", "resource"] }),
           new CompilePlugin({
             libraryType: "debug",
-            defines: { DEBUG: process.env.NODE_ENV !== "TEST", RELEASE: false, VERSION: version },
+            defines: {
+              ...Constants,
+              DEBUG: process.env.NODE_ENV !== "TEST",
+              RELEASE: false,
+              VERSION: version,
+            },
           }),
           new ExmlPlugin("commonjs"), // 非 EUI 项目关闭此设置
           new WxgamePlugin("debug"),
@@ -37,7 +42,12 @@ const config: ResourceManagerConfig = {
           new CleanPlugin({ matchers: ["js", "resource"] }),
           new CompilePlugin({
             libraryType: "release",
-            defines: { DEBUG: false, RELEASE: true, VERSION: version },
+            defines: {
+              ...Constants,
+              DEBUG: false,
+              RELEASE: true,
+              VERSION: version,
+            },
           }),
           new ExmlPlugin("commonjs"), // 非 EUI 项目关闭此设置
           new WxgamePlugin("release"),

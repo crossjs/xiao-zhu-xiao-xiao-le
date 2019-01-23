@@ -36,7 +36,8 @@ namespace game {
     protected createView(fromChildrenCreated?: boolean): void {
       if (fromChildrenCreated) {
         yyw.onTap(this.btnAward, () => {
-          yyw.showToast("积分兑换：待实现");
+          // yyw.showToast("积分兑换：待实现");
+          SceneManager.toScene("shop", true);
         });
 
         yyw.onTap(this.btnKO, () => {

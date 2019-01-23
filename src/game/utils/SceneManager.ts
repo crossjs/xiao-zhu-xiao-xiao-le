@@ -65,6 +65,7 @@ namespace game {
       playing: Playing;
       ranking: Ranking;
       failing: Failing;
+      shop: Shop;
     };
 
     constructor() {
@@ -74,6 +75,7 @@ namespace game {
         playing: new Playing(),
         ranking: new Ranking(),
         failing: new Failing(),
+        shop: new Shop(),
       };
     }
 
