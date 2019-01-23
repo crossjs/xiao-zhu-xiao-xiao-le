@@ -78,27 +78,27 @@ export class WxgamePlugin implements plugins.Command {
     return file;
   }
 
-  public async onFinish(pluginContext: plugins.CommandContext) {
+  public async onFinish(commandContext: plugins.CommandContext) {
     console.log("拷贝静态资源目录，比如 images");
-    const imgSource = path.join(pluginContext.projectRoot, "images");
-    const imgTarget = path.join(pluginContext.outputDir, "images");
+    const imgSource = path.join(commandContext.projectRoot, "images");
+    const imgTarget = path.join(commandContext.outputDir, "images");
     childProcess.execSync(`rm -Rf ${imgTarget}`);
-    childProcess.execSync(`cp -Rf ${imgSource} ${pluginContext.outputDir}`);
+    childProcess.execSync(`cp -Rf ${imgSource} ${commandContext.outputDir}`);
 
     console.log("拷贝 sub 目录（开放数据域）");
     // 拷贝 openDataContext
-    const subSource = path.join(pluginContext.projectRoot, "sub");
-    const subTarget = path.join(pluginContext.outputDir, "sub");
+    const subSource = path.join(commandContext.projectRoot, "sub");
+    const subTarget = path.join(commandContext.outputDir, "sub");
     childProcess.execSync(`rm -Rf ${subTarget}`);
-    childProcess.execSync(`cp -Rf ${subSource} ${pluginContext.outputDir}`);
+    childProcess.execSync(`cp -Rf ${subSource} ${commandContext.outputDir}`);
 
     console.log("拷贝 template 目录");
     // 拷贝 template，无视 egret 提供的 template
     const wxgTemplate = path.join(__dirname, "template");
-    childProcess.execSync(`cp -Rf ${wxgTemplate}/* ${pluginContext.outputDir}`);
+    childProcess.execSync(`cp -Rf ${wxgTemplate}/* ${commandContext.outputDir}`);
 
     console.log("修改 project.config.json");
-    const projectConfigPath = path.join(pluginContext.outputDir, "project.config.json");
+    const projectConfigPath = path.join(commandContext.outputDir, "project.config.json");
     const projectConfigContent = require(projectConfigPath);
     projectConfigContent.appid = Constants.APP_ID;
     projectConfigContent.projectname = Constants.APP_NAME;
@@ -110,7 +110,7 @@ export class WxgamePlugin implements plugins.Command {
     });
 
     console.log("修改 game.json");
-    const gameConfigPath = path.join(pluginContext.outputDir, "project.config.json");
+    const gameConfigPath = path.join(commandContext.outputDir, "project.config.json");
     const gameConfigContent = require(gameConfigPath);
     gameConfigContent.navigateToMiniProgramAppIdList = Constants.APP_IDS;
     fs.writeFileSync(gameConfigPath, JSON.stringify(gameConfigContent, null, 2), {

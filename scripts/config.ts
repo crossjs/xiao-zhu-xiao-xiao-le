@@ -8,7 +8,7 @@ import {
   // TextureMergerPlugin,
   UglifyPlugin,
 } from "built-in";
-import { CustomPlugin } from "./myplugin";
+// import { CustomPlugin } from "./myplugin";
 
 const config: ResourceManagerConfig = {
   buildConfig: (params) => {
@@ -34,7 +34,7 @@ const config: ResourceManagerConfig = {
       return {
         outputDir,
         commands: [
-          new CustomPlugin(),
+          // new CustomPlugin(),
           new CompilePlugin({
             libraryType: "release",
             defines: { DEBUG: false, RELEASE: true },
