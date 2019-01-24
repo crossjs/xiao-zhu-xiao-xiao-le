@@ -17,7 +17,7 @@ namespace game {
      */
     public static sceneManager: SceneManager;
 
-    public static setStage(stage: egret.DisplayObjectContainer): void {
+    public static setStage(stage: eui.UILayer): void {
       SceneManager.instance.setStage(stage);
     }
 
@@ -60,7 +60,7 @@ namespace game {
 
       return scene;
     }
-    private theStage: egret.DisplayObjectContainer; // 设置所有场景所在的舞台(根)
+    private theStage: eui.UILayer; // 设置所有场景所在的舞台(根)
     private theScene: eui.Component; // 当前场景
 
     private scenes: {
@@ -88,7 +88,7 @@ namespace game {
     /**
      * 设置根场景
      */
-    public setStage(stage: egret.DisplayObjectContainer) {
+    public setStage(stage: eui.UILayer) {
       this.theStage = stage;
     }
 

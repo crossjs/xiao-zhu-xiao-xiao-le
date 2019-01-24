@@ -14,7 +14,7 @@
 		<e:Group x="30" y="222">
 			<e:Image source="sprites_json.main_bg" x="0" y="18" scale9Grid="10,10,10,10" width="330" height="360"/>
 			<e:Image source="sprites_json.hot" x="276" y="0"/>
-			<e:Button id="btnRestart" skinName="ButtonDefaultSkin" label="兑换" width="222" x="56.62" y="284"/>
+			<e:Button id="btnPurchase0" skinName="ButtonDefaultSkin" label="兑换" width="222" x="56.62" y="284" enabled="false"/>
 			<e:Image source="sprites_json.valueup" x="46" y="10"/>
 			<e:Image source="sprites_json.coin" x="114" y="241"/>
 			<e:BitmapLabel x="144" y="236" font="red_fnt" text="1000"/>
@@ -22,7 +22,7 @@
 		<e:Group x="390" y="222">
 			<e:Image source="sprites_json.main_bg" x="0" y="18" scale9Grid="10,10,10,10" width="330" height="360"/>
 			<e:Image source="sprites_json.hot" x="276" y="0"/>
-			<e:Button id="btnRestart0" skinName="ButtonDefaultSkin" label="兑换" width="222" x="56.62" y="284"/>
+			<e:Button id="btnPurchase1" skinName="ButtonDefaultSkin" label="兑换" width="222" x="56.62" y="284" enabled="false"/>
 			<e:Image x="46" y="10" source="sprites_json.shuffle"/>
 			<e:Image source="sprites_json.coin" x="114" y="241"/>
 			<e:BitmapLabel x="144" y="236" font="red_fnt" text="2000"/>
@@ -30,7 +30,7 @@
 		<e:Group x="30" y="630">
 			<e:Image source="sprites_json.main_bg" x="0" y="18" scale9Grid="10,10,10,10" width="330" height="360"/>
 			<e:Image source="sprites_json.hot" x="276" y="0"/>
-			<e:Button id="btnRestart1" skinName="ButtonDefaultSkin" label="兑换" width="222" x="56.62" y="284"/>
+			<e:Button id="btnPurchase2" skinName="ButtonDefaultSkin" label="兑换" width="222" x="56.62" y="284" touchEnabled="true" enabled="false"/>
 			<e:Image x="46" y="10" source="sprites_json.breaker"/>
 			<e:Image source="sprites_json.coin" x="114" y="241"/>
 			<e:BitmapLabel x="144" y="236" font="red_fnt" text="1500"/>
@@ -38,7 +38,7 @@
 		<e:Group x="390" y="630">
 			<e:Image source="sprites_json.main_bg" x="0" y="18" scale9Grid="10,10,10,10" width="330" height="360"/>
 			<e:Image source="sprites_json.hot" x="276" y="0"/>
-			<e:Button id="btnRestart2" skinName="ButtonDefaultSkin" label="兑换" width="222" x="56.62" y="284"/>
+			<e:Button id="btnPurchase3" skinName="ButtonDefaultSkin" label="兑换" width="222" x="56.62" y="284" touchEnabled="true" enabled="false"/>
 			<e:Image x="42" y="58" source="sprites_json.card"/>
 			<e:Image source="sprites_json.coin" x="114" y="241"/>
 			<e:BitmapLabel x="144" y="236" font="red_fnt" text="20000"/>

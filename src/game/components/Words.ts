@@ -65,10 +65,10 @@ namespace game {
       this.main.alpha = 0;
       this.main.visible = true;
       await yyw.getTween(this.main).to({
-        scaleX: 1,
-        scaleY: 1,
+        scaleX: 1.5,
+        scaleY: 1.5,
         alpha: 1,
-      }, 200);
+      }, 300);
       egret.setTimeout(this.hide, this, 500);
     }
 
@@ -77,7 +77,7 @@ namespace game {
         scaleX: 0,
         scaleY: 0,
         alpha: 0,
-      });
+      }, 200);
       this.main.visible = false;
       this.main.scaleX = 1;
       this.main.scaleY = 1;

@@ -33,6 +33,11 @@ namespace game {
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       if (fromChildrenCreated) {
+        yyw.on("TOOL_PURCHASED", ({ data: { type, amount } }: any) => {
+          if (type === this.type) {
+            this.increaseNum(amount);
+          }
+        });
         yyw.onTap(this, async () => {
           this.zoomOut();
           if (!this.num) {

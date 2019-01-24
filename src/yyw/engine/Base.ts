@@ -45,9 +45,11 @@ namespace yyw {
       if (this.body) {
         const { platform, statusBarHeight } = CONFIG.systemInfo;
         // 刘海屏
+        // TODO 是否需要 pixelRatio 为 3？
         if (statusBarHeight > 40) {
           this.body.y = statusBarHeight * 2;
         } else {
+          // 胶囊与屏幕顶部的距离
           const top = platform === "android" ? 32 : 20;
           this.body.y = top;
         }

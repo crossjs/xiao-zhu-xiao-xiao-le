@@ -1,7 +1,6 @@
 namespace game {
   export class Landing extends yyw.Base {
     private btnBoard: eui.Button;
-    private btnShare: eui.Button;
     private btnStart: eui.Button;
     private btnSound: eui.ToggleButton;
     private btnVibration: eui.ToggleButton;
@@ -28,11 +27,6 @@ namespace game {
         // 排行榜
         yyw.onTap(this.btnBoard, () => {
           SceneManager.toScene("ranking", true);
-        });
-
-        // 转发
-        yyw.onTap(this.btnShare, () => {
-          yyw.share();
         });
 
         // 开始游戏
