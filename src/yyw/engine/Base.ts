@@ -43,11 +43,13 @@ namespace yyw {
 
       // 匹配刘海屏
       if (this.body) {
-        const { statusBarHeight, pixelRatio } = CONFIG.systemInfo;
-        if (statusBarHeight === 44 && pixelRatio === 3) {
+        const { platform, statusBarHeight } = CONFIG.systemInfo;
+        // 刘海屏
+        if (statusBarHeight > 40) {
           this.body.y = statusBarHeight * 2;
         } else {
-          this.body.y = statusBarHeight;
+          const top = platform === "android" ? 32 : 20;
+          this.body.y = top;
         }
         this.body.height = this.stage.stageHeight - this.body.y;
       }

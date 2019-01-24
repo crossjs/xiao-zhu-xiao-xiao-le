@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<e:Skin class="GuideSkin"
+	 width="750"
+	height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:game="game.*">
+	<e:Image id="bg" touchEnabled="true" width="750" scale9Grid="2,2,2,2" source="sprites_json.mask_bg" height="1334"/>
+	<e:Group id="body" y="20" touchEnabled="false" width="750">
+		<e:Group x="0" y="156" touchEnabled="false" touchChildren="false">
+      <e:Image x="186" source="sprites_json.tool_valueup"/>
+      <e:Image x="336" source="sprites_json.tool_shuffle"/>
+      <e:Image x="486" source="sprites_json.tool_breaker"/>
+      <e:Image x="600" y="38" source="sprites_json.tool_livesup"/>
+		</e:Group>
+	</e:Group>
+</e:Skin>

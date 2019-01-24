@@ -13,11 +13,15 @@ namespace game {
     private maxCombo: number = 0;
     private arena: Arena;
     private tools: Tools;
-    private me: Me;
+    // private me: Me;
     private closest: Closest;
     private award: Award;
     private words: Words;
     private recommender: box.All;
+
+    public restart() {
+      this.arena.restart();
+    }
 
     protected destroy() {
       this.setSnapshot(this.isGameOver ? null : undefined);
@@ -47,6 +51,9 @@ namespace game {
       if (fromChildrenCreated) {
         this.initRecommender();
         this.initTools();
+        if (!!yyw.CURRENT_USER.score) {
+          SceneManager.toScene("guide", true);
+        }
         this.initialized = true;
       }
     }
@@ -122,7 +129,7 @@ namespace game {
         level,
         combo: Math.max(combo, this.maxCombo),
       });
-      SceneManager.toScene("failing");
+      SceneManager.toScene("ending");
     }
 
     private initTools() {
@@ -160,7 +167,10 @@ namespace game {
           return this.arena.doBreaker(targetX, targetY, confirm);
         case "livesUp":
           if (this.arena.isLivesFull) {
-            return yyw.showToast("生命力已满，无须使用此道具");
+            if (cancel) {
+              return cancel();
+            }
+            return yyw.showToast("体力已满，无须使用此道具");
           }
           return this.arena.doLivesUp(confirm);
         default:

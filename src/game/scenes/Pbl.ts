@@ -1,7 +1,8 @@
 namespace game {
   export class Pbl extends yyw.Base {
-    private btnHome: eui.Button;
     private btnBack: eui.Button;
+    private btnHome: eui.Button;
+    private btnRestart: eui.Button;
 
     protected destroy() {
       // empty
@@ -18,12 +19,18 @@ namespace game {
       }
 
       if (fromChildrenCreated) {
+        yyw.onTap(this.btnBack, () => {
+          SceneManager.escape();
+        });
+
         yyw.onTap(this.btnHome, () => {
           SceneManager.toScene("landing");
         });
 
-        yyw.onTap(this.btnBack, () => {
-          SceneManager.escape();
+        yyw.onTap(this.btnRestart, () => {
+          SceneManager.toScene("playing", (scene: Playing) => {
+            scene.restart();
+          });
         });
 
         this.initialized = true;

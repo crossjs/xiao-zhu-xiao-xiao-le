@@ -3,12 +3,12 @@ namespace box {
     private container: eui.Group;
 
     protected destroy() {
-      //
+      // 不销毁，多场景复用
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       if (fromChildrenCreated) {
-        box.onReady((_, recommender) => {
+        box.onReady((_: any, recommender: Recommender) => {
           const games = recommender.getGames();
           games.forEach(async (game: any, index: number) => {
             const { iconUrl, title } = game;

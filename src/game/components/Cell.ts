@@ -38,23 +38,23 @@ namespace game {
     }
 
     public async flashScore() {
-      this.tfdScore.text = `${this.num * 10}`;
+      this.tfdScore.text = `+${this.num * 10}`;
       this.tfdScore.visible = true;
       this.tfdScore.alpha = 0;
       const tween = await yyw.getTween(this.tfdScore);
       await tween.to({
-        y: 0,
+        y: 72,
         alpha: 1,
       }, 300);
       await tween.to({
-        y: -36,
+        y: 36,
         alpha: 0,
         scaleX: 1.5,
         scaleY: 1.5,
       }, 200);
       this.tfdScore.visible = false;
       this.tfdScore.alpha = 1;
-      this.tfdScore.y = 36;
+      this.tfdScore.y = 108;
       this.tfdScore.scaleX = 1;
       this.tfdScore.scaleY = 1;
     }

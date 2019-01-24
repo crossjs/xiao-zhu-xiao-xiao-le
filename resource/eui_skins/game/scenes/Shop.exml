@@ -3,45 +3,45 @@
 	 width="750"
 	height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Image id="bg" touchEnabled="false" width="750" x="0" height="1334" y="0" fillMode="clip" source="bg_png" scale9Grid="0,867,750,18"/>
-	<e:Group id="body" y="40" width="750">
+	<e:Group id="body" y="20" width="750">
 		<e:Group id="btnBack" x="30" y="0">
 			<e:Image source="sprites_json.left" x="0" y="2"/>
 			<e:BitmapLabel x="42" y="0" text="金币兑换" font="white_fnt"/>
 		</e:Group>
-		<e:Image source="sprites_json.hot" x="648" y="237"/>
+		<e:Image source="sprites_json.hot" x="648" y="240"/>
 		<e:Image source="sprites_json.coin" x="309" y="108"/>
-		<e:BitmapLabel id="tfdCoins" x="339" y="102" font="red_fnt" text="1000"/>
-		<e:Group x="30" y="219">
-			<e:Image source="sprites_json.main_bg" x="0" y="18" scale9Grid="10,10,10,10" width="330" height="330"/>
+		<e:BitmapLabel id="tfdCoins" x="339" y="102" font="red_fnt" text=""/>
+		<e:Group x="30" y="222">
+			<e:Image source="sprites_json.main_bg" x="0" y="18" scale9Grid="10,10,10,10" width="330" height="360"/>
 			<e:Image source="sprites_json.hot" x="276" y="0"/>
-			<e:Button id="btnRestart" skinName="ButtonDefaultSkin" label="兑换" width="222" x="56.62" y="264"/>
-			<e:Image source="sprites_json.valueup" x="46" y="0"/>
-			<e:Image source="sprites_json.coin" x="114" y="221"/>
-			<e:BitmapLabel x="144" y="216" font="red_fnt" text="1000"/>
+			<e:Button id="btnRestart" skinName="ButtonDefaultSkin" label="兑换" width="222" x="56.62" y="284"/>
+			<e:Image source="sprites_json.valueup" x="46" y="10"/>
+			<e:Image source="sprites_json.coin" x="114" y="241"/>
+			<e:BitmapLabel x="144" y="236" font="red_fnt" text="1000"/>
 		</e:Group>
-		<e:Group x="390" y="219">
-			<e:Image source="sprites_json.main_bg" x="0" y="18" scale9Grid="10,10,10,10" width="330" height="330"/>
+		<e:Group x="390" y="222">
+			<e:Image source="sprites_json.main_bg" x="0" y="18" scale9Grid="10,10,10,10" width="330" height="360"/>
 			<e:Image source="sprites_json.hot" x="276" y="0"/>
-			<e:Button id="btnRestart0" skinName="ButtonDefaultSkin" label="兑换" width="222" x="56.62" y="264"/>
-			<e:Image x="46" y="0" source="sprites_json.shuffle"/>
-			<e:Image source="sprites_json.coin" x="114" y="221"/>
-			<e:BitmapLabel x="144" y="216" font="red_fnt" text="2000"/>
+			<e:Button id="btnRestart0" skinName="ButtonDefaultSkin" label="兑换" width="222" x="56.62" y="284"/>
+			<e:Image x="46" y="10" source="sprites_json.shuffle"/>
+			<e:Image source="sprites_json.coin" x="114" y="241"/>
+			<e:BitmapLabel x="144" y="236" font="red_fnt" text="2000"/>
 		</e:Group>
-		<e:Group x="30" y="579">
-			<e:Image source="sprites_json.main_bg" x="0" y="18" scale9Grid="10,10,10,10" width="330" height="330"/>
+		<e:Group x="30" y="630">
+			<e:Image source="sprites_json.main_bg" x="0" y="18" scale9Grid="10,10,10,10" width="330" height="360"/>
 			<e:Image source="sprites_json.hot" x="276" y="0"/>
-			<e:Button id="btnRestart1" skinName="ButtonDefaultSkin" label="兑换" width="222" x="56.62" y="264"/>
-			<e:Image x="46" y="0" source="sprites_json.breaker"/>
-			<e:Image source="sprites_json.coin" x="114" y="221"/>
-			<e:BitmapLabel x="144" y="216" font="red_fnt" text="1500"/>
+			<e:Button id="btnRestart1" skinName="ButtonDefaultSkin" label="兑换" width="222" x="56.62" y="284"/>
+			<e:Image x="46" y="10" source="sprites_json.breaker"/>
+			<e:Image source="sprites_json.coin" x="114" y="241"/>
+			<e:BitmapLabel x="144" y="236" font="red_fnt" text="1500"/>
 		</e:Group>
-		<e:Group x="390" y="579">
-			<e:Image source="sprites_json.main_bg" x="0" y="18" scale9Grid="10,10,10,10" width="330" height="330"/>
+		<e:Group x="390" y="630">
+			<e:Image source="sprites_json.main_bg" x="0" y="18" scale9Grid="10,10,10,10" width="330" height="360"/>
 			<e:Image source="sprites_json.hot" x="276" y="0"/>
-			<e:Button id="btnRestart2" skinName="ButtonDefaultSkin" label="兑换" width="222" x="56.62" y="264"/>
-			<e:Image x="42" y="48" source="sprites_json.card"/>
-			<e:Image source="sprites_json.coin" x="114" y="221"/>
-			<e:BitmapLabel x="144" y="216" font="red_fnt" text="20000"/>
+			<e:Button id="btnRestart2" skinName="ButtonDefaultSkin" label="兑换" width="222" x="56.62" y="284"/>
+			<e:Image x="42" y="58" source="sprites_json.card"/>
+			<e:Image source="sprites_json.coin" x="114" y="241"/>
+			<e:BitmapLabel x="144" y="236" font="red_fnt" text="20000"/>
 		</e:Group>
 	</e:Group>
 </e:Skin>

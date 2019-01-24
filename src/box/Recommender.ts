@@ -185,12 +185,12 @@ namespace box {
       }
     }
 
-    public getGames(size) {
+    public getGames(size?: number) {
       if (!size) {
         return this.games;
       }
       const selected = [];
-      let indexes;
+      let indexes: number;
       for (let i = 0; i < size; i++) {
         const res = weightedRandom(this.games, indexes);
         indexes = res.indexes;
@@ -201,7 +201,7 @@ namespace box {
       return selected;
     }
 
-    public navigateTo(game) {
+    public navigateTo(game: any) {
       const { appId, path = "", extraData = {} } = game;
       wx.navigateToMiniProgram({
         appId,
@@ -221,20 +221,20 @@ namespace box {
       });
     }
 
-    public dispatchReady(value) {
+    public dispatchReady(value: any) {
       this.isReady = true;
       this.readyHandlers.forEach((cb) => {
         cb(value, this);
       });
     }
 
-    public dispatchChange(value) {
+    public dispatchChange(value: any) {
       this.changeHandlers.forEach((cb) => {
         cb(value, this);
       });
     }
 
-    public onReady(cb) {
+    public onReady(cb: (value: string, recommender: Recommender) => void) {
       if (typeof cb !== "function") {
         return;
       }
@@ -250,7 +250,7 @@ namespace box {
       }
     }
 
-    public onChange(cb) {
+    public onChange(cb: (value: string, recommender: Recommender) => void) {
       if (typeof cb !== "function") {
         return;
       }
@@ -262,7 +262,7 @@ namespace box {
       }
     }
 
-    public report(type, { appId: toAppId = 0 } = {}) {
+    public report(type: number, { appId: toAppId = 0 } = {}) {
       const data = [
         this.unionId,
         type,
@@ -286,18 +286,54 @@ namespace box {
       }
     }
 
-    private offReady(cb) {
+    private offReady(cb: any) {
       const index = this.readyHandlers.indexOf(cb);
       if (index !== -1) {
         this.readyHandlers.splice(index, 1);
       }
     }
 
-    private offChange(cb) {
+    private offChange(cb: any) {
       const index = this.changeHandlers.indexOf(cb);
       if (index !== -1) {
         this.changeHandlers.splice(index, 1);
       }
+    }
+  }
+
+  let instance: Recommender;
+
+  function getInstance(): Recommender {
+    if (!instance) {
+      const { openId } = yyw.CURRENT_USER;
+      if (openId) {
+        // 初始化交叉营销
+        instance = new Recommender({
+          appId: APP_ID,
+          openId,
+          // origins: {
+          //   box: "http://127.0.0.1:7001",
+          //   log: "http://127.0.0.1:7002",
+          // },
+        });
+      } else {
+        egret.warn("Recommender 初始化失败，当前用户未登录");
+      }
+    }
+    return instance;
+  }
+
+  export function onReady(onRecommenderReady: any): any {
+    const i = getInstance();
+    if (i) {
+      i.onReady(onRecommenderReady);
+    }
+  }
+
+  export function onChange(onRecommenderChange: any): any {
+    const i = getInstance();
+    if (i) {
+      i.onChange(onRecommenderChange);
     }
   }
 }

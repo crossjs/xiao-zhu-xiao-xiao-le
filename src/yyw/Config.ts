@@ -3,7 +3,7 @@ namespace yyw {
   const serverOrigin: string = DEBUG ? "http://127.0.0.1:7014" : "https://g4.minipx.cn";
 
   const systemInfo: wx.systemInfo = wx.getSystemInfoSync();
-  const speedRatio = 2;
+  const speedRatio = 1.5;
 
   let adEnabled: boolean = true;
   let adUnitId: string = "";

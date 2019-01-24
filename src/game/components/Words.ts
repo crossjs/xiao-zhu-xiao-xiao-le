@@ -9,6 +9,7 @@ namespace game {
     private threshold: number = 2;
     private sounds: [GoodSound, GreatSound, AmazingSound, ExcellentSound];
     private index: number = -1;
+    private combo: number = -1;
 
     constructor() {
       super();
@@ -22,6 +23,9 @@ namespace game {
     }
 
     public update(combo: number) {
+      if (combo === this.combo) {
+        return;
+      }
       if (combo > this.threshold) {
         // 3 -> 0
         // 4,5 -> 1
@@ -31,6 +35,7 @@ namespace game {
           Math.floor((combo - this.threshold) / this.threshold),
         );
       }
+      this.combo = combo;
     }
 
     protected destroy() {
@@ -49,7 +54,7 @@ namespace game {
       }
     }
 
-    @yyw.debounce(1000)
+    @yyw.debounce()
     private async show(index: number) {
       await this.hide();
       this.index = Math.min(3, index);

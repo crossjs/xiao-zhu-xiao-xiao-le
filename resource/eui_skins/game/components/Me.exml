@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="MeSkin"
  xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image source="sprites_json.avatar" x="21" y="12"/>
 	<e:Image id="main" source="sprites_json.me_bg" touchEnabled="true"/>
 </e:Skin>

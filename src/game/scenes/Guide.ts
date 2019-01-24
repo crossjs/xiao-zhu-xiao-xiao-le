@@ -1,15 +1,13 @@
 namespace game {
-  export class Failing extends yyw.Base {
-    private btnRestart: eui.Image;
-
+  export class Guide extends yyw.Base {
     protected destroy(): void {
       // empty
     }
 
     protected createView(fromChildrenCreated?: boolean): void {
       if (fromChildrenCreated) {
-        yyw.onTap(this.btnRestart, () => {
-          SceneManager.toScene("playing");
+        yyw.onTap(this.bg, () => {
+          SceneManager.escape();
         });
 
         this.initialized = true;

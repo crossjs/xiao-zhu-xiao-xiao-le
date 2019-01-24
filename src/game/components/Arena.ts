@@ -57,10 +57,19 @@ namespace game {
     }
 
     /**
-     * 生命力满格
+     * 体力满格
      */
     public get isLivesFull(): boolean {
       return this.lives >= 5;
+    }
+
+    public restart() {
+      this.createModel();
+      this.syncData();
+      const { model } = this;
+      yyw.eachMatrix(this.cells, (cell: Cell, col: number, row: number) => {
+        cell.setNumber(model.getNumberAt([col, row]));
+      });
     }
 
     /**
@@ -103,6 +112,7 @@ namespace game {
       this.getCellAt(point).zoomOut();
       await this.mergeChains(point);
       this.isRunning = false;
+      this.notify();
     }
 
     /**
@@ -122,6 +132,7 @@ namespace game {
 
       await this.mergeChains();
       this.isRunning = false;
+      this.notify();
     }
 
     /**
@@ -167,10 +178,11 @@ namespace game {
       cell.fadeIn();
       await this.mergeChains(point);
       this.isRunning = false;
+      this.notify();
     }
 
     /**
-     * 增加生命力
+     * 增加体力
      */
     public doLivesUp(confirm: any): void {
       // 确定消费
@@ -348,6 +360,7 @@ namespace game {
           }
         }
         this.isRunning = false;
+        this.notify();
       };
 
       const handleEnd = (e: egret.TouchEvent, cancel: any) => {
@@ -409,10 +422,9 @@ namespace game {
       this.score += n;
       this.level = Math.ceil(this.score / 3000);
       this.model.setLevel(this.level);
-      this.notify();
     }
 
-    @yyw.debounce(100)
+    @yyw.debounce()
     private notify() {
       this.dispatchEventWith("DATA_CHANGE", false, {
         score: this.score,
@@ -439,12 +451,10 @@ namespace game {
 
     private resetCombo() {
       this.combo = 0;
-      this.notify();
     }
 
     private increaseCombo() {
       this.combo++;
-      this.notify();
     }
 
     /** 寻找可合并的数字链 */

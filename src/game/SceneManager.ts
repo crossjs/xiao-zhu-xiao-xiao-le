@@ -1,5 +1,5 @@
 namespace game {
-  export type Scene = Landing & Playing & Ranking & Failing;
+  export type Scene = Landing & Playing & Ranking & Ending;
 
   /**
    * 场景管理类
@@ -33,7 +33,7 @@ namespace game {
 
     public static toScene(
       name: string,
-      keepOther?: boolean,
+      keepOther?: any,
     ): Scene {
       // (根) 舞台
       const stage: egret.DisplayObjectContainer = SceneManager.instance.theStage;
@@ -41,7 +41,7 @@ namespace game {
 
       // 判断场景是否有父级（如果有，说明已经被添加到了场景中）
       if (!scene.parent) {
-        if (keepOther) {
+        if (keepOther === true) {
           // 创建 Tween 对象
           yyw.fadeIn(scene, 500);
         }
@@ -50,7 +50,11 @@ namespace game {
         SceneManager.instance.theScene = scene;
       }
 
-      if (!keepOther) {
+      if (keepOther !== true) {
+        if (typeof keepOther === "function") {
+          // 回调
+          keepOther(scene);
+        }
         SceneManager.instance.removeOthers(name);
       }
 
@@ -63,8 +67,9 @@ namespace game {
       landing: Landing;
       pbl: Pbl;
       playing: Playing;
+      guide: Guide;
       ranking: Ranking;
-      failing: Failing;
+      ending: Ending;
       shop: Shop;
     };
 
@@ -73,8 +78,9 @@ namespace game {
         landing: new Landing(),
         pbl: new Pbl(),
         playing: new Playing(),
+        guide: new Guide(),
         ranking: new Ranking(),
-        failing: new Failing(),
+        ending: new Ending(),
         shop: new Shop(),
       };
     }

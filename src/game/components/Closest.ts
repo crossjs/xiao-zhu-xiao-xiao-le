@@ -5,7 +5,7 @@ namespace game {
     /**
      * 显示分数接近的好友，通过开放数据域
      */
-    @yyw.debounce(100)
+    @yyw.debounce()
     public update(score: number) {
       // 主域向子域发送自定义消息
       yyw.sub.postMessage({

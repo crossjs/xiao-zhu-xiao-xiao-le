@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="AwardSkin" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Group id="body" y="40" touchEnabled="false" width="750">
+	<e:Group id="body" y="20" touchEnabled="false" width="750">
 	  <e:Image id="btnAward" y="66" x="624" source="sprites_json.award"/>
 	</e:Group>
 	<e:Image id="bg" source="sprites_json.mask_bg" width="750" scale9Grid="2,2,2,2" visible="false" touchEnabled="true"/>

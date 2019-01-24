@@ -6,6 +6,12 @@ namespace game {
     private btnKO: eui.Button;
     private tfdCoins: eui.BitmapLabel;
     private coins: number;
+    private sndCoins: CoinsSound;
+
+    public constructor() {
+      super();
+      this.sndCoins = new CoinsSound();
+    }
 
     public async showModal() {
       if (!yyw.CONFIG.adEnabled) {
@@ -52,10 +58,7 @@ namespace game {
               // 看完视频广告后领 coin
               const videoPlayed = await yyw.showVideoAd();
               if (videoPlayed) {
-                await yyw.saveAward({
-                  coins: this.coins,
-                });
-                await this.hideModal();
+                await this.saveCoins();
               } else {
                 if (videoPlayed === false) {
                   yyw.showToast("完整看完广告才能🉐福包");
@@ -63,10 +66,7 @@ namespace game {
                   // yyw.showToast("当前没有可以播放的广告");
                   // 转发后领 coin
                   if (await yyw.share()) {
-                    await yyw.saveAward({
-                      coins: this.coins,
-                    });
-                    await this.hideModal();
+                    await this.saveCoins();
                   } else {
                     yyw.showToast("转发才能🉐福包");
                   }
@@ -77,10 +77,7 @@ namespace game {
             yyw.onTap(this.btnOK, async () => {
               // 转发后领 coin
               if (await yyw.share()) {
-                await yyw.saveAward({
-                  coins: this.coins,
-                });
-                await this.hideModal();
+                await this.saveCoins();
               } else {
                 yyw.showToast("转发才能🉐福包");
               }
@@ -90,6 +87,15 @@ namespace game {
 
         this.initialized = true;
       }
+    }
+
+    private async saveCoins() {
+      this.sndCoins.play();
+      // TODO 入袋动画
+      await yyw.saveAward({
+        coins: this.coins,
+      });
+      await this.hideModal();
     }
   }
 }

@@ -27,14 +27,18 @@ namespace game {
       yyw.removeTweens(this.main);
     }
 
+    protected afterGet() {
+      yyw.showToast(this.message);
+    }
+
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       if (fromChildrenCreated) {
         yyw.onTap(this, async () => {
           this.zoomOut();
           if (!this.num) {
             if (await yyw.share()) {
-              yyw.showToast(this.message);
               this.increaseNum(1);
+              this.afterGet();
             } else {
               yyw.showToast("转发才能🉐道具");
             }
@@ -49,7 +53,7 @@ namespace game {
             });
             return;
           }
-          yyw.showToast("手指拖动到游戏区域，\n触发道具效果");
+          yyw.showToast("手指拖动到游戏区域，触发道具效果");
         });
 
         if (this.dnd) {
