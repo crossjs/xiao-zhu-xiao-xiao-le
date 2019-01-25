@@ -58,7 +58,7 @@ namespace game {
       if (this.userInfoButton) {
         this.userInfoButton.destroy();
       }
-      yyw.removeFromStage(this.recommender);
+      yyw.removeChild(this.recommender);
       this.recommender = null;
     }
 

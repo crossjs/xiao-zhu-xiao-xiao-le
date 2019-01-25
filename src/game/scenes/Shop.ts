@@ -27,7 +27,8 @@ namespace game {
                 await yyw.saveAward({
                   coins: -this.prices[index],
                 });
-                yyw.emit("TOOL_PURCHASED", {
+                yyw.showToast("购买成功");
+                yyw.emit("TOOL_GAINED", {
                   type: this.goods[index],
                   amount: 1,
                 });

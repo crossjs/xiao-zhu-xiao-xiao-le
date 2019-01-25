@@ -51,16 +51,9 @@ namespace game {
 
     public set isRunning(running: boolean) {
       this.running = running;
-      this.dispatchEventWith("STATE_CHANGE", false, {
+      yyw.emit("ARENA_STATE_CHANGE", {
         running,
       });
-    }
-
-    /**
-     * 体力满格
-     */
-    public get isLivesFull(): boolean {
-      return this.lives >= 5;
     }
 
     public restart() {
@@ -191,10 +184,15 @@ namespace game {
       this.increaseLives(1);
     }
 
+    public setGameOver() {
+      this.isGameOver = true;
+      this.setSnapshot(null);
+    }
+
     protected destroy() {
       this.setSnapshot(this.isGameOver ? null : undefined);
       this.resetCells();
-      yyw.eachMatrix(this.cells, yyw.removeFromStage);
+      yyw.eachMatrix(this.cells, yyw.removeChild);
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
@@ -203,8 +201,42 @@ namespace game {
       this.syncData(this.dataToSync);
       this.createCellsView();
       if (fromChildrenCreated) {
+        yyw.on("TOOL_USING", this.onToolUsing, this);
         this.initTouchHandlers();
         this.initialized = true;
+      }
+    }
+
+    private onToolUsing({ data: {
+      type,
+      targetX,
+      targetY,
+      confirm,
+      cancel,
+    }}: any) {
+      switch (type) {
+        case "valueUp":
+          if (cancel) {
+            return this.preValueUp(targetX, targetY, cancel);
+          }
+          return this.doValueUp(targetX, targetY, confirm);
+        case "shuffle":
+          return this.doShuffle(confirm);
+        case "breaker":
+          if (cancel) {
+            return this.preBreaker(targetX, targetY, cancel);
+          }
+          return this.doBreaker(targetX, targetY, confirm);
+        case "livesUp":
+          if (this.lives >= 5) {
+            if (cancel) {
+              return cancel();
+            }
+            return yyw.showToast("体力已满，无须使用此道具");
+          }
+          return this.doLivesUp(confirm);
+        default:
+          return;
       }
     }
 
@@ -218,7 +250,7 @@ namespace game {
       }
       if (n < 0) {
         if (this.lives === 1) {
-          this.dispatchEventWith("LIVES_LOW");
+          yyw.emit("ARENA_LIVES_LOW");
         }
       }
     }
@@ -355,7 +387,7 @@ namespace game {
           if (!hasChain) {
             this.increaseLives(-1);
             if (this.lives === 0) {
-              this.setGameOver();
+              this.livesExhaust();
             }
           }
         }
@@ -373,11 +405,9 @@ namespace game {
       yyw.onDnd(main, handleBegin, handleDrag, handleEnd, true);
     }
 
-    private setGameOver() {
-      this.isGameOver = true;
-      this.isRunning = false;
-      this.setSnapshot(null);
-      this.dispatchEventWith("GAME_OVER", false, {
+    // 体力耗尽
+    private livesExhaust() {
+      yyw.emit("ARENA_LIVES_EXHAUST", {
         score: this.score,
         level: this.level,
         combo: this.combo,
@@ -397,7 +427,7 @@ namespace game {
       );
       // 发红包
       if (num === MAGIC_NUMBER) {
-        this.dispatchEventWith("MAGIC_GOT");
+        yyw.emit("ARENA_MAGIC_NUMBER_GOT");
       }
     }
 
@@ -426,11 +456,10 @@ namespace game {
 
     @yyw.debounce()
     private notify() {
-      this.dispatchEventWith("DATA_CHANGE", false, {
+      yyw.emit("ARENA_DATA_CHANGE", {
         score: this.score,
         level: this.level,
         combo: this.combo,
-        lives: this.lives,
       });
     }
 
@@ -566,7 +595,7 @@ namespace game {
       this.setCellNumber(point, num);
       // 发红包
       if (num === MAGIC_NUMBER) {
-        this.dispatchEventWith("MAGIC_GOT");
+        yyw.emit("ARENA_MAGIC_NUMBER_GOT");
       }
       await cell.fadeIn();
     }

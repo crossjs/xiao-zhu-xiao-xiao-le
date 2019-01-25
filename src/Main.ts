@@ -65,7 +65,7 @@ class Main extends eui.UILayer {
       await RES.loadConfig("resource/default.res.json", "resource/");
       await this.loadTheme();
       await RES.loadGroup("preload", 0, loadingView);
-      yyw.removeFromStage(loadingView);
+      yyw.removeChild(loadingView);
     } catch (e) {
       egret.error(e);
     }

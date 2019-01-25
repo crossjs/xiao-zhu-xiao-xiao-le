@@ -1,5 +1,5 @@
 namespace yyw {
-  export function removeFromStage(target: any) {
+  export function removeChild(target: any) {
     if (target) {
       const { parent } = target;
       if (parent) {

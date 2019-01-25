@@ -2,6 +2,7 @@
 import * as regeneratorRuntime from "./utils/runtime";
 import { Ranking } from "./ranking";
 import { Closest } from "./closest";
+import { Top3 } from "./top3";
 
 export const Proxy = {
   initRanking(data) {
@@ -15,7 +16,6 @@ export const Proxy = {
       rankingData: rankingData.map((v, index) => Object.assign(v, {
         key: index + 1,
       })),
-      // numPerPage: 1,
     });
   },
 
@@ -75,6 +75,20 @@ export const Proxy = {
 
   closeClosest() {
     Closest.destroy();
+  },
+
+  async openTop3(data) {
+    const rankingData = await Proxy.getRankingData();
+    Top3.create({
+      ...data,
+      rankingData: rankingData.slice(0, 3).map((v, index) => Object.assign(v, {
+        key: index + 1,
+      })),
+    });
+  },
+
+  closeTop3() {
+    Top3.destroy();
   },
 
   async getUserData() {

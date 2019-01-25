@@ -6,8 +6,9 @@ import * as regeneratorRuntime from "./utils/runtime";
  * 之后可通过assets.引用名方式进行获取
  */
 const assetsUrl = {
-  button: "sub/assets/button.png",
-  buttonDisabled: "sub/assets/button-disabled.png",
+  top1: "sub/assets/top1.png",
+  top2: "sub/assets/top2.png",
+  top3: "sub/assets/top3.png",
 };
 
 /**
@@ -24,6 +25,10 @@ export const AssetsManager = {
      * 资源加载
      */
     return new Promise((resolve) => {
+      if (initialized) {
+        resolve();
+        return;
+      }
       let sofar = 0;
       let total = 0;
       for (let asset in assetsUrl) {
@@ -36,14 +41,6 @@ export const AssetsManager = {
             resolve();
           }
         };
-        // img.onerror = () => {
-        //   sofar++;
-        //   if (sofar === total) {
-        //     console.log("加载完成");
-        //     initialized = true;
-        //     resolve();
-        //   }
-        // }
         img.src = assetsUrl[asset];
         assets[asset] = img;
       }

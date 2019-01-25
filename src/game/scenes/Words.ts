@@ -22,7 +22,28 @@ namespace game {
       ];
     }
 
-    public update(combo: number) {
+    protected destroy() {
+      this.hide();
+    }
+
+    protected async createView(fromChildrenCreated?: boolean) {
+      if (fromChildrenCreated) {
+        this.words = [
+          this.imgGood,
+          this.imgGreat,
+          this.imgAmazing,
+          this.imgExcellent,
+        ];
+
+        yyw.on("ARENA_DATA_CHANGE", ({ data: { combo }}: any) => {
+          this.update(combo);
+        }, this);
+
+        this.initialized = true;
+      }
+    }
+
+    private update(combo: number) {
       if (combo === this.combo) {
         return;
       }
@@ -36,22 +57,6 @@ namespace game {
         );
       }
       this.combo = combo;
-    }
-
-    protected destroy() {
-      this.hide();
-    }
-
-    protected async createView(fromChildrenCreated?: boolean) {
-      if (fromChildrenCreated) {
-        this.words = [
-          this.imgGood,
-          this.imgGreat,
-          this.imgAmazing,
-          this.imgExcellent,
-        ];
-        this.initialized = true;
-      }
     }
 
     @yyw.debounce()

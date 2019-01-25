@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "image": "node compress.js",
+    "image": "node ./tinypng/compress.js",
     "start": "cd .. && egret build",
     "build": "cd .. && egret publish"
   },

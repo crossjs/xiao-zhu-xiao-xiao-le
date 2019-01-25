@@ -4,7 +4,7 @@ namespace game {
     protected main: eui.Group;
     protected tfd: eui.BitmapLabel;
     protected img: eui.Image;
-    protected num: number = 0;
+    protected amount: number = 0;
     protected message: string = "获得道具";
     protected dnd: boolean = false;
     protected rect: egret.Rectangle;
@@ -13,13 +13,13 @@ namespace game {
       this.rect = targetRect;
     }
 
-    public setNum(num: number): void {
-      this.num = num;
+    public setAmount(amount: number): void {
+      this.amount = amount;
       this.update();
     }
 
-    public increaseNum(num: number): void {
-      this.num += num;
+    public increaseAmount(amount: number): void {
+      this.amount += amount;
       this.update();
     }
 
@@ -27,33 +27,34 @@ namespace game {
       yyw.removeTweens(this.main);
     }
 
-    protected afterGet() {
+    protected afterGet(amount: number) {
       yyw.showToast(this.message);
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       if (fromChildrenCreated) {
-        yyw.on("TOOL_PURCHASED", ({ data: { type, amount } }: any) => {
+        yyw.on("TOOL_GAINED", ({ data: { type, amount } }: any) => {
           if (type === this.type) {
-            this.increaseNum(amount);
+            this.increaseAmount(amount);
+            this.afterGet(amount);
           }
         });
         yyw.onTap(this, async () => {
           this.zoomOut();
-          if (!this.num) {
+          if (!this.amount) {
             if (await yyw.share()) {
-              this.increaseNum(1);
-              this.afterGet();
+              this.increaseAmount(1);
+              this.afterGet(1);
             } else {
               yyw.showToast("转发才能🉐道具");
             }
             return;
           }
           if (!this.dnd) {
-            this.dispatchEventWith("USING", false, {
+            yyw.emit("TOOL_USING", {
               type: this.type,
               confirm: () => {
-                this.increaseNum(-1);
+                this.increaseAmount(-1);
               },
             });
             return;
@@ -68,7 +69,7 @@ namespace game {
           let startY: number;
           let targetXY: object = null;
           yyw.onDnd(this, (e: egret.TouchEvent, cancel: any) => {
-            if (!this.num) {
+            if (!this.amount) {
               cancel();
               return;
             }
@@ -85,7 +86,7 @@ namespace game {
                 targetX: stageX - this.rect.x,
                 targetY: stageY - this.rect.y,
               };
-              this.dispatchEventWith("USING", false, {
+              yyw.emit("TOOL_USING", {
                 type: this.type,
                 ...targetXY,
                 cancel,
@@ -103,17 +104,17 @@ namespace game {
               yyw.setZIndex(this, zIndex);
             };
             if (targetXY) {
-              this.dispatchEventWith("USING", false, {
+              yyw.emit("TOOL_USING", {
                 type: this.type,
                 ...targetXY,
                 confirm: async () => {
                   await reset();
-                  this.increaseNum(-1);
+                  this.increaseAmount(-1);
                 },
               });
               targetXY = null;
             } else {
-              this.dispatchEventWith("USING", false, {
+              yyw.emit("TOOL_USING", {
                 type: this.type,
                 cancel: reset,
               });
@@ -126,9 +127,9 @@ namespace game {
     }
 
     protected update() {
-      const { tfd, img, num } = this;
-      tfd.text = `${num}`;
-      img.visible = !num;
+      const { tfd, img, amount } = this;
+      tfd.text = `${amount}`;
+      img.visible = !amount;
     }
 
     private zoomIn() {

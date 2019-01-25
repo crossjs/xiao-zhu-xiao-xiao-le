@@ -28,7 +28,7 @@ namespace game {
         });
 
         yyw.onTap(this.btnRestart, () => {
-          SceneManager.toScene("playing", (scene: Playing) => {
+          SceneManager.toScene("playing", false, (scene: Playing) => {
             scene.restart();
           });
         });

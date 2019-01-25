@@ -110,7 +110,7 @@ export class WxgamePlugin implements plugins.Command {
     });
 
     console.log("修改 game.json");
-    const gameConfigPath = path.join(commandContext.outputDir, "project.config.json");
+    const gameConfigPath = path.join(commandContext.outputDir, "game.json");
     const gameConfigContent = require(gameConfigPath);
     gameConfigContent.navigateToMiniProgramAppIdList = Constants.APP_IDS;
     fs.writeFileSync(gameConfigPath, JSON.stringify(gameConfigContent, null, 2), {

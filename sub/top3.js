@@ -1,24 +1,17 @@
 // eslint-disable-next-line
 import * as regeneratorRuntime from "./utils/runtime";
 import { AssetsManager } from "./assets";
-import { onScroll } from "./scroll";
 
 // 获取canvas渲染上下文
 const context = sharedCanvas.getContext("2d");
 context.globalCompositeOperation = "source-over";
 
-export const Ranking = {
+export const Top3 = {
   isReady: false,
 
   async preload() {
     if (!this.isReady) {
       await AssetsManager.init();
-      /**
-       * 监听滚动
-       */
-      onScroll(direction => {
-        this._goPage(direction);
-      });
       this.isReady = true;
     }
   },
@@ -27,7 +20,7 @@ export const Ranking = {
    * 绘制屏幕
    * 这个函数会在加载完所有资源之后被调用
    */
-  async create({ width, height, rankingData, pageSize = 8, openid = 0 }) {
+  async create({ width, height, rankingData }) {
     if (sharedCanvas.width && sharedCanvas.height) {
       // 确保就绪
       await this.preload();
@@ -38,8 +31,6 @@ export const Ranking = {
       this.windowWidth = windowWidth;
       this.windowHeight = windowHeight;
       this.rankingData = rankingData;
-      this.myRankingData = rankingData.find((item) => item.openid === openid);
-      this.pageSize = pageSize;
       this.scaleX = sharedCanvas.width / width;
       this.scaleY = sharedCanvas.height / height;
       context.setTransform(this.scaleX, 0, 0, this.scaleY, 0, 0);
@@ -88,9 +79,6 @@ export const Ranking = {
       (this.indexWidth + this.iconWidth + this.scoreWidth) -
       this.gutterWidth * 4;
 
-    this.pageIndex = 0;
-    this.pageTotal = Math.ceil(this.rankingData.length / this.pageSize);
-
     // 预先计算各项 X
     let cellX = -this.gutterWidth;
     const xArr = (this.xArr = [cellX]);
@@ -112,17 +100,11 @@ export const Ranking = {
    * 创建排行榜
    */
   _drawRanking() {
-    // 获取当前要渲染的数据组
-    // 起始 id
-    const startID = this.pageSize * this.pageIndex;
-    const pageItems = this.rankingData.slice(startID, startID + this.pageSize);
     // 创建 body
-    pageItems.forEach((data, index) => {
+    this.rankingData.forEach((data, index) => {
       // 创建行
       this._drawRankingItem(data, index);
     });
-    // 渲染自己
-    this._drawRankingItem(this.myRankingData, 8);
   },
 
   /**

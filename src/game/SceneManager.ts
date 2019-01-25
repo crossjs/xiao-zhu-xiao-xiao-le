@@ -28,12 +28,13 @@ namespace game {
     public static async escape(): Promise<void> {
       const { theScene } = SceneManager.instance;
       await yyw.fadeOut(theScene);
-      yyw.removeFromStage(theScene);
+      yyw.removeChild(theScene);
     }
 
     public static toScene(
       name: string,
-      keepOther?: any,
+      keepOther: boolean = false,
+      callback?: any,
     ): Scene {
       // (根) 舞台
       const stage: egret.DisplayObjectContainer = SceneManager.instance.theStage;
@@ -41,7 +42,7 @@ namespace game {
 
       // 判断场景是否有父级（如果有，说明已经被添加到了场景中）
       if (!scene.parent) {
-        if (keepOther === true) {
+        if (keepOther) {
           // 创建 Tween 对象
           yyw.fadeIn(scene, 500);
         }
@@ -50,16 +51,20 @@ namespace game {
         SceneManager.instance.theScene = scene;
       }
 
-      if (keepOther !== true) {
-        if (typeof keepOther === "function") {
-          // 回调
-          keepOther(scene);
-        }
+      if (callback) {
+        // 回调
+        callback(scene);
+      }
+
+      if (!keepOther) {
         SceneManager.instance.removeOthers(name);
       }
 
+      yyw.setZIndex(scene);
+
       return scene;
     }
+
     private theStage: eui.UILayer; // 设置所有场景所在的舞台(根)
     private theScene: eui.Component; // 当前场景
 
@@ -71,18 +76,42 @@ namespace game {
       ranking: Ranking;
       ending: Ending;
       shop: Shop;
+      alarm: Alarm;
+      award: Award;
+      words: Words;
+    } = {
+      landing: new Landing(),
+      pbl: new Pbl(),
+      playing: new Playing(),
+      guide: new Guide(),
+      ranking: new Ranking(),
+      ending: new Ending(),
+      shop: new Shop(),
+      alarm: new Alarm(),
+      award: new Award(),
+      words: new Words(),
     };
 
     constructor() {
-      this.scenes = {
-        landing: new Landing(),
-        pbl: new Pbl(),
-        playing: new Playing(),
-        guide: new Guide(),
-        ranking: new Ranking(),
-        ending: new Ending(),
-        shop: new Shop(),
-      };
+      // 体力过低
+      yyw.on("ARENA_LIVES_LOW", () => {
+        SceneManager.toScene("alarm", true);
+      });
+
+      // 体力耗尽
+      yyw.on("ARENA_LIVES_EXHAUST", () => {
+        SceneManager.toScene("ending", true);
+      });
+
+      // 获得魔法数字
+      yyw.on("ARENA_MAGIC_NUMBER_GOT", () => {
+        SceneManager.toScene("award", true);
+      });
+
+      // 游戏结束
+      yyw.on("GAME_OVER", () => {
+        SceneManager.toScene("landing");
+      });
     }
 
     /**
@@ -107,7 +136,7 @@ namespace game {
       Object.keys(this.scenes)
       .filter((key) => key !== name)
       .forEach((key) => {
-        yyw.removeFromStage(this.getScene(key));
+        yyw.removeChild(this.getScene(key));
       });
     }
   }

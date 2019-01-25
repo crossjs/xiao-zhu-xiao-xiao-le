@@ -3,6 +3,8 @@ namespace game {
 
   export class Playing extends yyw.Base {
     private isGameOver: boolean = false;
+    private main: eui.Group;
+    private btnShop: eui.Image;
     private tfdScore: eui.BitmapLabel;
     // private b1: eui.Image;
     // private b2: eui.Image;
@@ -15,8 +17,6 @@ namespace game {
     private tools: Tools;
     // private me: Me;
     private closest: Closest;
-    private award: Award;
-    private words: Words;
     private recommender: box.All;
 
     public restart() {
@@ -25,14 +25,12 @@ namespace game {
 
     protected destroy() {
       this.setSnapshot(this.isGameOver ? null : undefined);
-      this.arena.removeEventListener("STATE_CHANGE", this.onArenaStateChange, this);
-      this.arena.removeEventListener("DATA_CHANGE", this.onArenaDataChange, this);
-      this.arena.removeEventListener("LIVES_LOW", this.onArenaLivesLow, this);
-      this.arena.removeEventListener("MAGIC_GOT", this.onArenaMagicGot, this);
-      this.arena.removeEventListener("GAME_OVER", this.onArenaGameOver, this);
-      yyw.removeFromStage(this.arena);
+      yyw.off("ARENA_STATE_CHANGE", this.onArenaStateChange, this);
+      yyw.off("ARENA_DATA_CHANGE", this.onArenaDataChange, this);
+      yyw.off("GAME_OVER", this.onGameOver, this);
+      yyw.removeChild(this.arena);
       this.arena = null;
-      yyw.removeFromStage(this.closest);
+      yyw.removeChild(this.closest);
       this.closest = null;
     }
 
@@ -50,10 +48,13 @@ namespace game {
       this.isGameOver = false;
       if (fromChildrenCreated) {
         this.initRecommender();
-        this.initTools();
+        this.initToolsRect();
         if (!!yyw.CURRENT_USER.score) {
           SceneManager.toScene("guide", true);
         }
+        yyw.onTap(this.btnShop, () => {
+          SceneManager.toScene("shop", true);
+        });
         this.initialized = true;
       }
     }
@@ -83,12 +84,10 @@ namespace game {
     private async createArena(useSnapshot?: boolean): Promise<void> {
       this.arena = useSnapshot ? await Arena.fromSnapshot() : new Arena();
       this.arena.y = 318;
-      this.arena.addEventListener("STATE_CHANGE", this.onArenaStateChange, this);
-      this.arena.addEventListener("DATA_CHANGE", this.onArenaDataChange, this);
-      this.arena.addEventListener("LIVES_LOW", this.onArenaLivesLow, this);
-      this.arena.addEventListener("MAGIC_GOT", this.onArenaMagicGot, this);
-      this.arena.addEventListener("GAME_OVER", this.onArenaGameOver, this);
-      this.body.addChild(this.arena);
+      yyw.on("ARENA_STATE_CHANGE", this.onArenaStateChange, this);
+      yyw.on("ARENA_DATA_CHANGE", this.onArenaDataChange, this);
+      yyw.on("GAME_OVER", this.onGameOver, this);
+      this.main.addChild(this.arena);
     }
 
     private onArenaStateChange({ data: {
@@ -101,23 +100,12 @@ namespace game {
       combo,
       score,
     } }: egret.Event) {
-      this.words.update(combo);
       this.closest.update(score);
       this.tfdScore.text = `${score}`;
       this.maxCombo = Math.max(combo, this.maxCombo);
     }
 
-    private onArenaLivesLow() {
-      yyw.setZIndex(this.award);
-      this.tools.showModal();
-    }
-
-    private onArenaMagicGot() {
-      yyw.setZIndex(this.award);
-      this.award.showModal();
-    }
-
-    private onArenaGameOver({ data: {
+    private onGameOver({ data: {
       level,
       combo,
       score,
@@ -129,10 +117,9 @@ namespace game {
         level,
         combo: Math.max(combo, this.maxCombo),
       });
-      SceneManager.toScene("ending");
     }
 
-    private initTools() {
+    private initToolsRect() {
       const { x, y, width, height } = this.arena;
       const padding = 21;
       const rect = new egret.Rectangle(
@@ -142,40 +129,6 @@ namespace game {
         height - padding * 2,
       );
       this.tools.targetRect = rect;
-      this.tools.addEventListener("TOOL_USING", this.onToolUsing, this);
-    }
-
-    private onToolUsing({ data: {
-      type,
-      targetX,
-      targetY,
-      confirm,
-      cancel,
-    } }: egret.Event) {
-      switch (type) {
-        case "valueUp":
-          if (cancel) {
-            return this.arena.preValueUp(targetX, targetY, cancel);
-          }
-          return this.arena.doValueUp(targetX, targetY, confirm);
-        case "shuffle":
-          return this.arena.doShuffle(confirm);
-        case "breaker":
-          if (cancel) {
-            return this.arena.preBreaker(targetX, targetY, cancel);
-          }
-          return this.arena.doBreaker(targetX, targetY, confirm);
-        case "livesUp":
-          if (this.arena.isLivesFull) {
-            if (cancel) {
-              return cancel();
-            }
-            return yyw.showToast("体力已满，无须使用此道具");
-          }
-          return this.arena.doLivesUp(confirm);
-        default:
-          return;
-      }
     }
 
     private initRecommender() {

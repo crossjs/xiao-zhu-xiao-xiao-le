@@ -18,7 +18,7 @@ namespace game {
     }
 
     protected destroy() {
-      // yyw.removeFromStage(this.bmpClosest);
+      // yyw.removeChild(this.bmpClosest);
       // this.bmpClosest = null;
       yyw.sub.postMessage({
         command: "closeClosest",

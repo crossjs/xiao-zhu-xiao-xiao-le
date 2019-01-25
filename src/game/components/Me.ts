@@ -4,7 +4,7 @@ namespace game {
     private main: eui.Image;
 
     protected destroy() {
-      yyw.removeFromStage(this.bmpMe);
+      yyw.removeChild(this.bmpMe);
       this.bmpMe = null;
     }
 

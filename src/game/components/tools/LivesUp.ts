@@ -6,14 +6,14 @@ namespace game {
     /**
      * 体力获得后直接消费
      */
-    protected afterGet() {
-      this.dispatchEventWith("USING", false, {
+    protected afterGet(amount: number) {
+      yyw.emit("TOOL_USING", {
         type: this.type,
         confirm: () => {
-          this.increaseNum(-1);
+          this.increaseAmount(-amount);
         },
         cancel: () => {
-          super.afterGet();
+          super.afterGet(amount);
         },
       });
     }
