@@ -32,11 +32,8 @@ export const Ranking = {
       // 确保就绪
       await this.preload();
       this.assets = await AssetsManager.getAssets();
-      const { windowWidth, windowHeight } = wx.getSystemInfoSync();
       this.width = width;
       this.height = height;
-      this.windowWidth = windowWidth;
-      this.windowHeight = windowHeight;
       this.rankingData = rankingData;
       this.myRankingData = rankingData.find((item) => item.openid === openid);
       this.pageSize = pageSize;

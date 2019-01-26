@@ -37,8 +37,7 @@ namespace game {
     }
 
     private showFriend() {
-      const width = this.main.width;
-      const height = 830;
+      const { width, height } = this.main;
       this.bmpFriend = yyw.sub.createDisplayObject(null, width, height);
       this.main.addChild(this.bmpFriend);
 

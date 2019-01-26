@@ -2,14 +2,29 @@ namespace game {
   export class Landing extends yyw.Base {
     private btnBoard: eui.Button;
     private btnStart: eui.Button;
-    private btnSound: eui.ToggleButton;
-    private btnVibration: eui.ToggleButton;
     private tfdVersion: eui.Label;
+    private tfdBestScore: eui.Label;
     private userInfoButton: wx.UserInfoButton;
     private recommender: box.All;
 
+    protected destroy(): void {
+      if (this.userInfoButton) {
+        this.userInfoButton.destroy();
+      }
+      yyw.removeChild(this.recommender);
+      this.recommender = null;
+    }
+
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       if (fromChildrenCreated) {
+        // 初始化全局配置
+        const { score = 0 } = await yyw.getPbl();
+        this.tfdBestScore.text = `历史最佳分数： ${score}`;
+        // 初始化转发参数
+        yyw.initShare();
+        // 初始化视频广告
+        yyw.initVideoAd();
+
         const { x: left, y: top, width, height } = this.btnStart;
         // TODO 封装成 Component
         this.userInfoButton = await yyw.createUserInfoButton({
@@ -34,32 +49,10 @@ namespace game {
           SceneManager.toScene("playing");
         });
 
-        // 声音
-        yyw.onTap(this.btnSound, () => {
-          const { selected } = this.btnSound;
-          this.btnSound.currentState = selected ? "selected" : "up";
-          yyw.CONFIG.soundEnabled = selected;
-        });
-
-        // 振动
-        yyw.onTap(this.btnVibration, () => {
-          const { selected } = this.btnVibration;
-          this.btnVibration.currentState = selected ? "selected" : "up";
-          yyw.CONFIG.vibrationEnabled = selected;
-        });
-
         this.initialized = true;
       }
 
       this.createRecommender();
-    }
-
-    protected destroy(): void {
-      if (this.userInfoButton) {
-        this.userInfoButton.destroy();
-      }
-      yyw.removeChild(this.recommender);
-      this.recommender = null;
     }
 
     private createRecommender() {

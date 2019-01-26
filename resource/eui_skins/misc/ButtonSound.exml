@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="ButtonSoundSkin" width="96" height="96" currentState="selected" xmlns:e="http://ns.egret.com/eui" states="selected,up">
-	<e:Image source="sprites_json.sound-off" horizontalCenter="0" verticalCenter="0" includeIn="up"/>
-	<e:Image source="sprites_json.sound-on" horizontalCenter="7.5" verticalCenter="0" includeIn="selected"/>
+<e:Skin class="ButtonSoundSkin" width="48" height="48" currentState="selected" xmlns:e="http://ns.egret.com/eui" states="selected,up" width.up="48" height.up="48">
+	<e:Image source="sprites_json.sound-off" includeIn="up" x="0" y="0" alpha="0.5"/>
+	<e:Image source="sprites_json.sound-on" includeIn="selected" x="0" y="0"/>
 </e:Skin>

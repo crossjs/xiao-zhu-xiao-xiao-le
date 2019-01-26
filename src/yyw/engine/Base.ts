@@ -26,8 +26,16 @@ namespace yyw {
       );
     }
 
-    protected abstract createView(fromChildrenCreated?: boolean): void;
+    public async exiting() {
+      await yyw.fadeOut(this);
+    }
+
+    public async entering() {
+      await yyw.fadeIn(this);
+    }
+
     protected abstract destroy(): void;
+    protected abstract createView(fromChildrenCreated?: boolean): void;
 
     // protected partAdded(partName: string, instance: any): void {
     //   super.partAdded(partName, instance);

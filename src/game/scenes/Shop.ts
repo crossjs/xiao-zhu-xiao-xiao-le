@@ -9,6 +9,14 @@ namespace game {
     private prices: number[] = [1000, 2000, 1500, 20000];
     private goods: string[] = ["valueUp", "shuffle", "breaker", "card"];
 
+    public async exiting() {
+      await yyw.rightOut(this);
+    }
+
+    public async entering() {
+      await yyw.rightIn(this);
+    }
+
     protected destroy(): void {
       // empty
     }

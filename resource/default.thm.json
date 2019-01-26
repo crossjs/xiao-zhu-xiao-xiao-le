@@ -20,7 +20,7 @@
 		"game.Shuffle": "resource/eui_skins/game/components/tools/Shuffle.exml",
 		"game.Tools": "resource/eui_skins/game/components/Tools.exml",
 		"game.ValueUp": "resource/eui_skins/game/components/tools/ValueUp.exml",
-		"game.Words": "resource/eui_skins/game/scenes/Words.exml"
+		"game.Words": "resource/eui_skins/game/components/Words.exml"
 	},
 	"autoGenerateExmlsList": true,
 	"exmls": [
@@ -35,6 +35,7 @@
 		"resource/eui_skins/game/components/tools/LivesUp.exml",
 		"resource/eui_skins/game/components/tools/Shuffle.exml",
 		"resource/eui_skins/game/components/tools/ValueUp.exml",
+		"resource/eui_skins/game/components/Words.exml",
 		"resource/eui_skins/misc/ButtonDefault.exml",
 		"resource/eui_skins/misc/ButtonNormal.exml",
 		"resource/eui_skins/game/scenes/Alarm.exml",
@@ -42,16 +43,15 @@
 		"resource/eui_skins/game/scenes/Ending.exml",
 		"resource/eui_skins/game/scenes/Guide.exml",
 		"resource/eui_skins/misc/ButtonBoard.exml",
+		"resource/eui_skins/game/scenes/Landing.exml",
 		"resource/eui_skins/misc/ButtonSound.exml",
 		"resource/eui_skins/misc/ButtonVibration.exml",
-		"resource/eui_skins/game/scenes/Landing.exml",
 		"resource/eui_skins/game/scenes/Pbl.exml",
 		"resource/eui_skins/game/scenes/Playing.exml",
 		"resource/eui_skins/misc/ButtonPurple.exml",
 		"resource/eui_skins/misc/ButtonRed.exml",
 		"resource/eui_skins/game/scenes/Ranking.exml",
 		"resource/eui_skins/game/scenes/Shop.exml",
-		"resource/eui_skins/game/scenes/Words.exml",
 		"resource/eui_skins/misc/ButtonShare.exml"
 	],
 	"path": "resource/default.thm.json"

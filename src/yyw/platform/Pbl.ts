@@ -9,22 +9,26 @@ namespace yyw {
     return {};
   }
 
-  export async function savePbl(data: {
+  export async function savePbl({
+    score,
+    level,
+    combo,
+  }: {
     score: number,
     level: number,
     combo: number,
   }): Promise<any> {
-    if (data.score) {
+    if (score) {
       yyw.sub.postMessage({
         command: "saveScore",
-        score: data.score,
+        score,
       });
     }
     // 保存到自己的服务器
     if (CONFIG.serverEnabled) {
       return requestWithAuth({
         url: `${CONFIG.serverOrigin}/api/user/pbl`,
-        data,
+        data: { score, level, combo },
         method: "POST",
       });
     }

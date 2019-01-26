@@ -29,9 +29,14 @@ namespace game {
       }
 
       if (fromChildrenCreated) {
+        yyw.on("ARENA_RUN", ({ data }: egret.Event) => {
+          this.enabled = !data;
+        });
+
         yyw.on("RANDOM_TOOL", () => {
           (yyw.randomChild(this.body) as ToolBase).increaseAmount(1);
         });
+
         this.initialized = true;
       }
 

@@ -3,7 +3,9 @@ namespace yyw {
   const serverOrigin: string = DEBUG ? "http://127.0.0.1:7014" : "https://g4.minipx.cn";
 
   const systemInfo: wx.systemInfo = wx.getSystemInfoSync();
-  const speedRatio = 1.5;
+  const speedRatio: number = 1.5;
+  const stageWidth: number = 750;
+  const stageHeight: number = Math.floor(750 / systemInfo.windowWidth * systemInfo.windowHeight);
 
   let adEnabled: boolean = true;
   let adUnitId: string = "";
@@ -13,6 +15,14 @@ namespace yyw {
   export const CONFIG = {
     get systemInfo(): wx.systemInfo {
       return systemInfo;
+    },
+
+    get stageWidth(): number {
+      return stageWidth;
+    },
+
+    get stageHeight(): number {
+      return stageHeight;
     },
 
     get serverEnabled(): boolean {

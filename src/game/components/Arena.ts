@@ -2,24 +2,11 @@ namespace game {
   const SNAPSHOT_KEY = "YYW_G4_ARENA";
 
   export class Arena extends yyw.Base {
-    public static async fromSnapshot(): Promise<Arena> {
-      const { lives, score, combo } = await yyw.getStorage(SNAPSHOT_KEY);
-      const arena = new Arena(true, { lives, score, combo });
-      return arena;
-    }
-
     private isGameOver: boolean = false;
-    private useSnapshot: boolean = false;
-    private dataToSync: any;
     private main: eui.Group;
-    private sndSwitch: SwapSound;
-    private sndMagic: MagicSound;
-    private sndPoint: PointSound;
-    // private b1: eui.Image;
-    // private b2: eui.Image;
-    // private b3: eui.Image;
-    // private b4: eui.Image;
-    // private b5: eui.Image;
+    private sndSwitch: SwapSound = new SwapSound();
+    private sndMagic: MagicSound = new MagicSound();
+    private sndPoint: PointSound = new PointSound();
     private cellWidth: number = 144;
     private cellHeight: number = 144;
     private cols: number = 5;
@@ -32,18 +19,8 @@ namespace game {
     private score: number = 0;
     /** 连击数 */
     private combo: number = 0;
-    private level: number = 0;
     /** 是否正在执行（动画等） */
     private running: boolean = false;
-
-    public constructor(useSnapshot: boolean = false, data?: any) {
-      super();
-      this.useSnapshot = useSnapshot;
-      this.sndSwitch = new SwapSound();
-      this.sndMagic = new MagicSound();
-      this.sndPoint = new PointSound();
-      this.dataToSync = data;
-    }
 
     public get isRunning() {
       return this.running;
@@ -51,140 +28,24 @@ namespace game {
 
     public set isRunning(running: boolean) {
       this.running = running;
-      yyw.emit("ARENA_STATE_CHANGE", {
-        running,
-      });
+      yyw.emit("ARENA_RUN", running);
     }
 
-    public restart() {
-      this.createModel();
-      this.syncData();
+    public async startGame(useSnapshot?: boolean) {
+      await this.createModel(useSnapshot);
       const { model } = this;
-      yyw.eachMatrix(this.cells, (cell: Cell, col: number, row: number) => {
+      yyw.matrixEach(this.cells, (cell: Cell, col: number, row: number) => {
         cell.setNumber(model.getNumberAt([col, row]));
       });
-    }
-
-    /**
-     * 指定单元格数字+1
-     */
-    public preValueUp(x: number, y: number, cancel: any): void {
-      if (this.isRunning) {
-        cancel();
-        return;
+      if (useSnapshot) {
+        const { lives, score, combo } = await yyw.getStorage(SNAPSHOT_KEY);
+        this.ensureData({ lives, score, combo });
+      } else {
+        this.ensureData();
       }
-      this.resetCellsZoom();
-      if (x === undefined || y === undefined) {
-        cancel();
-        return;
-      }
-      const cell = this.getCellAt([
-        this.x2p(x),
-        this.y2p(y),
-      ]);
-      cell.zoomIn();
     }
 
-    /**
-     * 指定单元格数字+1
-     */
-    public async doValueUp(x: number, y: number, confirm: any): Promise<void> {
-      if (this.isRunning) {
-        return;
-      }
-      // 确定消费
-      confirm();
-      this.resetCells();
-      const point: [number, number] = [
-        this.x2p(x),
-        this.y2p(y),
-      ];
-      // 开始工作
-      this.isRunning = true;
-      await this.growUpCellAt(point);
-      this.getCellAt(point).zoomOut();
-      await this.mergeChains(point);
-      this.isRunning = false;
-      this.notify();
-    }
-
-    /**
-     * 随机重排
-     */
-    public async doShuffle(confirm: any): Promise<void> {
-      // 确定消费
-      confirm();
-      // 开始工作
-      this.isRunning = true;
-      await yyw.twirlOut(this.main, 300);
-
-      this.model.doShuffle();
-      this.updateView();
-
-      await yyw.twirlIn(this.main, 200);
-
-      await this.mergeChains();
-      this.isRunning = false;
-      this.notify();
-    }
-
-    /**
-     * 销毁指定单元格
-     */
-    public preBreaker(x: number, y: number, cancel: any): void {
-      if (this.isRunning) {
-        cancel();
-        return;
-      }
-      this.resetCellsZoom();
-      if (x === undefined || y === undefined) {
-        cancel();
-        return;
-      }
-      const cell = this.getCellAt([
-        this.x2p(x),
-        this.y2p(y),
-      ]);
-      cell.zoomIn();
-    }
-
-    /**
-     * 销毁指定单元格
-     */
-    public async doBreaker(x: number, y: number, confirm: any): Promise<void> {
-      if (this.isRunning) {
-        return;
-      }
-      // 确定消费
-      confirm();
-      this.resetCells();
-      const point: [number, number] = [
-        this.x2p(x),
-        this.y2p(y),
-      ];
-      // 开始工作
-      this.isRunning = true;
-      const cell = this.getCellAt(point);
-      await cell.fadeOut();
-      this.setCellNumber(point, 0);
-      await this.dropCellsDown();
-      cell.fadeIn();
-      await this.mergeChains(point);
-      this.isRunning = false;
-      this.notify();
-    }
-
-    /**
-     * 增加体力
-     */
-    public doLivesUp(confirm: any): void {
-      // 确定消费
-      confirm();
-      // 开始工作
-      this.increaseLives(1);
-    }
-
-    public setGameOver() {
+    public onGameOver() {
       this.isGameOver = true;
       this.setSnapshot(null);
     }
@@ -192,19 +53,18 @@ namespace game {
     protected destroy() {
       this.setSnapshot(this.isGameOver ? null : undefined);
       this.resetCells();
-      yyw.eachMatrix(this.cells, yyw.removeChild);
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       this.isGameOver = false;
-      await this.createModel();
-      this.syncData(this.dataToSync);
-      this.createCellsView();
       if (fromChildrenCreated) {
         yyw.on("TOOL_USING", this.onToolUsing, this);
-        this.initTouchHandlers();
+        yyw.on("GAME_OVER", this.onGameOver, this);
+        this.createCells();
+        this.initDnd();
         this.initialized = true;
       }
+      await this.startGame();
     }
 
     private onToolUsing({ data: {
@@ -213,7 +73,7 @@ namespace game {
       targetY,
       confirm,
       cancel,
-    }}: any) {
+    }}: egret.Event) {
       switch (type) {
         case "valueUp":
           if (cancel) {
@@ -250,12 +110,12 @@ namespace game {
       }
       if (n < 0) {
         if (this.lives === 1) {
-          yyw.emit("ARENA_LIVES_LOW");
+          yyw.emit("LIVES_LEAST");
         }
       }
     }
 
-    private syncData({
+    private ensureData({
       lives = 5, score = 0, combo = 0,
     }: any = {}) {
       this.lives = lives;
@@ -267,13 +127,13 @@ namespace game {
     }
 
     private resetCells() {
-      yyw.eachMatrix(this.cells, (cell: Cell) => {
+      yyw.matrixEach(this.cells, (cell: Cell) => {
         cell.reset();
       });
     }
 
     private resetCellsZoom() {
-      yyw.eachMatrix(this.cells, (cell: Cell) => {
+      yyw.matrixEach(this.cells, (cell: Cell) => {
         cell.zoomOut();
       });
     }
@@ -290,21 +150,20 @@ namespace game {
       }
     }
 
-    private async createModel(): Promise<void> {
-      this.model = this.useSnapshot
+    private async createModel(useSnapshot?: boolean): Promise<void> {
+      this.model = useSnapshot
         ? await Model.fromSnapshot()
         : new Model(this.cols, this.rows, this.maxNum);
     }
 
-    private createCellsView(): void {
-      const { model, cellWidth, cellHeight, cols, rows, main } = this;
-      const numbers = model.geNumbers();
+    private createCells(): void {
+      const { cellWidth, cellHeight, cols, rows, main } = this;
       const cells = this.cells = [];
       for (let row = 0; row < rows; row++) {
         const r = cells[row] = [];
         for (let col = 0; col < cols; col++) {
           main.addChild(
-            r[col] = new Cell(col, row, cellWidth, cellHeight, numbers[row][col]),
+            r[col] = new Cell(col, row, cellWidth, cellHeight),
           );
         }
       }
@@ -318,7 +177,7 @@ namespace game {
       return Math.max(0, Math.min(this.rows - 1, Math.floor(y / this.cellHeight)));
     }
 
-    private initTouchHandlers() {
+    private initDnd() {
       const { main } = this;
 
       // 起始点
@@ -387,7 +246,12 @@ namespace game {
           if (!hasChain) {
             this.increaseLives(-1);
             if (this.lives === 0) {
-              this.livesExhaust();
+              // 体力耗尽
+              yyw.emit("LIVES_EMPTY", {
+                score: this.score,
+                level: this.model.getLevel(),
+                combo: this.combo,
+              });
             }
           }
         }
@@ -403,15 +267,6 @@ namespace game {
       };
 
       yyw.onDnd(main, handleBegin, handleDrag, handleEnd, true);
-    }
-
-    // 体力耗尽
-    private livesExhaust() {
-      yyw.emit("ARENA_LIVES_EXHAUST", {
-        score: this.score,
-        level: this.level,
-        combo: this.combo,
-      });
     }
 
     private async growUpCellsOf(num: number) {
@@ -450,15 +305,14 @@ namespace game {
      */
     private increaseScore(n: number) {
       this.score += n;
-      this.level = Math.ceil(this.score / 3000);
-      this.model.setLevel(this.level);
+      this.model.setLevel(Math.floor(this.score / 3000));
     }
 
     @yyw.debounce()
     private notify() {
-      yyw.emit("ARENA_DATA_CHANGE", {
+      yyw.emit("GAME_DATA", {
         score: this.score,
-        level: this.level,
+        level: this.model.getLevel(),
         combo: this.combo,
       });
     }
@@ -648,6 +502,125 @@ namespace game {
           this.setCellNumber(point, model.getNumberAt(point));
         }
       }
+    }
+
+    /**
+     * 指定单元格数字+1
+     */
+    private preValueUp(x: number, y: number, cancel: any): void {
+      if (this.isRunning) {
+        cancel();
+        return;
+      }
+      this.resetCellsZoom();
+      if (x === undefined || y === undefined) {
+        cancel();
+        return;
+      }
+      const cell = this.getCellAt([
+        this.x2p(x),
+        this.y2p(y),
+      ]);
+      cell.zoomIn();
+    }
+
+    /**
+     * 指定单元格数字+1
+     */
+    private async doValueUp(x: number, y: number, confirm: any): Promise<void> {
+      if (this.isRunning) {
+        return;
+      }
+      // 确定消费
+      confirm();
+      this.resetCells();
+      const point: [number, number] = [
+        this.x2p(x),
+        this.y2p(y),
+      ];
+      // 开始工作
+      this.isRunning = true;
+      await this.growUpCellAt(point);
+      this.getCellAt(point).zoomOut();
+      await this.mergeChains(point);
+      this.isRunning = false;
+      this.notify();
+    }
+
+    /**
+     * 随机重排
+     */
+    private async doShuffle(confirm: any): Promise<void> {
+      // 确定消费
+      confirm();
+      // 开始工作
+      this.isRunning = true;
+      await yyw.twirlOut(this.main, 300);
+
+      this.model.doShuffle();
+      this.updateView();
+
+      await yyw.twirlIn(this.main, 200);
+
+      await this.mergeChains();
+      this.isRunning = false;
+      this.notify();
+    }
+
+    /**
+     * 销毁指定单元格
+     */
+    private preBreaker(x: number, y: number, cancel: any): void {
+      if (this.isRunning) {
+        cancel();
+        return;
+      }
+      this.resetCellsZoom();
+      if (x === undefined || y === undefined) {
+        cancel();
+        return;
+      }
+      const cell = this.getCellAt([
+        this.x2p(x),
+        this.y2p(y),
+      ]);
+      cell.zoomIn();
+    }
+
+    /**
+     * 销毁指定单元格
+     */
+    private async doBreaker(x: number, y: number, confirm: any): Promise<void> {
+      if (this.isRunning) {
+        return;
+      }
+      // 确定消费
+      confirm();
+      this.resetCells();
+      const point: [number, number] = [
+        this.x2p(x),
+        this.y2p(y),
+      ];
+      // 开始工作
+      this.isRunning = true;
+      const cell = this.getCellAt(point);
+      await cell.fadeOut();
+      this.setCellNumber(point, 0);
+      await this.dropCellsDown();
+      cell.fadeIn();
+      await this.mergeChains(point);
+      this.isRunning = false;
+      this.notify();
+    }
+
+    /**
+     * 增加体力
+     */
+    private doLivesUp(confirm: any): void {
+      // 确定消费
+      confirm();
+      // 开始工作
+      this.increaseLives(1);
     }
   }
 }

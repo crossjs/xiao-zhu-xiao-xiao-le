@@ -2,7 +2,7 @@
 <e:Skin class="AlarmSkin"
  xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:game="game.*">
 	<e:Image id="bg" source="sprites_json.mask_bg" width="750" fillMode="repeat" visible="false"/>
-  <e:Group id="body" y="40" width="750" touchEnabled="false">
+  <e:Group id="body" y="20" width="750" touchEnabled="false">
     <e:Group id="modal" y="550" visible="false" anchorOffsetX="240" anchorOffsetY="300" x="375" touchEnabled="false" touchChildren="false">
       <e:Image source="sprites_json.modal_bg" width="480" scale9Grid="18,102,66,84" height="600" horizontalCenter="0"/>
       <e:BitmapLabel y="27" anchorOffsetX="0" anchorOffsetY="0" text="体力不足！" touchEnabled="false" textAlign="center" font="white_fnt" horizontalCenter="0"/>
@@ -12,7 +12,7 @@
         <e:Image source="sprites_json.valueup" y="0" x="0"/>
         <e:Image source="sprites_json.shuffle" y="0" x="0"/>
       </e:Group>
-      <e:BitmapLabel y="132" anchorOffsetX="0" anchorOffsetY="0" text="转发获得幸运道具" touchEnabled="false" textAlign="center" font="red_fnt" horizontalCenter="0.5"/>
+      <e:BitmapLabel id="tfdDescription" y="132" anchorOffsetX="0" anchorOffsetY="0" text="视频/转发获得幸运道具" touchEnabled="false" textAlign="center" font="red_fnt" horizontalCenter="0.5"/>
 			<e:Image source="sprites_json.alarm" x="407" y="23"/>
 			<e:Image source="sprites_json.speaker" x="-12" y="-14"/>
     </e:Group>

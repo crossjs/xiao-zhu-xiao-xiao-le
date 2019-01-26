@@ -33,12 +33,13 @@ namespace game {
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       if (fromChildrenCreated) {
-        yyw.on("TOOL_GAINED", ({ data: { type, amount } }: any) => {
+        yyw.on("TOOL_GAINED", ({ data: { type, amount } }: egret.Event) => {
           if (type === this.type) {
             this.increaseAmount(amount);
             this.afterGet(amount);
           }
         });
+
         yyw.onTap(this, async () => {
           this.zoomOut();
           if (!this.amount) {

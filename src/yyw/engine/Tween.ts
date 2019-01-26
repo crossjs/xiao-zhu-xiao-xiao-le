@@ -40,29 +40,94 @@ namespace yyw {
   export async function fadeIn(
     target: egret.DisplayObject,
     duration?: number,
+    ease?: any,
   ): Promise<void> {
     target.alpha = 0;
     target.visible = true;
     await getTween(target).to({
       alpha: 1,
-    }, duration);
+    }, duration, ease);
   }
 
   export async function fadeOut(
     target: egret.DisplayObject,
     duration?: number,
+    ease?: any,
   ): Promise<void> {
     await getTween(target)
     .to({
       alpha: 0,
-    }, duration);
+    }, duration, ease);
     target.visible = false;
     target.alpha = 1;
+  }
+
+  export async function rightIn(
+    target: egret.DisplayObject,
+    duration?: number,
+    ease?: any,
+  ): Promise<void> {
+    target.alpha = 0;
+    target.x = CONFIG.stageWidth;
+    target.visible = true;
+    await getTween(target).to({
+      alpha: 1,
+      x: 0,
+    }, duration, ease);
+  }
+
+  export async function rightOut(
+    target: egret.DisplayObject,
+    duration?: number,
+    ease?: any,
+  ): Promise<void> {
+    await getTween(target)
+    .to({
+      alpha: 0,
+      x: CONFIG.stageWidth,
+    }, duration, ease);
+    target.visible = false;
+    target.alpha = 1;
+    target.x = 0;
+  }
+
+  export async function zoomIn(
+    target: egret.DisplayObject,
+    duration?: number,
+    ease?: any,
+  ): Promise<void> {
+    target.alpha = 0;
+    target.scaleX = 0;
+    target.scaleY = 0;
+    target.visible = true;
+    await getTween(target).to({
+      alpha: 1,
+      scaleX: 1,
+      scaleY: 1,
+    }, duration, ease);
+  }
+
+  export async function zoomOut(
+    target: egret.DisplayObject,
+    duration?: number,
+    ease?: any,
+  ): Promise<void> {
+    await getTween(target)
+    .to({
+      alpha: 0,
+      scaleX: 0,
+      scaleY: 0,
+    }, duration, ease);
+    target.visible = false;
+    target.alpha = 1;
+    target.scaleX = 1;
+    target.scaleY = 1;
   }
 
   export async function twirlIn(
     target: egret.DisplayObject,
     duration?: number,
+    ease?: any,
   ): Promise<void> {
     target.alpha = 0;
     target.scaleX = 0;
@@ -74,12 +139,13 @@ namespace yyw {
       scaleX: 1,
       scaleY: 1,
       rotation: 1080,
-    }, duration);
+    }, duration, ease);
   }
 
   export async function twirlOut(
     target: egret.DisplayObject,
     duration?: number,
+    ease?: any,
   ): Promise<void> {
     await getTween(target)
     .to({
@@ -87,11 +153,11 @@ namespace yyw {
       scaleX: 0,
       scaleY: 0,
       rotation: -1080,
-    }, duration);
+    }, duration, ease);
     target.visible = false;
     target.alpha = 1;
     target.scaleX = 1;
     target.scaleY = 1;
-    target.rotation = 1;
+    target.rotation = 0;
   }
 }

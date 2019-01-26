@@ -35,7 +35,7 @@ namespace game {
           this.imgExcellent,
         ];
 
-        yyw.on("ARENA_DATA_CHANGE", ({ data: { combo }}: any) => {
+        yyw.on("GAME_DATA", ({ data: { combo }}: egret.Event) => {
           this.update(combo);
         }, this);
 
@@ -65,28 +65,12 @@ namespace game {
       this.index = Math.min(3, index);
       this.sounds[this.index].play();
       this.words[this.index].visible = true;
-      this.main.scaleX = 0;
-      this.main.scaleY = 0;
-      this.main.alpha = 0;
-      this.main.visible = true;
-      await yyw.getTween(this.main).to({
-        scaleX: 1.5,
-        scaleY: 1.5,
-        alpha: 1,
-      }, 300);
+      await yyw.zoomIn(this.main, 300, egret.Ease.elasticOut);
       egret.setTimeout(this.hide, this, 500);
     }
 
     private async hide() {
-      await yyw.getTween(this.main).to({
-        scaleX: 0,
-        scaleY: 0,
-        alpha: 0,
-      }, 200);
-      this.main.visible = false;
-      this.main.scaleX = 1;
-      this.main.scaleY = 1;
-      this.main.alpha = 1;
+      await yyw.zoomOut(this.main);
       if (this.index >= 0) {
         this.words[this.index].visible = false;
         this.index = -1;

@@ -11,7 +11,7 @@ namespace game {
     private numGroup: eui.Group;
     private numImage: eui.Image;
 
-    constructor(col: number, row: number, width: number, height: number, num: number) {
+    constructor(col: number, row: number, width: number, height: number, num: number = 0) {
       super();
       this.num = num;
       this.ax = width / 2;

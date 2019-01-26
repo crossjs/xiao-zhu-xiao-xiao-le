@@ -25,17 +25,13 @@ export const Top3 = {
       // 确保就绪
       await this.preload();
       this.assets = await AssetsManager.getAssets();
-      const { windowWidth, windowHeight } = wx.getSystemInfoSync();
       this.width = width;
       this.height = height;
-      this.windowWidth = windowWidth;
-      this.windowHeight = windowHeight;
       this.rankingData = rankingData;
       this.scaleX = sharedCanvas.width / width;
       this.scaleY = sharedCanvas.height / height;
       context.setTransform(this.scaleX, 0, 0, this.scaleY, 0, 0);
       this._cleanScreen();
-      this._initProps();
       this._drawRanking();
       this._rafId = requestAnimationFrame(() => {
         this._onEnterFrame();
@@ -60,40 +56,6 @@ export const Top3 = {
     );
   },
 
-  _initProps() {
-    // 内边界
-    this.gutterWidth = 10;
-    this.gutterHeight = 30;
-    this.barHeight = 60;
-    this.myBarHeight = 80;
-
-    // 24 等分，加首尾共有 5 个间隔
-    this.fontSize = 36;
-    this.textOffsetY = (this.barHeight + this.fontSize) / 2.2;
-
-    this.indexWidth = 54;
-    this.iconWidth = 48;
-    this.scoreWidth = 144;
-    this.nameWidth =
-      this.width -
-      (this.indexWidth + this.iconWidth + this.scoreWidth) -
-      this.gutterWidth * 4;
-
-    // 预先计算各项 X
-    let cellX = -this.gutterWidth;
-    const xArr = (this.xArr = [cellX]);
-    cellX += this.gutterWidth;
-    xArr.push(cellX);
-    cellX += this.indexWidth + this.gutterWidth;
-    xArr.push(cellX);
-    cellX += this.iconWidth + this.gutterWidth;
-    xArr.push(cellX);
-    cellX += this.nameWidth + this.gutterWidth;
-    xArr.push(cellX);
-    // 头像
-    xArr[2] += (this.iconWidth - this.iconWidth) / 2;
-  },
-
   _renderDirty: false,
 
   /**
@@ -111,79 +73,56 @@ export const Top3 = {
    * 根据绘制信息以及当前i绘制元素
    */
   _drawRankingItem(data, i) {
-    const {
-      xArr,
-      gutterHeight,
-      textOffsetY,
-      barHeight,
-      myBarHeight,
-      indexWidth,
-      iconWidth,
-      nameWidth,
-      scoreWidth,
-      assets
-    } = this;
-    let y = i * (barHeight + gutterHeight);
-    if (i === 8) {
-      y += gutterHeight + (myBarHeight - barHeight) / 2;
-    }
+    const  { assets } = this;
+    const colWidth = this.width / 3;
+    const gutterHeight = 10;
+    const crownWidth = 56;
+    const crownHeight = 53;
+    const iconWidth = 72;
+    const fontSize = 24;
+    const x = (i === 0 ? 1 : i === 1 ? 0 : 2) * colWidth;
+    let y = i === 0 ? 0 : 30;
     // 绘制序号
-    if (data.key < 4) {
-      this._drawImage(
-        assets[`top${data.key}`],
-        xArr[1],
-        y + (barHeight - indexWidth) / 2,
-        56,
-        53
-      );
-    } else {
-      this._drawText(data.key, xArr[1], y + textOffsetY, indexWidth, {
-        align: "center",
-        color: "#33b6fe"
-      });
-    }
+    this._drawImage(
+      assets[`top${data.key}`],
+      x + (colWidth - crownWidth) / 2,
+      y,
+      crownWidth,
+      crownHeight,
+    );
+    y += crownHeight + gutterHeight;
     // 绘制头像
     this._drawImage(
       data.avatarUrl,
-      xArr[2],
-      y + (barHeight - iconWidth) / 2,
+      x + (colWidth - iconWidth) / 2,
+      y,
       iconWidth,
-      iconWidth
+      iconWidth,
     );
+    y += iconWidth + gutterHeight * 2;
     // 绘制名称
-    this._drawText(data.nickname, xArr[3], y + textOffsetY, nameWidth, {
-      align: "left",
-      color: "#000000"
-    });
+    this._drawText(
+      data.nickname,
+      x,
+      y,
+      colWidth,
+      {
+        color: "#000000",
+        fontSize,
+      },
+    );
+    y += fontSize + gutterHeight;
     // 绘制分数
-    this._drawText(data.score, xArr[4], y + textOffsetY, scoreWidth, {
-      align: "right",
-      color: "#ff5772"
-    });
-  },
-
-  /**
-   * -1 为上一页
-   * 1 为下一页
-   */
-  _goPage(offset) {
-    if (this.pageIndex === undefined) {
-      return;
-    }
-    this.pageIndex += offset;
-    if (this.pageIndex < 0) {
-      this.pageIndex = 0;
-      return;
-    }
-    if (this.pageIndex >= this.pageTotal) {
-      this.pageIndex = this.pageTotal - 1;
-      return;
-    }
-    this._renderDirty = true;
-    setTimeout(() => {
-      // 重新渲染必须标脏
-      this._renderDirty = true;
-    }, 100);
+    this._drawText(
+      data.score,
+      x,
+      y,
+      colWidth,
+      {
+        color: "#ff5772",
+        fontSize,
+      },
+    );
   },
 
   /**
@@ -213,16 +152,11 @@ export const Top3 = {
     x,
     y,
     width,
-    { align = "left", fontSize = this.fontSize, color = "#ffffff" } = {}
+    { fontSize, color } = {}
   ) {
-    context.textAlign = align;
-    if (align === "right") {
-      x += width;
-    }
-    if (align === "center") {
-      x += width / 2;
-    }
-    // 设置字体
+    x += width / 2;
+    y += fontSize / 2 * 1.2;
+    context.textAlign = "center";
     context.font = `${fontSize}px Arial`;
     context.fillStyle = color;
     context.fillText(String(text), x, y, width);

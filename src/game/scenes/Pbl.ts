@@ -3,6 +3,16 @@ namespace game {
     private btnBack: eui.Button;
     private btnHome: eui.Button;
     private btnRestart: eui.Button;
+    private btnSound: eui.ToggleButton;
+    private btnVibration: eui.ToggleButton;
+
+    public async exiting() {
+      await yyw.rightOut(this);
+    }
+
+    public async entering() {
+      await yyw.rightIn(this);
+    }
 
     protected destroy() {
       // empty
@@ -29,8 +39,22 @@ namespace game {
 
         yyw.onTap(this.btnRestart, () => {
           SceneManager.toScene("playing", false, (scene: Playing) => {
-            scene.restart();
+            scene.startGame();
           });
+        });
+
+        // 声音
+        yyw.onTap(this.btnSound, () => {
+          const { selected } = this.btnSound;
+          this.btnSound.currentState = selected ? "selected" : "up";
+          yyw.CONFIG.soundEnabled = selected;
+        });
+
+        // 振动
+        yyw.onTap(this.btnVibration, () => {
+          const { selected } = this.btnVibration;
+          this.btnVibration.currentState = selected ? "selected" : "up";
+          yyw.CONFIG.vibrationEnabled = selected;
         });
 
         this.initialized = true;

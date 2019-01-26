@@ -3,35 +3,24 @@ namespace game {
 
   export class Playing extends yyw.Base {
     private isGameOver: boolean = false;
-    private main: eui.Group;
     private btnShop: eui.Image;
     private tfdScore: eui.BitmapLabel;
-    // private b1: eui.Image;
-    // private b2: eui.Image;
-    // private b3: eui.Image;
-    // private b4: eui.Image;
-    // private b5: eui.Image;
     /** 单局最大连击数 */
     private maxCombo: number = 0;
     private arena: Arena;
     private tools: Tools;
-    // private me: Me;
     private closest: Closest;
     private recommender: box.All;
 
-    public restart() {
-      this.arena.restart();
+    public startGame() {
+      this.arena.startGame();
     }
 
     protected destroy() {
       this.setSnapshot(this.isGameOver ? null : undefined);
-      yyw.off("ARENA_STATE_CHANGE", this.onArenaStateChange, this);
-      yyw.off("ARENA_DATA_CHANGE", this.onArenaDataChange, this);
-      yyw.off("GAME_OVER", this.onGameOver, this);
-      yyw.removeChild(this.arena);
-      this.arena = null;
-      yyw.removeChild(this.closest);
-      this.closest = null;
+      this.removeClosest();
+      // yyw.removeChild(this.recommender);
+      // this.recommender = null;
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
@@ -44,17 +33,24 @@ namespace game {
         }
       }
       this.createClosest();
-      await this.createArena(useSnapshot);
+      await this.arena.startGame(useSnapshot);
       this.isGameOver = false;
       if (fromChildrenCreated) {
         this.initRecommender();
-        this.initToolsRect();
+        this.initToolsTarget();
+
+        // TODO 引导
         if (!!yyw.CURRENT_USER.score) {
           SceneManager.toScene("guide", true);
         }
+
         yyw.onTap(this.btnShop, () => {
           SceneManager.toScene("shop", true);
         });
+
+        yyw.on("GAME_DATA", this.onGameData, this);
+        yyw.on("GAME_OVER", this.onGameOver, this);
+
         this.initialized = true;
       }
     }
@@ -81,26 +77,15 @@ namespace game {
       this.body.addChild(this.closest);
     }
 
-    private async createArena(useSnapshot?: boolean): Promise<void> {
-      this.arena = useSnapshot ? await Arena.fromSnapshot() : new Arena();
-      this.arena.y = 318;
-      yyw.on("ARENA_STATE_CHANGE", this.onArenaStateChange, this);
-      yyw.on("ARENA_DATA_CHANGE", this.onArenaDataChange, this);
-      yyw.on("GAME_OVER", this.onGameOver, this);
-      this.main.addChild(this.arena);
+    private removeClosest() {
+      yyw.removeChild(this.closest);
+      this.closest = null;
     }
 
-    private onArenaStateChange({ data: {
-      running,
-    } }: egret.Event) {
-      this.tools.enabled = !running;
-    }
-
-    private onArenaDataChange({ data: {
+    private onGameData({ data: {
       combo,
       score,
     } }: egret.Event) {
-      this.closest.update(score);
       this.tfdScore.text = `${score}`;
       this.maxCombo = Math.max(combo, this.maxCombo);
     }
@@ -119,7 +104,7 @@ namespace game {
       });
     }
 
-    private initToolsRect() {
+    private initToolsTarget() {
       const { x, y, width, height } = this.arena;
       const padding = 21;
       const rect = new egret.Rectangle(
