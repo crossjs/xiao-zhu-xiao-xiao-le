@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="LandingSkin" width="750" height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
-	<e:Image id="bg" touchEnabled="false" width="750" x="0" height="1334" y="0" fillMode="clip" source="bg_landing" scale9Grid="0,0,750,72"/>
-	<e:BitmapLabel id="tfdVersion" touchEnabled="false" textAlign="center" verticalAlign="middle" alpha="0.5" y="0" left="0" right="0" text="" font="white_fnt" scaleX="0.5" scaleY="0.5"/>
+	<e:Image id="bg" touchEnabled="false" width="750" height="1334" fillMode="clip" source="bg_landing" scale9Grid="0,0,750,72"/>
+	<e:BitmapLabel id="tfdVersion" touchEnabled="false" textAlign="center" verticalAlign="middle" alpha="0.5" left="0" right="0" text="" font="white_fnt" scaleX="0.5" scaleY="0.5"/>
 	<e:Group id="body" width="750">
-		<e:Button id="btnBoard" y="528" x="36" enabled="true" skinName="ButtonBoardSkin"/>
-		<e:Button id="btnStart" y="864" label="" skinName="ButtonDefaultSkin" width="432" height="144" x="159"/>
-		<e:BitmapLabel id="tfdBestScore" y="1020" text="" font="white_fnt" width="432" textAlign="center" touchEnabled="false" scaleX="0.75" scaleY="0.75" x="213"/>
+		<e:Button id="btnBoard" y="528" x="36" skinName="ButtonBoardSkin"/>
+		<e:Button id="btnStart" y="864" label="" skinName="ButtonDefaultSkin" width="432" height="144" horizontalCenter="0"/>
+		<e:BitmapLabel id="tfdBestScore" y="1020" text="" font="white_fnt" width="600" textAlign="center" touchEnabled="false" scaleX="0.75" scaleY="0.75" horizontalCenter="0"/>
 		<e:Image source="sprites_json.start" x="231" y="894" touchEnabled="false"/>
 	</e:Group>
 </e:Skin>

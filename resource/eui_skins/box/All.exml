@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="H3Skin" width="750" height="208" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
 	<e:Image source="sprites_json.bottom_bg" left="0" right="0" top="0" bottom="0" scale9Grid="10,10,10,10"/>
-	<e:Scroller width="714" height="172" anchorOffsetY="0" anchorOffsetX="0" x="18" y="18">
-		<e:Group id="container" y="0" x="0">
+	<e:Scroller width="714" height="172" x="18" y="18">
+		<e:Group id="container">
 			<e:layout>
 				<e:HorizontalLayout horizontalAlign="left" verticalAlign="top" paddingLeft="0" paddingRight="0" paddingTop="0" paddingBottom="0" gap="0"/>
 			</e:layout>

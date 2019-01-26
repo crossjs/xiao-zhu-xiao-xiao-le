@@ -11,7 +11,8 @@
     "no-shadowed-variable": false,
     "object-literal-sort-keys": false,
     "prefer-const": true,
-    "prefer-for-of": false
+    "prefer-for-of": false,
+    "variable-name": false,
   },
   "rulesDirectory": []
 }

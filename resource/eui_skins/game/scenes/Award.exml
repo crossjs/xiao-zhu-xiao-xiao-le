@@ -1,15 +1,17 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="AwardSkin" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image id="bg" source="sprites_json.mask_bg" width="750" fillMode="repeat" visible="false" touchEnabled="true" x="0" y="0"/>
-	<e:Group id="body" width="750" y="20" touchEnabled="false" visible="true" x="0">
-		<e:Group id="modal" x="375" y="530" touchEnabled="false" touchChildren="false" visible="false" anchorOffsetX="240" anchorOffsetY="300">
-		<e:Image source="sprites_json.modal_bg" width="480" scale9Grid="18,102,66,84" height="600"/>
-		<e:BitmapLabel y="27" anchorOffsetX="0" anchorOffsetY="0" text="小猪送福" touchEnabled="false" textAlign="center" font="white_fnt" horizontalCenter="0"/>
-		<e:Image source="sprites_json.fu" y="234" horizontalCenter="0"/>
-		<e:BitmapLabel y="132" anchorOffsetX="0" anchorOffsetY="0" text="转发获得金币福包！" touchEnabled="false" textAlign="center" font="red_fnt" horizontalCenter="0"/>
-		<e:BitmapLabel id="tfdCoins" anchorOffsetX="0" anchorOffsetY="0" text="" touchEnabled="false" textAlign="center" y="195" scaleX="2" scaleY="2" width="192" font="score_fnt" horizontalCenter="0" height="72"/>
+	<e:Group id="bg">
+		<e:Image id="_mask" source="sprites_json.mask_bg" fillMode="clip" visible="true" touchEnabled="false" left="0" right="0" top="0" bottom="0" scale9Grid="10,10,10,10"/>
+		<e:Group id="body" width="750" y="20" touchEnabled="false">
+			<e:Group id="modal" x="375" y="530" touchEnabled="false" touchChildren="false" visible="false" anchorOffsetX="240" anchorOffsetY="300">
+			<e:Image source="sprites_json.modal_bg" width="480" scale9Grid="18,102,66,84" height="600"/>
+			<e:BitmapLabel y="27" text="小猪送福" touchEnabled="false" textAlign="center" font="white_fnt" horizontalCenter="0"/>
+			<e:Image source="sprites_json.fu" y="234" horizontalCenter="0"/>
+			<e:BitmapLabel y="132" text="转发获得金币福包！" touchEnabled="false" textAlign="center" font="red_fnt" horizontalCenter="0"/>
+			<e:BitmapLabel id="tfdCoins" text="" touchEnabled="false" textAlign="center" y="195" scaleX="2" scaleY="2" width="192" font="score_fnt" horizontalCenter="0" height="72"/>
+			</e:Group>
+			<e:Button id="btnOK" label="立即获得" y="878" skinName="ButtonDefaultSkin" width="300" height="102" horizontalCenter="0" visible="false"/>
+			<e:Button id="btnKO" y="986" skinName="ButtonNormalSkin" label="不了，谢谢" horizontalCenter="0.5" scaleX="0.75" scaleY="0.75" visible="false"/>
 		</e:Group>
-		<e:Button id="btnOK" label="立即获得" y="878" skinName="ButtonDefaultSkin" width="300" height="102" horizontalCenter="0" enabled="true" visible="false"/>
-		<e:Button id="btnKO" y="986" enabled="true" skinName="ButtonNormalSkin" label="不了，谢谢" horizontalCenter="0.5" scaleX="0.75" scaleY="0.75" visible="false"/>
 	</e:Group>
 </e:Skin>

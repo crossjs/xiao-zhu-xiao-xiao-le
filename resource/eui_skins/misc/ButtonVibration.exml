@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="ButtonVibrationSkin" width="48" height="48" currentState="selected" xmlns:e="http://ns.egret.com/eui" states="selected,up" width.up="48" height.up="48">
-	<e:Image source="sprites_json.vibration-off" includeIn="up" x="0" y="0" alpha="0.5"/>
-	<e:Image source="sprites_json.vibration-on" includeIn="selected" x="0" y="0"/>
+	<e:Image source="sprites_json.vibration-off" includeIn="up" alpha="0.5"/>
+	<e:Image source="sprites_json.vibration-on" includeIn="selected"/>
 </e:Skin>

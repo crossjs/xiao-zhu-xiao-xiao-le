@@ -2,19 +2,21 @@
 <e:Skin class="EndingSkin"
 	 width="750"
 	height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image id="bg" source="sprites_json.mask_bg" width="750" fillMode="repeat" touchEnabled="true" height="1334"/>
-	<e:Group width="750" y="270" touchEnabled="false">
-		<e:BitmapLabel y="0" text="———— 本次得分 ————" font="white_fnt" horizontalCenter="0"/>
-		<e:BitmapLabel id="tfdScore" y="60" text="" font="white_fnt" horizontalCenter="0"/>
-		<e:Group id="modal" y="444" touchEnabled="false" touchChildren="false" anchorOffsetX="240" anchorOffsetY="300" horizontalCenter="0">
+	<e:Group id="bg" x="0" y="0">
+		<e:Image id="_mask" source="sprites_json.mask_bg" width="750" fillMode="clip" touchEnabled="false" height="1334" scale9Grid="10,10,10,10" x="0" y="0"/>
+		<e:Group width="750" y="270" touchEnabled="false" x="0">
+			<e:BitmapLabel text="———— 本次得分 ————" font="white_fnt" horizontalCenter="0"/>
+			<e:BitmapLabel id="tfdScore" y="60" text="" font="white_fnt" horizontalCenter="0"/>
+			<e:Group id="modal" y="444" touchEnabled="false" touchChildren="false" anchorOffsetX="240" anchorOffsetY="300" horizontalCenter="0">
 			<e:Image width="480" scale9Grid="18,102,66,84" height="402" source="sprites_json.modal_bg_purple"/>
-			<e:BitmapLabel y="27" anchorOffsetX="0" anchorOffsetY="0" text="好友排行榜" touchEnabled="false" textAlign="center" font="white_fnt" horizontalCenter="0"/>
-      <e:Group id="main" y="132" width="480" x="0" height="240">
-				<e:Image source="sprites_json.mask_bg" x="321" width="3" height="180" y="30" fillMode="repeat" alpha="0.5"/>
-				<e:Image source="sprites_json.mask_bg" x="156" width="3" height="180" y="30" fillMode="repeat" alpha="0.5"/>
-      </e:Group>
+			<e:BitmapLabel y="27" text="好友排行榜" touchEnabled="false" textAlign="center" font="white_fnt" horizontalCenter="0"/>
+			<e:Group id="main" y="132" width="480" height="240">
+				<e:Image source="sprites_json.mask_bg" x="321" width="3" height="180" y="30" fillMode="scale" alpha="0.5"/>
+				<e:Image source="sprites_json.mask_bg" x="156" width="3" height="180" y="30" fillMode="scale" alpha="0.5"/>
+			</e:Group>
+			</e:Group>
+			<e:Button id="btnOK" label="免费复活" y="612" skinName="ButtonDefaultSkin" width="300" height="102" horizontalCenter="0"/>
+			<e:Button id="btnKO" y="720" skinName="ButtonNormalSkin" label="不了，谢谢" horizontalCenter="0.5" scaleX="0.75" scaleY="0.75"/>
 		</e:Group>
-		<e:Button id="btnOK" label="免费复活" y="612" skinName="ButtonDefaultSkin" width="300" height="102" horizontalCenter="0" enabled="true"/>
-		<e:Button id="btnKO" y="720" enabled="true" skinName="ButtonNormalSkin" label="不了，谢谢" horizontalCenter="0.5" scaleX="0.75" scaleY="0.75"/>
 	</e:Group>
 </e:Skin>

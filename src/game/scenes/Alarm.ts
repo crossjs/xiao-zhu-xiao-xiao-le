@@ -1,5 +1,6 @@
 namespace game {
   export class Alarm extends yyw.Base {
+    private _mask: eui.Image;
     private modal: eui.Group;
     private images: eui.Group;
     private btnOK: eui.Button;
@@ -8,14 +9,14 @@ namespace game {
     // public async hideModal() {
     //   this.btnOK.visible = false;
     //   this.btnKO.visible = false;
-    //   yyw.fadeOut(this.bg);
+    //   yyw.fadeOut(this._mask);
     //   await yyw.twirlOut(this.modal);
     // }
 
     protected destroy() {
-      yyw.removeTweens(this.bg);
+      yyw.removeTweens(this._mask);
       yyw.removeTweens(this.modal);
-      this.bg.visible = false;
+      this._mask.visible = false;
       this.modal.visible = false;
     }
 
@@ -38,7 +39,7 @@ namespace game {
     }
 
     private async showModal() {
-      yyw.fadeIn(this.bg);
+      yyw.fadeIn(this._mask);
       await yyw.twirlIn(this.modal);
       this.btnOK.visible = true;
       this.btnKO.visible = true;
