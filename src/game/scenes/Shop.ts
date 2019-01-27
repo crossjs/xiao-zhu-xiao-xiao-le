@@ -27,7 +27,9 @@ namespace game {
 
       if (fromChildrenCreated) {
         yyw.eachChild(this.items, ((child: eui.Group, index: number) => {
-          const visible: boolean = (yyw.CONFIG.shopStatus & 1) === 1 ? index < 3 : index === 3;
+          const visible: boolean =
+            ((yyw.CONFIG.shopStatus & 1) === 1 && index < 3)
+            || ((yyw.CONFIG.shopStatus & 2) === 2 && index === 3);
           if (visible) {
             child.visible = true;
             yyw.onTap(this[`btnPurchase${index}`], async () => {

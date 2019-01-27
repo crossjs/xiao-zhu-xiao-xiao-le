@@ -101,21 +101,25 @@ namespace yyw {
   };
 
   export async function initConfig() {
-    const {
-      coinReward,
-      shopStatus,
-      toolAmount,
-      toolReward,
-      adUnitId,
-     } = await request({
-      url: `${CONFIG.serverOrigin}/api/config`,
-    });
-    Object.assign(CONFIG, {
-      coinReward,
-      shopStatus,
-      toolAmount,
-      toolReward,
-      adUnitId,
-    })
+    try {
+      const {
+        coinReward = 0,
+        shopStatus = 0,
+        toolAmount = 3,
+        toolReward = 0,
+        adUnitId = "",
+       } = await request({
+        url: `${CONFIG.serverOrigin}/api/config`,
+      });
+      Object.assign(CONFIG, {
+        coinReward,
+        shopStatus,
+        toolAmount,
+        toolReward,
+        adUnitId,
+      });
+    } catch (error) {
+      egret.error(error);
+    }
   }
 }
