@@ -34,6 +34,7 @@ namespace game {
       }
       this.createClosest();
       await this.arena.startGame(useSnapshot);
+      await this.tools.startTool(useSnapshot);
       this.isGameOver = false;
       if (fromChildrenCreated) {
         this.initRecommender();
@@ -44,9 +45,12 @@ namespace game {
           SceneManager.toScene("guide", true);
         }
 
-        yyw.onTap(this.btnShop, () => {
-          SceneManager.toScene("shop", true);
-        });
+        if (yyw.CONFIG.shopStatus) {
+          this.btnShop.visible = true;
+          yyw.onTap(this.btnShop, () => {
+            SceneManager.toScene("shop", true);
+          });
+        }
 
         yyw.on("GAME_DATA", this.onGameData, this);
         yyw.on("GAME_OVER", this.onGameOver, this);

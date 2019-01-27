@@ -6,12 +6,7 @@ namespace game {
     private btnKO: eui.Button;
     private tfdCoins: eui.BitmapLabel;
     private coins: number;
-    private sndCoins: CoinsSound;
-
-    public constructor() {
-      super();
-      this.sndCoins = new CoinsSound();
-    }
+    private sndCoins: CoinsSound = new CoinsSound();
 
     // public async hideModal() {
     //   this.btnOK.visible = false;
@@ -31,7 +26,7 @@ namespace game {
       this.showModal();
       if (fromChildrenCreated) {
         yyw.onTap(this.btnOK, async () => {
-          if (await yyw.preReward()) {
+          if (await yyw.preReward("coin")) {
             await this.saveCoins();
             SceneManager.escape();
           }
@@ -46,9 +41,6 @@ namespace game {
     }
 
     private async showModal() {
-      if (!yyw.CONFIG.adEnabled) {
-        return;
-      }
       yyw.fadeIn(this._mask);
       await yyw.twirlIn(this.modal);
       this.btnOK.visible = true;

@@ -64,7 +64,7 @@ namespace game {
         this.initDnd();
         this.initialized = true;
       }
-      await this.startGame();
+      // await this.startGame();
     }
 
     private onToolUsing({ data: {

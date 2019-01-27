@@ -7,7 +7,10 @@ namespace yyw {
   const stageWidth: number = 750;
   const stageHeight: number = Math.floor(750 / systemInfo.windowWidth * systemInfo.windowHeight);
 
-  let adEnabled: boolean = true;
+  let coinReward: number = 0;
+  let shopStatus: number = 0;
+  let toolAmount: number = 3;
+  let toolReward: number = 0;
   let adUnitId: string = "";
   let soundEnabled: boolean = true;
   let vibrationEnabled: boolean = true;
@@ -40,12 +43,36 @@ namespace yyw {
       return speedRatio;
     },
 
-    get adEnabled(): boolean {
-      return adEnabled;
+    get coinReward(): number {
+      return coinReward;
     },
 
-    set adEnabled(value: boolean) {
-      adEnabled = value;
+    set coinReward(value: number) {
+      coinReward = value;
+    },
+
+    get shopStatus(): number {
+      return shopStatus;
+    },
+
+    set shopStatus(value: number) {
+      shopStatus = value;
+    },
+
+    get toolAmount(): number {
+      return toolAmount;
+    },
+
+    set toolAmount(value: number) {
+      toolAmount = value;
+    },
+
+    get toolReward(): number {
+      return toolReward;
+    },
+
+    set toolReward(value: number) {
+      toolReward = value;
     },
 
     get adUnitId(): string {
@@ -74,10 +101,21 @@ namespace yyw {
   };
 
   export async function initConfig() {
-    const { ad = false, adUnitId = "" } = await request({
+    const {
+      coinReward,
+      shopStatus,
+      toolAmount,
+      toolReward,
+      adUnitId,
+     } = await request({
       url: `${CONFIG.serverOrigin}/api/config`,
     });
-    CONFIG.adEnabled = ad;
-    CONFIG.adUnitId = adUnitId;
+    Object.assign(CONFIG, {
+      coinReward,
+      shopStatus,
+      toolAmount,
+      toolReward,
+      adUnitId,
+    })
   }
 }

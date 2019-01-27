@@ -24,7 +24,7 @@ namespace game {
       this.showModal();
       if (fromChildrenCreated) {
         yyw.onTap(this.btnOK, async () => {
-          if (await yyw.preReward()) {
+          if (await yyw.preReward("tool")) {
             yyw.emit("RANDOM_TOOL");
             SceneManager.escape();
           }

@@ -43,11 +43,13 @@ namespace game {
         yyw.onTap(this, async () => {
           this.zoomOut();
           if (!this.amount) {
-            if (await yyw.share()) {
-              this.increaseAmount(1);
-              this.afterGet(1);
-            } else {
-              yyw.showToast("转发才能🉐道具");
+            if (yyw.CONFIG.toolReward) {
+              if (await yyw.share()) {
+                this.increaseAmount(1);
+                this.afterGet(1);
+              } else {
+                yyw.showToast("转发才能🉐道具");
+              }
             }
             return;
           }
@@ -130,7 +132,9 @@ namespace game {
     protected update() {
       const { tfd, img, amount } = this;
       tfd.text = `${amount}`;
-      img.visible = !amount;
+      if (yyw.CONFIG.toolReward) {
+        img.visible = !amount;
+      }
     }
 
     private zoomIn() {

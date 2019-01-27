@@ -30,9 +30,18 @@ namespace game {
       this.createTop3();
 
       if (fromChildrenCreated) {
+        if (!yyw.CONFIG.toolReward) {
+          this.btnKO.visible = false;
+          this.btnOK.label = "重新开始";
+        }
         yyw.onTap(this.btnOK, async () => {
-          if (await yyw.preReward()) {
-            this.revive();
+          if (yyw.CONFIG.toolReward) {
+            if (await yyw.preReward("tool")) {
+              this.revive();
+            }
+          } else {
+            SceneManager.escape();
+            yyw.emit("GAME_OVER", this.gameData);
           }
         });
 

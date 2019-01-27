@@ -2,14 +2,27 @@ namespace game {
   const SNAPSHOT_KEY = "YYW_G4_TOOLS";
 
   export class Tools extends yyw.Base {
-    private valueUp: number = 0;
-    private shuffle: number = 0;
-    private breaker: number = 0;
-    private livesUp: number = 0;
+    private valueUp: number = yyw.CONFIG.toolAmount;
+    private shuffle: number = yyw.CONFIG.toolAmount;
+    private breaker: number = yyw.CONFIG.toolAmount;
+    private livesUp: number = yyw.CONFIG.toolAmount;
 
     public set targetRect(targetRect: egret.Rectangle) {
       yyw.eachChild(this.body, (tool: ToolBase) => {
         tool.targetRect = targetRect;
+      });
+    }
+
+    public async startTool(useSnapshot?: boolean) {
+      if (useSnapshot) {
+        const snapshot = await yyw.getStorage(SNAPSHOT_KEY);
+        if (snapshot) {
+          Object.assign(this, snapshot);
+        }
+      }
+
+      yyw.eachChild(this.body, (tool: ToolBase) => {
+        tool.setAmount(this[tool.type]);
       });
     }
 
@@ -23,11 +36,6 @@ namespace game {
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
-      const snapshot = await yyw.getStorage(SNAPSHOT_KEY);
-      if (snapshot) {
-        Object.assign(this, snapshot);
-      }
-
       if (fromChildrenCreated) {
         yyw.on("ARENA_RUN", ({ data }: egret.Event) => {
           this.enabled = !data;
@@ -39,10 +47,6 @@ namespace game {
 
         this.initialized = true;
       }
-
-      yyw.eachChild(this.body, (tool: ToolBase) => {
-        tool.setAmount(this[tool.type]);
-      });
     }
   }
 }

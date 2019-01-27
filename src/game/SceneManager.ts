@@ -91,28 +91,32 @@ namespace game {
     };
 
     constructor() {
-      // 体力过低
-      yyw.on("LIVES_LEAST", () => {
-        SceneManager.toScene("alarm", true);
-      });
+      // 启用道具奖励
+      if (yyw.CONFIG.toolReward) {
+        // 体力过低
+        yyw.on("LIVES_LEAST", () => {
+          SceneManager.toScene("alarm", true);
+        });
+      }
 
       // 体力耗尽
       yyw.on("LIVES_EMPTY", () => {
         SceneManager.toScene("ending", true);
       });
 
-      // 获得魔法数字
-      yyw.on("ARENA_MAGIC_NUMBER_GOT", () => {
-        SceneManager.toScene("award", true);
-      });
-
-      yyw.on("ARENA_MAGIC_NUMBER_GOT", () => {
-        SceneManager.toScene("award", true);
-      });
+      // 启用金币奖励
+      if (yyw.CONFIG.coinReward) {
+        // 获得魔法数字
+        yyw.on("ARENA_MAGIC_NUMBER_GOT", () => {
+          SceneManager.toScene("award", true);
+        });
+      }
 
       // 游戏结束
       yyw.on("GAME_OVER", () => {
-        SceneManager.toScene("landing");
+        SceneManager.toScene("playing", false, (scene: Playing) => {
+          scene.startGame();
+        });
       });
     }
 
