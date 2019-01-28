@@ -51,14 +51,6 @@ namespace game {
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       if (fromChildrenCreated) {
-        // 初始化全局配置
-        const { score = 0 } = await yyw.getPbl();
-        this.tfdBestScore.text = `历史最佳分数： ${score}`;
-        // 初始化转发参数
-        yyw.initShare();
-        // 初始化视频广告
-        yyw.initVideoAd();
-
         const { x: left, y: top, width, height } = this.btnStart;
         // TODO 封装成 Component
         this.userInfoButton = await yyw.createUserInfoButton({
@@ -85,6 +77,10 @@ namespace game {
 
         this.initialized = true;
       }
+
+      // 初始化全局配置
+      const { score = 0 } = await yyw.getPbl();
+      this.tfdBestScore.text = `历史最佳分数： ${score}`;
 
       this.createRecommender();
     }
