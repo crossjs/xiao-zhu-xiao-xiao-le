@@ -11,7 +11,7 @@
 			</e:Group>
 			<e:Button id="btnBoard" x="48" skinName="ButtonBoardSkin" verticalCenter="0"/>
 			<e:Button id="btnStart" label="" skinName="ButtonDefaultSkin" width="432" height="144" icon="sprites_json.start" horizontalCenter="0" bottom="72"/>
-			<e:BitmapLabel id="tfdBestScore" text="9999" font="white_fnt" width="600" textAlign="center" touchEnabled="false" scaleX="0.75" scaleY="0.75" horizontalCenter="0" bottom="0" height="60"/>
+			<e:BitmapLabel id="tfdBestScore" font="white_fnt" width="600" textAlign="center" touchEnabled="false" scaleX="0.75" scaleY="0.75" horizontalCenter="0" bottom="0" height="60"/>
 		</e:Group>
 	</e:Group>
 </e:Skin>
