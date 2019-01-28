@@ -14,6 +14,7 @@ namespace game {
 
     public startGame() {
       this.arena.startGame();
+      this.createClosest();
     }
 
     public async exiting() {
