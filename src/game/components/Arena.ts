@@ -3,7 +3,6 @@ namespace game {
 
   export class Arena extends yyw.Base {
     private isGameOver: boolean = false;
-    private main: eui.Group;
     private sndSwitch: SwapSound = new SwapSound();
     private sndMagic: MagicSound = new MagicSound();
     private sndPoint: PointSound = new PointSound();

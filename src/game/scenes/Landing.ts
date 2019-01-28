@@ -4,8 +4,42 @@ namespace game {
     private btnStart: eui.Button;
     private tfdVersion: eui.Label;
     private tfdBestScore: eui.Label;
+    private title: eui.Image;
+    private pig: eui.Image;
+    private numbers: eui.Image;
     private userInfoButton: wx.UserInfoButton;
     private recommender: box.All;
+    private duration: number = 500;
+
+    public async exiting() {
+      yyw.getTween(this.title).to({
+        x: this.title.x + 30,
+      }, this.duration);
+      yyw.getTween(this.pig).to({
+        x: this.pig.x + 60,
+        y: this.pig.y + 30,
+      }, this.duration);
+      yyw.getTween(this.numbers).to({
+        x: this.numbers.x - 60,
+        y: this.numbers.y - 30,
+      }, this.duration);
+      await yyw.fadeOut(this);
+    }
+
+    public async entering() {
+      yyw.getTween(this.title).to({
+        x: this.title.x - 30,
+      }, this.duration);
+      yyw.getTween(this.pig).to({
+        x: this.pig.x - 60,
+        y: this.pig.y - 30,
+      }, this.duration);
+      yyw.getTween(this.numbers).to({
+        x: this.numbers.x + 60,
+        y: this.numbers.y + 30,
+      }, this.duration);
+      await yyw.fadeIn(this);
+    }
 
     protected destroy(): void {
       if (this.userInfoButton) {

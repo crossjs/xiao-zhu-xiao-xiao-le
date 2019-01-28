@@ -1,6 +1,5 @@
 namespace game {
   export class Ranking extends yyw.Base {
-    private main: eui.Group;
     private btnFriend: eui.Button;
     private btnWorld: eui.Button;
     private bmpFriend: egret.Bitmap;

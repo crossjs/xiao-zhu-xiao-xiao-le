@@ -82,20 +82,20 @@ export class WxgamePlugin implements plugins.Command {
     console.log("拷贝静态资源目录，比如 images");
     const imgSource = path.join(commandContext.projectRoot, "images");
     const imgTarget = path.join(commandContext.outputDir, "images");
-    childProcess.execSync(`rm -Rf ${imgTarget}`);
-    childProcess.execSync(`cp -Rf ${imgSource} ${commandContext.outputDir}`);
+    childProcess.execSync(`rm -Rf ${imgTarget}`, { stdio: "inherit" });
+    childProcess.execSync(`cp -Rf ${imgSource} ${commandContext.outputDir}`, { stdio: "inherit" });
 
     console.log("拷贝 sub 目录（开放数据域）");
     // 拷贝 openDataContext
     const subSource = path.join(commandContext.projectRoot, "sub");
     const subTarget = path.join(commandContext.outputDir, "sub");
-    childProcess.execSync(`rm -Rf ${subTarget}`);
-    childProcess.execSync(`cp -Rf ${subSource} ${commandContext.outputDir}`);
+    childProcess.execSync(`rm -Rf ${subTarget}`, { stdio: "inherit" });
+    childProcess.execSync(`cp -Rf ${subSource} ${commandContext.outputDir}`, { stdio: "inherit" });
 
     console.log("拷贝 template 目录");
     // 拷贝 template，无视 egret 提供的 template
     const wxgTemplate = path.join(__dirname, "template");
-    childProcess.execSync(`cp -Rf ${wxgTemplate}/* ${commandContext.outputDir}`);
+    childProcess.execSync(`cp -Rf ${wxgTemplate}/* ${commandContext.outputDir}`, { stdio: "inherit" });
 
     console.log("修改 project.config.json");
     const projectConfigPath = path.join(commandContext.outputDir, "project.config.json");

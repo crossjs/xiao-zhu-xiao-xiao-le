@@ -38,27 +38,25 @@ namespace game {
       const stage: egret.DisplayObjectContainer = SceneManager.instance.theStage;
       const scene = SceneManager.getScene(name);
 
+      if (!keepOther) {
+        await SceneManager.instance.removeOthers(name);
+      }
+
+      yyw.setZIndex(scene);
+
       // 判断场景是否有父级（如果有，说明已经被添加到了场景中）
       if (!scene.parent) {
         // 未被添加到场景，把场景添加到之前设置好的根舞台中
         stage.addChild(scene);
         SceneManager.instance.theScene = scene;
-        if (keepOther) {
-          // 创建 Tween 对象
-          await scene.entering();
-        }
+        // 创建 Tween 对象
+        await scene.entering();
       }
 
       if (callback) {
         // 回调
         callback(scene);
       }
-
-      if (!keepOther) {
-        SceneManager.instance.removeOthers(name);
-      }
-
-      yyw.setZIndex(scene);
 
       return scene;
     }
@@ -136,14 +134,18 @@ namespace game {
 
     /**
      * 删除其他场景
-     * @param name 不需要删除的场景的名字
+     * @param nameToKeep 不需要删除的场景的名字
      */
-    private removeOthers(name: string) {
-      Object.keys(this.scenes)
-      .filter((key) => key !== name)
-      .forEach((key) => {
-        yyw.removeChild(this.getScene(key));
-      });
+    private removeOthers(nameToKeep: string) {
+      return Promise.all(Object.keys(this.scenes)
+      .filter((key) => key !== nameToKeep)
+      .map(async (key) => {
+        const scene = this.getScene(key);
+        if (scene.parent) {
+          await scene.exiting();
+        }
+        yyw.removeChild(scene);
+      }));
     }
   }
 }

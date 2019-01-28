@@ -8,6 +8,10 @@ declare namespace egret {
  * 微信小游戏命名空间
  */
 declare namespace wx {
+  const env: {
+    USER_DATA_PATH: string;
+  };
+
   type systemInfo = {
     /** 手机品牌*/
     brand: string;
@@ -1678,7 +1682,7 @@ declare namespace wx {
     /**
      * FileSystemManager.readFile 的同步版本
      */
-    readFileSync(filePath: string, encoding: string): string | ArrayBuffer;
+    readFileSync(filePath: string, encoding?: string): string | ArrayBuffer;
 
     /**
      * 读取目录内文件列表
@@ -1724,7 +1728,7 @@ declare namespace wx {
     /**
      * FileSystemManager.rmdir 的同步版本
      */
-    rmdirSync(dirPath: string, recursive: boolean): void;
+    rmdirSync(dirPath: string, recursive?: boolean): void;
 
     /**
      * 获取文件 Stats 对象
@@ -1740,7 +1744,7 @@ declare namespace wx {
     /**
      * FileSystemManager.stat 的同步版本
      */
-    statSync(path: string, recursive: boolean): Stats;
+    statSync(path: string, recursive?: boolean): Stats;
 
     /**
      * 删除文件
@@ -1786,7 +1790,7 @@ declare namespace wx {
     writeFileSync(
       filePath: string,
       data: string | ArrayBuffer,
-      encoding: string
+      encoding?: string
     ): void;
   }
 

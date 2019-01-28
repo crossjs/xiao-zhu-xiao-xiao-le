@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="ToolsSkin"
  xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:game="game.*">
-	<e:Group id="body" y="20" touchEnabled="false" width="750">
-		<game:ValueUp width="78" height="78" y="136" x="186" touchChildren="false"/>
-		<game:Shuffle width="78" height="78" y="136" x="336" touchChildren="false"/>
-		<game:Breaker width="78" height="78" y="136" x="486" touchChildren="false"/>
-		<game:LivesUp width="126" height="138" x="600" y="174" touchChildren="false"/>
+	<e:Group id="main" touchEnabled="false" width="750">
+		<game:ValueUp width="78" height="78" y="156" x="186" touchChildren="false"/>
+		<game:Shuffle width="78" height="78" y="156" x="336" touchChildren="false"/>
+		<game:Breaker width="78" height="78" y="156" x="486" touchChildren="false"/>
+		<game:LivesUp width="126" height="138" x="600" y="194" touchChildren="false"/>
 	</e:Group>
 </e:Skin>

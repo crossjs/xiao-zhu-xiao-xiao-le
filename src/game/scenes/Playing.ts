@@ -16,6 +16,10 @@ namespace game {
       this.arena.startGame();
     }
 
+    public async exiting() {
+      // empty
+    }
+
     protected destroy() {
       this.setSnapshot(this.isGameOver ? null : undefined);
       this.removeClosest();

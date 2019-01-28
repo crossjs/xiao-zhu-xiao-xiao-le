@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="LandingSkin" width="750" height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
-	<e:Image id="bg" touchEnabled="false" width="750" height="1334" fillMode="clip" source="bg_landing" scale9Grid="0,0,750,72"/>
+	<e:Image id="bg" touchEnabled="false" width="750" height="1334" fillMode="clip" source="bg_landing" scale9Grid="0,0,750,36"/>
 	<e:BitmapLabel id="tfdVersion" touchEnabled="false" textAlign="center" verticalAlign="middle" alpha="0.5" left="0" right="0" text="" font="white_fnt" scaleX="0.5" scaleY="0.5"/>
-	<e:Group id="body" width="750">
-		<e:Button id="btnBoard" y="528" x="36" skinName="ButtonBoardSkin"/>
-		<e:Button id="btnStart" y="864" label="" skinName="ButtonDefaultSkin" width="432" height="144" horizontalCenter="0"/>
-		<e:BitmapLabel id="tfdBestScore" y="1020" text="" font="white_fnt" width="600" textAlign="center" touchEnabled="false" scaleX="0.75" scaleY="0.75" horizontalCenter="0"/>
-		<e:Image source="sprites_json.start" x="231" y="894" touchEnabled="false"/>
+	<e:Group id="body" width="750" y="20" height="1314">
+		<e:Group id="main" left="0" right="0" top="0" bottom="262">
+			<e:Group horizontalCenter="0" verticalCenter="0">
+				<e:Image id="numbers" source="sprites_json.numbers" visible="true" x="-48" y="132" touchEnabled="false"/>
+				<e:Image id="pig" source="sprites_json.pig" visible="true" y="204" x="144" touchEnabled="false"/>
+				<e:Image id="title" source="sprites_json.title" visible="true" x="126" y="-147" touchEnabled="false"/>
+			</e:Group>
+			<e:Button id="btnBoard" x="48" skinName="ButtonBoardSkin" verticalCenter="0"/>
+			<e:Button id="btnStart" label="" skinName="ButtonDefaultSkin" width="432" height="144" icon="sprites_json.start" horizontalCenter="0" bottom="72"/>
+			<e:BitmapLabel id="tfdBestScore" text="9999" font="white_fnt" width="600" textAlign="center" touchEnabled="false" scaleX="0.75" scaleY="0.75" horizontalCenter="0" bottom="0" height="60"/>
+		</e:Group>
 	</e:Group>
 </e:Skin>

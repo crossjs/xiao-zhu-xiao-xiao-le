@@ -1,7 +1,7 @@
 namespace yyw {
   export class RemoteLoader {
     public static loadImage(url: string): Promise<egret.Bitmap> {
-      return new Promise((resolve, reject) => {
+      return new Promise(async (resolve, reject) => {
         const imageLoader: egret.ImageLoader = new egret.ImageLoader();
         imageLoader.once(
           egret.Event.COMPLETE,
@@ -13,17 +13,17 @@ namespace yyw {
             const bm: egret.Bitmap = new egret.Bitmap(texture);
             resolve(bm);
           },
-          this,
+          null,
         );
         imageLoader.once(
           egret.IOErrorEvent.IO_ERROR,
           (e) => {
             reject(e);
           },
-          this,
+          null,
         );
         imageLoader.crossOrigin = "anonymous";
-        imageLoader.load(url);
+        imageLoader.load(await fs.ensure(url));
       });
     }
   }

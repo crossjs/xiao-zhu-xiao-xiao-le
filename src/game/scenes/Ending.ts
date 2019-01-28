@@ -1,6 +1,5 @@
 namespace game {
   export class Ending extends yyw.Base {
-    private main: eui.Group;
     private btnOK: eui.Button;
     private btnKO: eui.Button;
     private tfdScore: eui.BitmapLabel;

@@ -8,7 +8,7 @@ namespace game {
     private livesUp: number = yyw.CONFIG.toolAmount;
 
     public set targetRect(targetRect: egret.Rectangle) {
-      yyw.eachChild(this.body, (tool: ToolBase) => {
+      yyw.eachChild(this.main, (tool: ToolBase) => {
         tool.targetRect = targetRect;
       });
     }
@@ -21,7 +21,7 @@ namespace game {
         }
       }
 
-      yyw.eachChild(this.body, (tool: ToolBase) => {
+      yyw.eachChild(this.main, (tool: ToolBase) => {
         tool.setAmount(this[tool.type]);
       });
     }
@@ -42,7 +42,7 @@ namespace game {
         });
 
         yyw.on("RANDOM_TOOL", () => {
-          (yyw.randomChild(this.body) as ToolBase).increaseAmount(1);
+          (yyw.randomChild(this.main) as ToolBase).increaseAmount(1);
         });
 
         this.initialized = true;

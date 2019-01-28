@@ -3,6 +3,7 @@ namespace yyw {
     protected initialized: boolean = false;
     protected bg: eui.Image;
     protected body: eui.Group;
+    protected main: eui.Group;
 
     public constructor() {
       super();

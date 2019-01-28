@@ -23,27 +23,48 @@ namespace yyw {
 
   export const CURRENT_USER: IUser = {};
 
-  function _login(): Promise<any> {
-    return new Promise((success, fail) => {
+  function _getLoginCode(): Promise<string> {
+    return new Promise((resolve) => {
       wx.login({
-        success,
-        fail,
+        success({ code }) {
+          resolve(code);
+        },
+        fail() {
+          resolve();
+        },
       });
     });
   }
 
-  async function _getUserInfo(): Promise<any> {
+  async function _isScopeAuthorized(scope: string = "userInfo"): Promise<any> {
+    return new Promise((resolve) => {
+      wx.getSetting({
+        success(res) {
+          resolve(res.authSetting[`scope.${scope}`]);
+        },
+        fail() {
+          resolve(false);
+        },
+      });
+    });
+  }
+
+  async function _getUserInfo(): Promise<object> {
     if (await _isLoggedIn()) {
       return {
         userInfo: CURRENT_USER,
       };
     }
 
-    return new Promise((success, fail) => {
+    return new Promise((resolve) => {
       wx.getUserInfo({
         withCredentials: true,
-        success,
-        fail,
+        success(res) {
+          resolve(res);
+        },
+        fail() {
+          resolve(null);
+        },
       });
     });
   }
@@ -67,21 +88,21 @@ namespace yyw {
     await removeStorage(CURRENT_USER_KEY);
   }
 
-  export async function login(res: any): Promise<any> {
-    let code: string;
+  export async function login(payload: any = {}): Promise<any> {
     const loggedIn = await _isLoggedIn();
     if (!loggedIn) {
-      const loginRes = await _login();
-      if (loginRes) {
-        code = loginRes.code;
-      }
+      // 未登录，需要取 code
+      Object.assign(payload, {
+        code: await _getLoginCode(),
+      });
     }
-    if (!res) {
-      res = await _getUserInfo();
+    if (!payload.nickName) {
+      // 没有基础信息，去微信取一个
+      Object.assign(payload, await _getUserInfo());
     }
     const { expiresIn = 0, ...currentUser } = await request({
       url: `${CONFIG.serverOrigin}/api/user/login`,
-      data: { code, ...res },
+      data: payload,
       method: "POST",
     });
     // 合入到全局
@@ -94,7 +115,7 @@ namespace yyw {
     if (CURRENT_USER.accessToken) {
       return CURRENT_USER.accessToken;
     }
-    const { accessToken } = await login(null);
+    const { accessToken } = await login();
     return accessToken;
   }
 
@@ -104,7 +125,7 @@ namespace yyw {
   export async function createUserInfoButton({
     left, top, width, height, onTap,
   }: any): Promise<wx.UserInfoButton> {
-    if (!await _isLoggedIn()) {
+    if (!await _isScopeAuthorized("userInfo") || !await _isLoggedIn()) {
       const scale = 750 / CONFIG.systemInfo.windowWidth; // 因为是 fixedWidth
 
       const button = wx.createUserInfoButton({
@@ -129,18 +150,16 @@ namespace yyw {
       button.onTap(async ({ errMsg, encryptedData, iv, userInfo }: any) => {
         button.destroy();
         try {
-          // 几率性地解码失败
-          await login(
-            errMsg === "getUserInfo:ok"
-              ? { encryptedData, iv, userInfo }
-              // 拒绝的话，返回空对象
-              : errMsg === "getUserInfo:fail auth deny"
-                // 其它错误，则在 login 里走 getUserInfo 接口
-                ? {} : null);
+          if (errMsg === "getUserInfo:ok") {
+            // 几率性地解码失败
+            await login({ encryptedData, iv, userInfo });
+          } else {
+            egret.warn("createUserInfoButton", errMsg);
+          }
         } catch (error) {
           egret.error("createUserInfoButton", error);
           // 再试一次
-          await login(null);
+          await login();
         }
         if (onTap) {
           onTap();

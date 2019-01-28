@@ -1,6 +1,5 @@
 namespace game {
   export class Words extends yyw.Base {
-    private main: eui.Group;
     private imgGood: eui.Image;
     private imgGreat: eui.Image;
     private imgAmazing: eui.Image;

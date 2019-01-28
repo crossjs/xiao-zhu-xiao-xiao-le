@@ -10,7 +10,7 @@
 			<e:BitmapLabel y="132" text="转发获得金币福包！" touchEnabled="false" textAlign="center" font="red_fnt" horizontalCenter="0"/>
 			<e:BitmapLabel id="tfdCoins" text="" touchEnabled="false" textAlign="center" y="195" scaleX="2" scaleY="2" width="192" font="score_fnt" horizontalCenter="0" height="72"/>
 			</e:Group>
-			<e:Button id="btnOK" label="立即获得" y="878" skinName="ButtonDefaultSkin" width="300" height="102" horizontalCenter="0" visible="false"/>
+			<e:Button id="btnOK" label="炫耀一下" y="878" skinName="ButtonDefaultSkin" width="300" height="102" horizontalCenter="0" visible="false"/>
 			<e:Button id="btnKO" y="986" skinName="ButtonNormalSkin" label="不了，谢谢" horizontalCenter="0.5" scaleX="0.75" scaleY="0.75" visible="false"/>
 		</e:Group>
 	</e:Group>

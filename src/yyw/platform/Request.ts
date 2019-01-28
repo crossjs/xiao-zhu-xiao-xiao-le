@@ -38,6 +38,7 @@ namespace yyw {
           }
         },
         fail(res) {
+          egret.error("request", options, res);
           reject(res);
         },
       });

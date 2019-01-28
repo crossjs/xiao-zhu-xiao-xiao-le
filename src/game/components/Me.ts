@@ -1,7 +1,6 @@
 namespace game {
   export class Me extends yyw.Base {
     private bmpMe: egret.Bitmap;
-    private main: eui.Image;
 
     protected destroy() {
       yyw.removeChild(this.bmpMe);
