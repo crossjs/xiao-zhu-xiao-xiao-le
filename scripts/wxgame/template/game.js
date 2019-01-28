@@ -1,3 +1,4 @@
+import "./utils/ald-game.js";
 import "./weapp-adapter.js";
 import "./manifest.js";
 import "./egret.wxgame.js";
