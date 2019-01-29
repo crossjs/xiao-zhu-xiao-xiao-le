@@ -74,6 +74,9 @@ class Main extends eui.UILayer {
     // 初始化全局配置
     await yyw.initConfig();
 
+    // 先自动登录
+    await yyw.getAccessToken();
+
     game.SceneManager.setStage(this);
     game.SceneManager.toScene("landing");
 

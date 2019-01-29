@@ -23,7 +23,8 @@ namespace yyw {
 
   export const USER: IUser = {};
 
-  function _getLoginCode(): Promise<string> {
+  // 总是能取到 code，不需要用户确认
+  function getLoginCode(): Promise<string> {
     return new Promise((resolve) => {
       wx.login({
         success({ code }) {
@@ -36,26 +37,7 @@ namespace yyw {
     });
   }
 
-  async function _isScopeAuthorized(scope: string = "userInfo"): Promise<any> {
-    return new Promise((resolve) => {
-      wx.getSetting({
-        success(res) {
-          resolve(res.authSetting[`scope.${scope}`]);
-        },
-        fail() {
-          resolve(false);
-        },
-      });
-    });
-  }
-
-  async function _getUserInfo(): Promise<object> {
-    if (await _isLoggedIn()) {
-      return {
-        userInfo: USER,
-      };
-    }
-
+  function getUserInfo(): Promise<object> {
     return new Promise((resolve) => {
       wx.getUserInfo({
         withCredentials: true,
@@ -69,7 +51,7 @@ namespace yyw {
     });
   }
 
-  async function _isLoggedIn() {
+  async function isLoggedIn() {
     if (!USER.accessToken) {
       const cachedUser = await getStorage(USER_KEY);
       if (cachedUser) {
@@ -77,6 +59,49 @@ namespace yyw {
       }
     }
     return !!USER.accessToken;
+  }
+
+  function isScopeAuthorized(scope: string = "userInfo"): Promise<any> {
+    return new Promise((resolve) => {
+      wx.getSetting({
+        success(res) {
+          resolve(res.authSetting[`scope.${scope}`]);
+        },
+        fail() {
+          resolve(false);
+        },
+      });
+    });
+  }
+
+  async function login(payload: any = {}): Promise<any> {
+    const hadLogin = !!USER.accessToken;
+    // 如果没登录过，则取个 code
+    if (!hadLogin) {
+      // 未登录，需要取 code
+      Object.assign(payload, {
+        code: await getLoginCode(),
+      });
+    }
+    // 没有 code，说明服务端不会去微信取信息
+    // 只有从 UserInfoButton 过来，才会有 nickname
+    if (!payload.code && !payload.nickName) {
+      // 去微信取基础信息
+      Object.assign(payload, await getUserInfo());
+    }
+    const { expiresIn = 0, ...currentUser } = await request({
+      url: `${CONFIG.serverOrigin}/api/user/login`,
+      data: payload,
+      method: "POST",
+    });
+    // 合入到全局
+    Object.assign(USER, currentUser);
+    setStorage(USER_KEY, USER, expiresIn);
+    // 如果之前是未登录状态，则通知登录
+    if (!hadLogin) {
+      yyw.emit("LOGIN");
+    }
+    return currentUser;
   }
 
   export async function logout(): Promise<any> {
@@ -89,39 +114,17 @@ namespace yyw {
     yyw.emit("LOGOUT");
   }
 
-  export async function login(payload: any = {}): Promise<any> {
-    const loggedIn = await _isLoggedIn();
-    if (!loggedIn) {
-      // 未登录，需要取 code
-      Object.assign(payload, {
-        code: await _getLoginCode(),
-      });
-    }
-    if (!payload.nickName) {
-      // 没有基础信息，去微信取一个
-      Object.assign(payload, await _getUserInfo());
-    }
-    const { expiresIn = 0, ...currentUser } = await request({
-      url: `${CONFIG.serverOrigin}/api/user/login`,
-      data: payload,
-      method: "POST",
-    });
-    // 合入到全局
-    Object.assign(USER, currentUser);
-    setStorage(USER_KEY, USER, expiresIn);
-    // 如果之前是未登录状态，则通知登录
-    if (!loggedIn) {
-      yyw.emit("LOGIN");
-    }
-    return currentUser;
-  }
-
   export async function getAccessToken(): Promise<string> {
-    if (USER.accessToken) {
-      return USER.accessToken;
+    if (!USER.accessToken) {
+      const cachedUser = await getStorage(USER_KEY);
+      if (cachedUser) {
+        Object.assign(USER, cachedUser);
+      }
     }
-    const { accessToken } = await login();
-    return accessToken;
+    if (!USER.accessToken) {
+      await login();
+    }
+    return USER.accessToken;
   }
 
   /**
@@ -130,48 +133,49 @@ namespace yyw {
   export async function createUserInfoButton({
     left, top, width, height, onTap,
   }: any): Promise<wx.UserInfoButton> {
-    if (!await _isScopeAuthorized("userInfo") || !await _isLoggedIn()) {
-      const scale = 750 / CONFIG.systemInfo.windowWidth; // 因为是 fixedWidth
+    if (await isScopeAuthorized("userInfo") && await isLoggedIn()) {
+      return;
+    }
 
-      const button = wx.createUserInfoButton({
-        type: "text",
-        style: {
-          left: left / scale,
-          top: top / scale,
-          width: width / scale,
-          height: height / scale,
-          lineHeight: 0,
-          backgroundColor: "transparent",
-          color: "transparent",
-          textAlign: "center",
-          fontSize: 0,
-          borderRadius: 0,
-          borderColor: "transparent",
-          borderWidth: 0,
-        },
-        withCredentials: true,
-      });
+    const scale = 750 / CONFIG.systemInfo.windowWidth; // 因为是 fixedWidth
+    const button = wx.createUserInfoButton({
+      type: "text",
+      style: {
+        left: left / scale,
+        top: top / scale,
+        width: width / scale,
+        height: height / scale,
+        lineHeight: 0,
+        backgroundColor: "transparent",
+        color: "transparent",
+        textAlign: "center",
+        fontSize: 0,
+        borderRadius: 0,
+        borderColor: "transparent",
+        borderWidth: 0,
+      },
+      withCredentials: true,
+    });
 
-      button.onTap(async ({ errMsg, encryptedData, iv, userInfo }: any) => {
-        button.destroy();
-        try {
-          if (errMsg === "getUserInfo:ok") {
-            // 几率性地解码失败
-            await login({ encryptedData, iv, userInfo });
-          } else {
-            egret.warn("createUserInfoButton", errMsg);
-          }
-        } catch (error) {
-          egret.error("createUserInfoButton", error);
-          // 再试一次
+    button.onTap(async ({ errMsg, encryptedData, iv, userInfo }: any) => {
+      button.destroy();
+      try {
+        if (errMsg === "getUserInfo:ok") {
+          // 取到加密过的用户信息，丢到服务端去解密
+          await login({ encryptedData, iv, userInfo });
+        } else {
+          // 用户拒绝，直接登录
           await login();
         }
-        if (onTap) {
-          onTap();
-        }
-      });
+      } catch (error) {
+        // 几率性地解码失败，再试一次
+        await login();
+      }
+      if (onTap) {
+        onTap();
+      }
+    });
 
-      return button;
-    }
+    return button;
   }
 }
