@@ -31,6 +31,6 @@ class LoadingUI extends egret.Sprite implements RES.PromiseTaskReporter {
 
   public onProgress(current: number, total: number, { root, name }: RES.ResourceInfo): void {
     this.tfd2.text = `${current}/${total}`;
-    this.tfd3.text = `${root}/${name}`;
+    this.tfd3.text = `${root}${name}`;
   }
 }

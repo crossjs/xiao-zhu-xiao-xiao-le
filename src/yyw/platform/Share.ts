@@ -1,10 +1,10 @@
 namespace yyw {
   const SHARE_OPTIONS = [{
-    title: "小学二年级的试卷，都答对了简直神童！",
+    title: "消消看，猪在天上飞",
     imageUrl: "images/share2.jpg",
     // query: "",
   }, {
-    title: "父母如何发现孩子的数学天赋",
+    title: "快来看看我在玩什么",
     imageUrl: "images/share.jpg",
     // query: "",
   }];

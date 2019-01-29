@@ -7,7 +7,7 @@
 		<box:All id="recommender" width="750" height="208" bottom="0"/>
 		<game:Arena id="arena" y="318"/>
 		<game:Me id="me"/>
-		<e:Image id="btnShop" y="66" x="620" visible="true" source="sprites_json.shop"/>
+		<e:Image id="btnShop" y="66" x="620" visible="false" source="sprites_json.shop"/>
 		<game:Tools id="tools"/>
 		<game:Words id="words" touchEnabled="false" touchChildren="false"/>
 	</e:Group>

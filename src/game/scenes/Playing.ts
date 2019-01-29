@@ -41,8 +41,7 @@ namespace game {
       if (fromChildrenCreated) {
         this.initToolsTarget();
 
-        // TODO 引导
-        if (!!yyw.USER.score) {
+        if (!yyw.USER.score) {
           SceneManager.toScene("guide", true);
         }
 

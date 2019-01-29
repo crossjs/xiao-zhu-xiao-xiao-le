@@ -214,7 +214,9 @@ namespace game {
           return;
         }
         cancel();
-        this.getCellAt(fromPoint).zoomOut();
+        const cell = this.getCellAt(fromPoint);
+        cell.zoomOut();
+        yyw.setZIndex(cell);
         this.isRunning = true;
         // 普通交换
         this.sndSwitch.play();

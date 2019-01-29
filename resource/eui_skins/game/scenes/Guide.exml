@@ -5,11 +5,21 @@
 	<e:Group id="bg">
 		<e:Image id="_mask" touchEnabled="false" fillMode="clip" source="sprites_json.mask_bg" scale9Grid="10,10,10,10" left="0" right="0" top="0" bottom="0"/>
 		<e:Group id="body" y="20" touchEnabled="false" width="750" touchChildren="false">
-			<e:Group y="156" touchEnabled="false" touchChildren="false">
+			<e:Group id="main" y="156" touchEnabled="false" touchChildren="false">
         <e:Image x="186" source="sprites_json.tool_valueup"/>
         <e:Image x="336" source="sprites_json.tool_shuffle"/>
         <e:Image x="486" source="sprites_json.tool_breaker"/>
         <e:Image x="600" y="38" source="sprites_json.tool_livesup"/>
+				<e:Label x="142.5" y="-51" text="指定数字+1"/>
+				<e:Label x="612" y="186.75" text="体力+1"/>
+				<e:Label x="285" y="94" text="重新排列数字"/>
+				<e:Label x="330" y="510" text="相同数字相连即可消除"/>
+				<e:Label x="435" y="-51" text="击碎指定数字"/>
+				<e:Image id="numTo" source="numbers_json.4" x="102" y="444"/>
+				<e:Image id="numFrom" source="numbers_json.3" x="102" y="300"/>
+				<e:Image source="numbers_json.3" x="246" y="588"/>
+				<e:Image source="numbers_json.3" x="102" y="588"/>
+				<e:Image id="finger" source="sprites_json.finger" x="180" y="330"/>
 			</e:Group>
 		</e:Group>
 	</e:Group>
