@@ -7,12 +7,15 @@ namespace yyw {
   export function onTap(
     target: egret.DisplayObject,
     handler: any,
+    mute?: boolean,
   ): () => void {
-    target.addEventListener(
-      egret.TouchEvent.TOUCH_BEGIN,
-      hi,
-      target,
-    );
+    if (!mute) {
+      target.addEventListener(
+        egret.TouchEvent.TOUCH_BEGIN,
+        hi,
+        target,
+      );
+    }
     target.addEventListener(
       egret.TouchEvent.TOUCH_TAP,
       handler,
@@ -20,7 +23,9 @@ namespace yyw {
     );
 
     return () => {
-      target.removeEventListener(egret.TouchEvent.TOUCH_BEGIN, hi, target);
+      if (!mute) {
+        target.removeEventListener(egret.TouchEvent.TOUCH_BEGIN, hi, target);
+      }
       target.removeEventListener(egret.TouchEvent.TOUCH_TAP, handler, target);
     };
   }
@@ -30,7 +35,7 @@ namespace yyw {
     begin: any,
     move: any,
     end: any,
-    local?: boolean,
+    stage?: egret.DisplayObject,
   ): () => void {
     // 是否正在拖动
     let dragging: boolean = false;
@@ -59,7 +64,9 @@ namespace yyw {
       end(e);
     };
 
-    const stage = local ? target : target.stage;
+    if (!stage) {
+      stage = target;
+    }
 
     target.addEventListener(egret.TouchEvent.TOUCH_BEGIN, handleBegin, target);
     stage.addEventListener(egret.TouchEvent.TOUCH_MOVE, handleMove, target);

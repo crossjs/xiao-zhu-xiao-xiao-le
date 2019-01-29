@@ -26,7 +26,7 @@ namespace game {
     public static async escape(): Promise<void> {
       const { theScene } = SceneManager.instance;
       await theScene.exiting();
-      yyw.removeChild(theScene);
+      yyw.removeElement(theScene);
     }
 
     public static async toScene(
@@ -144,7 +144,7 @@ namespace game {
         if (scene.parent) {
           await scene.exiting();
         }
-        yyw.removeChild(scene);
+        yyw.removeElement(scene);
       }));
     }
   }

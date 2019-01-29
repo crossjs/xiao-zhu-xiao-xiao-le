@@ -3,7 +3,7 @@
 	 width="750"
 	height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Group id="bg" x="0" y="0">
-		<e:Image id="_mask" source="sprites_json.mask_bg" width="750" fillMode="clip" touchEnabled="false" height="1334" scale9Grid="10,10,10,10" x="0" y="0"/>
+		<e:Image id="_mask" source="sprites_json.mask_bg" fillMode="clip" touchEnabled="false" scale9Grid="10,10,10,10" left="0" right="0" top="0" bottom="0"/>
 		<e:Group width="750" y="270" touchEnabled="false" x="0">
 			<e:BitmapLabel text="———— 本次得分 ————" font="white_fnt" horizontalCenter="0"/>
 			<e:BitmapLabel id="tfdScore" y="60" text="" font="white_fnt" horizontalCenter="0"/>

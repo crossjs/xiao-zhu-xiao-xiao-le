@@ -37,7 +37,7 @@ namespace game {
                 yyw.showToast("请访问公众号“游鱼玩”，发送消息“兑换”");
               } else {
                 // 消费
-                await yyw.saveAward({
+                await yyw.award.save({
                   coins: -this.prices[index],
                 });
                 yyw.showToast("购买成功");
@@ -51,7 +51,7 @@ namespace game {
             });
           } else {
             egret.setTimeout(() => {
-              yyw.removeChild(child);
+              yyw.removeElement(child);
             }, this, 0);
           }
         }));
@@ -66,7 +66,7 @@ namespace game {
 
     private async update() {
       try {
-        const { coins } = await yyw.getPbl();
+        const { coins } = await yyw.pbl.get();
         this.tfdCoins.text = `${coins}`;
         for (let i = 0; i < 4; i++) {
           (this[`btnPurchase${i}`] as eui.Button).enabled = coins > this.prices[i];

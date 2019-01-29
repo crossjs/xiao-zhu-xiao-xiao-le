@@ -10,7 +10,6 @@ namespace game {
     private arena: Arena;
     private tools: Tools;
     private closest: Closest;
-    private recommender: box.All;
 
     public startGame() {
       this.arena.startGame();
@@ -24,8 +23,6 @@ namespace game {
     protected destroy() {
       this.setSnapshot(this.isGameOver ? null : undefined);
       this.removeClosest();
-      // yyw.removeChild(this.recommender);
-      // this.recommender = null;
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
@@ -42,11 +39,10 @@ namespace game {
       await this.tools.startTool(useSnapshot);
       this.isGameOver = false;
       if (fromChildrenCreated) {
-        this.initRecommender();
         this.initToolsTarget();
 
         // TODO 引导
-        if (!!yyw.CURRENT_USER.score) {
+        if (!!yyw.USER.score) {
           SceneManager.toScene("guide", true);
         }
 
@@ -87,7 +83,7 @@ namespace game {
     }
 
     private removeClosest() {
-      yyw.removeChild(this.closest);
+      yyw.removeElement(this.closest);
       this.closest = null;
     }
 
@@ -106,7 +102,7 @@ namespace game {
     } }: egret.Event) {
       this.isGameOver = true;
       this.setSnapshot(null);
-      yyw.savePbl({
+      yyw.pbl.save({
         score,
         level,
         combo: Math.max(combo, this.maxCombo),
@@ -123,10 +119,6 @@ namespace game {
         height - padding * 2,
       );
       this.tools.targetRect = rect;
-    }
-
-    private initRecommender() {
-      this.recommender.y = this.stage.stageHeight - 208;
     }
   }
 }

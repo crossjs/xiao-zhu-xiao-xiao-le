@@ -36,6 +36,7 @@ namespace game {
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
+      super.createView(fromChildrenCreated);
       if (fromChildrenCreated) {
         yyw.on("ARENA_RUN", ({ data }: egret.Event) => {
           this.enabled = !data;
@@ -44,8 +45,6 @@ namespace game {
         yyw.on("RANDOM_TOOL", () => {
           (yyw.randomChild(this.main) as ToolBase).increaseAmount(1);
         });
-
-        this.initialized = true;
       }
     }
   }

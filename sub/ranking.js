@@ -73,9 +73,8 @@ export const Ranking = {
     this.barHeight = 60;
     this.myBarHeight = 80;
 
-    // 24 等分，加首尾共有 5 个间隔
     this.fontSize = 36;
-    this.textOffsetY = (this.barHeight + this.fontSize) / 2.2;
+    this.textOffsetY = (this.barHeight + this.fontSize) / 2.22;
 
     this.indexWidth = 54;
     this.iconWidth = 48;
@@ -92,15 +91,13 @@ export const Ranking = {
     let cellX = -this.gutterWidth;
     const xArr = (this.xArr = [cellX]);
     cellX += this.gutterWidth;
-    xArr.push(cellX);
+    xArr.push(cellX); // 序号
     cellX += this.indexWidth + this.gutterWidth;
-    xArr.push(cellX);
+    xArr.push(cellX); // 头像
     cellX += this.iconWidth + this.gutterWidth;
-    xArr.push(cellX);
+    xArr.push(cellX); // 昵称
     cellX += this.nameWidth + this.gutterWidth;
-    xArr.push(cellX);
-    // 头像
-    xArr[2] += (this.iconWidth - this.iconWidth) / 2;
+    xArr.push(cellX); // 分数
   },
 
   _renderDirty: false,
@@ -119,7 +116,7 @@ export const Ranking = {
       this._drawRankingItem(data, index);
     });
     // 渲染自己
-    this._drawRankingItem(this.myRankingData, 8);
+    this._drawRankingItem(this.myRankingData, this.pageSize);
   },
 
   /**
@@ -139,7 +136,7 @@ export const Ranking = {
       assets
     } = this;
     let y = i * (barHeight + gutterHeight);
-    if (i === 8) {
+    if (i === this.pageSize) {
       y += gutterHeight + (myBarHeight - barHeight) / 2;
     }
     // 绘制序号

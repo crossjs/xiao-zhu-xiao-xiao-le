@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="LandingSkin" width="750" height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" >
+<e:Skin class="LandingSkin" width="750" height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:box="box.*" >
 	<e:Image id="bg" touchEnabled="false" width="750" height="1334" fillMode="clip" source="bg_landing" scale9Grid="0,0,750,36"/>
 	<e:BitmapLabel id="tfdVersion" touchEnabled="false" textAlign="center" verticalAlign="middle" alpha="0.5" left="0" right="0" text="" font="white_fnt" scaleX="0.5" scaleY="0.5"/>
 	<e:Group id="body" width="750" y="20" height="1314">
+		<box:All bottom="0"/>
 		<e:Group id="main" left="0" right="0" top="0" bottom="262">
 			<e:Group horizontalCenter="0" verticalCenter="0">
 				<e:Image id="numbers" source="sprites_json.numbers" visible="true" x="-48" y="132" touchEnabled="false"/>

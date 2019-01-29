@@ -22,8 +22,11 @@ namespace game {
       this.modal.visible = false;
     }
 
-    protected createView(fromChildrenCreated?: boolean): void {
+    protected async createView(fromChildrenCreated?: boolean): Promise<void> {
+      super.createView(fromChildrenCreated);
+
       this.showModal();
+
       if (fromChildrenCreated) {
         yyw.onTap(this.btnOK, async () => {
           if (await yyw.preReward("coin")) {
@@ -35,8 +38,6 @@ namespace game {
         yyw.onTap(this.btnKO, () => {
           SceneManager.escape();
         });
-
-        this.initialized = true;
       }
     }
 
@@ -52,7 +53,7 @@ namespace game {
     private async saveCoins() {
       this.sndCoins.play();
       // TODO 入袋动画
-      await yyw.saveAward({
+      await yyw.award.save({
         coins: this.coins,
       });
     }

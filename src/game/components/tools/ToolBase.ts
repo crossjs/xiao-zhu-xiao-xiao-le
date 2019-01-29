@@ -32,6 +32,7 @@ namespace game {
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
+      super.createView(fromChildrenCreated);
       if (fromChildrenCreated) {
         yyw.on("TOOL_GAINED", ({ data: { type, amount } }: egret.Event) => {
           if (type === this.type) {
@@ -124,8 +125,6 @@ namespace game {
             }
           });
         }
-
-        this.initialized = true;
       }
     }
 

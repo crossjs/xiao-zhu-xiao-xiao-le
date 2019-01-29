@@ -305,7 +305,7 @@ namespace box {
 
   function getInstance(): Recommender {
     if (!instance) {
-      const { openId } = yyw.CURRENT_USER;
+      const { openId } = yyw.USER;
       if (openId) {
         // 初始化交叉营销
         instance = new Recommender({
@@ -327,6 +327,10 @@ namespace box {
     const i = getInstance();
     if (i) {
       i.onReady(onRecommenderReady);
+    } else {
+      yyw.once("LOGIN", () => {
+        onReady(onRecommenderReady);
+      });
     }
   }
 
@@ -334,6 +338,10 @@ namespace box {
     const i = getInstance();
     if (i) {
       i.onChange(onRecommenderChange);
+    } else {
+      yyw.once("LOGIN", () => {
+        onChange(onRecommenderChange);
+      });
     }
   }
 }

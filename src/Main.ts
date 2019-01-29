@@ -1,4 +1,6 @@
 class Main extends eui.UILayer {
+  private created: boolean = false;
+
   protected createChildren(): void {
     super.createChildren();
 
@@ -25,18 +27,27 @@ class Main extends eui.UILayer {
   }
 
   private async runGame() {
+    let loaded: boolean = false;
+    egret.setTimeout(() => {
+      if (!loaded) {
+        egret.error("加载超时，强制进入");
+        this.createGameScene();
+      }
+    }, null, 10000);
     await this.loadResource();
+    loaded = true;
     await this.createGameScene();
   }
 
   private async loadResource() {
     try {
-      const loadingView = new LoadingUI();
-      this.stage.addChild(loadingView);
       await RES.loadConfig("resource/default.res.json", "resource/");
       await this.loadTheme();
+
+      const loadingView = new LoadingUI();
+      this.stage.addChild(loadingView);
       await RES.loadGroup("preload", 0, loadingView);
-      yyw.removeChild(loadingView);
+      yyw.removeElement(loadingView);
     } catch (error) {
       egret.error(error);
     }
@@ -54,6 +65,12 @@ class Main extends eui.UILayer {
    * 创建场景界面
    */
   private async createGameScene(): Promise<void> {
+    if (this.created) {
+      return;
+    }
+
+    this.created = true;
+
     // 初始化全局配置
     await yyw.initConfig();
 

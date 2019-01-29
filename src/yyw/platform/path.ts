@@ -20,7 +20,7 @@ namespace yyw {
 
     // 获取微信的用户缓存地址
     getLocalPath: (p: string): string => {
-      return path.normalize(p.replace(/[:#?]/gi, "/"));
+      return p ? path.normalize(p.replace(/[:#?]/gi, "/")) : "";
     },
 
     // 获取微信的用户缓存地址

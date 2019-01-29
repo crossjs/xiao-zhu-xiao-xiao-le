@@ -45,7 +45,7 @@ namespace game {
         score,
         width: this.width,
         height: this.height,
-        openid: yyw.CURRENT_USER.openId || 0,
+        openid: yyw.USER.openId || 0,
       });
     }
 
@@ -58,7 +58,7 @@ namespace game {
     }
 
     private removeBmp() {
-      yyw.removeChild(this.bmpClosest);
+      yyw.removeElement(this.bmpClosest);
       this.bmpClosest = null;
       yyw.sub.postMessage({
         command: "closeClosest",

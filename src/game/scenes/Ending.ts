@@ -24,7 +24,8 @@ namespace game {
       this.removeTop3();
     }
 
-    protected createView(fromChildrenCreated?: boolean): void {
+    protected async createView(fromChildrenCreated?: boolean): Promise<void> {
+      super.createView(fromChildrenCreated);
       this.tfdScore.text = `${this.gameData.score}`;
       this.createTop3();
 
@@ -48,8 +49,6 @@ namespace game {
           SceneManager.escape();
           yyw.emit("GAME_OVER", this.gameData);
         });
-
-        this.initialized = true;
       }
     }
 
@@ -78,7 +77,7 @@ namespace game {
     }
 
     private removeTop3() {
-      yyw.removeChild(this.bmpTop3);
+      yyw.removeElement(this.bmpTop3);
       this.bmpTop3 = null;
       yyw.sub.postMessage({
         command: "closeTop3",

@@ -35,8 +35,15 @@ namespace yyw {
       await yyw.fadeIn(this);
     }
 
-    protected abstract destroy(): void;
-    protected abstract createView(fromChildrenCreated?: boolean): void;
+    protected destroy() {
+      //
+    }
+
+    protected async createView(fromChildrenCreated?: boolean): Promise<void> {
+      if (fromChildrenCreated) {
+        this.initialized = true;
+      }
+    }
 
     // protected partAdded(partName: string, instance: any): void {
     //   super.partAdded(partName, instance);
@@ -52,14 +59,14 @@ namespace yyw {
 
       // 匹配刘海屏
       if (this.body) {
-        const { platform, statusBarHeight } = CONFIG.systemInfo;
-        // 刘海屏
-        // TODO 是否需要 pixelRatio 为 3？
-        if (statusBarHeight > 40) {
+        const { system, statusBarHeight } = CONFIG.systemInfo;
+        // 刘海屏（iPhoneX 为 44，华为 mate20 为 27）
+        // 超过这个数，统一认定为有刘海
+        if (statusBarHeight >= 27) {
           this.body.y = statusBarHeight * 2;
         } else {
           // 胶囊与屏幕顶部的距离
-          const top = platform === "android" ? 32 : 20;
+          const top = /android/i.test(system) ? 32 : 20;
           this.body.y = top;
         }
         this.body.height = this.stage.stageHeight - this.body.y;

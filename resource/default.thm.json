@@ -1,7 +1,6 @@
 {
 	"skins": {
 		"box.All": "resource/eui_skins/box/All.exml",
-		"box.One": "resource/eui_skins/box/One.exml",
 		"game.Alarm": "resource/eui_skins/game/scenes/Alarm.exml",
 		"game.Arena": "resource/eui_skins/game/components/Arena.exml",
 		"game.Award": "resource/eui_skins/game/scenes/Award.exml",
@@ -16,6 +15,7 @@
 		"game.Pbl": "resource/eui_skins/game/scenes/Pbl.exml",
 		"game.Playing": "resource/eui_skins/game/scenes/Playing.exml",
 		"game.Ranking": "resource/eui_skins/game/scenes/Ranking.exml",
+		"game.RankingItem": "resource/eui_skins/game/components/RankingItem.exml",
 		"game.Shop": "resource/eui_skins/game/scenes/Shop.exml",
 		"game.Shuffle": "resource/eui_skins/game/components/tools/Shuffle.exml",
 		"game.Tools": "resource/eui_skins/game/components/Tools.exml",
@@ -25,11 +25,11 @@
 	"autoGenerateExmlsList": false,
 	"exmls": [
 		"resource/eui_skins/box/All.exml",
-		"resource/eui_skins/box/One.exml",
 		"resource/eui_skins/game/components/Arena.exml",
 		"resource/eui_skins/game/components/Cell.exml",
 		"resource/eui_skins/game/components/Closest.exml",
 		"resource/eui_skins/game/components/Me.exml",
+		"resource/eui_skins/game/components/RankingItem.exml",
 		"resource/eui_skins/game/components/Tools.exml",
 		"resource/eui_skins/game/components/tools/Breaker.exml",
 		"resource/eui_skins/game/components/tools/LivesUp.exml",

@@ -265,7 +265,7 @@ namespace game {
         this.getCellAt(fromPoint).zoomOut();
       };
 
-      yyw.onDnd(main, handleBegin, handleDrag, handleEnd, true);
+      yyw.onDnd(main, handleBegin, handleDrag, handleEnd, main.stage);
     }
 
     private async growUpCellsOf(num: number) {

@@ -20,9 +20,12 @@ namespace game {
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       try {
-        const pbl = await yyw.getPbl();
+        const pbl = await yyw.pbl.get();
         Object.entries(pbl).forEach(([ key, value ]: [string, number]) => {
-          (this[`tfd${key.replace(/^\w/, ($0) => $0.toUpperCase())}`] as eui.BitmapLabel).text = String(value);
+          const field: eui.BitmapLabel = this[`tfd${key.replace(/^\w/, ($0) => $0.toUpperCase())}`];
+          if (field) {
+            field.text = `${value}`;
+          }
         });
       } catch (error) {
         egret.error(error);

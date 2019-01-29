@@ -8,7 +8,6 @@ namespace game {
     private pig: eui.Image;
     private numbers: eui.Image;
     private userInfoButton: wx.UserInfoButton;
-    private recommender: box.All;
     private duration: number = 500;
 
     public async exiting() {
@@ -45,11 +44,10 @@ namespace game {
       if (this.userInfoButton) {
         this.userInfoButton.destroy();
       }
-      yyw.removeChild(this.recommender);
-      this.recommender = null;
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
+      super.createView(fromChildrenCreated);
       if (fromChildrenCreated) {
         const { x: left, y: top, width, height } = this.btnStart;
         // TODO 封装成 Component
@@ -74,26 +72,11 @@ namespace game {
         yyw.onTap(this.btnStart, () => {
           SceneManager.toScene("playing");
         });
-
-        this.initialized = true;
       }
 
       // 初始化全局配置
-      const { score = 0 } = await yyw.getPbl();
-      this.tfdBestScore.text = `历史最佳分数： ${score}`;
-
-      this.createRecommender();
-    }
-
-    private createRecommender() {
-      try {
-        this.recommender = new box.All();
-        this.recommender.x = 0;
-        this.recommender.y = this.stage.stageHeight - 208;
-        this.addChild(this.recommender);
-      } catch (error) {
-        egret.error(error);
-      }
+      const { score = 0 } = await yyw.pbl.get();
+      this.tfdBestScore.text = `历史最高分数： ${score}`;
     }
   }
 }

@@ -7,6 +7,7 @@ namespace box {
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
+      super.createView(fromChildrenCreated);
       if (fromChildrenCreated) {
         box.onReady((_: any, recommender: Recommender) => {
           const games = recommender.getGames();

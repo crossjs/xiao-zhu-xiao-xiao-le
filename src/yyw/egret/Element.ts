@@ -1,5 +1,14 @@
 namespace yyw {
-  export function removeChild(target: any) {
+  export function removeChildren(container: egret.DisplayObjectContainer) {
+    if (container) {
+      let n = container.numChildren;
+      while (n--) {
+        container.removeChildAt(n);
+      }
+    }
+  }
+
+  export function removeElement(target: any) {
     if (target) {
       const { parent } = target;
       if (parent) {
@@ -27,7 +36,10 @@ namespace yyw {
     }
   }
 
-  export function eachChild(target: egret.DisplayObjectContainer, handler: any) {
+  export function eachChild(
+    target: egret.DisplayObjectContainer,
+    handler: (child: egret.DisplayObject, index: number) => any,
+  ) {
     if (target) {
       const { numChildren } = target;
       if (numChildren) {

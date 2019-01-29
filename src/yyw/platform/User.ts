@@ -19,9 +19,9 @@ namespace yyw {
     username?: string;
   }
 
-  const CURRENT_USER_KEY = "YYW_CURRENT_USER";
+  const USER_KEY = "YYW_G4_USER";
 
-  export const CURRENT_USER: IUser = {};
+  export const USER: IUser = {};
 
   function _getLoginCode(): Promise<string> {
     return new Promise((resolve) => {
@@ -52,7 +52,7 @@ namespace yyw {
   async function _getUserInfo(): Promise<object> {
     if (await _isLoggedIn()) {
       return {
-        userInfo: CURRENT_USER,
+        userInfo: USER,
       };
     }
 
@@ -70,22 +70,23 @@ namespace yyw {
   }
 
   async function _isLoggedIn() {
-    if (!CURRENT_USER.accessToken) {
-      const cachedUserInfo = await getStorage(CURRENT_USER_KEY);
-      if (cachedUserInfo) {
-        Object.assign(CURRENT_USER, cachedUserInfo);
+    if (!USER.accessToken) {
+      const cachedUser = await getStorage(USER_KEY);
+      if (cachedUser) {
+        Object.assign(USER, cachedUser);
       }
     }
-    return !!CURRENT_USER.accessToken;
+    return !!USER.accessToken;
   }
 
   export async function logout(): Promise<any> {
-    for (const key in CURRENT_USER) {
-      if (CURRENT_USER.hasOwnProperty(key)) {
-        delete CURRENT_USER[key];
+    for (const key in USER) {
+      if (USER.hasOwnProperty(key)) {
+        delete USER[key];
       }
     }
-    await removeStorage(CURRENT_USER_KEY);
+    await removeStorage(USER_KEY);
+    yyw.emit("LOGOUT");
   }
 
   export async function login(payload: any = {}): Promise<any> {
@@ -106,14 +107,18 @@ namespace yyw {
       method: "POST",
     });
     // 合入到全局
-    Object.assign(CURRENT_USER, currentUser);
-    setStorage(CURRENT_USER_KEY, CURRENT_USER, expiresIn);
+    Object.assign(USER, currentUser);
+    setStorage(USER_KEY, USER, expiresIn);
+    // 如果之前是未登录状态，则通知登录
+    if (!loggedIn) {
+      yyw.emit("LOGIN");
+    }
     return currentUser;
   }
 
   export async function getAccessToken(): Promise<string> {
-    if (CURRENT_USER.accessToken) {
-      return CURRENT_USER.accessToken;
+    if (USER.accessToken) {
+      return USER.accessToken;
     }
     const { accessToken } = await login();
     return accessToken;

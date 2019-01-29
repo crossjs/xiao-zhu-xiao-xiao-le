@@ -3,6 +3,6 @@
   <e:Image width="100%" height="100%"
     source="sprites_json.button_up_purple" scale9Grid="10,10,10,4" source.down="sprites_json.button_down_purple" scale9Grid.down="10,10,10,4" source.disabled="sprites_json.button_disabled" scale9Grid.disabled="10,10,10,4"/>
   <e:BitmapLabel id="labelDisplay"
-    verticalAlign="middle" textAlign="center" font="white_fnt" horizontalCenter="0" verticalCenter="0" verticalCenter.up="-6"/>
-  <e:Image id="iconDisplay" horizontalCenter="0" verticalCenter="0" verticalCenter.up="-6"/>
+    verticalAlign="middle" textAlign="center" font="white_fnt" horizontalCenter="0" verticalCenter="0" verticalCenter.up="-3" scaleX="0.75" scaleY="0.75"/>
+  <e:Image id="iconDisplay" horizontalCenter="0" verticalCenter="0" verticalCenter.up="-3"/>
 </e:Skin>
