@@ -41,8 +41,14 @@ namespace yyw {
     return new Promise((resolve) => {
       wx.getUserInfo({
         withCredentials: true,
-        success(res) {
-          resolve(res);
+        success({ errMsg, encryptedData, iv, userInfo }: any) {
+          if (errMsg === "getUserInfo:ok") {
+            // 取到加密过的用户信息，丢到服务端去解密
+            resolve({ encryptedData, iv, userInfo });
+          } else {
+            // 用户拒绝，直接登录
+            resolve(null);
+          }
         },
         fail() {
           resolve(null);
@@ -51,21 +57,11 @@ namespace yyw {
     });
   }
 
-  async function isLoggedIn() {
-    if (!USER.accessToken) {
-      const cachedUser = await getStorage(USER_KEY);
-      if (cachedUser) {
-        Object.assign(USER, cachedUser);
-      }
-    }
-    return !!USER.accessToken;
-  }
-
   function isScopeAuthorized(scope: string = "userInfo"): Promise<any> {
     return new Promise((resolve) => {
       wx.getSetting({
         success(res) {
-          resolve(res.authSetting[`scope.${scope}`]);
+          resolve(res.authSetting[`scope.${scope}`] === true);
         },
         fail() {
           resolve(false);
@@ -74,18 +70,18 @@ namespace yyw {
     });
   }
 
+  // encryptedData, iv, userInfo
   async function login(payload: any = {}): Promise<any> {
     const hadLogin = !!USER.accessToken;
     // 如果没登录过，则取个 code
-    if (!hadLogin) {
+    if (!payload.code) {
       // 未登录，需要取 code
       Object.assign(payload, {
         code: await getLoginCode(),
       });
     }
-    // 没有 code，说明服务端不会去微信取信息
-    // 只有从 UserInfoButton 过来，才会有 nickname
-    if (!payload.code && !payload.nickName) {
+    // 没有 code 且没有 userInfo
+    if (!payload.userInfo) {
       // 去微信取基础信息
       Object.assign(payload, await getUserInfo());
     }
@@ -96,7 +92,7 @@ namespace yyw {
     });
     // 合入到全局
     Object.assign(USER, currentUser);
-    setStorage(USER_KEY, USER, expiresIn);
+    await setStorage(USER_KEY, USER, expiresIn);
     // 如果之前是未登录状态，则通知登录
     if (!hadLogin) {
       yyw.emit("LOGIN");
@@ -133,7 +129,7 @@ namespace yyw {
   export async function createUserInfoButton({
     left, top, width, height, onTap,
   }: any): Promise<wx.UserInfoButton> {
-    if (await isScopeAuthorized("userInfo") && await isLoggedIn()) {
+    if (await isScopeAuthorized("userInfo") && await getAccessToken()) {
       return;
     }
 

@@ -49,13 +49,14 @@ namespace game {
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       super.createView(fromChildrenCreated);
       if (fromChildrenCreated) {
-        const { x: left, y: top, width, height } = this.btnStart;
+        const { width, height } = this.btnStart;
+        const { x: left, y: top } = this.btnStart.localToGlobal();
         // TODO 封装成 Component
         this.userInfoButton = await yyw.createUserInfoButton({
-          left,
-          top,
-          width,
-          height,
+          left: 159,
+          top: this.stage.stageHeight - 478,
+          width: 432,
+          height: 144,
           onTap: () => {
             SceneManager.toScene("playing");
           },
