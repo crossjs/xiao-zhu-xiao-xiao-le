@@ -21,7 +21,7 @@
     "exclude": [
       "libs/**/*",
       "node_modules/**/*",
-      "scripts/wxgame/**/*",
+      "scripts/**/*",
       "sub/**/*",
       "test/**/*"
     ]
