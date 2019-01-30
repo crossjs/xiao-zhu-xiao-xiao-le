@@ -26,7 +26,7 @@ namespace yyw {
       } else {
         const start = Date.now();
         const onShow = () => {
-          // 3 秒内完成，判定为未完成转发·
+          // 3 秒内完成，判定为未完成转发
           resolve(Date.now() - start > 3000);
           wx.offShow(onShow);
         };
