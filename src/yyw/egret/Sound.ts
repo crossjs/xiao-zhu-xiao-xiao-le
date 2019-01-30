@@ -27,9 +27,5 @@ namespace yyw {
         this,
       );
     }
-
-    public stop() {
-      // empty
-    }
   }
 }

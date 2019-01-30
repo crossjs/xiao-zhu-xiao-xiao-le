@@ -18,10 +18,6 @@ namespace game {
       await yyw.rightIn(this);
     }
 
-    protected destroy(): void {
-      // empty
-    }
-
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       await this.update();
 

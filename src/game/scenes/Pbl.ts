@@ -14,10 +14,6 @@ namespace game {
       await yyw.rightIn(this);
     }
 
-    protected destroy() {
-      // empty
-    }
-
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       try {
         const pbl = await yyw.pbl.get();
@@ -28,7 +24,7 @@ namespace game {
           }
         });
       } catch (error) {
-        egret.error(error);
+        yyw.showToast("当前无数据");
       }
 
       if (fromChildrenCreated) {

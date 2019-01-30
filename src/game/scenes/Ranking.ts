@@ -64,16 +64,20 @@ namespace game {
     }
 
     private async showWorld() {
-      this.rankingData = await yyw.pbl.all();
-      this.rankingData.forEach((item, index) => {
-        item.key = index + 1;
-      });
-      this.myRankingData = this.rankingData.find(({ openId }) => yyw.USER.openId === openId);
-      this.pageTotal = Math.ceil(this.rankingData.length / this.pageSize);
-      this.groupWorld.visible = true;
-      this.drawRanking();
-      // 渲染自己
-      this.drawRankingItem(this.myRankingData, this.pageSize);
+      try {
+        this.rankingData = await yyw.pbl.all();
+        this.rankingData.forEach((item, index) => {
+          item.key = index + 1;
+        });
+        this.myRankingData = this.rankingData.find(({ openId }) => yyw.USER.openId === openId);
+        this.pageTotal = Math.ceil(this.rankingData.length / this.pageSize);
+        this.groupWorld.visible = true;
+        this.drawRanking();
+        // 渲染自己
+        this.drawRankingItem(this.myRankingData, this.pageSize);
+      } catch (error) {
+        yyw.showToast("当前无数据");
+      }
     }
 
     /**

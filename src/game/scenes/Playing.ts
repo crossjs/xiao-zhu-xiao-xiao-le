@@ -17,7 +17,7 @@ namespace game {
     }
 
     public async exiting() {
-      // empty
+      // no animation
     }
 
     protected destroy() {
