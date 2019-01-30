@@ -72,29 +72,34 @@ namespace yyw {
 
   // encryptedData, iv, userInfo
   async function login(payload: any = {}): Promise<any> {
-    const hadLogin = !!USER.accessToken;
-    // 如果没登录过，则取个 code
+    const isLoggedIn = !!USER.accessToken;
+
+    // 没有 code
     if (!payload.code) {
-      // 未登录，需要取 code
+      // 去微信取
       Object.assign(payload, {
         code: await getLoginCode(),
       });
     }
-    // 没有 code 且没有 userInfo
+
+    // 没有 userInfo
     if (!payload.userInfo) {
-      // 去微信取基础信息
+      // 去微信取
       Object.assign(payload, await getUserInfo());
     }
+
     const { expiresIn = 0, ...currentUser } = await request({
       url: `${CONFIG.serverOrigin}/api/user/login`,
       data: payload,
       method: "POST",
     });
+
     // 合入到全局
     Object.assign(USER, currentUser);
     await setStorage(USER_KEY, USER, expiresIn);
+
     // 如果之前是未登录状态，则通知登录
-    if (!hadLogin) {
+    if (!isLoggedIn) {
       yyw.emit("LOGIN");
     }
     return currentUser;
@@ -129,7 +134,10 @@ namespace yyw {
   export async function createUserInfoButton({
     left, top, width, height, onTap,
   }: any): Promise<wx.UserInfoButton> {
-    if (await isScopeAuthorized("userInfo") && await getAccessToken()) {
+    const authorized: boolean = await isScopeAuthorized("userInfo");
+    const isLoggedIn: boolean = !!await getAccessToken();
+
+    if (authorized && isLoggedIn) {
       return;
     }
 
@@ -160,8 +168,10 @@ namespace yyw {
           // 取到加密过的用户信息，丢到服务端去解密
           await login({ encryptedData, iv, userInfo });
         } else {
-          // 用户拒绝，直接登录
-          await login();
+          if (!isLoggedIn) {
+            // 用户拒绝，直接登录
+            await login();
+          }
         }
       } catch (error) {
         // 几率性地解码失败，再试一次

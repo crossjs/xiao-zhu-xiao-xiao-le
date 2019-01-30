@@ -19,7 +19,6 @@
   "rulesDirectory": [],
   "linterOptions": {
     "exclude": [
-      "cli/**/*",
       "libs/**/*",
       "node_modules/**/*",
       "scripts/wxgame/**/*",

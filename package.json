@@ -4,13 +4,13 @@
   "description": "小猪消消乐",
   "private": true,
   "scripts": {
-    "image": "node ./cli/compress.js",
+    "image": "yyw compress",
     "lint": "tslint -p ./ --fix",
-    "dev": "node ./cli/dev.js",
-    "release": "node ./cli/release.js"
+    "dev": "yyw dev",
+    "release": "yyw release"
   },
   "devDependencies": {
-    "tinify": "^1.6.0-beta.2",
+    "@minipx/yyw": "^0.1.2",
     "tslib": "^1.9.3",
     "tslint": "^5.12.0",
     "typescript": "^3.2.2"
