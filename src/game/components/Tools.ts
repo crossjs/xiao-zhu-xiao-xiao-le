@@ -15,7 +15,7 @@ namespace game {
 
     public async startTool(useSnapshot?: boolean) {
       if (useSnapshot) {
-        const snapshot = await yyw.getStorage(SNAPSHOT_KEY);
+        const snapshot = await yyw.storage.get(SNAPSHOT_KEY);
         if (snapshot) {
           Object.assign(this, snapshot);
         }
@@ -27,7 +27,7 @@ namespace game {
     }
 
     protected destroy() {
-      yyw.setStorage(SNAPSHOT_KEY, {
+      yyw.storage.set(SNAPSHOT_KEY, {
         valueUp: this.valueUp,
         shuffle: this.shuffle,
         breaker: this.breaker,

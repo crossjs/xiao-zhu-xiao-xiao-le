@@ -60,15 +60,15 @@ namespace game {
     }
 
     private async getSnapshot() {
-      return yyw.getStorage(SNAPSHOT_KEY);
+      return yyw.storage.get(SNAPSHOT_KEY);
     }
 
     private setSnapshot(value?: any) {
       if (value === null) {
-        yyw.setStorage(SNAPSHOT_KEY, null);
+        yyw.storage.set(SNAPSHOT_KEY, null);
       } else {
         const { maxCombo } = this;
-        yyw.setStorage(SNAPSHOT_KEY, {
+        yyw.storage.set(SNAPSHOT_KEY, {
           maxCombo,
         });
       }

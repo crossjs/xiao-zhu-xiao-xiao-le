@@ -37,7 +37,7 @@ namespace game {
         cell.setNumber(model.getNumberAt([col, row]));
       });
       if (useSnapshot) {
-        const { lives, score, combo } = await yyw.getStorage(SNAPSHOT_KEY);
+        const { lives, score, combo } = await yyw.storage.get(SNAPSHOT_KEY);
         this.ensureData({ lives, score, combo });
       } else {
         this.ensureData();
@@ -140,10 +140,10 @@ namespace game {
     private setSnapshot(value?: any) {
       this.model.setSnapshot(value);
       if (value === null) {
-        yyw.setStorage(SNAPSHOT_KEY, null);
+        yyw.storage.set(SNAPSHOT_KEY, null);
       } else {
         const { lives, score, combo } = this;
-        yyw.setStorage(SNAPSHOT_KEY, {
+        yyw.storage.set(SNAPSHOT_KEY, {
           lives, score, combo,
         });
       }

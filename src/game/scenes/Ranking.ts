@@ -10,6 +10,7 @@ namespace game {
     private pageTotal: number;
     private rankingData: any[];
     private myRankingData: any;
+    private removeScroll: () => void;
 
     protected destroy() {
       this.removeFriend();
@@ -44,8 +45,6 @@ namespace game {
           this.removeFriend();
           this.showWorld();
         });
-
-        this.initScroll();
       }
     }
 
@@ -75,6 +74,7 @@ namespace game {
         this.drawRanking();
         // 渲染自己
         this.drawRankingItem(this.myRankingData, this.pageSize);
+        this.initScroll();
       } catch (error) {
         yyw.showToast("当前无数据");
       }
@@ -110,24 +110,23 @@ namespace game {
     private initScroll() {
       let startX: number = 0;
       let startY: number = 0;
-      yyw.onDnd(this.groupWorld,
+      this.removeScroll = yyw.onDnd(this.groupWorld,
         (e: egret.TouchEvent, cancel: any) => {
           if (this.pageTotal <= 1) {
             cancel();
             return;
           }
-          startX = e.localX;
-          startY = e.localY;
+          startX = e.stageX;
+          startY = e.stageY;
         },
         (e: egret.TouchEvent) => {
           // nothing to do
         },
         (e: egret.TouchEvent) => {
-          const dx = e.localX - startX;
-          const dy = e.localY - startY;
-          // 滑动 20px 以上激活，防止误触
+          const dx = e.stageX - startX;
+          const dy = e.stageY - startY;
           // 不使用 1 判断斜率，而留有余量，防止误触
-          if (Math.abs(dy) > 20 && Math.abs(dy / dx) > 2) {
+          if (Math.abs(dy / dx) > 2) {
             this.goPage(dy > 0 ? -1 : 1);
           }
         },
@@ -163,6 +162,9 @@ namespace game {
 
     private removeWorld() {
       this.groupWorld.visible = false;
+      if (this.removeScroll) {
+        this.removeScroll();
+      }
     }
   }
 }

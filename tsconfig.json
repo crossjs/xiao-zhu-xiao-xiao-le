@@ -9,7 +9,12 @@
       "esnext",
       "es2017.object"
     ],
-    "types": []
+    "types": [],
+    "typeRoots": [
+      "libs/",
+      "node_modules/",
+      "scripts/"
+    ]
   },
   "include": [
     "src",

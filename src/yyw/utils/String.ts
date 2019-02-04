@@ -1,5 +1,5 @@
 namespace yyw {
-  export function sliceString(value: string, size: number, asciiAsHalf?: boolean) {
+  export function sliceString(value: string, size: number = 6, asciiAsHalf: boolean = true) {
     if (asciiAsHalf) {
       const chars = [];
       const maxIndex = value.length;

@@ -8,6 +8,7 @@ namespace yyw {
     scores?: number;
     played?: number;
   }
+
   export const pbl = {
     async all(): Promise<IPbl[]> {
       if (CONFIG.serverEnabled) {

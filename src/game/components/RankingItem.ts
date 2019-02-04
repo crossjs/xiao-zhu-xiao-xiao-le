@@ -25,7 +25,7 @@ namespace game {
         }
         const avatar: egret.Bitmap = await yyw.RemoteLoader.loadImage(avatarUrl);
         this.imageAvatar.source = avatar.texture;
-        this.labelNickname.text = nickname;
+        this.labelNickname.text = yyw.sliceString(nickname);
         this.labelScore.text = `${score}`;
       }
     }

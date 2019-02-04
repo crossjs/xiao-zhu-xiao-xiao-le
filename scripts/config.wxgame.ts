@@ -24,7 +24,7 @@ const config: ResourceManagerConfig = {
             libraryType: "debug",
             defines: {
               ...Constants,
-              DEBUG: process.env.NODE_ENV !== "TEST",
+              DEBUG: true,
               RELEASE: false,
               VERSION: version,
             },
@@ -51,16 +51,16 @@ const config: ResourceManagerConfig = {
           }),
           new ExmlPlugin("commonjs"), // 非 EUI 项目关闭此设置
           new WxgamePlugin("release"),
-          new UglifyPlugin([
-            {
-              sources: ["main.js"],
-              target: "main.min.js",
-            },
-            // {
-            //   sources: ["resource/default.thm.js"],
-            //   target: "resource/default.thm.min.js",
-            // },
-          ]),
+          // new UglifyPlugin(process.env.NODE_ENV === "DEBUG" ? [] : [
+          //   {
+          //     sources: ["main.js"],
+          //     target: "main.min.js",
+          //   },
+          //   // {
+          //   //   sources: ["resource/default.thm.js"],
+          //   //   target: "resource/default.thm.min.js",
+          //   // },
+          // ]),
           new ManifestPlugin({ output: "manifest.js" }),
           new CustomPlugin("release"),
         ],

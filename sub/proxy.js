@@ -117,8 +117,9 @@ export const Proxy = {
       wx.getFriendCloudStorage({
         keyList: ["score"],
         success: ({ data }) => {
-          this.cachedRankingData = data.map(({ KVDataList, ...rest }) => ({
+          this.cachedRankingData = data.map(({ KVDataList, nickname, ...rest }) => ({
             ...rest,
+            nickname: sliceString(nickname),
             score: getScoreFormKVDataList(KVDataList),
           })).sort((a, b) => {
             return a.score > b.score ? -1 : 1;
@@ -132,6 +133,25 @@ export const Proxy = {
     });
   }
 };
+
+function sliceString(value, size = 6, asciiAsHalf = true) {
+  if (asciiAsHalf) {
+    const chars = [];
+    const maxIndex = value.length;
+    let n = size * 2;
+    let i = 0;
+    while (n && i <= maxIndex) {
+      const char = value.charAt(i++);
+      n--;
+      if (char.charCodeAt(0) > 255) {
+        n--;
+      }
+      chars.push(char);
+    }
+    return chars.join("");
+  }
+  return value.substring(0, size);
+}
 
 function getScoreFormKVDataList(KVDataList) {
   const [ KVData ] = KVDataList;

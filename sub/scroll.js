@@ -3,14 +3,14 @@ export function onScroll(handler) {
   let y0;
   let startId;
 
-  wx.onTouchStart(e => {
+  const start = e => {
     const [ point ] = e.changedTouches;
     x0 = point.clientX;
     y0 = point.clientY;
     startId = point.identifier;
-  });
+  };
 
-  wx.onTouchEnd(e => {
+  const end = e => {
     const [ point ] = e.changedTouches;
     const x1 = point.clientX;
     const y1 = point.clientY;
@@ -26,5 +26,13 @@ export function onScroll(handler) {
         handler(dy > 0 ? -1 : 1);
       }
     }
-  });
+  };
+
+  wx.onTouchStart(start);
+  wx.onTouchEnd(end);
+
+  return () => {
+    wx.offTouchStart(start);
+    wx.offTouchEnd(end);
+  };
 }

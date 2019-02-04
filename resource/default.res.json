@@ -1,7 +1,11 @@
 {
 	"groups": [
 		{
-			"keys": "numbers_json,score_fnt,white_fnt,red_fnt,sprites_json,amazing_m4a,click_m4a,coins_m4a,end_m4a,excellent_m4a,good_m4a,great_m4a,magic_m4a,point_m4a,swap_m4a,bg_png,bg_landing",
+			"keys": "loading_json,bg_landing",
+			"name": "loading"
+		},
+		{
+			"keys": "numbers_json,score_fnt,white_fnt,red_fnt,sprites_json,amazing_m4a,click_m4a,coins_m4a,end_m4a,excellent_m4a,good_m4a,great_m4a,magic_m4a,point_m4a,swap_m4a,bg_png",
 			"name": "preload"
 		}
 	],
@@ -26,6 +30,12 @@
 			"url": "assets/red.fnt",
 			"type": "font",
 			"name": "red_fnt"
+		},
+		{
+			"url": "assets/loading.json",
+			"type": "sheet",
+			"name": "loading_json",
+			"subkeys": "progressbar,progressbar_bg"
 		},
 		{
 			"url": "assets/sprites.json",

@@ -38,7 +38,7 @@ namespace box {
             important.x = 126;
             important.y = 3;
             // 标题
-            const label: eui.Label = new eui.Label(yyw.sliceString(title, 6, true));
+            const label: eui.Label = new eui.Label(yyw.sliceString(title));
             label.width = 168;
             label.textAlign = "center";
             label.y = 140;

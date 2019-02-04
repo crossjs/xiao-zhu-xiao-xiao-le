@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="RankingItemSkin"
  xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" height="60" width="522">
-	<e:Label id="labelKey" x="2" y="2" textColor="3389182" size="36" width="54" height="54" verticalAlign="middle" textAlign="center"/>
+	<e:Label id="labelKey" x="2" y="2" textColor="3389182" size="24" width="54" height="54" verticalAlign="middle" textAlign="center"/>
 	<e:Group id="groupTop" y="4">
 		<e:Image source="sprites_json.top1" visible="false"/>
 		<e:Image source="sprites_json.top2" visible="false"/>

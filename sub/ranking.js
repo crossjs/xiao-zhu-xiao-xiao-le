@@ -13,12 +13,6 @@ export const Ranking = {
   async preload() {
     if (!this.isReady) {
       await AssetsManager.init();
-      /**
-       * 监听滚动
-       */
-      onScroll(direction => {
-        this._goPage(direction);
-      });
       this.isReady = true;
     }
   },
@@ -43,6 +37,7 @@ export const Ranking = {
       this._cleanScreen();
       this._initProps();
       this._drawRanking();
+      this._initScroll();
       this._rafId = requestAnimationFrame(() => {
         this._onEnterFrame();
       });
@@ -52,6 +47,9 @@ export const Ranking = {
   },
 
   destroy() {
+    if (this.removeScroll) {
+      this.removeScroll();
+    }
     this._cleanScreen();
     cancelAnimationFrame(this._rafId);
     this._rafId = null;
@@ -74,7 +72,6 @@ export const Ranking = {
     this.myBarHeight = 80;
 
     this.fontSize = 36;
-    this.textOffsetY = (this.barHeight + this.fontSize) / 2.22;
 
     this.indexWidth = 54;
     this.iconWidth = 48;
@@ -126,7 +123,6 @@ export const Ranking = {
     const {
       xArr,
       gutterHeight,
-      textOffsetY,
       barHeight,
       myBarHeight,
       indexWidth,
@@ -149,9 +145,10 @@ export const Ranking = {
         53
       );
     } else {
-      this._drawText(data.key, xArr[1], y + textOffsetY, indexWidth, {
+      this._drawText(data.key, xArr[1], y, indexWidth, barHeight, {
         align: "center",
-        color: "#33b6fe"
+        color: "#33b6fe",
+        fontSize: 24,
       });
     }
     // 绘制头像
@@ -163,15 +160,26 @@ export const Ranking = {
       iconWidth
     );
     // 绘制名称
-    this._drawText(data.nickname, xArr[3], y + textOffsetY, nameWidth, {
+    this._drawText(data.nickname, xArr[3], y, nameWidth, barHeight, {
       align: "left",
       color: "#000000"
     });
     // 绘制分数
-    this._drawText(data.score, xArr[4], y + textOffsetY, scoreWidth, {
+    this._drawText(data.score, xArr[4], y, scoreWidth, barHeight, {
       align: "right",
       color: "#ff5772"
     });
+  },
+
+  /**
+   * 监听滚动
+   */
+  _initScroll() {
+    if (!this.removeScroll) {
+      this.removeScroll = onScroll(direction => {
+        this._goPage(direction);
+      });
+    }
   },
 
   /**
@@ -225,6 +233,7 @@ export const Ranking = {
     x,
     y,
     width,
+    height,
     { align = "left", fontSize = this.fontSize, color = "#ffffff" } = {}
   ) {
     context.textAlign = align;
@@ -234,6 +243,7 @@ export const Ranking = {
     if (align === "center") {
       x += width / 2;
     }
+    y += (height + fontSize) / 2;
     // 设置字体
     context.font = `${fontSize}px Arial`;
     context.fillStyle = color;

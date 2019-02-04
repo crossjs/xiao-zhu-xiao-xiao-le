@@ -96,7 +96,7 @@ namespace yyw {
 
     // 合入到全局
     Object.assign(USER, currentUser);
-    await setStorage(USER_KEY, USER, expiresIn);
+    await storage.set(USER_KEY, USER, expiresIn);
 
     // 如果之前是未登录状态，则通知登录
     if (!isLoggedIn) {
@@ -111,13 +111,13 @@ namespace yyw {
         delete USER[key];
       }
     }
-    await removeStorage(USER_KEY);
+    await storage.remove(USER_KEY);
     yyw.emit("LOGOUT");
   }
 
   export async function getAccessToken(): Promise<string> {
     if (!USER.accessToken) {
-      const cachedUser = await getStorage(USER_KEY);
+      const cachedUser = await storage.get(USER_KEY);
       if (cachedUser) {
         Object.assign(USER, cachedUser);
       }

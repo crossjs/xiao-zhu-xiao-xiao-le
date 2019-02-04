@@ -9,7 +9,7 @@ namespace game {
 
   export class Model {
     public static async fromSnapshot(): Promise<Model> {
-      const { cols, rows, maxNumber, level, matrix, numbers } = await yyw.getStorage(SNAPSHOT_KEY);
+      const { cols, rows, maxNumber, level, matrix, numbers } = await yyw.storage.get(SNAPSHOT_KEY);
       return new Model(cols, rows, maxNumber, level, matrix, numbers);
     }
 
@@ -46,10 +46,10 @@ namespace game {
 
     public setSnapshot(value?: any) {
       if (value === null) {
-        yyw.setStorage(SNAPSHOT_KEY, null);
+        yyw.storage.set(SNAPSHOT_KEY, null);
       } else {
         const { cols, rows, maxNumber, level, matrix, numbers } = this;
-        yyw.setStorage(SNAPSHOT_KEY, {
+        yyw.storage.set(SNAPSHOT_KEY, {
           cols, rows, maxNumber, level, matrix, numbers,
         });
       }
