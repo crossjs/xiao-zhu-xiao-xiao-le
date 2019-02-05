@@ -1,6 +1,6 @@
 {
   "name": "g4",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "小猪消消乐",
   "private": true,
   "scripts": {
@@ -14,5 +14,10 @@
     "tslib": "^1.9.3",
     "tslint": "^5.12.0",
     "typescript": "^3.2.2"
+  },
+  "wxgame": {
+    "APP_ID": "wx2d01e63038198832",
+    "APP_NAME": "小猪消消乐",
+    "APP_ID_LIST": ["wxb17a18edcbb93d0a"]
   }
 }

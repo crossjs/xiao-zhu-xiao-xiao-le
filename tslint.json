@@ -21,7 +21,6 @@
     "exclude": [
       "libs/**/*",
       "node_modules/**/*",
-      "scripts/**/*",
       "sub/**/*",
       "test/**/*"
     ]

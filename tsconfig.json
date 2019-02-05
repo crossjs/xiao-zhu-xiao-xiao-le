@@ -1,23 +1,16 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "outDir": "bin-debug",
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "lib": [
       "dom",
       "esnext",
       "es2017.object"
-    ],
-    "types": [],
-    "typeRoots": [
-      "libs/",
-      "node_modules/",
-      "scripts/"
     ]
   },
   "include": [
-    "src",
-    "libs"
+    "src/**/*",
+    "libs/**/*"
   ]
 }
