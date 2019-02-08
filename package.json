@@ -18,6 +18,7 @@
   "wxgame": {
     "APP_ID": "wx2d01e63038198832",
     "APP_NAME": "小猪消消乐",
-    "APP_ID_LIST": ["wxb17a18edcbb93d0a"]
+    "APP_ID_LIST": ["wxb17a18edcbb93d0a"],
+    "DIR_TO_COPY": ["images", "sub"]
   }
 }
