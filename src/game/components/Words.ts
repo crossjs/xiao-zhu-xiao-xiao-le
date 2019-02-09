@@ -58,7 +58,7 @@ namespace game {
       this.combo = combo;
     }
 
-    @yyw.debounce()
+    // @yyw.debounce()
     private async show(index: number) {
       await this.hide();
       this.index = Math.min(3, index);
