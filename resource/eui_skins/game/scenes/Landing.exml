@@ -6,9 +6,9 @@
 		<box:All bottom="0"/>
 		<e:Group id="main" left="0" right="0" top="0" bottom="262">
 			<e:Group horizontalCenter="0" verticalCenter="0">
-				<e:Image id="numbers" source="sprites_json.numbers" visible="true" x="-48" y="132" touchEnabled="false"/>
-				<e:Image id="pig" source="sprites_json.pig" visible="true" y="204" x="144" touchEnabled="false"/>
-				<e:Image id="title" source="sprites_json.title" visible="true" x="126" y="-147" touchEnabled="false"/>
+				<e:Image id="numbers" source="words_json.numbers" visible="true" x="-48" y="132" touchEnabled="false"/>
+				<e:Image id="pig" source="words_json.pig" visible="true" y="204" x="144" touchEnabled="false"/>
+				<e:Image id="title" source="words_json.title" visible="true" x="126" y="-147" touchEnabled="false"/>
 			</e:Group>
 			<e:Button id="btnBoard" x="48" skinName="ButtonBoardSkin" verticalCenter="0"/>
 			<e:Button id="btnStart" label="" skinName="ButtonDefaultSkin" width="432" height="144" icon="sprites_json.start" horizontalCenter="0" bottom="72"/>

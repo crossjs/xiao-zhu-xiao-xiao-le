@@ -1,0 +1,8 @@
+{"file":"words.png","frames":{
+"excellent":{"x":0,"y":550,"w":663,"h":264,"offX":0,"offY":0,"sourceW":663,"sourceH":264},
+"amazing":{"x":1205,"y":0,"w":649,"h":299,"offX":0,"offY":0,"sourceW":649,"sourceH":299},
+"great":{"x":614,"y":0,"w":589,"h":348,"offX":0,"offY":0,"sourceW":589,"sourceH":348},
+"good":{"x":665,"y":632,"w":540,"h":318,"offX":0,"offY":0,"sourceW":540,"sourceH":318},
+"numbers":{"x":0,"y":0,"w":612,"h":548,"offX":0,"offY":2,"sourceW":612,"sourceH":552},
+"title":{"x":1205,"y":301,"w":535,"h":329,"offX":2,"offY":0,"sourceW":540,"sourceH":330},
+"pig":{"x":1207,"y":632,"w":407,"h":397,"offX":2,"offY":7,"sourceW":412,"sourceH":412}}}
