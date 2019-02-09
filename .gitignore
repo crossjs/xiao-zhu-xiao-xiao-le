@@ -6,3 +6,4 @@ bin-debug/
 design/
 dist/
 node_modules/
+info.json

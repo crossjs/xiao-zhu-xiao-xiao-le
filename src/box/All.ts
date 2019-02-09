@@ -21,7 +21,7 @@ namespace box {
               recommender.navigateTo(game);
             }, this);
             // 图标
-            const icon: egret.Bitmap = await yyw.RemoteLoader.loadImage(iconUrl);
+            const icon: egret.Bitmap = await yyw.loadImage(iconUrl);
             icon.x = 24;
             icon.y = 12;
             icon.width = 120;

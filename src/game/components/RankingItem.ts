@@ -23,7 +23,7 @@ namespace game {
           this.labelKey.visible = true;
           this.labelKey.text = `${key}`;
         }
-        const avatar: egret.Bitmap = await yyw.RemoteLoader.loadImage(avatarUrl);
+        const avatar: egret.Bitmap = await yyw.loadImage(avatarUrl);
         this.imageAvatar.source = avatar.texture;
         this.labelNickname.text = yyw.sliceString(nickname);
         this.labelScore.text = `${score}`;

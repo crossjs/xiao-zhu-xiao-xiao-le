@@ -3,9 +3,6 @@ namespace game {
    * 切换声效
    */
   export class SwapSound extends yyw.Sound {
-    public constructor() {
-      super();
-      this.sound = RES.getRes("swap_m4a");
-    }
+    protected url: string = `${yyw.CONFIG.serverOrigin}/file/swap.m4a`;
   }
 }

@@ -1,8 +1,14 @@
 namespace yyw {
   const hi = () => {
     vibrateShort();
-    playClick();
+    playClickSound();
   };
+
+  let playClickSound = () => void 0;
+
+  export function setClick(playSound: any) {
+    playClickSound = playSound;
+  }
 
   export function onTap(
     target: egret.DisplayObject,

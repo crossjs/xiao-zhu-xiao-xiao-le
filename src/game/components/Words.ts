@@ -6,7 +6,7 @@ namespace game {
     private imgExcellent: eui.Image;
     private words: [eui.Image, eui.Image, eui.Image, eui.Image];
     private threshold: number = 2;
-    private sounds: [GoodSound, GreatSound, AmazingSound, ExcellentSound];
+    private sounds: [typeof GoodSound, typeof GreatSound, typeof AmazingSound, typeof ExcellentSound];
     private index: number = -1;
     private combo: number = -1;
 
@@ -14,10 +14,10 @@ namespace game {
       super();
 
       this.sounds = [
-        new GoodSound(),
-        new GreatSound(),
-        new AmazingSound(),
-        new ExcellentSound(),
+        GoodSound,
+        GreatSound,
+        AmazingSound,
+        ExcellentSound,
       ];
     }
 

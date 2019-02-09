@@ -3,9 +3,6 @@ namespace game {
    * “佩服”声效
    */
   export class AmazingSound extends yyw.Sound {
-    public constructor() {
-      super();
-      this.sound = RES.getRes("amazing_m4a");
-    }
+    protected url: string = `${yyw.CONFIG.serverOrigin}/file/amazing.m4a`;
   }
 }

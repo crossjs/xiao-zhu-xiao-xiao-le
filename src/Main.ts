@@ -84,6 +84,9 @@ class Main extends eui.UILayer {
     game.SceneManager.setStage(this);
     game.SceneManager.toScene("landing");
 
+    // 初始化音频
+    this.initSounds();
+
     // 初始化转发参数
     yyw.initShare();
     // 初始化视频广告
@@ -92,5 +95,19 @@ class Main extends eui.UILayer {
     yyw.sub.postMessage({
       command: "initRanking",
     });
+  }
+
+  private initSounds() {
+    // tslint:disable
+    new game.AmazingSound();
+    new game.ClickSound();
+    new game.CoinsSound();
+    new game.ExcellentSound();
+    new game.GoodSound();
+    new game.GreatSound();
+    new game.MagicSound();
+    new game.PointSound();
+    new game.SwapSound();
+    // tslint:enable
   }
 }

@@ -3,9 +3,6 @@ namespace game {
 
   export class Arena extends yyw.Base {
     private isGameOver: boolean = false;
-    private sndSwitch: SwapSound = new SwapSound();
-    private sndMagic: MagicSound = new MagicSound();
-    private sndPoint: PointSound = new PointSound();
     private cellWidth: number = 144;
     private cellHeight: number = 144;
     private cols: number = 5;
@@ -219,7 +216,7 @@ namespace game {
         yyw.setZIndex(cell);
         this.isRunning = true;
         // 普通交换
-        this.sndSwitch.play();
+        SwapSound.play();
         this.tweenFromTo(fromPoint, toPoint, 300);
         await this.tweenFromTo(toPoint, fromPoint, 300);
         this.switchNumbers(fromPoint, toPoint);
@@ -237,7 +234,7 @@ namespace game {
           }
           if (magicPoint) {
             // 魔法效果
-            this.sndMagic.play();
+            MagicSound.play();
             await this.growUpCellsOf(numToGrowUp);
             this.setCellNumber(magicPoint, 0);
             await this.dropCellsDown();
@@ -384,7 +381,7 @@ namespace game {
           }
         }
         // 播放得分音效
-        this.sndPoint.play();
+        PointSound.play();
         // 同步合并
         await Promise.all(
           [...points.map((point) => {

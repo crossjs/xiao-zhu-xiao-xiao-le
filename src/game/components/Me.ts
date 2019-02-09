@@ -9,7 +9,7 @@ namespace game {
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       try {
-        this.bmpMe = await yyw.RemoteLoader.loadImage(yyw.USER.avatarUrl);
+        this.bmpMe = await yyw.loadImage(yyw.USER.avatarUrl);
         this.bmpMe.width = 48;
         this.bmpMe.height = 48;
         this.bmpMe.x = 21;

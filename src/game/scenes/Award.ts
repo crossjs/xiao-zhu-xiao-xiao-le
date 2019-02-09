@@ -6,7 +6,6 @@ namespace game {
     private btnKO: eui.Button;
     private tfdCoins: eui.BitmapLabel;
     private coins: number;
-    private sndCoins: CoinsSound = new CoinsSound();
 
     // public async hideModal() {
     //   this.btnOK.visible = false;
@@ -51,7 +50,7 @@ namespace game {
     }
 
     private async saveCoins() {
-      this.sndCoins.play();
+      CoinsSound.play();
       // TODO 入袋动画
       await yyw.award.save({
         coins: this.coins,
