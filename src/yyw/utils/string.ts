@@ -5,7 +5,7 @@ namespace yyw {
       const maxIndex = value.length;
       let n = size * 2;
       let i = 0;
-      while (n && i <= maxIndex) {
+      while (n > 0 && i <= maxIndex) {
         const char = value.charAt(i++);
         n--;
         if (char.charCodeAt(0) > 255) {

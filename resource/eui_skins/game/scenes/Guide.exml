@@ -10,11 +10,11 @@
         <e:Image x="336" source="sprites_json.tool_shuffle"/>
         <e:Image x="486" source="sprites_json.tool_breaker"/>
         <e:Image x="600" y="38" source="sprites_json.tool_livesup"/>
-				<e:Label x="142.5" y="-51" text="指定数字+1"/>
-				<e:Label x="612" y="186.75" text="体力+1"/>
-				<e:Label x="285" y="94" text="重新排列数字"/>
-				<e:Label x="330" y="510" text="相同数字相连即可消除"/>
-				<e:Label x="435" y="-51" text="击碎指定数字"/>
+				<e:Label x="142.5" y="-51" text="指定数字+1" fontFamily="sans-serif"/>
+				<e:Label x="612" y="186.75" text="体力+1" fontFamily="sans-serif"/>
+				<e:Label x="285" y="94" text="重新排列数字" fontFamily="sans-serif"/>
+				<e:Label x="330" y="510" text="相同数字相连即可消除" fontFamily="sans-serif"/>
+				<e:Label x="435" y="-51" text="击碎指定数字" fontFamily="sans-serif"/>
 				<e:Image id="numTo" source="numbers_json.4" x="102" y="444"/>
 				<e:Image id="numFrom" source="numbers_json.3" x="102" y="300"/>
 				<e:Image source="numbers_json.3" x="246" y="588"/>

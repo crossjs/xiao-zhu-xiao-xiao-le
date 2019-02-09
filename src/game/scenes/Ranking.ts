@@ -102,7 +102,7 @@ namespace game {
     /**
      * 根据绘制信息以及当前i绘制元素
      */
-    private async drawRankingItem(data: any, i: number) {
+    private drawRankingItem(data: any, i: number) {
       const r: RankingItem = this[`r${i}`];
       r.setData(data);
     }
