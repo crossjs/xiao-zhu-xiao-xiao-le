@@ -37,7 +37,7 @@ namespace game {
                   coins: -this.prices[index],
                 });
                 yyw.showToast("购买成功");
-                yyw.emit("TOOL_GAINED", {
+                yyw.emit("TOOL_GOT", {
                   type: this.goods[index],
                   amount: 1,
                 });

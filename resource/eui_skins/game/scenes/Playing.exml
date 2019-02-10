@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="PlayingSkin" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:game="game.*" xmlns:box="box.*" >
+<e:Skin class="PlayingSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*" xmlns:box="box.*" >
 	<e:Image id="bg" touchEnabled="false" width="750" height="1334" fillMode="clip" source="bg_png" scale9Grid="0,867,750,18"/>
 	<e:Group id="body" y="20" width="750">
 		<e:Image source="sprites_json.current" horizontalCenter="0"/>

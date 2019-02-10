@@ -1,6 +1,6 @@
 namespace yyw {
-  export async function preReward(type: string): Promise<boolean | undefined> {
-    const status = CONFIG[`${type}Reward`];
+  export async function preReward(type?: string): Promise<boolean | undefined> {
+    const status = type ? CONFIG[`${type}Reward`] : 3;
 
     // 功能关闭
     if (status === 0) {

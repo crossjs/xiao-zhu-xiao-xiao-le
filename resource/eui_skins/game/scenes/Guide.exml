@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="GuideSkin"
 	 width="750"
-	height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" xmlns:game="game.*">
+	height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*">
 	<e:Group id="bg">
 		<e:Image id="_mask" touchEnabled="false" fillMode="clip" source="sprites_json.mask_bg" scale9Grid="10,10,10,10" left="0" right="0" top="0" bottom="0"/>
 		<e:Group id="body" y="20" touchEnabled="false" width="750" touchChildren="false">

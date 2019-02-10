@@ -1,5 +1,6 @@
 namespace game {
   export class Landing extends yyw.Base {
+    private btnCheckin: eui.Button;
     private btnBoard: eui.Button;
     private btnStart: eui.Button;
     private tfdVersion: eui.Label;
@@ -48,9 +49,10 @@ namespace game {
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       super.createView(fromChildrenCreated);
+
       if (fromChildrenCreated) {
-        const { width, height } = this.btnStart;
-        const { x: left, y: top } = this.btnStart.localToGlobal();
+        // const { width, height } = this.btnStart;
+        // const { x: left, y: top } = this.btnStart.localToGlobal();
         // TODO 封装成 Component
         this.userInfoButton = await yyw.createUserInfoButton({
           left: 159,
@@ -63,6 +65,11 @@ namespace game {
         });
 
         this.tfdVersion.text = VERSION;
+
+        // 每日签到
+        yyw.onTap(this.btnCheckin, () => {
+          SceneManager.toScene("checkin", true);
+        });
 
         // 排行榜
         yyw.onTap(this.btnBoard, () => {

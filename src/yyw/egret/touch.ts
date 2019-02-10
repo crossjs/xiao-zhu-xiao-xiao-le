@@ -36,6 +36,25 @@ namespace yyw {
     };
   }
 
+  // export function onceTap(
+  //   target: egret.DisplayObject,
+  //   handler: any,
+  //   mute?: boolean,
+  // ): void {
+  //   if (!mute) {
+  //     target.once(
+  //       egret.TouchEvent.TOUCH_BEGIN,
+  //       hi,
+  //       target,
+  //     );
+  //   }
+  //   target.once(
+  //     egret.TouchEvent.TOUCH_TAP,
+  //     handler,
+  //     target,
+  //   );
+  // }
+
   export function onDnd(
     target: egret.DisplayObject,
     begin: any,

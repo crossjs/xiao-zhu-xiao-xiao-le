@@ -70,6 +70,7 @@ namespace game {
       playing: Playing;
       guide: Guide;
       ranking: Ranking;
+      checkin: Checkin;
       ending: Ending;
       shop: Shop;
       alarm: Alarm;
@@ -81,6 +82,7 @@ namespace game {
       playing: new Playing(),
       guide: new Guide(),
       ranking: new Ranking(),
+      checkin: new Checkin(),
       ending: new Ending(),
       shop: new Shop(),
       alarm: new Alarm(),

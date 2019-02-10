@@ -18,6 +18,10 @@ namespace game {
       this.update();
     }
 
+    public getAmount(): number {
+      return this.amount;
+    }
+
     public increaseAmount(amount: number): void {
       this.amount += amount;
       this.update();
@@ -33,8 +37,9 @@ namespace game {
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       super.createView(fromChildrenCreated);
+
       if (fromChildrenCreated) {
-        yyw.on("TOOL_GAINED", ({ data: { type, amount } }: egret.Event) => {
+        yyw.on("TOOL_GOT", ({ data: { type, amount } }: egret.Event) => {
           if (type === this.type) {
             this.increaseAmount(amount);
             this.afterGet(amount);

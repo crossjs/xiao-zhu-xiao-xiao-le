@@ -23,8 +23,6 @@ namespace game {
     protected async createView(fromChildrenCreated?: boolean) {
       super.createView(fromChildrenCreated);
 
-      this.showFriend();
-
       if (fromChildrenCreated) {
         yyw.onTap(this.bg, () => {
           SceneManager.escape();
@@ -46,6 +44,8 @@ namespace game {
           this.showWorld();
         });
       }
+
+      this.showFriend();
     }
 
     private showFriend() {

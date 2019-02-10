@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="CellSkin" width="144" height="144" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+<e:Skin class="CellSkin" width="144" height="144" xmlns:e="http://ns.egret.com/eui">
 	<e:Group id="numGroup" width="144" height="144" touchEnabled="false">
 		<e:Image id="n99" source="numbers_json.99" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0"/>
 		<e:Image id="n1" source="numbers_json.1" touchEnabled="false" pixelHitTest="false" visible="false" horizontalCenter="0" verticalCenter="0"/>

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="AwardSkin" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+<e:Skin class="AwardSkin" xmlns:e="http://ns.egret.com/eui">
 	<e:Group id="bg">
 		<e:Image id="_mask" source="sprites_json.mask_bg" fillMode="clip" visible="false" touchEnabled="false" left="0" right="0" top="0" bottom="0" scale9Grid="10,10,10,10"/>
 		<e:Group id="body" width="750" y="20" touchEnabled="false">

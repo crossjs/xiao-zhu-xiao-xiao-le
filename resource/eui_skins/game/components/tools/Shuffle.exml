@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="ShuffleSkin"
- xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" width="78" height="78">
+ xmlns:e="http://ns.egret.com/eui" width="78" height="78">
 	<e:Group id="main" touchChildren="false">
 		<e:Image touchEnabled="false" source="sprites_json.tool_shuffle"/>
 		<e:Image source="sprites_json.circle_red" x="51" y="-18"/>

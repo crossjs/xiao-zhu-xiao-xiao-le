@@ -27,6 +27,9 @@ namespace game {
     }
 
     protected destroy() {
+      yyw.eachChild(this.main, (tool: ToolBase) => {
+        this[tool.type] = tool.getAmount();
+      });
       yyw.storage.set(SNAPSHOT_KEY, {
         valueUp: this.valueUp,
         shuffle: this.shuffle,
@@ -37,6 +40,7 @@ namespace game {
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       super.createView(fromChildrenCreated);
+
       if (fromChildrenCreated) {
         yyw.on("ARENA_RUN", ({ data }: egret.Event) => {
           this.enabled = !data;

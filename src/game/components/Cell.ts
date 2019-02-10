@@ -168,6 +168,7 @@ namespace game {
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       super.createView(fromChildrenCreated);
+
       if (fromChildrenCreated) {
         this.numGroup.x
           = this.numGroup.anchorOffsetX

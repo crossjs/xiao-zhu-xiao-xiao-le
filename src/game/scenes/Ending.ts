@@ -54,7 +54,7 @@ namespace game {
 
     private async revive() {
       await SceneManager.escape();
-      yyw.emit("TOOL_GAINED", {
+      yyw.emit("TOOL_GOT", {
         type: "livesUp",
         amount: 1,
       });
