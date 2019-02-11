@@ -1,6 +1,6 @@
 {
   "name": "g4",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "小猪消消乐",
   "private": true,
   "scripts": {
@@ -22,7 +22,6 @@
       "wxb17a18edcbb93d0a"
     ],
     "DIR_TO_COPY": [
-      "images",
       "sub"
     ]
   }

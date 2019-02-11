@@ -1,5 +1,5 @@
 namespace yyw {
-  export async function preReward(type?: string): Promise<boolean | undefined> {
+  export async function preReward(type?: string, options: any = {}): Promise<boolean | undefined> {
     const status = type ? CONFIG[`${type}Reward`] : 3;
 
     // 功能关闭
@@ -24,7 +24,7 @@ namespace yyw {
 
     if ((status & 1) === 1) {
       // 完成转发
-      if (await share()) {
+      if (await share(options.share)) {
         return true;
       } else {
         showToast("完成转发才能获得奖励");

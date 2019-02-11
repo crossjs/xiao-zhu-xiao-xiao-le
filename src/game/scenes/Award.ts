@@ -28,7 +28,19 @@ namespace game {
 
       if (fromChildrenCreated) {
         yyw.onTap(this.btnOK, async () => {
-          if (await yyw.preReward("coin")) {
+          const { x, y } = this.modal.localToGlobal();
+          if (await yyw.preReward("coin", {
+            share: {
+              imageUrl: canvas.toTempFilePathSync({
+                x,
+                y,
+                width: this.modal.width,
+                height: this.modal.height,
+                destWidth: 500,
+                destHeight: 400,
+              }),
+            },
+          })) {
             await this.saveCoins();
             SceneManager.escape();
           }

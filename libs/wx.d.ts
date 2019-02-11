@@ -1,4 +1,5 @@
-declare var sharedCanvas: any;
+declare var sharedCanvas: wx.Canvas;
+declare var canvas: wx.Canvas;
 
 declare namespace egret {
   const wxgame: any;
@@ -993,6 +994,7 @@ declare namespace wx {
    */
   function shareAppMessage(object: {
     title?: string;
+    imageUrlId?: string;
     imageUrl?: string;
     query?: string;
     cancel?: Function;
