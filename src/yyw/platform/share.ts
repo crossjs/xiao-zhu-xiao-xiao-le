@@ -22,22 +22,17 @@ namespace yyw {
 
   export function share(options = {}): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      // 开发者工具没有分享
-      if (CONFIG.systemInfo.platform === "devtools") {
-        resolve(true);
-      } else {
-        const start = Date.now();
-        const onShow = () => {
-          // 3 秒内完成，判定为未完成转发
-          resolve(Date.now() - start > 3000);
-          wx.offShow(onShow);
-        };
-        wx.onShow(onShow);
-        wx.shareAppMessage({
-          ...SHARE_OPTIONS[currentIndex++ % 2],
-          ...options,
-        });
-      }
+      const start = Date.now();
+      const onShow = () => {
+        // 3 秒内完成，判定为未完成转发
+        resolve(Date.now() - start > 3000);
+        wx.offShow(onShow);
+      };
+      wx.onShow(onShow);
+      wx.shareAppMessage({
+        ...SHARE_OPTIONS[currentIndex++ % 2],
+        ...options,
+      });
     });
   }
 }
