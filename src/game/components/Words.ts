@@ -25,7 +25,7 @@ namespace game {
       this.hide();
     }
 
-    protected async createView(fromChildrenCreated?: boolean) {
+    protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       if (fromChildrenCreated) {
         this.words = [
           this.imgGood,

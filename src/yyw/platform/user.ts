@@ -135,9 +135,8 @@ namespace yyw {
     left, top, width, height, onTap,
   }: any): Promise<wx.UserInfoButton> {
     const authorized: boolean = await isScopeAuthorized("userInfo");
-    const isLoggedIn: boolean = !!await getAccessToken();
 
-    if (authorized && isLoggedIn) {
+    if (authorized) {
       return;
     }
 
@@ -168,6 +167,7 @@ namespace yyw {
           // 取到加密过的用户信息，丢到服务端去解密
           await login({ encryptedData, iv, userInfo });
         } else {
+          const isLoggedIn: boolean = !!await getAccessToken();
           if (!isLoggedIn) {
             // 用户拒绝，直接登录
             await login();

@@ -3,8 +3,7 @@ namespace yyw {
    * 封装微信小游戏的文件系统
    */
   const wxFS = wx.getFileSystemManager();
-  const WX_ROOT = wx.env.USER_DATA_PATH + "/";
-
+  const WX_ROOT = `${wx.env.USER_DATA_PATH}/`;
   const fs_cache = {};
 
   function setFsCache(p: string, value: number) {
@@ -14,7 +13,7 @@ namespace yyw {
   function walkFile(dirname: string, callback: any) {
     const files = wxFS.readdirSync(dirname);
     for (const f of files) {
-      const file = dirname + "/" + f;
+      const file = `${dirname}/${f}`;
       const stat = wxFS.statSync(file);
       if (stat.isDirectory()) {
         walkFile(file, callback);
@@ -27,7 +26,7 @@ namespace yyw {
   function walkDir(dirname: string, callback: any) {
     const files = wxFS.readdirSync(dirname);
     for (const f of files) {
-      const file = dirname + "/" + f;
+      const file = `${dirname}/${f}`;
       const stat = wxFS.statSync(file);
       if (stat.isDirectory()) {
         walkDir(file, callback);
@@ -71,8 +70,9 @@ namespace yyw {
      */
     remove: (dirname: string) => {
       if (!fs.existsSync(dirname)) { return; }
-      const globalDirname = WX_ROOT + dirname;
-      walkFile(globalDirname, (file) => {
+      const globalDirname = `${WX_ROOT}${dirname}`;
+      // 删除文件
+      walkFile(globalDirname, (file: string) => {
         wxFS.unlinkSync(file);
         let p = file.replace(WX_ROOT, "");
         p = path.normalize(p);
@@ -80,6 +80,7 @@ namespace yyw {
           fs_cache[p] = 0;
         }
       });
+      // 删除文件夹
       walkDir(globalDirname, (dir: string) => {
         wxFS.rmdirSync(dir);
         let p = dir.replace(WX_ROOT, "");
@@ -102,7 +103,7 @@ namespace yyw {
         return true;
       }
       try {
-        wxFS.accessSync(WX_ROOT + p);
+        wxFS.accessSync(`${WX_ROOT}${p}`);
         p = path.normalize(p);
         if (p) {
           fs_cache[p] = 1;
@@ -118,11 +119,11 @@ namespace yyw {
     writeSync: (p: string, content: any) => {
       p = path.normalize(p);
       fs_cache[p] = 1;
-      wxFS.writeFileSync(WX_ROOT + p, content);
+      wxFS.writeFileSync(`${WX_ROOT}${p}`, content);
     },
 
     readSync: (p: string, format: string = "utf-8") => {
-      return wxFS.readFileSync(WX_ROOT + p, format);
+      return wxFS.readFileSync(`${WX_ROOT}${p}`, format);
     },
 
     /**
@@ -148,12 +149,10 @@ namespace yyw {
      * 解压 zip 文件
      */
     unzip: (zipFilePath: string, targetPath: string): Promise<any> => {
-      zipFilePath = WX_ROOT + zipFilePath;
-      targetPath = WX_ROOT + targetPath;
       return new Promise((resolve, reject) => {
         wxFS.unzip({
-          zipFilePath,
-          targetPath,
+          zipFilePath: `${WX_ROOT}${zipFilePath}`,
+          targetPath: `${WX_ROOT}${targetPath}`,
           success: () => {
             resolve();
           },

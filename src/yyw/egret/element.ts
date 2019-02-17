@@ -55,7 +55,7 @@ namespace yyw {
     if (target) {
       const { numChildren } = target;
       if (numChildren) {
-        return target.getChildAt(Math.floor( Math.random() * numChildren));
+        return target.getChildAt(random(numChildren));
       }
     }
   }

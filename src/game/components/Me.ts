@@ -21,7 +21,7 @@ namespace game {
 
       if (fromChildrenCreated) {
         yyw.onTap(this.main, () => {
-          SceneManager.toScene("pbl", true);
+          yyw.director.toScene("pbl", true);
         });
 
         this.initialized = true;

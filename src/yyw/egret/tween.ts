@@ -1,8 +1,8 @@
 namespace yyw {
-  export class PromisedTween {
+  class PromisedTween {
     private tween: egret.Tween;
 
-    constructor(target: any) {
+    constructor(target: egret.DisplayObject) {
       this.tween = egret.Tween.get(target);
     }
 
@@ -11,6 +11,11 @@ namespace yyw {
       duration: number = 100,
       ease: any = egret.Ease.quadOut,
     ): Promise<any> {
+      // @todo 使用计算
+      // Object.entries(props).forEach(([key, value]) => {
+      //   if (typeof value === "string" && /^[+-]/.test(value)) {
+      //   }
+      // });
       return new Promise((resolve) => {
         this.tween.setPaused(false).to(props, duration * CONFIG.speedRatio, ease).call(resolve);
       });
@@ -21,11 +26,11 @@ namespace yyw {
     egret.Tween.removeAllTweens();
   }
 
-  export function pauseTweens(target: any) {
+  export function pauseTweens(target: egret.DisplayObject) {
     egret.Tween.pauseTweens(target);
   }
 
-  export function resumeTweens(target: any) {
+  export function resumeTweens(target: egret.DisplayObject) {
     egret.Tween.resumeTweens(target);
   }
 
@@ -62,34 +67,34 @@ namespace yyw {
     target.alpha = 1;
   }
 
-  export async function rightIn(
-    target: egret.DisplayObject,
-    duration?: number,
-    ease?: any,
-  ): Promise<void> {
-    target.alpha = 0;
-    target.x = CONFIG.stageWidth;
-    target.visible = true;
-    await getTween(target).to({
-      alpha: 1,
-      x: 0,
-    }, duration, ease);
-  }
+  // export async function rightIn(
+  //   target: egret.DisplayObject,
+  //   duration?: number,
+  //   ease?: any,
+  // ): Promise<void> {
+  //   target.alpha = 0;
+  //   target.x = CONFIG.stageWidth;
+  //   target.visible = true;
+  //   await getTween(target).to({
+  //     alpha: 1,
+  //     x: 0,
+  //   }, duration, ease);
+  // }
 
-  export async function rightOut(
-    target: egret.DisplayObject,
-    duration?: number,
-    ease?: any,
-  ): Promise<void> {
-    await getTween(target)
-    .to({
-      alpha: 0,
-      x: CONFIG.stageWidth,
-    }, duration, ease);
-    target.visible = false;
-    target.alpha = 1;
-    target.x = 0;
-  }
+  // export async function rightOut(
+  //   target: egret.DisplayObject,
+  //   duration?: number,
+  //   ease?: any,
+  // ): Promise<void> {
+  //   await getTween(target)
+  //   .to({
+  //     alpha: 0,
+  //     x: CONFIG.stageWidth,
+  //   }, duration, ease);
+  //   target.visible = false;
+  //   target.alpha = 1;
+  //   target.x = 0;
+  // }
 
   export async function zoomIn(
     target: egret.DisplayObject,
@@ -97,13 +102,15 @@ namespace yyw {
     ease?: any,
   ): Promise<void> {
     target.alpha = 0;
-    target.scaleX = 0;
-    target.scaleY = 0;
+    target.scale = 0;
+    // target.scaleX = 0;
+    // target.scaleY = 0;
     target.visible = true;
     await getTween(target).to({
       alpha: 1,
-      scaleX: 1,
-      scaleY: 1,
+      scale: 1,
+      // scaleX: 1,
+      // scaleY: 1,
     }, duration, ease);
   }
 
@@ -115,13 +122,15 @@ namespace yyw {
     await getTween(target)
     .to({
       alpha: 0,
-      scaleX: 0,
-      scaleY: 0,
+      scale: 0,
+      // scaleX: 0,
+      // scaleY: 0,
     }, duration, ease);
     target.visible = false;
     target.alpha = 1;
-    target.scaleX = 1;
-    target.scaleY = 1;
+    target.scale = 1;
+    // target.scaleX = 1;
+    // target.scaleY = 1;
   }
 
   export async function twirlIn(
@@ -130,14 +139,16 @@ namespace yyw {
     ease?: any,
   ): Promise<void> {
     target.alpha = 0;
-    target.scaleX = 0;
-    target.scaleY = 0;
+    target.scale = 0;
+    // target.scaleX = 0;
+    // target.scaleY = 0;
     target.rotation = 0;
     target.visible = true;
     await getTween(target).to({
       alpha: 1,
-      scaleX: 1,
-      scaleY: 1,
+      scale: 1,
+      // scaleX: 1,
+      // scaleY: 1,
       rotation: 1080,
     }, duration, ease);
   }
@@ -150,14 +161,16 @@ namespace yyw {
     await getTween(target)
     .to({
       alpha: 0,
-      scaleX: 0,
-      scaleY: 0,
+      scale: 0,
+      // scaleX: 0,
+      // scaleY: 0,
       rotation: -1080,
     }, duration, ease);
     target.visible = false;
     target.alpha = 1;
-    target.scaleX = 1;
-    target.scaleY = 1;
+    target.scale = 1;
+    // target.scaleX = 1;
+    // target.scaleY = 1;
     target.rotation = 0;
   }
 }

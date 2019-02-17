@@ -24,14 +24,14 @@ namespace game {
       this.showModal();
       if (fromChildrenCreated) {
         yyw.onTap(this.btnOK, async () => {
-          if (await yyw.preReward("tool")) {
+          if (await yyw.reward.apply("tool")) {
             yyw.emit("RANDOM_TOOL");
-            SceneManager.escape();
+            yyw.director.escape();
           }
         });
 
         yyw.onTap(this.btnKO, () => {
-          SceneManager.escape();
+          yyw.director.escape();
         });
 
         this.initialized = true;

@@ -4,6 +4,7 @@ namespace yyw {
     protected bg: eui.Image;
     protected body: eui.Group;
     protected main: eui.Group;
+    protected btnEscape: eui.Image;
 
     public constructor() {
       super();
@@ -28,11 +29,11 @@ namespace yyw {
     }
 
     public async exiting() {
-      await yyw.fadeOut(this);
+      await fadeOut(this);
     }
 
     public async entering() {
-      await yyw.fadeIn(this);
+      await fadeIn(this);
     }
 
     protected destroy() {
@@ -70,6 +71,12 @@ namespace yyw {
           this.body.y = top;
         }
         this.body.height = this.stage.stageHeight - this.body.y;
+      }
+
+      if (this.btnEscape) {
+        onTap(this.btnEscape, () => {
+          director.escape();
+        });
       }
 
       this.createView(true);

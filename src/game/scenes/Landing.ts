@@ -60,7 +60,7 @@ namespace game {
           width: 432,
           height: 144,
           onTap: () => {
-            SceneManager.toScene("playing");
+            yyw.director.toScene("playing");
           },
         });
 
@@ -68,17 +68,17 @@ namespace game {
 
         // 每日签到
         yyw.onTap(this.btnCheckin, () => {
-          SceneManager.toScene("checkin", true);
+          yyw.director.toScene("checkin", true);
         });
 
         // 排行榜
         yyw.onTap(this.btnBoard, () => {
-          SceneManager.toScene("ranking", true);
+          yyw.director.toScene("ranking", true);
         });
 
         // 开始游戏
         yyw.onTap(this.btnStart, () => {
-          SceneManager.toScene("playing");
+          yyw.director.toScene("playing");
         });
       }
 

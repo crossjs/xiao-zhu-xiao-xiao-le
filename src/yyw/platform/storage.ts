@@ -4,6 +4,10 @@
 
 namespace yyw {
   export const storage = {
+    /**
+     * 清除指定键的值
+     * @param key 键
+     */
     remove(key: string): Promise<any> {
       return new Promise((resolve, reject) => {
         wx.removeStorage({
@@ -18,6 +22,10 @@ namespace yyw {
       });
     },
 
+    /**
+     * 获取指定键的值
+     * @param key 键
+     */
     get(key: string): Promise<any> {
       return new Promise((resolve, reject) => {
         wx.getStorage({
@@ -39,6 +47,12 @@ namespace yyw {
       });
     },
 
+    /**
+     * 设置指定键的值
+     * @param key 键
+     * @param data 值
+     * @param expiresIn 过期毫秒数
+     */
     set(key: string, data: any, expiresIn?: number): Promise<any> {
       return new Promise((resolve, reject) => {
         wx.setStorage({

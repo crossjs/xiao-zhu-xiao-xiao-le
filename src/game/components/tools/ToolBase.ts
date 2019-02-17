@@ -49,13 +49,9 @@ namespace game {
         yyw.onTap(this, async () => {
           this.zoomOut();
           if (!this.amount) {
-            if (yyw.CONFIG.toolReward) {
-              if (await yyw.share()) {
-                this.increaseAmount(1);
-                this.afterGet(1);
-              } else {
-                yyw.showToast("转发才能🉐道具");
-              }
+            if (await yyw.reward.apply("tool")) {
+              this.increaseAmount(1);
+              this.afterGet(1);
             }
             return;
           }

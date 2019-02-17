@@ -15,7 +15,7 @@ namespace game {
 
       if (fromChildrenCreated) {
         yyw.onTap(this.bg, () => {
-          SceneManager.escape();
+          yyw.director.escape();
         });
       }
 

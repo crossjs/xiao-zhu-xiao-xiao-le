@@ -20,7 +20,7 @@ namespace game {
       this.removeBmp();
     }
 
-    protected async createView(fromChildrenCreated?: boolean) {
+    protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       this.createBmp();
       if (fromChildrenCreated) {
         yyw.on("GAME_DATA", ({ data: { score } }: egret.Event) => {

@@ -36,24 +36,24 @@ namespace game {
         }
         yyw.onTap(this.btnOK, async () => {
           if (yyw.CONFIG.toolReward) {
-            if (await yyw.preReward("tool")) {
+            if (await yyw.reward.apply("tool")) {
               this.revive();
             }
           } else {
-            SceneManager.escape();
+            yyw.director.escape();
             yyw.emit("GAME_OVER", this.gameData);
           }
         });
 
         yyw.onTap(this.btnKO, () => {
-          SceneManager.escape();
+          yyw.director.escape();
           yyw.emit("GAME_OVER", this.gameData);
         });
       }
     }
 
     private async revive() {
-      await SceneManager.escape();
+      await yyw.director.escape();
       yyw.emit("TOOL_GOT", {
         type: "livesUp",
         amount: 1,

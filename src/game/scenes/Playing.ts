@@ -5,6 +5,8 @@ namespace game {
     private isGameOver: boolean = false;
     private btnShop: eui.Image;
     private tfdScore: eui.BitmapLabel;
+    private tfdCoins: eui.BitmapLabel;
+    private coins: number = 0;
     /** 单局最大连击数 */
     private maxCombo: number = 0;
     private arena: Arena;
@@ -26,36 +28,57 @@ namespace game {
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
+      super.createView(fromChildrenCreated);
+
       let snapshot: any;
       let useSnapshot: boolean;
       if (!this.isGameOver) {
         snapshot = await this.getSnapshot();
         if (snapshot) {
-          useSnapshot = await yyw.showModal("接着玩？");
+          useSnapshot = await yyw.showModal("继续上一次的进度？");
         }
       }
+
       this.createClosest();
       await this.arena.startGame(useSnapshot);
       await this.tools.startTool(useSnapshot);
       this.isGameOver = false;
+
       if (fromChildrenCreated) {
-        this.initToolsTarget();
-
         if (!yyw.USER.score) {
-          SceneManager.toScene("guide", true);
-        }
-
-        if (yyw.CONFIG.shopStatus) {
-          this.btnShop.visible = true;
-          yyw.onTap(this.btnShop, () => {
-            SceneManager.toScene("shop", true);
-          });
+          yyw.director.toScene("guide", true);
         }
 
         yyw.on("GAME_DATA", this.onGameData, this);
         yyw.on("GAME_OVER", this.onGameOver, this);
 
-        this.initialized = true;
+        this.initToolsTarget();
+
+        if (yyw.CONFIG.shopStatus) {
+          this.btnShop.visible = true;
+          yyw.onTap(this.btnShop, () => {
+            yyw.director.toScene("shop", true);
+          });
+          yyw.on("COINS_GOT", ({ data: coins }) => {
+            this.updateCoins(coins);
+          });
+
+          this.updateCoins();
+        }
+      }
+    }
+
+    private async updateCoins(increase?: number) {
+      try {
+        if (increase) {
+          this.coins += increase;
+        } else {
+          const { coins } = await yyw.pbl.get();
+          this.coins = coins;
+        }
+        this.tfdCoins.text = `${this.coins}`;
+      } catch (error) {
+        egret.error(error);
       }
     }
 
@@ -77,7 +100,7 @@ namespace game {
     private createClosest() {
       this.closest = new Closest();
       this.closest.x = 21;
-      this.closest.y = 133;
+      this.closest.y = 120;
       this.body.addChild(this.closest);
     }
 
@@ -86,12 +109,15 @@ namespace game {
       this.closest = null;
     }
 
-    private onGameData({ data: {
+    private async onGameData({ data: {
       combo,
       score,
     } }: egret.Event) {
-      this.tfdScore.text = `${score}`;
       this.maxCombo = Math.max(combo, this.maxCombo);
+      const tween = yyw.getTween(this.tfdScore);
+      await tween.to({ scale: 1.5 });
+      this.tfdScore.text = `${score}`;
+      await tween.to({ scale: 1 });
     }
 
     private onGameOver({ data: {

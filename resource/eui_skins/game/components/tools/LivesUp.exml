@@ -2,7 +2,7 @@
 <e:Skin class="LivesUpSkin"
  xmlns:e="http://ns.egret.com/eui" width="126" height="138">
 	<e:Group id="main" touchChildren="false">
-		<e:Image source="sprites_json.tool_livesup"/>
+		<e:Button label="Button" skinName="ButtonLivesUpSkin"/>
 		<e:Image source="sprites_json.circle_red" x="84" y="96"/>
 		<e:BitmapLabel id="tfd" width="54" height="54" text="" touchEnabled="false" x="91" y="102" font="white_fnt" textAlign="center" scaleY="0.5" scaleX="0.5"/>
 		<e:Image id="img" source="sprites_json.circle_add" touchEnabled="false" x="84" y="96" visible="false"/>

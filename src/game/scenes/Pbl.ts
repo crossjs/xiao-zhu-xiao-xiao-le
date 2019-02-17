@@ -1,18 +1,17 @@
 namespace game {
   export class Pbl extends yyw.Base {
-    private btnBack: eui.Button;
     private btnHome: eui.Button;
     private btnRestart: eui.Button;
     private btnSound: eui.ToggleButton;
     private btnVibration: eui.ToggleButton;
 
-    public async exiting() {
-      await yyw.rightOut(this);
-    }
+    // public async exiting() {
+    //   await yyw.rightOut(this);
+    // }
 
-    public async entering() {
-      await yyw.rightIn(this);
-    }
+    // public async entering() {
+    //   await yyw.rightIn(this);
+    // }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       try {
@@ -28,16 +27,12 @@ namespace game {
       }
 
       if (fromChildrenCreated) {
-        yyw.onTap(this.btnBack, () => {
-          SceneManager.escape();
-        });
-
         yyw.onTap(this.btnHome, () => {
-          SceneManager.toScene("landing");
+          yyw.director.toScene("landing");
         });
 
         yyw.onTap(this.btnRestart, () => {
-          SceneManager.toScene("playing", false, (scene: Playing) => {
+          yyw.director.toScene("playing", false, (scene: Playing) => {
             scene.startGame();
           });
         });

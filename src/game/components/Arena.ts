@@ -345,7 +345,7 @@ namespace game {
     ): Promise<boolean> {
       const { model } = this;
       const firstNumber = triggerPoint ? model.getNumberAt(triggerPoint) : 0;
-      const [ num, points ] = model.getChain(firstNumber === MAGIC_NUMBER ? 0 : firstNumber);
+      const [ num, points ] = model.getMergeChain(firstNumber === MAGIC_NUMBER ? 0 : firstNumber);
       // 找到
       if (num) {
         this.increaseCombo();

@@ -16,11 +16,12 @@ namespace yyw {
       );
       imageLoader.once(
         egret.IOErrorEvent.IO_ERROR,
-        (e) => {
+        (e: any) => {
           reject(e);
         },
         null,
       );
+      // 支持跨域
       imageLoader.crossOrigin = "anonymous";
       imageLoader.load(await fs.ensure(url));
     });
@@ -29,10 +30,10 @@ namespace yyw {
   export function loadAudio(url: string): Promise<egret.Sound> {
     return new Promise(async (resolve, reject) => {
       const loader: egret.URLLoader = new egret.URLLoader();
-      loader.addEventListener(egret.Event.COMPLETE, () => {
+      loader.once(egret.Event.COMPLETE, () => {
         resolve(loader.data);
       }, this);
-      loader.addEventListener(egret.IOErrorEvent.IO_ERROR, () => {
+      loader.once(egret.IOErrorEvent.IO_ERROR, () => {
         resolve(null);
       }, this);
       loader.dataFormat = egret.URLLoaderDataFormat.SOUND;

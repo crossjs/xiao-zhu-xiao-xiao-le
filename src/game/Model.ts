@@ -83,6 +83,9 @@ namespace game {
       this.saveNumberAt(point, num);
     }
 
+    /**
+     * 对矩阵进行随机排列
+     */
     public doShuffle() {
       const { numbers, cols, rows} = this;
       const slicedNumbers = numbers.slice(0);
@@ -90,13 +93,17 @@ namespace game {
       while (row--) {
         let col = cols;
         while (col--) {
-          const index = Math.floor(Math.random() * slicedNumbers.length);
+          const index = yyw.random(slicedNumbers.length);
           this.saveNumberAt([col, row], slicedNumbers.splice(index, 1)[0]);
         }
       }
     }
 
-    public getChain(firstNumber: number): [number, Point[]] {
+    /**
+     * 寻找可合并的数字链
+     * @param firstNumber 优先合并的数字
+     */
+    public getMergeChain(firstNumber: number): [number, Point[]] {
       const numMap: { [num: string]: Point[] } = {};
       const { matrix, cols, rows} = this;
       let row = rows;
@@ -149,7 +156,7 @@ namespace game {
      * @todo 高阶数字出现概率应低于低阶数字
      */
     public getRandomNumber(exceptList?: number[]): number {
-      const num = Math.floor(Math.random() * (this.maxNumber - this.minNumber + 1)) + this.minNumber;
+      const num = yyw.random((this.maxNumber - this.minNumber + 1)) + this.minNumber;
       if (exceptList) {
         if (exceptList.indexOf(num) !== -1) {
           return this.getRandomNumber(exceptList);

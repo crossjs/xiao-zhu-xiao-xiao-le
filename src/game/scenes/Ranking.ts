@@ -20,12 +20,12 @@ namespace game {
     /**
      * 准备榜单
      */
-    protected async createView(fromChildrenCreated?: boolean) {
+    protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       super.createView(fromChildrenCreated);
 
       if (fromChildrenCreated) {
         yyw.onTap(this.bg, () => {
-          SceneManager.escape();
+          yyw.director.escape();
         }, true);
 
         // 不知道为什么，EXML 里怎么设置都无法取消冒泡

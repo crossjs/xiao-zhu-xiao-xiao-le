@@ -29,7 +29,7 @@ namespace game {
       if (fromChildrenCreated) {
         yyw.onTap(this.btnOK, async () => {
           const { x, y } = this.modal.localToGlobal();
-          if (await yyw.preReward("coin", {
+          if (await yyw.reward.apply("coin", {
             share: {
               imageUrl: canvas.toTempFilePathSync({
                 x,
@@ -42,12 +42,12 @@ namespace game {
             },
           })) {
             await this.saveCoins();
-            SceneManager.escape();
+            yyw.director.escape();
           }
         });
 
         yyw.onTap(this.btnKO, () => {
-          SceneManager.escape();
+          yyw.director.escape();
         });
       }
     }
@@ -57,7 +57,7 @@ namespace game {
       await yyw.twirlIn(this.modal);
       this.btnOK.visible = true;
       this.btnKO.visible = true;
-      this.coins = Math.floor(Math.random() * 99) + 1;
+      this.coins = yyw.random(99) + 1;
       this.tfdCoins.text = `${this.coins}`;
     }
 
@@ -67,6 +67,7 @@ namespace game {
       await yyw.award.save({
         coins: this.coins,
       });
+      yyw.emit("COINS_GOT", this.coins);
     }
   }
 }

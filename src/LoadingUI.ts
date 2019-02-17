@@ -5,8 +5,10 @@ class LoadingUI extends yyw.Base implements RES.PromiseTaskReporter {
   public onProgress(current: number, total: number, { root, name }: RES.ResourceInfo): void {
     if (this.initialized) {
       const percent = current / total;
-      this.bar.width = Math.ceil(660 * percent);
       this.percent.text = `${Math.ceil(percent * 100)}%`;
+      yyw.getTween(this.bar).to({
+        width: Math.ceil(660 * percent),
+      });
     }
   }
 }
