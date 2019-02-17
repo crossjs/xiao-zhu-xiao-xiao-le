@@ -2,6 +2,9 @@ class Main extends eui.UILayer {
   private created: boolean = false;
   private loadingView: LoadingUI;
 
+  // debug 模式，使用图形绘制
+  private isDebug: boolean = true;
+
   protected createChildren(): void {
     super.createChildren();
 
@@ -107,6 +110,9 @@ class Main extends eui.UILayer {
     yyw.sub.postMessage({
       command: "initRanking",
     });
+
+    // 加个物理引擎玩一玩
+    this.createP2Scene();
   }
 
   private initScenes() {
@@ -165,5 +171,143 @@ class Main extends eui.UILayer {
     new game.PointSound();
     new game.SwapSound();
     // tslint:enable
+  }
+
+  /**
+   * 创建游戏场景
+   */
+  private createP2Scene(): void {
+    // egret.Profiler.getInstance().run();
+    const factor: number = 50;
+
+    // 创建 world
+    const world: p2.World = new p2.World();
+    world.sleepMode = p2.World.BODY_SLEEPING;
+
+    // 创建 plane
+    const planeShape: p2.Plane = new p2.Plane();
+    const planeBody: p2.Body = new p2.Body();
+    planeBody.addShape(planeShape);
+    planeBody.displays = [];
+    world.addBody(planeBody);
+
+    egret.Ticker.getInstance().register((dt: number) => {
+      if (dt < 10) {
+        return;
+      }
+      if (dt > 1000) {
+        return;
+      }
+      world.step(dt / 1000);
+
+      const stageHeight: number = egret.MainContext.instance.stage.stageHeight;
+      const l = world.bodies.length;
+      for (let i: number = 0; i < l; i++) {
+        const boxBody: p2.Body = world.bodies[i];
+        const box: egret.DisplayObject = boxBody.displays[0];
+        if (box) {
+          box.x = boxBody.position[0] * factor;
+          box.y = stageHeight - boxBody.position[1] * factor;
+          box.rotation =
+            360 - ((boxBody.angle + boxBody.shapes[0].angle) * 180) / Math.PI;
+          if (boxBody.sleepState === p2.Body.SLEEPING) {
+            box.alpha = 0.5;
+          } else {
+            box.alpha = 1;
+          }
+        }
+      }
+    }, this);
+
+    // 鼠标点击添加刚体
+    this.stage.addEventListener(egret.TouchEvent.TOUCH_BEGIN, (e: egret.TouchEvent): void => {
+      const positionX: number = Math.floor(e.stageX / factor);
+      const positionY: number = Math.floor(
+        (egret.MainContext.instance.stage.stageHeight - e.stageY) / factor,
+      );
+      let display: egret.DisplayObject;
+      let boxBody: p2.Body;
+      if (Math.random() > 0.5) {
+        // 添加方形刚体
+        // var boxShape: p2.Shape = new p2.Rectangle(2, 1);
+        const boxShape: p2.Shape = new p2.Box({ width: 2, height: 1 });
+        boxBody = new p2.Body({
+          mass: 1,
+          position: [positionX, positionY],
+          angularVelocity: 1,
+        });
+        boxBody.addShape(boxShape);
+        world.addBody(boxBody);
+
+        if (this.isDebug) {
+          display = this.createBox(
+            (boxShape as p2.Box).width * factor,
+            (boxShape as p2.Box).height * factor,
+          );
+        } else {
+          display = this.createBitmapByName("rect");
+        }
+        display.width = (boxShape as p2.Box).width * factor;
+        display.height = (boxShape as p2.Box).height * factor;
+      } else {
+        // 添加圆形刚体
+        // var boxShape: p2.Shape = new p2.Circle(1);
+        const boxShape: p2.Shape = new p2.Circle({ radius: 1 });
+        boxBody = new p2.Body({
+          mass: 1,
+          position: [positionX, positionY],
+        });
+        boxBody.addShape(boxShape);
+        world.addBody(boxBody);
+
+        if (this.isDebug) {
+          display = this.createBall((boxShape as p2.Circle).radius * factor);
+        } else {
+          display = this.createBitmapByName("circle");
+        }
+
+        display.width = (boxShape as p2.Circle).radius * 2 * factor;
+        display.height = (boxShape as p2.Circle).radius * 2 * factor;
+      }
+
+      display.anchorOffsetX = display.width / 2;
+      display.anchorOffsetY = display.height / 2;
+
+      boxBody.displays = [display];
+      this.addChild(display);
+    }, this);
+  }
+
+  /**
+   * 根据 name 关键字创建一个 Bitmap 对象。
+   * name 属性请参考 resources/resource.json 配置文件的内容。
+   */
+  private createBitmapByName(name: string): egret.Bitmap {
+    const result: egret.Bitmap = new egret.Bitmap();
+    const texture: egret.Texture = RES.getRes(name);
+    result.texture = texture;
+    return result;
+  }
+
+  /**
+   * 创建一个圆形
+   */
+  private createBall(r: number): egret.Shape {
+    const shape = new egret.Shape();
+    shape.graphics.beginFill(0xfff000);
+    shape.graphics.drawCircle(r, r, r);
+    shape.graphics.endFill();
+    return shape;
+  }
+
+  /**
+   * 创建一个方形
+   */
+  private createBox(width: number, height: number): egret.Shape {
+    const shape = new egret.Shape();
+    shape.graphics.beginFill(0xfff000);
+    shape.graphics.drawRect(0, 0, width, height);
+    shape.graphics.endFill();
+    return shape;
   }
 }
