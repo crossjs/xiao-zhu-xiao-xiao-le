@@ -21,10 +21,6 @@
       "name": "game"
     },
     {
-      "name": "physics",
-      "path": "./libs/modules/physics"
-    },
-    {
       "name": "promise"
     }
   ]

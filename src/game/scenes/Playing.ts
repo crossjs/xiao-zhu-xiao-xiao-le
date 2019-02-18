@@ -59,7 +59,7 @@ namespace game {
           yyw.onTap(this.btnShop, () => {
             yyw.director.toScene("shop", true);
           });
-          yyw.on("COINS_GOT", ({ data: coins }) => {
+          yyw.on("COINS_CHANGE", ({ data: coins }) => {
             this.updateCoins(coins);
           });
 
@@ -68,10 +68,10 @@ namespace game {
       }
     }
 
-    private async updateCoins(increase?: number) {
+    private async updateCoins(mutation?: number) {
       try {
-        if (increase) {
-          this.coins += increase;
+        if (mutation) {
+          this.coins += mutation;
         } else {
           const { coins } = await yyw.pbl.get();
           this.coins = coins;

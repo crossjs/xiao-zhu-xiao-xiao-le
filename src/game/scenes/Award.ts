@@ -67,7 +67,7 @@ namespace game {
       await yyw.award.save({
         coins: this.coins,
       });
-      yyw.emit("COINS_GOT", this.coins);
+      yyw.emit("COINS_CHANGE", this.coins);
     }
   }
 }

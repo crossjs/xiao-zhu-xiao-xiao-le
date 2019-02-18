@@ -31,9 +31,11 @@ namespace game {
                 yyw.showToast("请访问公众号「游鱼玩」，发送消息「兑换」");
               } else {
                 // 消费
+                const coins = -this.prices[index];
                 await yyw.award.save({
-                  coins: -this.prices[index],
+                  coins,
                 });
+                yyw.emit("COINS_CHANGE", coins);
                 yyw.showToast("购买成功");
                 yyw.emit("TOOL_GOT", {
                   type: this.goods[index],
