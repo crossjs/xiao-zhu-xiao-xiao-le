@@ -71,7 +71,7 @@ export const Closest = {
   } = {}) {
     // 设置字体
     context.textAlign = "center";
-    context.font = "24px sans-serif";
+    context.font = "24px Arial";
     context.fillStyle = color;
     context.fillText(String(text), x, y, width);
   },

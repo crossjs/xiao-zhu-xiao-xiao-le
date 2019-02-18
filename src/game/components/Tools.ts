@@ -42,8 +42,8 @@ namespace game {
       super.createView(fromChildrenCreated);
 
       if (fromChildrenCreated) {
-        yyw.on("ARENA_RUN", ({ data }: egret.Event) => {
-          this.enabled = !data;
+        yyw.on("ARENA_RUN", ({ data: running }: egret.Event) => {
+          this.enabled = !running;
         });
 
         yyw.on("RANDOM_TOOL", () => {

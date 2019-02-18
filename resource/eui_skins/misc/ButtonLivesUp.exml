@@ -3,5 +3,5 @@
 	 width="119"
 	height="130" currentState="up" xmlns:e="http://ns.egret.com/eui" states="down,up">
 	<e:Image includeIn="up,down" source="sprites_json.tool_livesup"/>
-	<e:Image includeIn="down" source="sprites_json.heart" y="79" x="27" visible="true" anchorOffsetX="27" width="54" anchorOffsetY="24" height="48" scaleX="1.2" scaleY="1.2"/>
+	<e:Image includeIn="down" source="sprites_json.heart" y="79" x="27" anchorOffsetX="27" width="54" anchorOffsetY="24" height="48" scaleX="1.5" scaleY="1.5"/>
 </e:Skin>

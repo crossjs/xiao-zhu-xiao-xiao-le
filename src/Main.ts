@@ -35,7 +35,6 @@ class Main extends eui.UILayer {
     egret.setTimeout(() => {
       if (!loaded) {
         egret.error("加载超时，强制进入");
-        yyw.removeElement(this.loadingView);
         this.createGameScene();
       }
     }, null, 10000);
@@ -54,7 +53,6 @@ class Main extends eui.UILayer {
       this.loadingView = new LoadingUI();
       this.stage.addChild(this.loadingView);
       await RES.loadGroup("preload", 0, this.loadingView);
-      yyw.removeElement(this.loadingView);
     } catch (error) {
       egret.error(error);
     }
@@ -96,6 +94,9 @@ class Main extends eui.UILayer {
 
     // 跳转到着陆页
     yyw.director.toScene("landing");
+
+    // 移除加载界面
+    yyw.removeElement(this.loadingView);
 
     // 初始化音频
     this.initSounds();

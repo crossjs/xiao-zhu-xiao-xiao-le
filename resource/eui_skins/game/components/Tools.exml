@@ -2,9 +2,9 @@
 <e:Skin class="ToolsSkin"
  xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*">
 	<e:Group id="main" touchEnabled="false" width="750">
-		<game:ValueUp width="78" height="78" y="180" x="186" touchChildren="false"/>
-		<game:Shuffle width="78" height="78" y="180" x="336" touchChildren="false"/>
-		<game:Breaker width="78" height="78" y="180" x="486" touchChildren="false"/>
-		<game:LivesUp width="126" height="138" x="600" y="218" touchChildren="false"/>
+		<game:ValueUp x="186"/>
+		<game:Shuffle x="336"/>
+		<game:Breaker x="486"/>
+		<game:LivesUp x="600" y="14"/>
 	</e:Group>
 </e:Skin>

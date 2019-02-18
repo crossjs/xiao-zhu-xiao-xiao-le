@@ -1,6 +1,6 @@
 namespace game {
-  export class ToolBase extends yyw.Base {
-    public type: string = "";
+  export abstract class ToolBase extends yyw.Base {
+    public abstract type: string;
     protected main: eui.Group;
     protected tfd: eui.BitmapLabel;
     protected img: eui.Image;
@@ -139,15 +139,13 @@ namespace game {
 
     private zoomIn() {
       yyw.getTween(this.main).to({
-        scaleX: 1.5,
-        scaleY: 1.5,
+        scale: 1.5,
       });
     }
 
     private zoomOut() {
       yyw.getTween(this.main).to({
-        scaleX: 1,
-        scaleY: 1,
+        scale: 1,
       });
     }
   }

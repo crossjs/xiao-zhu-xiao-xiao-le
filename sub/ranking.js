@@ -245,7 +245,7 @@ export const Ranking = {
     }
     y += (height + fontSize) / 2.3;
     // 设置字体
-    context.font = `${fontSize}px sans-serif`;
+    context.font = `${fontSize}px Arial`;
     context.fillStyle = color;
     context.fillText(String(text), x, y, width);
   },

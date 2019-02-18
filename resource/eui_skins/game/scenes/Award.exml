@@ -6,7 +6,7 @@
 			<e:Group id="modal" x="375" y="530" touchEnabled="false" touchChildren="false" visible="false" anchorOffsetX="240" anchorOffsetY="300">
 			<e:Image source="sprites_json.modal_bg" width="480" scale9Grid="18,102,66,84" height="600"/>
 			<e:BitmapLabel y="27" text="小猪送福" touchEnabled="false" textAlign="center" font="white_fnt" horizontalCenter="0"/>
-			<e:Image source="sprites_json.fu" y="234" horizontalCenter="0"/>
+			<e:Image source="sprites2_json.fu" y="234" horizontalCenter="0"/>
 			<e:BitmapLabel y="132" text="转发获得金币福包！" touchEnabled="false" textAlign="center" font="red_fnt" horizontalCenter="0"/>
 			<e:BitmapLabel id="tfdCoins" text="" touchEnabled="false" textAlign="center" y="195" scaleX="2" scaleY="2" width="192" font="score_fnt" horizontalCenter="0" height="72"/>
 			</e:Group>

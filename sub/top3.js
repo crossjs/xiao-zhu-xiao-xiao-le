@@ -157,7 +157,7 @@ export const Top3 = {
     x += width / 2;
     y += fontSize / 2 * 1.2;
     context.textAlign = "center";
-    context.font = `${fontSize}px sans-serif`;
+    context.font = `${fontSize}px Arial`;
     context.fillStyle = color;
     context.fillText(String(text), x, y, width);
   },

@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="WordsSkin" xmlns:e="http://ns.egret.com/eui">
 	<e:Group id="main" width="750" height="750" x="375" y="645" anchorOffsetX="375" anchorOffsetY="375" touchEnabled="false" touchChildren="false">
-		<e:Image id="imgGood" source="words_json.good" touchEnabled="false" visible="false" scaleX="1.1" scaleY="1.1" horizontalCenter="0" verticalCenter="0"/>
-		<e:Image id="imgGreat" source="words_json.great" touchEnabled="false" visible="false" scaleX="1.1" scaleY="1.1" horizontalCenter="0" verticalCenter="0"/>
-		<e:Image id="imgAmazing" source="words_json.amazing" touchEnabled="false" visible="false" scaleX="1.1" scaleY="1.1" horizontalCenter="0" verticalCenter="0"/>
-		<e:Image id="imgExcellent" source="words_json.excellent" touchEnabled="false" visible="false" scaleX="1.1" scaleY="1.1" horizontalCenter="-0.5" verticalCenter="-40"/>
+		<e:Image id="imgGood" source="sprites2_json.good" touchEnabled="false" visible="false" scaleX="1.1" scaleY="1.1" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="imgGreat" source="sprites2_json.great" touchEnabled="false" visible="false" scaleX="1.1" scaleY="1.1" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="imgAmazing" source="sprites2_json.amazing" touchEnabled="false" visible="false" scaleX="1.1" scaleY="1.1" horizontalCenter="0" verticalCenter="0"/>
+		<e:Image id="imgExcellent" source="sprites2_json.excellent" touchEnabled="false" visible="false" scaleX="1.1" scaleY="1.1" horizontalCenter="-0.5" verticalCenter="-40"/>
 	</e:Group>
 </e:Skin>

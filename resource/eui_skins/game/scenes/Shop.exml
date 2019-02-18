@@ -9,9 +9,8 @@
         <e:Group id="items" x="30" y="132">
           <e:Group visible="false">
             <e:Image width="255" height="354" scale9Grid="10,10,10,10" source="sprites_json.slot_bg"/>
-            <e:Image source="sprites_json.hot" x="219" scaleX="0.5" scaleY="0.5"/>
             <e:Button id="btnPurchase0" skinName="ButtonDefaultSkin" label="兑换" width="240" x="38" y="266" enabled="false" scaleX="0.75" scaleY="0.75" height="80"/>
-            <e:Image source="sprites_json.valueup" x="38" y="12" scaleX="0.75" scaleY="0.75"/>
+            <e:Image source="sprites2_json.valueup" x="38" y="12" scaleX="0.75" scaleY="0.75"/>
             <e:Group x="63" y="198">
             <e:Image source="sprites_json.coin" y="5"/>
             <e:BitmapLabel x="50" y="10" text="1000" font="score_fnt" scaleX="0.5" scaleY="0.5"/>
@@ -19,9 +18,8 @@
           </e:Group>
           <e:Group x="285" visible="false">
             <e:Image scale9Grid="10,10,10,10" width="255" height="354" source="sprites_json.slot_bg"/>
-            <e:Image source="sprites_json.hot" x="219" scaleX="0.5" scaleY="0.5" y="0"/>
             <e:Button id="btnPurchase1" skinName="ButtonDefaultSkin" label="兑换" width="240" x="38" y="266" enabled="false" scaleX="0.75" scaleY="0.75" height="80"/>
-            <e:Image x="38" y="12" source="sprites_json.shuffle" scaleX="0.75" scaleY="0.75"/>
+            <e:Image x="38" y="12" source="sprites2_json.shuffle" scaleX="0.75" scaleY="0.75"/>
             <e:Group x="63" y="198">
             <e:Image source="sprites_json.coin" y="5"/>
             <e:BitmapLabel x="50" y="10" text="2000" font="score_fnt" scaleX="0.5" scaleY="0.5"/>
@@ -29,9 +27,8 @@
           </e:Group>
           <e:Group y="384" visible="false">
             <e:Image scale9Grid="10,10,10,10" width="255" height="354" source="sprites_json.slot_bg"/>
-            <e:Image source="sprites_json.hot" x="219" scaleX="0.5" scaleY="0.5" y="0"/>
             <e:Button id="btnPurchase2" skinName="ButtonDefaultSkin" label="兑换" width="240" x="38" y="266" touchEnabled="true" enabled="false" scaleX="0.75" scaleY="0.75" height="80"/>
-            <e:Image x="38" y="12" source="sprites_json.breaker" scaleX="0.75" scaleY="0.75"/>
+            <e:Image x="38" y="12" source="sprites2_json.breaker" scaleX="0.75" scaleY="0.75"/>
             <e:Group x="63" y="198">
             <e:Image source="sprites_json.coin" y="5"/>
             <e:BitmapLabel x="50" y="10" text="1500" font="score_fnt" scaleX="0.5" scaleY="0.5"/>
@@ -39,7 +36,6 @@
           </e:Group>
           <e:Group x="285" y="384" visible="false">
             <e:Image scale9Grid="10,10,10,10" width="255" height="354" source="sprites_json.slot_bg"/>
-            <e:Image source="sprites_json.hot" x="219" scaleX="0.5" scaleY="0.5" y="0"/>
             <e:Button id="btnPurchase3" skinName="ButtonDefaultSkin" label="兑换" width="240" x="38" y="266" touchEnabled="true" enabled="false" scaleX="0.75" scaleY="0.75" height="80"/>
             <e:Image x="35" y="40" source="sprites_json.card" scaleX="0.75" scaleY="0.75"/>
             <e:Group x="53" y="198">

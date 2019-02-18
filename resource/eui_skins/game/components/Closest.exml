@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="ClosestSkin"
  xmlns:e="http://ns.egret.com/eui">
-	<e:Image source="sprites_json.chase_bg"/>
-	<e:Image source="sprites_json.chase" x="4" y="-30"/>
+	<e:Image source="sprites_json.closest_bg"/>
+	<e:Image source="sprites_json.closest" x="4" y="-30"/>
 </e:Skin>

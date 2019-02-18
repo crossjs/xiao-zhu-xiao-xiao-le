@@ -99,7 +99,7 @@ namespace game {
 
     private createClosest() {
       this.closest = new Closest();
-      this.closest.x = 21;
+      this.closest.x = 26;
       this.closest.y = 120;
       this.body.addChild(this.closest);
     }
