@@ -5,19 +5,15 @@ namespace game {
     private btnStart: eui.Button;
     private tfdVersion: eui.Label;
     private tfdBestScore: eui.Label;
-    private title: eui.Image;
     private pig: eui.Image;
     private numbers: eui.Image;
     private userInfoButton: wx.UserInfoButton;
     private duration: number = 500;
 
     public async exiting() {
-      yyw.getTween(this.title).to({
-        x: this.title.x + 30,
-      }, this.duration);
       yyw.getTween(this.pig).to({
-        x: this.pig.x + 60,
-        y: this.pig.y + 30,
+        x: this.pig.x + 90,
+        y: this.pig.y + 60,
       }, this.duration);
       yyw.getTween(this.numbers).to({
         x: this.numbers.x - 60,
@@ -27,12 +23,9 @@ namespace game {
     }
 
     public async entering() {
-      yyw.getTween(this.title).to({
-        x: this.title.x - 30,
-      }, this.duration);
       yyw.getTween(this.pig).to({
-        x: this.pig.x - 60,
-        y: this.pig.y - 30,
+        x: this.pig.x - 90,
+        y: this.pig.y - 60,
       }, this.duration);
       yyw.getTween(this.numbers).to({
         x: this.numbers.x + 60,

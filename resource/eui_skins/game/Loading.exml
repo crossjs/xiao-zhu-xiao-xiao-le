@@ -2,9 +2,10 @@
 <e:Skin class="LoadingSkin"
  xmlns:e="http://ns.egret.com/eui">
 	<e:Image id="bg" fillMode="clip" touchEnabled="false" source="bg" scale9Grid="0,438,750,5"/>
-	<e:Group id="main" touchEnabled="false" touchChildren="false" verticalCenter="0" horizontalCenter="0">
-		<e:Image source="loading_json.progressbar_bg" scale9Grid="12,3,68,12" width="660" x="0" y="21"/>
-		<e:Image id="bar" source="loading_json.progressbar" x="1" y="22" scale9Grid="10,2,70,11"/>
-		<e:Label id="percent" width="246" size="36" height="60" verticalAlign="middle" y="-40" textColor="16777215" textAlign="center" horizontalCenter="0" fontFamily="Arial"/>
+	<e:Group id="main" touchEnabled="false" touchChildren="false" verticalCenter="60" horizontalCenter="0">
+		<e:Image source="loading_json.progressbar_bg" scale9Grid="12,3,68,12" width="660" x="0" y="30"/>
+		<e:Image id="bar" source="loading_json.progressbar" x="1" y="30" scale9Grid="10,2,70,11"/>
+		<e:Label id="percent" width="180" size="24" height="30" verticalAlign="middle" textColor="16777215" textAlign="center" horizontalCenter="0" fontFamily="Arial"/>
+		<e:Label id="tip" width="660" size="36" height="60" verticalAlign="middle" y="60" textAlign="center" horizontalCenter="0" fontFamily="Arial" textColor="13632027"/>
 	</e:Group>
 </e:Skin>
