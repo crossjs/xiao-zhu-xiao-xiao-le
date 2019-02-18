@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="RankingItemSkin"
  xmlns:e="http://ns.egret.com/eui" height="60" width="522">
-	<e:Label id="labelKey" x="2" y="2" textColor="3389182" size="24" width="54" height="54" verticalAlign="middle" textAlign="center" fontFamily="Arial"/>
+	<e:Label id="labelKey" x="2" y="2" textColor="3389182" size="24" width="54" height="54" verticalAlign="middle" textAlign="center" fontFamily="sans-serif"/>
 	<e:Group id="groupTop" y="4">
 		<e:Image source="sprites_json.top1" visible="false"/>
 		<e:Image source="sprites_json.top2" visible="false"/>
 		<e:Image source="sprites_json.top3" visible="false"/>
 	</e:Group>
 	<e:Image id="imageAvatar" width="48" height="48" x="64" y="6"/>
-	<e:Label id="labelNickname" x="122" width="236" textColor="0" size="36" height="60" verticalAlign="middle" fontFamily="Arial" multiline="false"/>
-	<e:Label id="labelScore" x="358" textAlign="right" width="154" textColor="16734066" size="36" height="60" verticalAlign="middle" fontFamily="Arial"/>
+	<e:Label id="labelNickname" x="122" width="236" textColor="0" size="36" height="60" verticalAlign="middle" fontFamily="sans-serif" multiline="false"/>
+	<e:Label id="labelScore" x="358" textAlign="right" width="154" textColor="16734066" size="36" height="60" verticalAlign="middle" fontFamily="sans-serif"/>
 </e:Skin>
