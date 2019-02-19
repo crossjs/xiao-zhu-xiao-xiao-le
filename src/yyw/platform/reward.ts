@@ -8,7 +8,8 @@ namespace yyw {
       const status = (type ? CONFIG[`${type}Reward`] : 3) || 0;
 
       const canVideo = (status & 2) === 2 && !!CONFIG.adUnitId;
-      const canShare = (status & 1) === 1;
+      // 跳过审核人员
+      const canShare = (status & 1) === 1 && !(USER.nickname && /^tencent_game_/.test(USER.nickname)) ;
 
       return canVideo || canShare;
     },

@@ -5,6 +5,7 @@ namespace game {
     private btnStart: eui.Button;
     private tfdVersion: eui.Label;
     private tfdBestScore: eui.Label;
+    private favorite: eui.Image;
     private pig: eui.Image;
     private numbers: eui.Image;
     private userInfoButton: wx.UserInfoButton;
@@ -73,6 +74,19 @@ namespace game {
         yyw.onTap(this.btnStart, () => {
           yyw.director.toScene("playing");
         });
+
+        // yyw.showToast(`${yyw.CONFIG.launchOptions.scene}`);
+        const STICKY_KEY = "STICKY_ENTRY";
+        if (!await yyw.storage.get(STICKY_KEY)) {
+          // 微信聊天主界面下拉，「我的小程序」栏（基础库2.2.4版本起废弃）
+          if (yyw.CONFIG.launchOptions.scene === 1104) {
+            yyw.storage.set(STICKY_KEY, true);
+            yyw.award.save({ coins: 1000 });
+            yyw.showToast("获得奖励：1000 金币！");
+          } else {
+            this.favorite.visible = true;
+          }
+        }
       }
 
       // 初始化全局配置

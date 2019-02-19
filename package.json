@@ -1,6 +1,6 @@
 {
   "name": "g4",
-  "version": "1.2.7",
+  "version": "1.2.9",
   "description": "小猪消消乐",
   "private": true,
   "scripts": {
@@ -23,6 +23,10 @@
     ],
     "DIR_TO_COPY": [
       "sub"
-    ]
+    ],
+    "SERVER_ORIGIN": {
+      "dev": "http://127.0.0.1:7014",
+      "release": "https://g4.minipx.cn"
+    }
   }
 }

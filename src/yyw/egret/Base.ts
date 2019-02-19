@@ -62,14 +62,11 @@ namespace yyw {
       if (this.body) {
         const { system, statusBarHeight } = CONFIG.systemInfo;
         // yyw.showToast(`SBH: ${statusBarHeight}`);
-        let top = 20;
-        // 刘海屏（iPhoneX 为 44，华为 mate20 为 25）
-        // 超过这个数，统一认定为有刘海
-        if (statusBarHeight >= 25) {
-          top = statusBarHeight * 2;
+        let top: number;
+        if (/android/i.test(system)) {
+          top = statusBarHeight > 18 ? 88 : 33;
         } else {
-          // 胶囊与屏幕顶部的距离
-          top = /android/i.test(system) ? 32 : 20;
+          top = statusBarHeight > 20 ? statusBarHeight * 2 : 20;
         }
         this.body.y = top;
         this.body.height = this.stage.stageHeight - top;

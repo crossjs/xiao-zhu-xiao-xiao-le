@@ -1,8 +1,9 @@
 namespace yyw {
   const serverEnabled: boolean = true;
-  const serverOrigin: string = DEBUG ? "http://127.0.0.1:7014" : "https://g4.minipx.cn";
+  const serverOrigin: string = SERVER_ORIGIN;
 
   const systemInfo: wx.systemInfo = wx.getSystemInfoSync();
+  const launchOptions: wx.launchOptions = wx.getLaunchOptionsSync();
   // 数字越大，游戏节奏越慢
   const speedRatio: number = 1.5;
   const stageWidth: number = 750;
@@ -19,6 +20,10 @@ namespace yyw {
   export const CONFIG = {
     get systemInfo(): wx.systemInfo {
       return systemInfo;
+    },
+
+    get launchOptions(): wx.launchOptions {
+      return launchOptions;
     },
 
     get stageWidth(): number {
