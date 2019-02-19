@@ -132,7 +132,7 @@ class Main extends eui.UILayer {
     });
 
     // 启用道具奖励
-    if (yyw.CONFIG.toolReward) {
+    if (yyw.reward.can("tool")) {
       // 体力过低
       yyw.on("LIVES_LEAST", () => {
         yyw.director.toScene("alarm", true);
@@ -145,7 +145,7 @@ class Main extends eui.UILayer {
     });
 
     // 启用金币奖励
-    if (yyw.CONFIG.coinReward) {
+    if (yyw.reward.can("coin")) {
       // 获得魔法数字
       yyw.on("ARENA_MAGIC_NUMBER_GOT", () => {
         yyw.director.toScene("award", true);

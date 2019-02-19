@@ -132,7 +132,7 @@ namespace game {
     protected update() {
       const { tfd, img, amount } = this;
       tfd.text = `${amount}`;
-      if (yyw.CONFIG.toolReward) {
+      if (yyw.reward.can("tool")) {
         img.visible = !amount;
       }
     }

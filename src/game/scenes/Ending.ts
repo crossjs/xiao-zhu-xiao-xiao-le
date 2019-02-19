@@ -30,12 +30,12 @@ namespace game {
       this.createTop3();
 
       if (fromChildrenCreated) {
-        if (!yyw.CONFIG.toolReward) {
+        if (!yyw.reward.can("tool")) {
           this.btnKO.visible = false;
           this.btnOK.label = "重新开始";
         }
         yyw.onTap(this.btnOK, async () => {
-          if (yyw.CONFIG.toolReward) {
+          if (yyw.reward.can("tool")) {
             if (await yyw.reward.apply("tool")) {
               this.revive();
             }

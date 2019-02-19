@@ -9,8 +9,8 @@
 				<e:Image id="numbers" source="sprites2_json.numbers" visible="true" x="-48" touchEnabled="false"/>
 				<e:Image id="pig" source="sprites2_json.pig" visible="true" y="72" x="144" touchEnabled="false"/>
 			</e:Group>
-			<e:Button id="btnBoard" x="48" skinName="ButtonBoardSkin" verticalCenter="0"/>
-			<e:Button id="btnCheckin" x="606" verticalCenter="-120" skinName="ButtonCheckinSkin"/>
+			<e:Button id="btnBoard" x="48" skinName="ButtonBoardSkin" verticalCenter="-20"/>
+			<e:Button id="btnCheckin" x="606" verticalCenter="-110" skinName="ButtonCheckinSkin"/>
 			<e:Button id="btnStart" label="" skinName="ButtonDefaultSkin" width="432" height="144" icon="sprites_json.start" horizontalCenter="0" bottom="72"/>
 			<e:BitmapLabel id="tfdBestScore" font="white_fnt" width="600" textAlign="center" touchEnabled="false" scaleX="0.75" scaleY="0.75" horizontalCenter="0" bottom="0" height="60"/>
 		</e:Group>
