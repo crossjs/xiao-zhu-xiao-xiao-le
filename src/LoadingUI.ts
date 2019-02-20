@@ -13,7 +13,7 @@ class LoadingUI extends yyw.Base implements RES.PromiseTaskReporter {
     if (this.initialized) {
       const percent = current / total;
       this.percent.text = `${Math.ceil(percent * 100)}%`;
-      this.bar.width = Math.ceil(658 * percent);
+      this.bar.width = Math.ceil(654 * percent);
     }
   }
 
