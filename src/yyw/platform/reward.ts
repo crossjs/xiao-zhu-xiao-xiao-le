@@ -9,7 +9,7 @@ namespace yyw {
 
       const canVideo = (status & 2) === 2 && !!CONFIG.adUnitId;
       // 跳过审核人员
-      const canShare = (status & 1) === 1 && !(USER.nickname && /^tencent_game_/.test(USER.nickname)) ;
+      const canShare = (status & 1) === 1 && !(USER.nickname && /^(?:tencent_game|rdgztest)_/.test(USER.nickname)) ;
 
       return canVideo || canShare;
     },
