@@ -64,7 +64,7 @@ namespace game {
             });
             return;
           }
-          yyw.showToast("手指拖动到游戏区域，触发道具效果");
+          yyw.showToast("请直接拖动到棋盘中");
         });
 
         if (this.dnd) {

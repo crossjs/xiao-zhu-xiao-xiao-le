@@ -2,8 +2,10 @@ namespace yyw {
   class PromisedTween {
     private tween: egret.Tween;
 
-    constructor(target: egret.DisplayObject) {
-      this.tween = egret.Tween.get(target);
+    constructor(target: egret.DisplayObject, loop: boolean = false) {
+      this.tween = egret.Tween.get(target, {
+        loop,
+      });
     }
 
     public to(
@@ -38,8 +40,8 @@ namespace yyw {
     egret.Tween.removeTweens(target);
   }
 
-  export function getTween(target: egret.DisplayObject): PromisedTween {
-    return new PromisedTween(target);
+  export function getTween(target: egret.DisplayObject, loop: boolean = false): PromisedTween {
+    return new PromisedTween(target, loop);
   }
 
   export async function fadeIn(
@@ -103,14 +105,10 @@ namespace yyw {
   ): Promise<void> {
     target.alpha = 0;
     target.scale = 0;
-    // target.scaleX = 0;
-    // target.scaleY = 0;
     target.visible = true;
     await getTween(target).to({
       alpha: 1,
       scale: 1,
-      // scaleX: 1,
-      // scaleY: 1,
     }, duration, ease);
   }
 
@@ -123,14 +121,10 @@ namespace yyw {
     .to({
       alpha: 0,
       scale: 0,
-      // scaleX: 0,
-      // scaleY: 0,
     }, duration, ease);
     target.visible = false;
     target.alpha = 1;
     target.scale = 1;
-    // target.scaleX = 1;
-    // target.scaleY = 1;
   }
 
   export async function twirlIn(
@@ -140,15 +134,11 @@ namespace yyw {
   ): Promise<void> {
     target.alpha = 0;
     target.scale = 0;
-    // target.scaleX = 0;
-    // target.scaleY = 0;
     target.rotation = 0;
     target.visible = true;
     await getTween(target).to({
       alpha: 1,
       scale: 1,
-      // scaleX: 1,
-      // scaleY: 1,
       rotation: 1080,
     }, duration, ease);
   }
@@ -162,15 +152,11 @@ namespace yyw {
     .to({
       alpha: 0,
       scale: 0,
-      // scaleX: 0,
-      // scaleY: 0,
       rotation: -1080,
     }, duration, ease);
     target.visible = false;
     target.alpha = 1;
     target.scale = 1;
-    // target.scaleX = 1;
-    // target.scaleY = 1;
     target.rotation = 0;
   }
 }

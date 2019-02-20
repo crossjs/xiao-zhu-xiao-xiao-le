@@ -10,6 +10,7 @@ namespace game {
     private tfdScore: eui.BitmapLabel;
     private numGroup: eui.Group;
     private numImage: eui.Image;
+    private sugar: eui.Image;
 
     constructor(col: number, row: number, width: number, height: number, num: number = 0) {
       super();
@@ -185,6 +186,17 @@ namespace game {
       if (this.num) {
         this.numImage = this[`n${this.num}`];
         this.numImage.visible = true;
+      }
+      yyw.removeTweens(this.sugar);
+      if (MAGIC_NUMBER === this.num) {
+        this.sugar.rotation = 0;
+        yyw.getTween(this.sugar, true)
+        .to({
+          rotation: 360,
+        }, 1000, null);
+        this.sugar.visible = true;
+      } else {
+        this.sugar.visible = false;
       }
     }
   }

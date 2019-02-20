@@ -88,7 +88,7 @@ namespace game {
             if (cancel) {
               return cancel();
             }
-            return yyw.showToast("体力已满，无须使用此道具");
+            return yyw.showToast("体力已满");
           }
           return this.doLivesUp(confirm);
         default:
