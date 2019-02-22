@@ -56,7 +56,7 @@ void main(){
   gl_FragColor = texture2D(uSampler, texCoord);
 }`;
 
-  export function light(target: egret.DisplayObject) {
+  export function light(target: egret.DisplayObject): () => void {
     const lightFilter = new egret.CustomFilter(vertexSrc, fragmentSrcLight, {
       customUniform: 0,
     });
@@ -86,7 +86,7 @@ void main(){
     };
   }
 
-  export function wave(target: egret.DisplayObject) {
+  export function wave(target: egret.DisplayObject): () => void {
     const waveFilter = new egret.CustomFilter(vertexSrc, fragmentSrcWave, {
       center: { x: 0.5, y: 0.5 },
       params: { x: 10, y: 0.2, z: 0.1 },

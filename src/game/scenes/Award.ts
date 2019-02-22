@@ -36,10 +36,10 @@ namespace game {
           if (await yyw.reward.apply("coin", {
             share: {
               imageUrl: canvas.toTempFilePathSync({
-                x,
-                y,
-                width: this.modal.width,
-                height: this.modal.height,
+                x: x + 20,
+                y: y + 20,
+                width: this.modal.width - 20,
+                height: this.modal.height - 20,
                 destWidth: 500,
                 destHeight: 400,
               }),

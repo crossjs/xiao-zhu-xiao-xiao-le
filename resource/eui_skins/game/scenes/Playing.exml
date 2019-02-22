@@ -3,7 +3,7 @@
 	<e:Image id="bg" fillMode="clip" source="bg" height="1334" scale9Grid="0,480,750,384"/>
 	<e:Group id="body" y="20" width="750">
 		<e:Image source="sprites_json.current" horizontalCenter="0.5"/>
-    <e:BitmapLabel id="tfdScore" text="0" y="66" font="score_fnt" height="72" width="360" textAlign="center" anchorOffsetX="180" anchorOffsetY="36" horizontalCenter="0"/>
+    <e:BitmapLabel id="tfdScore" text="0" y="66" font="score_fnt" height="72" width="360" textAlign="center" anchorOffsetX="180" anchorOffsetY="36" horizontalCenter="-5"/>
 		<box:All id="recommender" width="750" height="208" bottom="0"/>
 		<game:Arena id="arena" y="318"/>
 		<game:Me id="me"/>

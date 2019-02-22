@@ -31,6 +31,13 @@ class Main extends eui.UILayer {
   }
 
   private async runGame() {
+    if (await yyw.checkUpdate()) {
+      yyw.showModal("发现新版本，自动更新中……");
+      if (await yyw.applyUpdate()) {
+        return;
+      }
+      yyw.showToast("版本下载失败，请退出重试");
+    }
     let loaded: boolean = false;
     egret.setTimeout(() => {
       if (!loaded) {

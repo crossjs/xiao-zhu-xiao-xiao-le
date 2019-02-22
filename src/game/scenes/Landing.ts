@@ -12,8 +12,8 @@ namespace game {
     private numbers: eui.Image;
     private userInfoButton: wx.UserInfoButton;
     private duration: number = 500;
-    private offLight: any;
-    private offWave: any;
+    private offLight: () => void;
+    private offWave: () => void;
 
     public async exiting() {
       yyw.getTween(this.pig).to(
