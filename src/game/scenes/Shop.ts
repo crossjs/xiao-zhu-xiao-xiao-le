@@ -1,8 +1,8 @@
 namespace game {
   export class Shop extends yyw.Base {
-    // private btnPurchase0: eui.Button;
-    // private btnPurchase1: eui.Button;
-    // private btnPurchase2: eui.Button;
+    // private btn0: eui.Button;
+    // private btn1: eui.Button;
+    // private btn2: eui.Button;
     // private items: eui.Group;
     private prices: number[] = [1000, 2000, 1500];
     private goods: string[] = ["valueUp", "shuffle", "breaker"];
@@ -22,7 +22,7 @@ namespace game {
         // yyw.showToast("请访问公众号「游鱼玩」，发送消息「兑换」");
         for (let i = 0; i < this.goods.length; i++) {
           ((index) => {
-            yyw.onTap(this[`btnPurchase${index}`], async () => {
+            yyw.onTap(this[`btn${index}`], async () => {
               // 消费
               const coins = -this.prices[index];
               await yyw.award.save({
@@ -48,7 +48,15 @@ namespace game {
       try {
         const { coins } = await yyw.pbl.get();
         for (let i = 0; i < this.goods.length; i++) {
-          (this[`btnPurchase${i}`] as eui.Button).enabled = coins > this.prices[i];
+          const enabled = coins >= this.prices[i];
+          const btn: eui.Button = this[`btn${i}`];
+          const grp: eui.Group = this[`grp${i}`];
+          btn.enabled = enabled;
+          if (enabled) {
+            grp.filters = null;
+          } else {
+            yyw.gray(grp);
+          }
         }
       } catch (error) {
         egret.error(error);
