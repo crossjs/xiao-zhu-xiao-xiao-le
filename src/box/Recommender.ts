@@ -324,24 +324,28 @@ namespace box {
   }
 
   export function onReady(onRecommenderReady: any): any {
-    const i = getInstance();
-    if (i) {
-      i.onReady(onRecommenderReady);
-    } else {
-      yyw.once("LOGIN", () => {
-        onReady(onRecommenderReady);
-      });
+    if (yyw.CONFIG.boxEnabled) {
+      const i = getInstance();
+      if (i) {
+        i.onReady(onRecommenderReady);
+      } else {
+        yyw.once("LOGIN", () => {
+          onReady(onRecommenderReady);
+        });
+      }
     }
   }
 
   export function onChange(onRecommenderChange: any): any {
-    const i = getInstance();
-    if (i) {
-      i.onChange(onRecommenderChange);
-    } else {
-      yyw.once("LOGIN", () => {
-        onChange(onRecommenderChange);
-      });
+    if (yyw.CONFIG.boxEnabled) {
+      const i = getInstance();
+      if (i) {
+        i.onChange(onRecommenderChange);
+      } else {
+        yyw.once("LOGIN", () => {
+          onChange(onRecommenderChange);
+        });
+      }
     }
   }
 }

@@ -8,7 +8,7 @@
 		<game:Arena id="arena" y="318"/>
 		<game:Me id="me"/>
 		<e:Group id="btnShop" x="588" y="90" touchChildren="false">
-			<e:Image y="0" x="0" visible="true" source="sprites_json.coin" scaleX="0.75" scaleY="0.75"/>
+			<e:Image y="0" x="0" visible="true" source="sprites_json.coin" scaleX="0.375" scaleY="0.375"/>
 			<e:BitmapLabel id="tfdCoins" text="" y="0" font="score_fnt" height="72" width="210" scaleX="0.5" scaleY="0.5" x="42" visible="true"/>
 		</e:Group>
 		<game:Tools id="tools" y="168"/>

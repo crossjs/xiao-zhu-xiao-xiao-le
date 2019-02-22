@@ -11,6 +11,7 @@ namespace yyw {
 
   let coinReward: number = 0;
   let shopStatus: number = 0;
+  let boxEnabled: boolean = true;
   let toolAmount: number = 3;
   let toolReward: number = 0;
   let adUnitId: string = "";
@@ -65,6 +66,14 @@ namespace yyw {
       shopStatus = value;
     },
 
+    get boxEnabled(): boolean {
+      return boxEnabled;
+    },
+
+    set boxEnabled(value: boolean) {
+      boxEnabled = value;
+    },
+
     get toolAmount(): number {
       return toolAmount;
     },
@@ -113,6 +122,7 @@ namespace yyw {
         shopStatus = 0,
         toolAmount = 3,
         toolReward = 0,
+        boxEnabled = true,
         adUnitId = "",
        } = await request({
         url: `${CONFIG.serverOrigin}/api/config`,
@@ -122,6 +132,7 @@ namespace yyw {
         shopStatus,
         toolAmount,
         toolReward,
+        boxEnabled,
         adUnitId,
       });
     } catch (error) {

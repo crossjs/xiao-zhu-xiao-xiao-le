@@ -4,12 +4,16 @@ namespace yyw {
      * 是否可用
      * @param type string
      */
-    can(type?: string): boolean {
+    can(type?: string, sub?: string): boolean {
       const status = (type ? CONFIG[`${type}Reward`] : 3) || 0;
 
       const canVideo = (status & 2) === 2 && !!CONFIG.adUnitId;
       // 跳过审核人员
       const canShare = (status & 1) === 1 && !(USER.nickname && /^(?:tencent_game|rdgztest)_/.test(USER.nickname)) ;
+
+      if (sub) {
+        return sub === "video" ? canVideo : canShare;
+      }
 
       return canVideo || canShare;
     },

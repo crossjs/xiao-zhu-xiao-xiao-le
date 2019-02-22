@@ -51,10 +51,12 @@ namespace game {
               }
               if (couldCheckin) {
                 offTap();
-                yyw.award.save({ coins: bonus[index][0] });
-                if (bonus[index][1]) {
+                const [ coins, type ] = bonus[index][0];
+                await yyw.award.save({ coins });
+                yyw.emit("COINS_CHANGE", coins);
+                if (type) {
                   yyw.emit("TOOL_GOT", {
-                    type: bonus[index][1],
+                    type,
                     amount: 1,
                   });
                 }

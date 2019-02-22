@@ -12,6 +12,8 @@ namespace game {
     private numbers: eui.Image;
     private userInfoButton: wx.UserInfoButton;
     private duration: number = 500;
+    private offLight: any;
+    private offWave: any;
 
     public async exiting() {
       yyw.getTween(this.pig).to(
@@ -52,6 +54,12 @@ namespace game {
     protected destroy(): void {
       if (this.userInfoButton) {
         this.userInfoButton.destroy();
+      }
+      if (this.offLight) {
+        this.offLight();
+      }
+      if (this.offWave) {
+        this.offWave();
       }
     }
 
@@ -116,10 +124,10 @@ namespace game {
             this.favorite.visible = true;
           }
         }
-
-        yyw.light(this.bg);
-        yyw.wave(this.pig);
       }
+
+      this.offLight = yyw.light(this.bg);
+      this.offWave = yyw.wave(this.pig);
 
       // 初始化全局配置
       const { score = 0 } = await yyw.pbl.get();

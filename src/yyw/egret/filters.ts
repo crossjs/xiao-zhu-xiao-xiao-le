@@ -63,16 +63,27 @@ void main(){
 
     target.filters = [lightFilter];
 
+    const enterFrame = () => {
+      lightFilter.uniforms.customUniform += 0.05;
+      if (lightFilter.uniforms.customUniform > Math.PI * 2) {
+        lightFilter.uniforms.customUniform = 0.0;
+      }
+    };
+
     target.addEventListener(
       egret.Event.ENTER_FRAME,
-      () => {
-        lightFilter.uniforms.customUniform += 0.05;
-        if (lightFilter.uniforms.customUniform > Math.PI * 2) {
-          lightFilter.uniforms.customUniform = 0.0;
-        }
-      },
+      enterFrame,
       null,
     );
+
+    return () => {
+      target.filters = null;
+      target.removeEventListener(
+        egret.Event.ENTER_FRAME,
+        enterFrame,
+        null,
+      );
+    };
   }
 
   export function wave(target: egret.DisplayObject) {
@@ -84,15 +95,26 @@ void main(){
 
     target.filters = [waveFilter];
 
+    const enterFrame = () => {
+      waveFilter.uniforms.time += 0.005;
+      if (waveFilter.uniforms.time > 1) {
+        waveFilter.uniforms.time = 0.0;
+      }
+    };
+
     target.addEventListener(
       egret.Event.ENTER_FRAME,
-      () => {
-        waveFilter.uniforms.time += 0.005;
-        if (waveFilter.uniforms.time > 1) {
-          waveFilter.uniforms.time = 0.0;
-        }
-      },
+      enterFrame,
       null,
     );
+
+    return () => {
+      target.filters = null;
+      target.removeEventListener(
+        egret.Event.ENTER_FRAME,
+        enterFrame,
+        null,
+      );
+    };
   }
 }

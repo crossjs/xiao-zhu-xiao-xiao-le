@@ -3,7 +3,7 @@
  xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*">
 	<e:Group id="main" touchEnabled="false" width="750">
 		<game:ValueUp x="196"/>
-		<game:Shuffle x="336"/>
+		<game:Shuffle x="336" y="0"/>
 		<game:Breaker x="476"/>
 		<game:LivesUp x="600" y="14"/>
 	</e:Group>

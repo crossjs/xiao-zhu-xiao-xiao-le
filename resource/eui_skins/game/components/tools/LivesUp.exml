@@ -4,7 +4,7 @@
 	<e:Group id="main">
 		<e:Button skinName="ButtonLivesUpSkin"/>
 		<e:Image source="sprites_json.circle_red" x="84" y="96"/>
-		<e:Label id="tfd" width="27" height="27" text="" touchEnabled="false" x="92" y="104" textAlign="center" size="24"/>
+		<e:Label id="tfd" width="27" height="27" text="" touchEnabled="false" x="92" y="105" textAlign="center" size="24"/>
 		<e:Image id="img" source="sprites_json.circle_add" touchEnabled="false" x="84" y="96" visible="false"/>
 	</e:Group>
 </e:Skin>

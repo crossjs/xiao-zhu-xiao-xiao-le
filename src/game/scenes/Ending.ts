@@ -1,6 +1,7 @@
 namespace game {
   export class Ending extends yyw.Base {
     private board: eui.Group;
+    private tfdTip: eui.Label;
     private btnOK: eui.Button;
     private tfdScore: eui.BitmapLabel;
     private bmpTop3: egret.Bitmap;
@@ -33,8 +34,13 @@ namespace game {
           this.btnOK.iconDisplay.source = "sprites_json.zlyc";
         }
 
+        const canTool = yyw.reward.can("tool");
+        if (canTool) {
+          const canVideo = yyw.reward.can("tool", "video");
+          this.tfdTip.text = `${ canVideo ? "观看视频" : "转发到群" }获得复活机会`;
+        }
         yyw.onTap(this.btnOK, async () => {
-          if (yyw.reward.can("tool")) {
+          if (canTool) {
             if (await yyw.reward.apply("tool")) {
               this.revive();
             }

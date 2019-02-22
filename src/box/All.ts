@@ -11,6 +11,7 @@ namespace box {
 
       if (fromChildrenCreated) {
         box.onReady((_: any, recommender: Recommender) => {
+          this.main.visible = true;
           const games = recommender.getGames();
           games.forEach(async (game: any, index: number) => {
             const { iconUrl, title } = game;

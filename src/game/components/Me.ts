@@ -1,10 +1,14 @@
 namespace game {
   export class Me extends yyw.Base {
     private bmpMe: egret.Bitmap;
+    private offLight: any;
 
     protected destroy() {
       yyw.removeElement(this.bmpMe);
       this.bmpMe = null;
+      if (this.offLight) {
+        this.offLight();
+      }
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
@@ -23,6 +27,7 @@ namespace game {
         this.bmpMe.x = 45;
         this.bmpMe.y = 12;
         this.addChildAt(this.bmpMe, 1);
+        this.offLight = yyw.light(this.bmpMe);
       } catch (error) {
         egret.error(error);
       }

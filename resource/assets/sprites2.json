@@ -1,8 +1,8 @@
 {"file":"sprites2.png","frames":{
-"amazing":{"x":1205,"y":0,"w":649,"h":299,"offX":0,"offY":0,"sourceW":649,"sourceH":299},
-"great":{"x":614,"y":0,"w":589,"h":348,"offX":0,"offY":0,"sourceW":589,"sourceH":348},
-"good":{"x":614,"y":350,"w":540,"h":318,"offX":0,"offY":0,"sourceW":540,"sourceH":318},
-"excellent":{"x":1205,"y":301,"w":663,"h":264,"offX":0,"offY":0,"sourceW":663,"sourceH":264},
+"fu":{"x":0,"y":550,"w":400,"h":410,"offX":0,"offY":0,"sourceW":400,"sourceH":410},
+"pig":{"x":1156,"y":567,"w":407,"h":397,"offX":2,"offY":7,"sourceW":412,"sourceH":412},
 "numbers":{"x":0,"y":0,"w":612,"h":548,"offX":0,"offY":2,"sourceW":612,"sourceH":552},
-"pig":{"x":0,"y":550,"w":407,"h":397,"offX":2,"offY":7,"sourceW":412,"sourceH":412},
-"fu":{"x":1156,"y":567,"w":384,"h":335,"offX":0,"offY":0,"sourceW":384,"sourceH":335}}}
+"excellent":{"x":1205,"y":301,"w":663,"h":264,"offX":0,"offY":0,"sourceW":663,"sourceH":264},
+"good":{"x":614,"y":350,"w":540,"h":318,"offX":0,"offY":0,"sourceW":540,"sourceH":318},
+"great":{"x":614,"y":0,"w":589,"h":348,"offX":0,"offY":0,"sourceW":589,"sourceH":348},
+"amazing":{"x":1205,"y":0,"w":649,"h":299,"offX":0,"offY":0,"sourceW":649,"sourceH":299}}}

@@ -22,9 +22,9 @@ export const Closest = {
       // 绘制头像
       this._drawImage(avatarUrl, 24, 12, 48, 48);
       // 绘制名称
-      this._drawText(nickname, 45, 90, 90);
+      this._drawText(nickname, 48, 90, 95);
       // 绘制分数
-      this._drawText(score, 45, 114, 90);
+      this._drawText(score, 48, 114, 95);
     } else {
       console.error("创建开放数据域失败，请检查是否加载开放数据域资源");
     }

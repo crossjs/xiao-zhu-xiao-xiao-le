@@ -10,7 +10,7 @@
 				<e:Image id="numbers" source="sprites2_json.numbers" visible="true" x="-48" touchEnabled="false"/>
 				<e:Image id="pig" source="sprites2_json.pig" visible="true" y="72" x="144" touchEnabled="false"/>
 			</e:Group>
-			<e:Label id="tfdBestScore" width="600" textAlign="center" touchEnabled="false" horizontalCenter="0" bottom="244" height="60" size="36"/>
+			<e:Label id="tfdBestScore" width="600" textAlign="center" touchEnabled="false" horizontalCenter="0" size="36" height="48" y="760"/>
 			<e:Button id="btnStart" label="" skinName="ButtonDefaultSkin" width="432" height="144" icon="sprites_json.start" y="810" horizontalCenter="0"/>
 			<e:Group y="974" horizontalCenter="0">
 				<e:ToggleButton id="btnSound" skinName="ButtonToggleSkin" icon="sprites_json.sound"/>

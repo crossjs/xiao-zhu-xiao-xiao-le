@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="BreakerSkin"
- xmlns:e="http://ns.egret.com/eui" width="78" height="78">
+ xmlns:e="http://ns.egret.com/eui" width="72" height="72">
 	<e:Group id="main" touchChildren="false" x="39" y="39" anchorOffsetX="39" anchorOffsetY="39">
-		<e:Image source="sprites_json.round_grass" scale9Grid="36,36,6,6" y="0" x="0"/>
-		<e:Image touchEnabled="false" source="sprites_json.tool_breaker" y="10" x="11"/>
+		<e:Image source="sprites_json.round_grass" scale9Grid="36,36,6,6" y="0" x="0" width="72" height="72"/>
+		<e:Image touchEnabled="false" source="sprites_json.tool_breaker" y="9" x="11" scaleX="0.9" scaleY="0.9"/>
 		<e:Image source="sprites_json.circle_red" x="51" y="-18"/>
-		<e:Label id="tfd" width="27" height="27" text="" touchEnabled="false" x="59" y="-10" textAlign="center" size="24"/>
+		<e:Label id="tfd" width="27" height="27" text="" touchEnabled="false" x="59" y="-9" textAlign="center" size="24"/>
 		<e:Image id="img" source="sprites_json.circle_add" touchEnabled="false" x="51" y="-18" visible="false"/>
 	</e:Group>
 </e:Skin>

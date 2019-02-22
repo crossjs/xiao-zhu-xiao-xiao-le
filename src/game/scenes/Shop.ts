@@ -54,8 +54,10 @@ namespace game {
           btn.enabled = enabled;
           if (enabled) {
             grp.filters = null;
+            grp.y = 15;
           } else {
             yyw.gray(grp);
+            grp.y = 18;
           }
         }
       } catch (error) {
