@@ -1,7 +1,7 @@
 namespace game {
   export class Ending extends yyw.Base {
+    private board: eui.Group;
     private btnOK: eui.Button;
-    private btnKO: eui.Button;
     private tfdScore: eui.BitmapLabel;
     private bmpTop3: egret.Bitmap;
     private gameData: {
@@ -26,14 +26,13 @@ namespace game {
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       super.createView(fromChildrenCreated);
-      this.tfdScore.text = `${this.gameData.score}`;
-      this.createTop3();
 
       if (fromChildrenCreated) {
         if (!yyw.reward.can("tool")) {
-          this.btnKO.visible = false;
-          this.btnOK.label = "重新开始";
+          this.btnEscape.visible = false;
+          this.btnOK.iconDisplay.source = "sprites_json.zlyc";
         }
+
         yyw.onTap(this.btnOK, async () => {
           if (yyw.reward.can("tool")) {
             if (await yyw.reward.apply("tool")) {
@@ -45,11 +44,13 @@ namespace game {
           }
         });
 
-        yyw.onTap(this.btnKO, () => {
-          yyw.director.escape();
+        yyw.onTap(this.btnEscape, () => {
           yyw.emit("GAME_OVER", this.gameData);
         });
       }
+
+      this.tfdScore.text = `本局得分：${this.gameData.score}`;
+      this.createTop3();
     }
 
     private async revive() {
@@ -63,9 +64,9 @@ namespace game {
 
     private createTop3() {
       if (!this.bmpTop3) {
-        const { width, height } = this.main;
+        const { width, height } = this.board;
         this.bmpTop3 = yyw.sub.createDisplayObject(null, width, height);
-        this.main.addChild(this.bmpTop3);
+        this.board.addChild(this.bmpTop3);
 
         // 主域向子域发送自定义消息
         yyw.sub.postMessage({

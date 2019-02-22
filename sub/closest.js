@@ -1,7 +1,7 @@
 // eslint-disable-next-line
 import * as regeneratorRuntime from "./utils/runtime";
 
-// 获取canvas渲染上下文
+// 获取 canvas 渲染上下文
 const context = sharedCanvas.getContext("2d");
 context.globalCompositeOperation = "source-over";
 
@@ -20,11 +20,11 @@ export const Closest = {
       this._cleanScreen();
       this.lastOpenid = openid;
       // 绘制头像
-      this._drawImage(avatarUrl, 21, 12, 48, 48);
+      this._drawImage(avatarUrl, 24, 12, 48, 48);
       // 绘制名称
-      this._drawText(nickname, 45, 90, 84);
+      this._drawText(nickname, 45, 90, 90);
       // 绘制分数
-      this._drawText(score, 45, 114, 84);
+      this._drawText(score, 45, 114, 90);
     } else {
       console.error("创建开放数据域失败，请检查是否加载开放数据域资源");
     }

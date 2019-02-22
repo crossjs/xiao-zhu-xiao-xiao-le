@@ -2,8 +2,6 @@ namespace game {
   export class Pbl extends yyw.Base {
     private btnHome: eui.Button;
     private btnRestart: eui.Button;
-    private btnSound: eui.ToggleButton;
-    private btnVibration: eui.ToggleButton;
 
     // public async exiting() {
     //   await yyw.rightOut(this);
@@ -14,6 +12,8 @@ namespace game {
     // }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
+      super.createView(fromChildrenCreated);
+
       try {
         const pbl = await yyw.pbl.get();
         Object.entries(pbl).forEach(([ key, value ]: [string, number]) => {
@@ -36,22 +36,6 @@ namespace game {
             scene.startGame();
           });
         });
-
-        // 声音
-        yyw.onTap(this.btnSound, () => {
-          const { selected } = this.btnSound;
-          this.btnSound.currentState = selected ? "selected" : "up";
-          yyw.CONFIG.soundEnabled = selected;
-        });
-
-        // 振动
-        yyw.onTap(this.btnVibration, () => {
-          const { selected } = this.btnVibration;
-          this.btnVibration.currentState = selected ? "selected" : "up";
-          yyw.CONFIG.vibrationEnabled = selected;
-        });
-
-        this.initialized = true;
       }
     }
   }

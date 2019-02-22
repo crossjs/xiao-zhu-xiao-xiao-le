@@ -56,6 +56,9 @@ namespace yyw {
       // 匹配高度
       if (this.bg) {
         this.bg.height = this.stage.stageHeight;
+        yyw.onTap(this.bg, (e: egret.TouchEvent) => {
+          e.stopPropagation();
+        }, true);
       }
 
       // 匹配刘海屏

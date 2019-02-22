@@ -1,17 +1,16 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="AwardSkin" xmlns:e="http://ns.egret.com/eui">
-	<e:Group id="bg">
-		<e:Image id="_mask" source="sprites_json.mask_bg" fillMode="clip" visible="false" touchEnabled="false" left="0" right="0" top="0" bottom="0" scale9Grid="10,10,10,10"/>
-		<e:Group id="body" width="750" y="20" touchEnabled="false">
-			<e:Group id="modal" x="375" y="530" touchEnabled="false" touchChildren="false" visible="false" anchorOffsetX="240" anchorOffsetY="300">
-			<e:Image source="sprites_json.modal_bg" width="480" scale9Grid="18,102,66,84" height="600"/>
-			<e:BitmapLabel y="27" text="小猪送福" touchEnabled="false" textAlign="center" font="white_fnt" horizontalCenter="0"/>
-			<e:Image source="sprites2_json.fu" y="234" horizontalCenter="0"/>
-			<e:BitmapLabel y="132" text="转发获得金币福包！" touchEnabled="false" textAlign="center" font="red_fnt" horizontalCenter="0"/>
-			<e:BitmapLabel id="tfdCoins" text="" touchEnabled="false" textAlign="center" y="195" scaleX="2" scaleY="2" width="192" font="score_fnt" horizontalCenter="0" height="72"/>
-			</e:Group>
-			<e:Button id="btnOK" label="炫耀一下" y="878" skinName="ButtonDefaultSkin" width="300" height="102" horizontalCenter="0" visible="false"/>
-			<e:Button id="btnKO" y="986" skinName="ButtonNormalSkin" label="不了，谢谢" horizontalCenter="0.5" scaleX="0.75" scaleY="0.75" visible="false"/>
+<e:Skin class="AwardSkin" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Image id="bg" source="sprites_json.mask_bg" fillMode="scale" visible="false" touchEnabled="true" left="0" right="0" top="0" bottom="0" scale9Grid="10,10,10,10" x="0" y="0"/>
+	<e:Group id="body" width="750" y="20" touchEnabled="false" x="0">
+		<e:Group id="main" horizontalCenter="0" verticalCenter="0" height="510" touchEnabled="false">
+		<e:Image id="hdr" y="-90" x="205" source="sprites_json.xzsf" visible="false"/>
+		<e:Image id="btnEscape" source="sprites_json.close" x="529" y="-90" visible="false"/>
+		<e:Group id="modal" touchEnabled="false" touchChildren="false" visible="false" anchorOffsetX="300" anchorOffsetY="255" x="300" y="255">
+			<e:Image source="sprites_json.round_white" width="600" height="510" scale9Grid="36,36,6,6"/>
+			<e:Image source="sprites2_json.fu" y="120" horizontalCenter="0"/>
+			<e:BitmapLabel id="tfdCoins" text="100" touchEnabled="false" textAlign="center" y="72" scaleX="2" scaleY="2" width="192" font="score_fnt" horizontalCenter="0" height="72"/>
+		</e:Group>
+		<e:Button id="btnOK" label="" y="558" skinName="ButtonDefaultSkin" width="300" height="102" visible="true" horizontalCenter="0" icon="sprites_json.xyyx"/>
 		</e:Group>
 	</e:Group>
 </e:Skin>

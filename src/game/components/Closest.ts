@@ -21,14 +21,15 @@ namespace game {
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
-      this.createBmp();
+      super.createView(fromChildrenCreated);
+
       if (fromChildrenCreated) {
         yyw.on("GAME_DATA", ({ data: { score } }: egret.Event) => {
           this.update(score);
         });
-
-        this.initialized = true;
       }
+
+      this.createBmp();
     }
 
     /**

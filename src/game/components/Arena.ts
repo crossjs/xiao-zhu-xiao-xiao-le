@@ -52,15 +52,16 @@ namespace game {
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
-      this.isGameOver = false;
+      super.createView(fromChildrenCreated);
+
       if (fromChildrenCreated) {
         yyw.on("TOOL_USING", this.onToolUsing, this);
         yyw.on("GAME_OVER", this.onGameOver, this);
         this.createCells();
         this.initDnd();
-        this.initialized = true;
       }
-      // await this.startGame();
+
+      this.isGameOver = false;
     }
 
     private onToolUsing({ data: {

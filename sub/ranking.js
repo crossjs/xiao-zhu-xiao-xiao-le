@@ -3,7 +3,7 @@ import * as regeneratorRuntime from "./utils/runtime";
 import { AssetsManager } from "./assets";
 import { onScroll } from "./scroll";
 
-// 获取canvas渲染上下文
+// 获取 canvas 渲染上下文
 const context = sharedCanvas.getContext("2d");
 context.globalCompositeOperation = "source-over";
 
@@ -21,7 +21,7 @@ export const Ranking = {
    * 绘制屏幕
    * 这个函数会在加载完所有资源之后被调用
    */
-  async create({ width, height, rankingData, pageSize = 8, openid = 0 }) {
+  async create({ width, height, rankingData, pageSize = 5, openid = 0 }) {
     if (sharedCanvas.width && sharedCanvas.height) {
       // 确保就绪
       await this.preload();
@@ -67,9 +67,9 @@ export const Ranking = {
   _initProps() {
     // 内边界
     this.gutterWidth = 10;
-    this.gutterHeight = 30;
-    this.barHeight = 60;
-    this.myBarHeight = 80;
+    this.gutterHeight = 12;
+    this.barHeight = 72;
+    this.myBarHeight = 72;
 
     this.fontSize = 36;
 
@@ -129,12 +129,10 @@ export const Ranking = {
       iconWidth,
       nameWidth,
       scoreWidth,
+      height,
       assets
     } = this;
-    let y = i * (barHeight + gutterHeight);
-    if (i === this.pageSize) {
-      y += gutterHeight + (myBarHeight - barHeight) / 2;
-    }
+    const y = (i === this.pageSize) ? height - myBarHeight : i * (barHeight + gutterHeight);
     // 绘制序号
     if (data.key < 4) {
       this._drawImage(
@@ -147,7 +145,6 @@ export const Ranking = {
     } else {
       this._drawText(data.key, xArr[1], y, indexWidth, barHeight, {
         align: "center",
-        color: "#33b6fe",
         fontSize: 24,
       });
     }
@@ -162,12 +159,12 @@ export const Ranking = {
     // 绘制名称
     this._drawText(data.nickname, xArr[3], y, nameWidth, barHeight, {
       align: "left",
-      color: "#000000"
+      color: "#6A604C"
     });
     // 绘制分数
     this._drawText(data.score, xArr[4], y, scoreWidth, barHeight, {
       align: "right",
-      color: "#ff5772"
+      color: "#C34959"
     });
   },
 

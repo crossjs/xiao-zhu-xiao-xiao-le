@@ -1,47 +1,26 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="PblSkin"
  xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*" xmlns:w="http://ns.egret.com/wing">
-	<e:Group id="bg">
-		<e:Image id="_mask" fillMode="clip" source="sprites_json.mask_bg" scale9Grid="10,10,10,10" left="0" right="0" top="0" bottom="0" touchEnabled="false"/>
-		<e:Group id="body" y="20" width="750" touchEnabled="false">
-			<e:Group id="main" width="600" horizontalCenter="0" verticalCenter="0" height="1012">
-				<e:Image y="0" width="600" height="852" scale9Grid="30,102,42,72" x="0" source="sprites_json.modal_bg"/>
-        <e:Group x="150" y="276">
-          <e:BitmapLabel id="tfdPoints" y="96" width="180" height="60" font="score_fnt" textAlign="center" scaleX="0.75" scaleY="0.75"/>
-          <e:Image source="sprites_json.point" x="44"/>
-          <e:Image source="sprites_json.jf" x="39" y="60"/>
-        </e:Group>
-        <e:Group x="315" y="276">
-          <e:BitmapLabel id="tfdCoins" y="96" width="180" height="60" textAlign="center" font="score_fnt" scaleX="0.75" scaleY="0.75"/>
-          <e:Image source="sprites_json.coin" x="44"/>
-          <e:Image source="sprites_json.jb" x="39" y="60"/>
-        </e:Group>
-        <e:Group x="159" y="510">
-          <e:Image source="sprites_json.zgfs" x="-20"/>
-          <e:BitmapLabel textAlign="right" id="tfdScore" x="142" y="-3" width="300" height="60" font="score_fnt" scaleX="0.5" scaleY="0.5"/>
-        </e:Group>
-        <e:Group x="159" y="570">
-          <e:Image source="sprites_json.zgnd" x="-20"/>
-          <e:BitmapLabel textAlign="right" id="tfdLevel" x="142" y="-3" width="300" height="60" font="score_fnt" scaleX="0.5" scaleY="0.5"/>
-        </e:Group>
-        <e:Group x="159" y="630">
-          <e:Image source="sprites_json.zglj" x="-20"/>
-          <e:BitmapLabel textAlign="right" id="tfdCombo" x="142" y="-3" width="300" height="60" font="score_fnt" scaleX="0.5" scaleY="0.5"/>
-        </e:Group>
-        <e:Group x="159" y="690">
-          <e:Image source="sprites_json.ljfs" x="-20"/>
-          <e:BitmapLabel textAlign="right" id="tfdScores" x="142" y="-3" width="300" height="60" font="score_fnt" scaleX="0.5" scaleY="0.5"/>
-        </e:Group>
-        <e:Group x="159" y="750">
-          <e:Image source="sprites_json.ljjs" x="-20" y="1"/>
-          <e:BitmapLabel textAlign="right" id="tfdPlayed" x="142" y="-3" width="300" height="60" font="score_fnt" scaleX="0.5" scaleY="0.5"/>
-        </e:Group>
-        <e:Button id="btnHome" y="900.825" skinName="ButtonDefaultSkin" label="返回主页" x="45" width="240" height="90"/>
-        <e:Button id="btnRestart" skinName="ButtonDefaultSkin" label="重新开始" y="900.825" x="315" width="240" height="90"/>
-        <e:ToggleButton id="btnSound" y="150" x="237" selected="true" skinName="ButtonSoundSkin"/>
-        <e:ToggleButton id="btnVibration" y="150" x="315" selected="true" skinName="ButtonVibrationSkin"/>
-				<e:Image id="btnEscape" source="sprites_json.close" x="529" y="30"/>
+	<e:Image id="bg" fillMode="scale" source="sprites_json.mask_bg" scale9Grid="10,10,10,10" touchEnabled="true" width="750" height="1334"/>
+	<e:Group id="body" y="20" width="750" touchEnabled="false">
+		<e:Group id="main" horizontalCenter="0" verticalCenter="0" touchEnabled="false" touchChildren="true">
+			<e:Group id="modal" touchEnabled="false" touchChildren="false">
+				<e:Image width="660" height="460" source="sprites_json.round_white" scale9Grid="36,36,6,6"/>
+				<e:Image source="sprites_json.zgfs" x="60" y="60"/>
+				<e:BitmapLabel textAlign="right" id="tfdScore" x="300" y="60" width="300" height="60" font="score_fnt" text=""/>
+				<e:Image source="sprites_json.zgnd" x="60" y="130"/>
+				<e:BitmapLabel textAlign="right" id="tfdLevel" x="300" y="130" width="300" height="60" font="score_fnt"/>
+				<e:Image source="sprites_json.zglj" x="60" y="200"/>
+				<e:BitmapLabel textAlign="right" id="tfdCombo" x="300" y="200" width="300" height="60" font="score_fnt"/>
+				<e:Image source="sprites_json.ljfs" x="60" y="270"/>
+				<e:BitmapLabel textAlign="right" id="tfdScores" x="300" y="270" width="300" height="60" font="score_fnt"/>
+				<e:Image source="sprites_json.ljjs" x="60" y="341"/>
+				<e:BitmapLabel textAlign="right" id="tfdPlayed" x="300" y="340" width="300" height="60" font="score_fnt"/>
 			</e:Group>
+			<e:Image id="btnEscape" source="sprites_json.close" x="559" y="-90"/>
+			<e:Image source="sprites_json.sjtj" y="-90" x="235"/>
+			<e:Button id="btnHome" x="60" y="508" icon="sprites_json.fhsy" skinName="ButtonDefaultSkin" width="240" height="90"/>
+			<e:Button id="btnRestart" x="360" y="508" icon="sprites_json.cxks" skinName="ButtonDefaultSkin" width="240" height="90"/>
 		</e:Group>
 	</e:Group>
 </e:Skin>

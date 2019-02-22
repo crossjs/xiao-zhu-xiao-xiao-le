@@ -49,15 +49,11 @@
 		"resource/eui_skins/game/scenes/Playing.exml",
 		"resource/eui_skins/game/scenes/Ranking.exml",
 		"resource/eui_skins/game/scenes/Shop.exml",
-		"resource/eui_skins/misc/ButtonBoard.exml",
-		"resource/eui_skins/misc/ButtonCheckin.exml",
+		"resource/eui_skins/misc/ButtonCircle.exml",
 		"resource/eui_skins/misc/ButtonDefault.exml",
 		"resource/eui_skins/misc/ButtonLivesUp.exml",
 		"resource/eui_skins/misc/ButtonNormal.exml",
-		"resource/eui_skins/misc/ButtonPurple.exml",
-		"resource/eui_skins/misc/ButtonRed.exml",
-		"resource/eui_skins/misc/ButtonSound.exml",
-		"resource/eui_skins/misc/ButtonVibration.exml"
+		"resource/eui_skins/misc/ButtonToggle.exml"
 	],
 	"path": "resource/default.thm.json"
 }

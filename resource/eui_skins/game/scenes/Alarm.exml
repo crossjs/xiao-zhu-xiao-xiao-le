@@ -1,24 +1,24 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="AlarmSkin"
- xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*">
-	<e:Group id="bg">
-		<e:Image id="_mask" source="sprites_json.mask_bg" fillMode="clip" visible="false" touchEnabled="false" scale9Grid="10,10,10,10" left="0" right="0" top="0" bottom="0"/>
-		<e:Group id="body" y="20" width="750" touchEnabled="false">
-			<e:Group id="modal" y="550" visible="false" anchorOffsetX="240" anchorOffsetY="300" x="375" touchEnabled="false" touchChildren="false">
-			<e:Image source="sprites_json.modal_bg" width="480" scale9Grid="18,102,66,84" height="600" horizontalCenter="0"/>
-			<e:BitmapLabel y="27" text="体力不足！" touchEnabled="false" textAlign="center" font="white_fnt" horizontalCenter="10"/>
-			<e:Image source="sprites2_json.fu" y="234" horizontalCenter="0"/>
-			<e:Group id="images" y="150" horizontalCenter="0">
-				<e:Image source="sprites2_json.breaker"/>
-				<e:Image source="sprites2_json.valueup"/>
-				<e:Image source="sprites2_json.shuffle"/>
+ xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*" xmlns:w="http://ns.egret.com/wing">
+	<e:Image id="bg" source="sprites_json.mask_bg" fillMode="scale" visible="false" touchEnabled="true" height="1334" width="750" scale9Grid="10,10,10,10"/>
+	<e:Group id="body" y="20" width="750" touchEnabled="false" x="0">
+		<e:Group id="main" visible="true" touchEnabled="false" touchChildren="true" horizontalCenter="0" verticalCenter="0" height="510">
+		<e:Image id="hdr" y="-90" x="205" visible="false" source="sprites_json.tlbz"/>
+		<e:Image id="btnEscape" source="sprites_json.close" x="529" y="-90" visible="false"/>
+		<e:Group id="modal" x="300" y="255" anchorOffsetX="300" anchorOffsetY="255" visible="false" touchEnabled="false" touchChildren="false">
+			<e:Image source="sprites_json.round_white" width="600" height="510" x="0" scale9Grid="36,36,6,6" y="0"/>
+			<e:Image source="sprites2_json.fu" y="120" x="108"/>
+			<e:Group id="images" y="72" x="161">
+			<e:Image source="sprites_json.round_grass"/>
+			<e:Image source="sprites_json.round_grass" x="100"/>
+			<e:Image source="sprites_json.round_grass" x="200"/>
+			<e:Image x="15" source="sprites_json.tool_valueup" y="17"/>
+			<e:Image x="110" source="sprites_json.tool_shuffle" y="15"/>
+			<e:Image x="211" source="sprites_json.tool_breaker" y="10"/>
 			</e:Group>
-			<e:BitmapLabel id="tfdDescription" y="132" text="获得幸运道具" touchEnabled="false" textAlign="center" font="red_fnt" horizontalCenter="0.5"/>
-			<e:Image source="sprites_json.alarm" x="407" y="23"/>
-			<e:Image source="sprites_json.speaker" x="-12" y="-14"/>
-			</e:Group>
-			<e:Button id="btnOK" label="立即获得" y="898" skinName="ButtonDefaultSkin" width="360" height="102" horizontalCenter="0" visible="false"/>
-			<e:Button id="btnKO" y="1006" skinName="ButtonNormalSkin" label="不了，谢谢" horizontalCenter="0.5" scaleX="0.75" scaleY="0.75" visible="false"/>
+		</e:Group>
+		<e:Button id="btnOK" label="" y="558" skinName="ButtonDefaultSkin" width="360" height="102" horizontalCenter="0" visible="false" icon="sprites_json.ljhd"/>
 		</e:Group>
 	</e:Group>
 </e:Skin>

@@ -1,11 +1,13 @@
 namespace game {
   export class Ranking extends yyw.Base {
+    private hdrFriend: eui.Image;
+    private hdrWorld: eui.Image;
     private btnFriend: eui.Button;
     private btnWorld: eui.Button;
     private groupFriend: eui.Group;
     private groupWorld: eui.Group;
     // 0, 64, 122, 278
-    private pageSize: number = 8;
+    private pageSize: number = 5;
     private pageIndex: number = 0;
     private pageTotal: number;
     private rankingData: any[];
@@ -24,16 +26,6 @@ namespace game {
       super.createView(fromChildrenCreated);
 
       if (fromChildrenCreated) {
-        yyw.onTap(this.bg, () => {
-          yyw.director.escape();
-        }, true);
-
-        // 不知道为什么，EXML 里怎么设置都无法取消冒泡
-        // 所以，只能在这里手动阻止了
-        yyw.onTap(this.main, (e: egret.TouchEvent) => {
-          e.stopPropagation();
-        }, true);
-
         yyw.onTap(this.btnFriend, (e: egret.TouchEvent) => {
           this.removeWorld();
           this.showFriend();
@@ -49,6 +41,9 @@ namespace game {
     }
 
     private showFriend() {
+      this.hdrFriend.visible = true;
+      this.btnWorld.visible = true;
+
       const { width, height } = this.groupFriend;
       const bmpFriend = yyw.sub.createDisplayObject(null, width, height);
       this.groupFriend.addChild(bmpFriend);
@@ -59,10 +54,13 @@ namespace game {
         width,
         height,
         openid: yyw.USER.openId || 0,
+        pageSize: this.pageSize,
       });
     }
 
     private async showWorld() {
+      this.hdrWorld.visible = true;
+      this.btnFriend.visible = true;
       try {
         this.rankingData = await yyw.pbl.all();
         this.rankingData.forEach((item, index) => {
@@ -154,6 +152,8 @@ namespace game {
     }
 
     private removeFriend() {
+      this.hdrFriend.visible = false;
+      this.btnWorld.visible = false;
       yyw.removeChildren(this.groupFriend);
       yyw.sub.postMessage({
         command: "closeRanking",
@@ -161,6 +161,8 @@ namespace game {
     }
 
     private removeWorld() {
+      this.hdrWorld.visible = false;
+      this.btnFriend.visible = false;
       this.groupWorld.visible = false;
       if (this.removeScroll) {
         this.removeScroll();

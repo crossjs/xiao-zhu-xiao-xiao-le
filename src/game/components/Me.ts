@@ -8,23 +8,23 @@ namespace game {
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
-      try {
-        this.bmpMe = await yyw.loadImage(yyw.USER.avatarUrl);
-        this.bmpMe.width = 48;
-        this.bmpMe.height = 48;
-        this.bmpMe.x = 21;
-        this.bmpMe.y = 12;
-        this.addChildAt(this.bmpMe, 1);
-      } catch (error) {
-        egret.error(error);
-      }
+      super.createView(fromChildrenCreated);
 
       if (fromChildrenCreated) {
         yyw.onTap(this.main, () => {
           yyw.director.toScene("pbl", true);
         });
+      }
 
-        this.initialized = true;
+      try {
+        this.bmpMe = await yyw.loadImage(yyw.USER.avatarUrl);
+        this.bmpMe.width = 48;
+        this.bmpMe.height = 48;
+        this.bmpMe.x = 45;
+        this.bmpMe.y = 12;
+        this.addChildAt(this.bmpMe, 1);
+      } catch (error) {
+        egret.error(error);
       }
     }
   }

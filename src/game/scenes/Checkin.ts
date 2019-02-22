@@ -16,16 +16,6 @@ namespace game {
       super.createView(fromChildrenCreated);
 
       if (fromChildrenCreated) {
-        yyw.onTap(this.bg, () => {
-          yyw.director.escape();
-        }, true);
-
-        // 不知道为什么，EXML 里怎么设置都无法取消冒泡
-        // 所以，只能在这里手动阻止了
-        yyw.onTap(this.main, (e: egret.TouchEvent) => {
-          e.stopPropagation();
-        }, true);
-
         const checkins = await yyw.storage.get(STORAGE_KEY) || {};
 
         const now = new Date();
@@ -44,7 +34,7 @@ namespace game {
             // 未来
             child.alpha = 0.5;
           } else if (checkins[`${index}`]) {
-            // 已签到
+            // 已签到，显示勾
             child.getChildAt(child.numChildren - 1).visible = true;
           } else {
             const isPast = index + 1 < day;

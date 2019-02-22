@@ -26,6 +26,8 @@ namespace game {
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
+      super.createView(fromChildrenCreated);
+
       if (fromChildrenCreated) {
         this.words = [
           this.imgGood,
@@ -37,8 +39,6 @@ namespace game {
         yyw.on("GAME_DATA", ({ data: { combo }}: egret.Event) => {
           this.update(combo);
         }, this);
-
-        this.initialized = true;
       }
     }
 

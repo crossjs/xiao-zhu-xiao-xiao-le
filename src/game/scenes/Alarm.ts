@@ -1,27 +1,29 @@
 namespace game {
   export class Alarm extends yyw.Base {
-    private _mask: eui.Image;
     private modal: eui.Group;
-    private images: eui.Group;
+    private hdr: eui.Image;
     private btnOK: eui.Button;
-    private btnKO: eui.Button;
 
     // public async hideModal() {
     //   this.btnOK.visible = false;
     //   this.btnKO.visible = false;
-    //   yyw.fadeOut(this._mask);
+    //   yyw.fadeOut(this.bg);
     //   await yyw.twirlOut(this.modal);
     // }
 
     protected destroy() {
-      yyw.removeTweens(this._mask);
+      yyw.removeTweens(this.bg);
       yyw.removeTweens(this.modal);
-      this._mask.visible = false;
+      this.bg.visible = false;
       this.modal.visible = false;
+      this.hdr.visible = false;
+      this.btnOK.visible = false;
+      this.btnEscape.visible = false;
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
-      this.showModal();
+      super.createView(fromChildrenCreated);
+
       if (fromChildrenCreated) {
         yyw.onTap(this.btnOK, async () => {
           if (await yyw.reward.apply("tool")) {
@@ -29,38 +31,17 @@ namespace game {
             yyw.director.escape();
           }
         });
-
-        yyw.onTap(this.btnKO, () => {
-          yyw.director.escape();
-        });
-
-        this.initialized = true;
       }
+
+      this.showModal();
     }
 
     private async showModal() {
-      yyw.fadeIn(this._mask);
+      yyw.fadeIn(this.bg);
       await yyw.twirlIn(this.modal);
+      this.hdr.visible = true;
       this.btnOK.visible = true;
-      this.btnKO.visible = true;
-      this.animate();
-    }
-
-    private animate() {
-      const n = this.images.numChildren;
-      let currentIndex = 0;
-      const tween = async () => {
-        const image: any = this.images.getChildAt(currentIndex);
-        yyw.setZIndex(image);
-        await yyw.fadeIn(image, 2000);
-        currentIndex = (currentIndex + 1) % n;
-        if (this.modal.visible) {
-          tween();
-        }
-      };
-      if (this.modal.visible) {
-        tween();
-      }
+      this.btnEscape.visible = true;
     }
   }
 }

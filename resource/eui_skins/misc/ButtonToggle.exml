@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="ButtonToggleSkin" width="72" height="72" currentState="selected" xmlns:e="http://ns.egret.com/eui" states="selected,up">
+	<e:Image includeIn="up" width="100%" height="100%" scale9Grid="36,36,6,6" source="sprites_json.round_disabled"/>
+	<e:Image includeIn="selected" source="sprites_json.round_white" width="100%" height="100%" scale9Grid="36,36,6,6"/>
+	<e:Image id="iconDisplay" horizontalCenter="0" verticalCenter="0" includeIn="selected,up"/>
+</e:Skin>

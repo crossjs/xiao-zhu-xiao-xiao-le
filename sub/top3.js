@@ -2,7 +2,7 @@
 import * as regeneratorRuntime from "./utils/runtime";
 import { AssetsManager } from "./assets";
 
-// 获取canvas渲染上下文
+// 获取 canvas 渲染上下文
 const context = sharedCanvas.getContext("2d");
 context.globalCompositeOperation = "source-over";
 
@@ -107,7 +107,7 @@ export const Top3 = {
       y,
       colWidth,
       {
-        color: "#000000",
+        color: "#6A604C",
         fontSize,
       },
     );
@@ -119,7 +119,7 @@ export const Top3 = {
       y,
       colWidth,
       {
-        color: "#ff5772",
+        color: "#C34959",
         fontSize,
       },
     );
