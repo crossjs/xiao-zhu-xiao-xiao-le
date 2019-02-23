@@ -51,7 +51,7 @@ namespace game {
               }
               if (couldCheckin) {
                 offTap();
-                const [ coins, type ] = bonus[index][0];
+                const [ coins, type ] = bonus[index];
                 await yyw.award.save({ coins });
                 yyw.emit("COINS_CHANGE", coins);
                 if (type) {
