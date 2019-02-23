@@ -46,7 +46,7 @@ namespace game {
 
     private async update() {
       try {
-        const { coins } = await yyw.pbl.get();
+        const { coins } = await yyw.pbl.me();
         for (let i = 0; i < this.goods.length; i++) {
           const enabled = coins >= this.prices[i];
           const btn: eui.Button = this[`btn${i}`];

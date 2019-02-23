@@ -1,12 +1,13 @@
 {
   "name": "g4",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "小猪消消乐",
   "private": true,
   "scripts": {
     "image": "yyw compress",
     "lint": "tslint -p ./ --fix",
     "dev": "yyw dev",
+    "debug": "yyw debug",
     "release": "yyw release"
   },
   "devDependencies": {

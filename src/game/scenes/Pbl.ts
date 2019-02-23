@@ -15,7 +15,7 @@ namespace game {
       super.createView(fromChildrenCreated);
 
       try {
-        const pbl = await yyw.pbl.get();
+        const pbl = await yyw.pbl.me();
         Object.entries(pbl).forEach(([ key, value ]: [string, number]) => {
           const field: eui.BitmapLabel = this[`tfd${key.replace(/^\w/, ($0) => $0.toUpperCase())}`];
           if (field) {

@@ -16,7 +16,7 @@ namespace game {
       super.createView(fromChildrenCreated);
 
       if (fromChildrenCreated) {
-        const checkins = await yyw.storage.get(STORAGE_KEY) || {};
+        const checkins = await yyw.db.get(STORAGE_KEY) || {};
 
         const now = new Date();
         const day = now.getDay() || 7;
@@ -62,7 +62,7 @@ namespace game {
                 }
                 const expiresIn = end.getTime() - Date.now();
                 Object.assign(checkins, { [`${index}`]: true });
-                yyw.storage.set(STORAGE_KEY, checkins, expiresIn);
+                yyw.db.set(STORAGE_KEY, checkins, expiresIn);
                 child.alpha = 1;
                 child.getChildAt(child.numChildren - 1).visible = true;
                 yyw.showToast(`${isPast ? "补签" : "签到"}成功，奖励已发放`);

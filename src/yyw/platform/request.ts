@@ -1,7 +1,10 @@
 namespace yyw {
   export async function requestWithAuth(options: any): Promise<any> {
-    const accessToken = await getAccessToken();
+    if (typeof options === "string") {
+      options = { url: options };
+    }
     try {
+      const accessToken = await getAccessToken();
       return await request({
         ...options,
         header: {
@@ -24,6 +27,9 @@ namespace yyw {
   }
 
   export async function request(options: any): Promise<any> {
+    if (typeof options === "string") {
+      options = { url: options };
+    }
     return new Promise((resolve, reject) => {
       wx.request({
         ...options,

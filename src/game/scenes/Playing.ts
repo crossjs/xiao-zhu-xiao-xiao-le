@@ -73,7 +73,7 @@ namespace game {
         if (mutation) {
           this.coins += mutation;
         } else {
-          const { coins } = await yyw.pbl.get();
+          const { coins } = await yyw.pbl.me();
           this.coins = coins;
         }
         this.tfdCoins.text = `${this.coins}`;

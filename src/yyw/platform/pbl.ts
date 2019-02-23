@@ -11,21 +11,11 @@ namespace yyw {
 
   export const pbl = {
     async all(): Promise<IPbl[]> {
-      if (CONFIG.serverEnabled) {
-        return request({
-          url: `${CONFIG.serverOrigin}/api/pbl`,
-        });
-      }
-      return [];
+      return request(`${CONFIG.serverOrigin}/api/pbl`);
     },
 
-    async get(): Promise<IPbl> {
-      if (CONFIG.serverEnabled) {
-        return requestWithAuth({
-          url: `${CONFIG.serverOrigin}/api/user/pbl`,
-        });
-      }
-      return {};
+    async me(): Promise<IPbl> {
+      return requestWithAuth(`${CONFIG.serverOrigin}/api/user/pbl`);
     },
 
     async save({
@@ -43,14 +33,11 @@ namespace yyw {
           score,
         });
       }
-      if (CONFIG.serverEnabled) {
-        return requestWithAuth({
-          url: `${CONFIG.serverOrigin}/api/user/pbl`,
-          data: { score, level, combo },
-          method: "POST",
-        });
-      }
-      return {};
+      return requestWithAuth({
+        url: `${CONFIG.serverOrigin}/api/user/pbl`,
+        data: { score, level, combo },
+        method: "POST",
+      });
     },
   };
 }

@@ -1,5 +1,4 @@
 namespace yyw {
-  const serverEnabled: boolean = true;
   const serverOrigin: string = SERVER_ORIGIN;
 
   const systemInfo: wx.systemInfo = wx.getSystemInfoSync();
@@ -33,10 +32,6 @@ namespace yyw {
 
     get stageHeight(): number {
       return stageHeight;
-    },
-
-    get serverEnabled(): boolean {
-      return serverEnabled;
     },
 
     get serverOrigin(): string {

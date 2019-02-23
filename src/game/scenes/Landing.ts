@@ -95,13 +95,18 @@ namespace game {
         });
         this.btnSound.selected = true;
 
-        // 振动
-        yyw.onTap(this.btnVibration, () => {
-          const { selected } = this.btnVibration;
-          this.btnVibration.currentState = selected ? "selected" : "up";
-          yyw.CONFIG.vibrationEnabled = selected;
-        });
-        this.btnVibration.selected = true;
+        const canVibrate = !/^iPhone (?:4|5|6)/i.test(yyw.CONFIG.systemInfo.model);
+        if (canVibrate) {
+          // 振动
+          yyw.onTap(this.btnVibration, () => {
+            const { selected } = this.btnVibration;
+            this.btnVibration.currentState = selected ? "selected" : "up";
+            yyw.CONFIG.vibrationEnabled = selected;
+          });
+        } else {
+          this.btnVibration.currentState = "disabled";
+          yyw.CONFIG.vibrationEnabled = false;
+        }
 
         // 每日签到
         yyw.onTap(this.btnCheckin, () => {
@@ -114,10 +119,10 @@ namespace game {
         });
 
         const STICKY_KEY = "STICKY_ENTRY";
-        if (!(await yyw.storage.get(STICKY_KEY))) {
+        if (!(await yyw.db.get(STICKY_KEY))) {
           // 微信聊天主界面下拉，「我的小程序」栏（基础库2.2.4版本起废弃）
           if (yyw.CONFIG.launchOptions.scene === 1104) {
-            yyw.storage.set(STICKY_KEY, true);
+            yyw.db.set(STICKY_KEY, true);
             yyw.award.save({ coins: 1000 });
             yyw.showToast("获得奖励：1000 金币！");
           } else {
@@ -130,7 +135,7 @@ namespace game {
       this.offWave = yyw.wave(this.pig);
 
       // 初始化全局配置
-      const { score = 0 } = await yyw.pbl.get();
+      const { score = 0 } = await yyw.pbl.me();
       this.tfdBestScore.text = `历史最高分数：${score}`;
     }
   }

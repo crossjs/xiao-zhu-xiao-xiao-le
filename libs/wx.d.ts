@@ -18,7 +18,7 @@ declare namespace wx {
     brand: string;
     /** 手机型号*/
     model: string;
-    /**	设备像素比 */
+    /** 设备像素比 */
     pixelRatio: number;
     /** 屏幕宽度*/
     screenWidth: number;
@@ -49,7 +49,7 @@ declare namespace wx {
   type launchOptions = {
     /** 启动小游戏的场景值*/
     scene: number;
-    /** 启动小游戏的 query 参数	*/
+    /** 启动小游戏的 query 参数 */
     query: Object;
     /** 当前小游戏是否被显示在聊天顶部*/
     referrerInfo: ReferrerInfo;
@@ -58,7 +58,7 @@ declare namespace wx {
   };
 
   type ReferrerInfo = {
-    /** 来源小程序或公众号或App的 appId	*/
+    /** 来源小程序或公众号或App的 appId */
     appId: string;
     /**  来源小程序传过来的数据，scene=1037或1038时支持*/
     extraData: any;
@@ -124,7 +124,7 @@ declare namespace wx {
         res: {
           /** 分包下载进度百分比*/
           progress: number;
-          /** 已经下载的数据长度，单位 Bytes	*/
+          /** 已经下载的数据长度，单位 Bytes */
           totalBytesWritten: number;
           /** 预期需要下载的数据总长度，单位 Bytes*/
           totalBytesExpectedToWrite: number;
