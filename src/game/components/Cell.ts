@@ -65,7 +65,7 @@ namespace game {
       // 淡出当前
       await yyw.fadeOut(numImage, duration);
 
-      numImage.source = `numbers_json.${this.num === BIGGEST_NUMBER ? MAGIC_NUMBER : this.num + 1}`];
+      numImage.source = `numbers_json.${this.num === BIGGEST_NUMBER ? MAGIC_NUMBER : this.num + 1}`;
       // 淡入下张
       await yyw.fadeIn(numImage, duration);
     }

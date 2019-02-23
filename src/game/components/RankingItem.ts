@@ -1,7 +1,7 @@
 namespace game {
   export class RankingItem extends yyw.Base {
-    private groupTop: eui.Group;
     private labelKey: eui.Label;
+    private imageKey: eui.Image;
     private imageAvatar: eui.Image;
     private labelNickname: eui.Label;
     private labelScore: eui.Label;
@@ -14,14 +14,12 @@ namespace game {
         const { key, avatarUrl, nickname, score } = data;
         if (key < 4) {
           this.labelKey.visible = false;
-          this.groupTop.visible = true;
-          yyw.eachChild(this.groupTop, (child: eui.Image, index: number) => {
-            child.visible = index + 1 === key;
-          });
+          this.imageKey.source = `sprites_json.top${key}`;
+          this.imageKey.visible = true;
         } else {
-          this.groupTop.visible = false;
-          this.labelKey.visible = true;
+          this.imageKey.visible = false;
           this.labelKey.text = `${key}`;
+          this.labelKey.visible = true;
         }
         const avatar: egret.Bitmap = await yyw.loadImage(avatarUrl);
         this.imageAvatar.source = avatar.texture;
