@@ -4,14 +4,14 @@
   "description": "小猪消消乐",
   "private": true,
   "scripts": {
-    "image": "yyw compress",
+    "image": "cli compress",
     "lint": "tslint -p ./ --fix",
-    "dev": "yyw dev",
-    "debug": "yyw debug",
-    "release": "yyw release"
+    "dev": "cli dev",
+    "debug": "cli debug",
+    "release": "cli release"
   },
   "devDependencies": {
-    "@minipx/yyw": "~/minipx/cli",
+    "@minipx/cli": "~/minipx/cli",
     "tslib": "^1.9.3",
     "tslint": "^5.12.0",
     "typescript": "^3.2.2"
