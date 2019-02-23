@@ -63,30 +63,18 @@ namespace game {
     public async tweenUp(duration: number = 300): Promise<void> {
       const { numImage } = this;
       // 淡出当前
-      await yyw.getTween(numImage)
-      .to({
-        alpha: 0,
-      }, duration);
+      await yyw.fadeOut(numImage, duration);
 
-      numImage.visible = false;
-      numImage.alpha = 1;
-
-      const nextImage = this[`n${this.num === BIGGEST_NUMBER ? MAGIC_NUMBER : this.num + 1}`];
-      nextImage.alpha = 0;
-      nextImage.visible = true;
+      numImage.source = `numbers_json.${this.num === BIGGEST_NUMBER ? MAGIC_NUMBER : this.num + 1}`];
       // 淡入下张
-      await yyw.getTween(nextImage)
-      .to({
-        alpha: 1,
-      }, duration);
+      await yyw.fadeIn(numImage, duration);
     }
 
     public zoomOut(duration: number = 100) {
       yyw.removeTweens(this);
       return yyw.getTween(this)
       .to({
-        scaleX: 1,
-        scaleY: 1,
+        scale: 1,
       }, duration);
     }
 
@@ -94,8 +82,7 @@ namespace game {
       yyw.removeTweens(this);
       return yyw.getTween(this)
       .to({
-        scaleX: 1.2,
-        scaleY: 1.2,
+        scale: 1.2,
       }, duration);
     }
 
@@ -184,7 +171,7 @@ namespace game {
 
     private showCurrent(): void {
       if (this.num) {
-        this.numImage = this[`n${this.num}`];
+        this.numImage.source = `numbers_json.${this.num}`;
         this.numImage.visible = true;
       }
       yyw.removeTweens(this.sugar);
