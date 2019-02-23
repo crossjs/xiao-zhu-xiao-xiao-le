@@ -131,6 +131,9 @@ namespace game {
         }
       }
 
+      // 每次进入，都刷新广告
+      yyw.showBannerAd();
+
       this.offLight = yyw.light(this.bg);
       this.offWave = yyw.wave(this.pig);
 

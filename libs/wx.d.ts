@@ -507,7 +507,7 @@ declare namespace wx {
     /** 监听 banner 广告尺寸变化事件*/
     onResize(callback: (res: { width: number; height: number }) => void): void;
     /** 取消监听 banner 广告尺寸变化事件*/
-    offResize(callback: () => void): void;
+    offResize(callback: (res: { width: number; height: number }) => void): void;
     /** 监听 banner 广告加载事件*/
     onLoad(callback: () => void): void;
     /** 取消监听 banner 广告加载事件*/
