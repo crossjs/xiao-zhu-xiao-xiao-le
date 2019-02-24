@@ -12,7 +12,7 @@ namespace game {
     private pageTotal: number;
     private rankingData: any[];
     private myRankingData: any;
-    private removeScroll: () => void;
+    private offDnd: () => void;
 
     protected destroy() {
       this.removeFriend();
@@ -26,12 +26,12 @@ namespace game {
       super.createView(fromChildrenCreated);
 
       if (fromChildrenCreated) {
-        yyw.onTap(this.btnFriend, (e: egret.TouchEvent) => {
+        yyw.onTap(this.btnFriend, () => {
           this.removeWorld();
           this.showFriend();
         });
 
-        yyw.onTap(this.btnWorld, (e: egret.TouchEvent) => {
+        yyw.onTap(this.btnWorld, () => {
           this.removeFriend();
           this.showWorld();
         });
@@ -108,7 +108,10 @@ namespace game {
     private initScroll() {
       let startX: number = 0;
       let startY: number = 0;
-      this.removeScroll = yyw.onDnd(this.groupWorld,
+      if (this.offDnd) {
+        this.offDnd();
+      }
+      this.offDnd = yyw.onDnd(this.groupWorld,
         (e: egret.TouchEvent, cancel: any) => {
           if (this.pageTotal <= 1) {
             cancel();
@@ -117,7 +120,7 @@ namespace game {
           startX = e.stageX;
           startY = e.stageY;
         },
-        (e: egret.TouchEvent) => {
+        () => {
           // nothing to do
         },
         (e: egret.TouchEvent) => {
@@ -164,8 +167,9 @@ namespace game {
       this.hdrWorld.visible = false;
       this.btnFriend.visible = false;
       this.groupWorld.visible = false;
-      if (this.removeScroll) {
-        this.removeScroll();
+      if (this.offDnd) {
+        this.offDnd();
+        this.offDnd = null;
       }
     }
   }

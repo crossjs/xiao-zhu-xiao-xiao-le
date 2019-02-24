@@ -99,7 +99,7 @@ namespace game {
             } else {
               targetXY = null;
             }
-          }, async (e: egret.TouchEvent) => {
+          }, async () => {
             const reset = async () => {
               await this.zoomOut();
               await yyw.getTween(this).to({

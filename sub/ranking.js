@@ -1,7 +1,6 @@
 // eslint-disable-next-line
 import * as regeneratorRuntime from "./utils/runtime";
 import { AssetsManager } from "./assets";
-import { onScroll } from "./scroll";
 
 // 获取 canvas 渲染上下文
 const context = sharedCanvas.getContext("2d");
@@ -9,11 +8,15 @@ context.globalCompositeOperation = "source-over";
 
 export const Ranking = {
   isReady: false,
+  destroyed: false,
 
   async preload() {
     if (!this.isReady) {
       await AssetsManager.init();
       this.isReady = true;
+      this.onScroll(direction => {
+        this.goPage(direction);
+      });
     }
   },
 
@@ -34,28 +37,21 @@ export const Ranking = {
       this.scaleX = sharedCanvas.width / width;
       this.scaleY = sharedCanvas.height / height;
       context.setTransform(this.scaleX, 0, 0, this.scaleY, 0, 0);
-      this._cleanScreen();
-      this._initProps();
-      this._drawRanking();
-      this._initScroll();
-      this._rafId = requestAnimationFrame(() => {
-        this._onEnterFrame();
-      });
+      this.cleanScreen();
+      this.initProps();
+      this.drawRanking();
+      this.destroyed = false;
     } else {
       console.error("创建开放数据域失败，请检查是否加载开放数据域资源");
     }
   },
 
   destroy() {
-    if (this.removeScroll) {
-      this.removeScroll();
-    }
-    this._cleanScreen();
-    cancelAnimationFrame(this._rafId);
-    this._rafId = null;
+    this.destroyed = true;
+    this.cleanScreen();
   },
 
-  _cleanScreen() {
+  cleanScreen() {
     context.clearRect(
       0,
       0,
@@ -64,7 +60,7 @@ export const Ranking = {
     );
   },
 
-  _initProps() {
+  initProps() {
     // 内边界
     this.gutterWidth = 10;
     this.gutterHeight = 12;
@@ -97,12 +93,12 @@ export const Ranking = {
     xArr.push(cellX); // 分数
   },
 
-  _renderDirty: false,
+  // renderDirty: false,
 
   /**
    * 创建排行榜
    */
-  _drawRanking() {
+  drawRanking() {
     // 获取当前要渲染的数据组
     // 起始 id
     const startID = this.pageSize * this.pageIndex;
@@ -110,16 +106,16 @@ export const Ranking = {
     // 创建 body
     pageItems.forEach((data, index) => {
       // 创建行
-      this._drawRankingItem(data, index);
+      this.drawRankingItem(data, index);
     });
     // 渲染自己
-    this._drawRankingItem(this.myRankingData, this.pageSize);
+    this.drawRankingItem(this.myRankingData, this.pageSize);
   },
 
   /**
    * 根据绘制信息以及当前i绘制元素
    */
-  _drawRankingItem(data, i) {
+  drawRankingItem(data, i) {
     const {
       xArr,
       gutterHeight,
@@ -135,7 +131,7 @@ export const Ranking = {
     const y = (i === this.pageSize) ? height - myBarHeight : i * (barHeight + gutterHeight);
     // 绘制序号
     if (data.key < 4) {
-      this._drawImage(
+      this.drawImage(
         assets[`top${data.key}`],
         xArr[1],
         y + (barHeight - indexWidth) / 2,
@@ -143,13 +139,13 @@ export const Ranking = {
         53
       );
     } else {
-      this._drawText(data.key, xArr[1], y, indexWidth, barHeight, {
+      this.drawText(data.key, xArr[1], y, indexWidth, barHeight, {
         align: "center",
         fontSize: 24,
       });
     }
     // 绘制头像
-    this._drawImage(
+    this.drawImage(
       data.avatarUrl,
       xArr[2],
       y + (barHeight - iconWidth) / 2,
@@ -157,33 +153,62 @@ export const Ranking = {
       iconWidth
     );
     // 绘制名称
-    this._drawText(data.nickname, xArr[3], y, nameWidth, barHeight, {
+    this.drawText(data.nickname, xArr[3], y, nameWidth, barHeight, {
       align: "left",
       color: "#6A604C"
     });
     // 绘制分数
-    this._drawText(data.score, xArr[4], y, scoreWidth, barHeight, {
+    this.drawText(data.score, xArr[4], y, scoreWidth, barHeight, {
       align: "right",
       color: "#C34959"
     });
   },
 
-  /**
-   * 监听滚动
-   */
-  _initScroll() {
-    if (!this.removeScroll) {
-      this.removeScroll = onScroll(direction => {
-        this._goPage(direction);
-      });
-    }
+  onScroll(handler) {
+    let x0;
+    let y0;
+    let startId;
+
+    const start = e => {
+      if (this.destroyed) {
+        return;
+      }
+      const [ point ] = e.changedTouches;
+      x0 = point.clientX;
+      y0 = point.clientY;
+      startId = point.identifier;
+    };
+
+    const end = e => {
+      if (this.destroyed) {
+        return;
+      }
+      const [ point ] = e.changedTouches;
+      const x1 = point.clientX;
+      const y1 = point.clientY;
+      const endId = point.identifier;
+
+      // 判断是否为同一次触摸，若不是则直接忽略
+      if (endId === startId) {
+        const dx = x1 - x0;
+        const dy = y1 - y0;
+        // 滑动 20px 以上激活，防止误触
+        // 不使用 1 判断斜率，而留有余量，防止误触
+        if (Math.abs(dy) > 20 && Math.abs(dy / dx) > 2) {
+          handler(dy > 0 ? -1 : 1);
+        }
+      }
+    };
+
+    wx.onTouchStart(start);
+    wx.onTouchEnd(end);
   },
 
   /**
    * -1 为上一页
    * 1 为下一页
    */
-  _goPage(offset) {
+  goPage(offset) {
     if (this.pageIndex === undefined) {
       return;
     }
@@ -196,21 +221,25 @@ export const Ranking = {
       this.pageIndex = this.pageTotal - 1;
       return;
     }
-    this._renderDirty = true;
-    setTimeout(() => {
-      // 重新渲染必须标脏
-      this._renderDirty = true;
-    }, 100);
+    this.cleanScreen();
+    this.drawRanking();
+    // this.renderDirty = true;
+    // setTimeout(() => {
+    //   // 重新渲染必须标脏
+    //   // this.renderDirty = true;
+    //   this.cleanScreen();
+    //   this.drawRanking();
+    // }, 100);
   },
 
   /**
    * 图片绘制函数
    */
-  _drawImage(image, x, y, width, height) {
+  drawImage(image, x, y, width, height) {
     if (typeof image === "string") {
       const img = wx.createImage();
       img.onload = () => {
-        this._drawImage(img, x, y, width, height);
+        this.drawImage(img, x, y, width, height);
       };
       img.src = image;
       return;
@@ -225,7 +254,7 @@ export const Ranking = {
   /**
    * 文本绘制函数
    */
-  _drawText(
+  drawText(
     text,
     x,
     y,
@@ -252,14 +281,14 @@ export const Ranking = {
    * 每帧判断一下是否需要渲染
    * 如果被标脏，则重新渲染
    */
-  _onEnterFrame() {
-    if (this._renderDirty) {
-      this._cleanScreen();
-      this._drawRanking();
-      this._renderDirty = false;
-    }
-    this._rafId = requestAnimationFrame(() => {
-      this._onEnterFrame();
-    });
-  }
+  // onEnterFrame() {
+  //   if (this.renderDirty) {
+  //     this.cleanScreen();
+  //     this.drawRanking();
+  //     this.renderDirty = false;
+  //   }
+  //   this.rafId = requestAnimationFrame(() => {
+  //     this.onEnterFrame();
+  //   });
+  // }
 };

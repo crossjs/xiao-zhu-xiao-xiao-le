@@ -1,5 +1,8 @@
 namespace yyw {
-  export const reward: any = {
+  export const reward: {
+    can: (type?: string, sub?: string) => boolean,
+    apply: (type?: string, options?: any) => Promise<boolean | undefined>,
+  } = {
     /**
      * 是否可用
      * @param type string
@@ -8,7 +11,6 @@ namespace yyw {
       const status = (type ? CONFIG[`${type}Reward`] : 3) || 0;
 
       const canVideo = (status & 2) === 2 && !!CONFIG.adUnitId;
-      // 跳过审核人员
       const canShare = (status & 1) === 1 && !(USER.nickname && /^(?:tencent_game|rdgztest)_/.test(USER.nickname)) ;
 
       if (sub) {
@@ -39,7 +41,7 @@ namespace yyw {
       const tryVideo = (status & 2) === 2 && !!CONFIG.adUnitId;
       const tryShare = (status & 1) === 1;
 
-      // 启用了视频激励，且有  adUnitId
+      // 启用了视频激励，且有 adUnitId
       if (tryVideo) {
         // 看完视频广告
         const videoPlayed = await showVideoAd();

@@ -258,7 +258,7 @@ namespace game {
         this.notify();
       };
 
-      const handleEnd = (e: egret.TouchEvent, cancel: any) => {
+      const handleEnd = () => {
         if (this.running) {
           return;
         }

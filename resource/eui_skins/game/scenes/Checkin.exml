@@ -38,7 +38,7 @@
 						<e:Image source="sprites_json.round_grass" width="72" height="72" scale9Grid="36,36,6,6" y="0" x="0"/>
 						<e:Image source="sprites_json.tool_breaker" x="11" y="9" scaleX="0.9" scaleY="0.9"/>
 					</e:Group>
-					<e:Image x="102" y="-10" visible="false" source="sprites_json.checked"/>
+					<e:Image x="300" y="-10" visible="false" source="sprites_json.checked"/>
 					</e:Group>
 					<e:Group x="396" y="200" visible="true">
 					<e:Image source="sprites_json.round_white" width="144" height="144" scale9Grid="36,36,6,6" x="0"/>
@@ -64,7 +64,7 @@
 						<e:Image source="sprites_json.round_grass" width="72" height="72" scale9Grid="36,36,6,6" x="0" y="0"/>
 						<e:Image source="sprites_json.tool_shuffle" x="10" y="14" visible="true" scaleX="0.9" scaleY="0.9"/>
 					</e:Group>
-					<e:Image x="102" y="-10" visible="false" source="sprites_json.checked"/>
+					<e:Image x="300" y="-10" visible="false" source="sprites_json.checked"/>
 					</e:Group>
 				</e:Group>
 			</e:Group>

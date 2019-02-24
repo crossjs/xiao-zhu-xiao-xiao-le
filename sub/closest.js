@@ -17,25 +17,25 @@ export const Closest = {
       this.scaleX = sharedCanvas.width / width;
       this.scaleY = sharedCanvas.height / height;
       context.setTransform(this.scaleX, 0, 0, this.scaleY, 0, 0);
-      this._cleanScreen();
+      this.cleanScreen();
       this.lastOpenid = openid;
       // 绘制头像
-      this._drawImage(avatarUrl, 24, 12, 48, 48);
+      this.drawImage(avatarUrl, 24, 12, 48, 48);
       // 绘制名称
-      this._drawText(nickname, 48, 90, 95);
+      this.drawText(nickname, 48, 90, 95);
       // 绘制分数
-      this._drawText(score, 48, 114, 95);
+      this.drawText(score, 48, 114, 95);
     } else {
       console.error("创建开放数据域失败，请检查是否加载开放数据域资源");
     }
   },
 
   destroy() {
-    this._cleanScreen();
+    this.cleanScreen();
     this.lastOpenid = null;
   },
 
-  _cleanScreen() {
+  cleanScreen() {
     context.clearRect(
       0,
       0,
@@ -47,11 +47,11 @@ export const Closest = {
   /**
    * 图片绘制函数
    */
-  _drawImage(image, x, y, width, height) {
+  drawImage(image, x, y, width, height) {
     if (typeof image === "string") {
       const img = wx.createImage();
       img.onload = () => {
-        this._drawImage(img, x, y, width, height);
+        this.drawImage(img, x, y, width, height);
       };
       img.src = image;
       return;
@@ -66,7 +66,7 @@ export const Closest = {
   /**
    * 文本绘制函数
    */
-  _drawText(text, x, y, width, {
+  drawText(text, x, y, width, {
     color = "#FFFFFF",
   } = {}) {
     // 设置字体

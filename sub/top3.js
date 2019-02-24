@@ -31,23 +31,18 @@ export const Top3 = {
       this.scaleX = sharedCanvas.width / width;
       this.scaleY = sharedCanvas.height / height;
       context.setTransform(this.scaleX, 0, 0, this.scaleY, 0, 0);
-      this._cleanScreen();
-      this._drawRanking();
-      this._rafId = requestAnimationFrame(() => {
-        this._onEnterFrame();
-      });
+      this.cleanScreen();
+      this.drawRanking();
     } else {
       console.error("创建开放数据域失败，请检查是否加载开放数据域资源");
     }
   },
 
   destroy() {
-    this._cleanScreen();
-    cancelAnimationFrame(this._rafId);
-    this._rafId = null;
+    this.cleanScreen();
   },
 
-  _cleanScreen() {
+  cleanScreen() {
     context.clearRect(
       0,
       0,
@@ -56,23 +51,21 @@ export const Top3 = {
     );
   },
 
-  _renderDirty: false,
-
   /**
    * 创建排行榜
    */
-  _drawRanking() {
+  drawRanking() {
     // 创建 body
     this.rankingData.forEach((data, index) => {
       // 创建行
-      this._drawRankingItem(data, index);
+      this.drawRankingItem(data, index);
     });
   },
 
   /**
    * 根据绘制信息以及当前i绘制元素
    */
-  _drawRankingItem(data, i) {
+  drawRankingItem(data, i) {
     const  { assets } = this;
     const colWidth = this.width / 3;
     const gutterHeight = 10;
@@ -83,7 +76,7 @@ export const Top3 = {
     const x = (i === 0 ? 1 : i === 1 ? 0 : 2) * colWidth;
     let y = i === 0 ? 0 : 30;
     // 绘制序号
-    this._drawImage(
+    this.drawImage(
       assets[`top${data.key}`],
       x + (colWidth - crownWidth) / 2,
       y,
@@ -92,7 +85,7 @@ export const Top3 = {
     );
     y += crownHeight + gutterHeight;
     // 绘制头像
-    this._drawImage(
+    this.drawImage(
       data.avatarUrl,
       x + (colWidth - iconWidth) / 2,
       y,
@@ -101,7 +94,7 @@ export const Top3 = {
     );
     y += iconWidth + gutterHeight * 2;
     // 绘制名称
-    this._drawText(
+    this.drawText(
       data.nickname,
       x,
       y,
@@ -113,7 +106,7 @@ export const Top3 = {
     );
     y += fontSize + gutterHeight;
     // 绘制分数
-    this._drawText(
+    this.drawText(
       data.score,
       x,
       y,
@@ -128,11 +121,11 @@ export const Top3 = {
   /**
    * 图片绘制函数
    */
-  _drawImage(image, x, y, width, height) {
+  drawImage(image, x, y, width, height) {
     if (typeof image === "string") {
       const img = wx.createImage();
       img.onload = () => {
-        this._drawImage(img, x, y, width, height);
+        this.drawImage(img, x, y, width, height);
       };
       img.src = image;
       return;
@@ -147,7 +140,7 @@ export const Top3 = {
   /**
    * 文本绘制函数
    */
-  _drawText(
+  drawText(
     text,
     x,
     y,
@@ -161,20 +154,4 @@ export const Top3 = {
     context.fillStyle = color;
     context.fillText(String(text), x, y, width);
   },
-
-  /**
-   * 循环函数
-   * 每帧判断一下是否需要渲染
-   * 如果被标脏，则重新渲染
-   */
-  _onEnterFrame() {
-    if (this._renderDirty) {
-      this._cleanScreen();
-      this._drawRanking();
-      this._renderDirty = false;
-    }
-    this._rafId = requestAnimationFrame(() => {
-      this._onEnterFrame();
-    });
-  }
 };

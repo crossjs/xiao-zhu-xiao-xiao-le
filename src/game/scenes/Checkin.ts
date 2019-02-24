@@ -43,13 +43,14 @@ namespace game {
               child.alpha = 0.75;
             }
 
-            const offTap = yyw.onTap(child, async (e: egret.TouchEvent) => {
-              let couldCheckin = true;
-              if (isPast) {
-                // 补签
-                couldCheckin = await yyw.reward.apply();
-              }
-              if (couldCheckin) {
+            // 当日可签到，以前需要判断补签
+            if (!isPast || yyw.reward.can()) {
+              const offTap = yyw.onTap(child, async () => {
+                if (isPast) {
+                  if (!await yyw.reward.apply()) {
+                    return;
+                  }
+                }
                 offTap();
                 const [ coins, type ] = bonus[index];
                 await yyw.award.save({ coins });
@@ -66,8 +67,8 @@ namespace game {
                 child.alpha = 1;
                 child.getChildAt(child.numChildren - 1).visible = true;
                 yyw.showToast(`${isPast ? "补签" : "签到"}成功，奖励已发放`);
-              }
-            }, true);
+              }, true);
+            }
           }
         });
       }
