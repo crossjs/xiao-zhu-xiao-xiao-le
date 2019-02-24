@@ -3,14 +3,6 @@ namespace game {
     private btnHome: eui.Button;
     private btnRestart: eui.Button;
 
-    // public async exiting() {
-    //   await yyw.rightOut(this);
-    // }
-
-    // public async entering() {
-    //   await yyw.rightIn(this);
-    // }
-
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       super.createView(fromChildrenCreated);
 

@@ -2,5 +2,5 @@
 <e:Skin class="ButtonNormalSkin" states="up,down,disabled" minHeight="50" minWidth="100" currentState="up" xmlns:e="http://ns.egret.com/eui">
   <e:Label id="labelDisplay"
     verticalAlign="middle" textAlign="center" size="48" horizontalCenter="0" verticalCenter="0" verticalCenter.up="0" alpha.disabled="0.5" horizontalCenter.down="0" verticalCenter.down="6"/>
-  <e:Image id="iconDisplay" horizontalCenter="0" verticalCenter="0" verticalCenter.up="0" alpha.disabled="0.5" verticalCenter.down="6"/>
+  <e:Image id="iconDisplay" horizontalCenter="0" verticalCenter="0" verticalCenter.up="0" alpha.disabled="0.5" verticalCenter.down="6" filters.disabled="[yyw.grayFilter]"/>
 </e:Skin>

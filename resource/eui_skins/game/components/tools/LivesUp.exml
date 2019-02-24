@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="LivesUpSkin"
- xmlns:e="http://ns.egret.com/eui" width="126" height="138">
+<e:Skin class="LivesUpSkin" xmlns:e="http://ns.egret.com/eui" width="126" height="138">
 	<e:Group id="main">
 		<e:Button skinName="ButtonLivesUpSkin"/>
 		<e:Image source="sprites_json.circle_red" x="84" y="96"/>

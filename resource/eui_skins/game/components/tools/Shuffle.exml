@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="ShuffleSkin"
- xmlns:e="http://ns.egret.com/eui" width="72" height="72">
+<e:Skin class="ShuffleSkin" xmlns:e="http://ns.egret.com/eui" width="72" height="72">
 	<e:Group id="main" touchChildren="false">
 		<e:Image source="sprites_json.round_grass" scale9Grid="36,36,6,6" y="0" x="0" width="72" height="72"/>
 		<e:Image touchEnabled="false" source="sprites_json.tool_shuffle" y="14" x="10" scaleX="0.9" scaleY="0.9"/>

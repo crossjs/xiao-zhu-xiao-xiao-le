@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="ArenaSkin"
-	height="750" xmlns:e="http://ns.egret.com/eui" width="750">
+<e:Skin class="ArenaSkin" xmlns:e="http://ns.egret.com/eui" width="750" height="750">
 	<e:Image source="sprites_json.main_bg" width="750" height="750" scale9Grid="10,10,10,10"/>
 	<e:Group id="main" width="720" height="720" touchChildren="false" x="375" y="375" anchorOffsetX="360" anchorOffsetY="360"/>
   <e:Group id="blood" width="708" height="54" x="21" y="-60" touchChildren="false" touchEnabled="false">

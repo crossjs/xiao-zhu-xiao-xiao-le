@@ -7,14 +7,6 @@ namespace game {
     private prices: number[] = [1000, 2000, 1500];
     private goods: string[] = ["valueUp", "shuffle", "breaker"];
 
-    // public async exiting() {
-    //   await yyw.rightOut(this);
-    // }
-
-    // public async entering() {
-    //   await yyw.rightIn(this);
-    // }
-
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       super.createView(fromChildrenCreated);
 
@@ -54,10 +46,8 @@ namespace game {
           btn.enabled = enabled;
           if (enabled) {
             grp.filters = null;
-            grp.y = 15;
           } else {
             yyw.gray(grp);
-            grp.y = 18;
           }
         }
       } catch (error) {

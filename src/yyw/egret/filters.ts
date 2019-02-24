@@ -1,13 +1,15 @@
 namespace yyw {
+  const colorMatrix = [
+    0.33, 0.33, 0.33, 0, 0,
+    0.33, 0.33, 0.33, 0, 0,
+    0.33, 0.33, 0.33, 0, 0,
+    0,    0,    0,    1, 0,
+  ];
+
+  export const grayFilter = new egret.ColorMatrixFilter(colorMatrix);
+
   export function gray(target: egret.DisplayObject) {
-    const colorMatrix = [
-      0.33, 0.33, 0.33, 0, 0,
-      0.33, 0.33, 0.33, 0, 0,
-      0.33, 0.33, 0.33, 0, 0,
-      0,    0,    0,    1, 0,
-    ];
-    const colorFilter = new egret.ColorMatrixFilter(colorMatrix);
-    target.filters = [colorFilter];
+    target.filters = [grayFilter];
   }
 
   const vertexSrc = `attribute vec2 aVertexPosition;

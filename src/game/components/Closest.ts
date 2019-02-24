@@ -2,9 +2,7 @@ namespace game {
   export class Closest extends yyw.Base {
     private bmpClosest: egret.Bitmap;
 
-    constructor() {
-      super();
-
+    protected async initialize(): Promise<void> {
       // 体力耗尽，会跳转到结算界面，
       // 此时界面上存在两个开放域，
       // 为避免冲突，应将 closest 移除

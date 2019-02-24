@@ -1,43 +1,42 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="RankingSkin"
- xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*" xmlns:w="http://ns.egret.com/wing">
+<e:Skin class="ShopSkin" xmlns:e="http://ns.egret.com/eui">
 	<e:Image id="bg" fillMode="scale" source="sprites_json.mask_bg" scale9Grid="10,10,10,10" touchEnabled="true" width="750" height="1334"/>
 	<e:Group id="body" y="20" width="750" touchEnabled="false" x="0">
 		<e:Group id="main" width="660" horizontalCenter="0" verticalCenter="0" touchEnabled="false">
 			<e:Group id="modal" x="0" y="0" touchEnabled="false">
-				<e:Image width="660" height="330" source="sprites_json.round_white" y="0" x="0" scale9Grid="36,36,6,6"/>
-				<e:Group x="60" touchEnabled="false" y="60">
+				<e:Image width="660" height="300" source="sprites_json.round_white" y="0" x="0" scale9Grid="36,36,6,6"/>
+				<e:Group x="60" touchEnabled="false" y="60" width="144">
 					<e:Image source="sprites_json.round_grass" scale9Grid="36,36,6,6" y="0" height="90" left="0" right="0"/>
 					<e:Image y="23" source="sprites_json.tool_valueup" horizontalCenter="0"/>
-					<e:Group y="138" touchEnabled="false">
-					<e:Button id="btn0" label="" y="0" enabled="true" height="72" skinName="ButtonDefaultSkin" left="0" right="0"/>
-						<e:Group id="grp0" x="18" y="15" touchEnabled="false" touchChildren="false">
-							<e:Image source="sprites_json.coin" y="0" x="0" scaleX="0.375" scaleY="0.375" touchEnabled="false"/>
-							<e:BitmapLabel x="34" y="1" text="1000" font="score_fnt" scaleX="0.5" scaleY="0.5" touchEnabled="false"/>
+					<e:Group y="132" touchEnabled="false" horizontalCenter="0">
+					<e:Button id="btn0" label="" enabled="true" height="48" skinName="ButtonDefaultSkin" width="120"/>
+						<e:Group id="grp0" touchEnabled="false" touchChildren="false" y="10" horizontalCenter="0.5">
+							<e:Image source="sprites_json.coin" y="0" x="0" scaleX="0.3" scaleY="0.3" touchEnabled="false"/>
+							<e:BitmapLabel x="27" y="1" text="1000" font="score_fnt" scaleX="0.375" scaleY="0.375" touchEnabled="false"/>
 						</e:Group>
 					</e:Group>
 					<e:Image source="sprites_json.cheng1" y="96" horizontalCenter="0"/>
 				</e:Group>
-				<e:Group x="255" touchEnabled="false" y="60">
+				<e:Group x="255" touchEnabled="false" y="60" width="144">
 					<e:Image source="sprites_json.round_grass" scale9Grid="36,36,6,6" y="0" height="90" left="0" right="0"/>
 					<e:Image y="21" source="sprites_json.tool_shuffle" horizontalCenter="0"/>
-					<e:Group y="138" touchEnabled="false">
-					<e:Button id="btn1" label="" y="0" enabled="true" height="72" skinName="ButtonDefaultSkin" left="0" right="0"/>
-						<e:Group id="grp1" x="18" y="15" touchEnabled="false" touchChildren="false">
-							<e:Image source="sprites_json.coin" y="0" x="0" scaleX="0.375" scaleY="0.375" touchEnabled="false"/>
-							<e:BitmapLabel x="34" y="1" text="2000" font="score_fnt" scaleX="0.5" scaleY="0.5" touchEnabled="false"/>
+					<e:Group y="132" touchEnabled="false" horizontalCenter="0">
+					<e:Button id="btn1" label="" enabled="true" height="48" skinName="ButtonDefaultSkin" y="0" x="0" width="120"/>
+						<e:Group id="grp1" y="10" touchEnabled="false" touchChildren="false" horizontalCenter="0">
+							<e:Image source="sprites_json.coin" y="0" x="0" scaleX="0.3" scaleY="0.3" touchEnabled="false"/>
+							<e:BitmapLabel x="27" y="1" text="2000" font="score_fnt" scaleX="0.375" scaleY="0.375" touchEnabled="false"/>
 						</e:Group>
 					</e:Group>
 					<e:Image source="sprites_json.cheng1" y="96" horizontalCenter="0"/>
 				</e:Group>
-				<e:Group x="450" touchEnabled="false" y="60">
+				<e:Group x="450" touchEnabled="false" y="60" width="144">
 					<e:Image source="sprites_json.round_grass" scale9Grid="36,36,6,6" y="0" height="90" left="0" right="0"/>
 					<e:Image y="16" source="sprites_json.tool_breaker" horizontalCenter="0"/>
-					<e:Group y="138" touchEnabled="false" left="0" right="0">
-					<e:Button id="btn2" label="" width="150" y="0" enabled="true" height="72" skinName="ButtonDefaultSkin" x="0"/>
-						<e:Group id="grp2" x="18" y="15" touchEnabled="false" touchChildren="false">
-							<e:Image source="sprites_json.coin" y="0" x="0" scaleX="0.375" scaleY="0.375" touchEnabled="false"/>
-							<e:BitmapLabel x="34" y="1" text="1500" font="score_fnt" scaleX="0.5" scaleY="0.5" touchEnabled="false"/>
+					<e:Group y="132" touchEnabled="false" horizontalCenter="0">
+					<e:Button id="btn2" label="" enabled="true" skinName="ButtonDefaultSkin" height="48" width="120"/>
+						<e:Group id="grp2" y="10" touchEnabled="false" touchChildren="false" horizontalCenter="0.5">
+							<e:Image source="sprites_json.coin" scaleX="0.3" scaleY="0.3" touchEnabled="false"/>
+							<e:BitmapLabel x="27" y="1" text="1500" font="score_fnt" scaleX="0.375" scaleY="0.375" touchEnabled="false"/>
 						</e:Group>
 					</e:Group>
 					<e:Image source="sprites_json.cheng1" y="96" horizontalCenter="0"/>

@@ -3,9 +3,12 @@ namespace game {
 
   export class Playing extends yyw.Base {
     private isGameOver: boolean = false;
-    private btnShop: eui.Image;
+    private btnTask: eui.Group;
+    private btnShop: eui.Group;
     private tfdScore: eui.BitmapLabel;
+    private tfdTasks: eui.BitmapLabel;
     private tfdCoins: eui.BitmapLabel;
+    private tasks: number = 0;
     private coins: number = 0;
     /** 单局最大连击数 */
     private maxCombo: number = 0;
@@ -54,6 +57,16 @@ namespace game {
 
         this.initToolsTarget();
 
+        this.btnTask.visible = true;
+        yyw.onTap(this.btnTask, () => {
+          yyw.director.toScene("task", true);
+        });
+        yyw.on("TASK_DONE", () => {
+          this.updateTasks(1);
+        });
+
+        this.updateTasks();
+
         if (yyw.CONFIG.shopStatus) {
           this.btnShop.visible = true;
           yyw.onTap(this.btnShop, () => {
@@ -68,18 +81,32 @@ namespace game {
       }
     }
 
+    private async updateTasks(mutation?: number) {
+      if (mutation) {
+        this.tasks += mutation;
+      } else {
+        try {
+          const tasks = await yyw.task.me();
+          this.tasks = tasks.length;
+        } catch (error) {
+          egret.error(error);
+        }
+      }
+      this.tfdTasks.text = `${this.tasks}/6`;
+    }
+
     private async updateCoins(mutation?: number) {
-      try {
-        if (mutation) {
-          this.coins += mutation;
-        } else {
+      if (mutation) {
+        this.coins += mutation;
+      } else {
+        try {
           const { coins } = await yyw.pbl.me();
           this.coins = coins;
+        } catch (error) {
+          egret.error(error);
         }
-        this.tfdCoins.text = `${this.coins}`;
-      } catch (error) {
-        egret.error(error);
       }
+      this.tfdCoins.text = `${this.coins}`;
     }
 
     private async getSnapshot() {

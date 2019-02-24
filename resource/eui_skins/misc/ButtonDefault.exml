@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <e:Skin class="ButtonDefaultSkin" states="up,down,disabled" minHeight="50" minWidth="100" currentState="up" xmlns:e="http://ns.egret.com/eui">
   <e:Image width="100%" height="100%"
-    source="sprites_json.button_up" source.down="sprites_json.button_down" source.disabled="sprites_json.button_disabled" scale9Grid.up="24,24,96,96" scale9Grid.disabled="24,24,96,96" scale9Grid.down="24,24,96,96"/>
+    source="sprites_json.button_up" source.down="sprites_json.button_down" source.disabled="sprites_json.button_disabled" scale9Grid.up="24,24,6,6" scale9Grid.disabled="24,24,6,6" scale9Grid.down="24,24,6,6" scale9Grid="24,24,6,6"/>
   <e:Label id="labelDisplay"
-    verticalAlign="middle" textAlign="center" size="48" horizontalCenter="0" verticalCenter="0" verticalCenter.up="0"/>
-  <e:Image id="iconDisplay" verticalCenter.disabled="0" verticalCenter.down="0" horizontalCenter="0" verticalCenter.up="0"/>
+    verticalAlign="middle" textAlign="center" size="48" horizontalCenter.down="0" horizontalCenter.up="0" verticalCenter="0" verticalCenter.up="0" verticalCenter.disabled="3" horizontalCenter.disabled="0" verticalCenter.down="3"/>
+  <e:Image id="iconDisplay" verticalCenter.disabled="3" verticalCenter.down="3" horizontalCenter="0" verticalCenter.up="0" filters.disabled="[yyw.grayFilter]" horizontalCenter.disabled="0"/>
 </e:Skin>

@@ -16,7 +16,7 @@ namespace yyw {
             this.createView(false);
           }
         },
-        this,
+        null,
       );
 
       this.addEventListener(
@@ -24,8 +24,10 @@ namespace yyw {
         () => {
           this.destroy();
         },
-        this,
+        null,
       );
+
+      this.initialize();
     }
 
     public async exiting() {
@@ -34,6 +36,10 @@ namespace yyw {
 
     public async entering() {
       await fadeIn(this);
+    }
+
+    protected initialize() {
+      //
     }
 
     protected destroy() {

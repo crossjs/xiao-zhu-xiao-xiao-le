@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="PblSkin"
- xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*" xmlns:w="http://ns.egret.com/wing">
+<e:Skin class="PblSkin" xmlns:e="http://ns.egret.com/eui">
 	<e:Image id="bg" fillMode="scale" source="sprites_json.mask_bg" scale9Grid="10,10,10,10" touchEnabled="true" width="750" height="1334"/>
 	<e:Group id="body" y="20" width="750" touchEnabled="false">
 		<e:Group id="main" horizontalCenter="0" verticalCenter="0" touchEnabled="false" touchChildren="true">

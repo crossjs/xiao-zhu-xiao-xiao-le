@@ -69,35 +69,6 @@ namespace yyw {
     target.alpha = 1;
   }
 
-  // export async function rightIn(
-  //   target: egret.DisplayObject,
-  //   duration?: number,
-  //   ease?: any,
-  // ): Promise<void> {
-  //   target.alpha = 0;
-  //   target.x = CONFIG.stageWidth;
-  //   target.visible = true;
-  //   await getTween(target).to({
-  //     alpha: 1,
-  //     x: 0,
-  //   }, duration, ease);
-  // }
-
-  // export async function rightOut(
-  //   target: egret.DisplayObject,
-  //   duration?: number,
-  //   ease?: any,
-  // ): Promise<void> {
-  //   await getTween(target)
-  //   .to({
-  //     alpha: 0,
-  //     x: CONFIG.stageWidth,
-  //   }, duration, ease);
-  //   target.visible = false;
-  //   target.alpha = 1;
-  //   target.x = 0;
-  // }
-
   export async function zoomIn(
     target: egret.DisplayObject,
     duration?: number,

@@ -11,9 +11,7 @@ namespace game {
       score?: number,
     } = {};
 
-    constructor() {
-      super();
-
+    protected async initialize(): Promise<void> {
       // 放在这里注册，确保优先级
       // 生命耗尽
       yyw.on("LIVES_EMPTY", ({ data }: egret.Event) => {

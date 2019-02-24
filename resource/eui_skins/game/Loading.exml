@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="LoadingSkin"
- xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+<e:Skin class="LoadingSkin" xmlns:e="http://ns.egret.com/eui">
 	<e:Image id="bg" fillMode="clip" source="bg" scale9Grid="0,0,750,12" height="1334"/>
 	<e:Group id="main" horizontalCenter="0" y="913">
 		<e:Image source="loading_json.progressbar_bg" width="660" x="0" y="30" scale9Grid="15,0,30,30"/>

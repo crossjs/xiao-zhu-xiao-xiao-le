@@ -1,8 +1,5 @@
 namespace yyw {
-  export const reward: {
-    can: (type?: string, sub?: string) => boolean,
-    apply: (type?: string, options?: any) => Promise<boolean | undefined>,
-  } = {
+  export const reward = {
     /**
      * 是否可用
      * @param type string
@@ -11,7 +8,8 @@ namespace yyw {
       const status = (type ? CONFIG[`${type}Reward`] : 3) || 0;
 
       const canVideo = (status & 2) === 2 && !!CONFIG.adUnitId;
-      const canShare = (status & 1) === 1 && !(USER.nickname && /^(?:tencent_game|rdgztest)_/.test(USER.nickname)) ;
+      const canShare = (status & 1) === 1
+        && !(USER.nickname && /^(?:tencent_game_|rdgztest_|minigamecheck)/.test(USER.nickname)) ;
 
       if (sub) {
         return sub === "video" ? canVideo : canShare;

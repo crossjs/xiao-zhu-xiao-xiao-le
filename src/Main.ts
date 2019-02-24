@@ -132,6 +132,7 @@ class Main extends eui.UILayer {
       ranking: new game.Ranking(),
       checkin: new game.Checkin(),
       ending: new game.Ending(),
+      task: new game.Task(),
       shop: new game.Shop(),
       alarm: new game.Alarm(),
       award: new game.Award(),
@@ -154,7 +155,7 @@ class Main extends eui.UILayer {
     // 启用金币奖励
     if (yyw.reward.can("coin")) {
       // 获得魔法数字
-      yyw.on("ARENA_MAGIC_NUMBER_GOT", () => {
+      yyw.on("MAGIC_GOT", () => {
         yyw.director.toScene("award", true);
       });
     }

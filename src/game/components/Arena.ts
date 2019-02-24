@@ -281,7 +281,7 @@ namespace game {
       );
       // 发红包
       if (num === MAGIC_NUMBER) {
-        yyw.emit("ARENA_MAGIC_NUMBER_GOT");
+        yyw.emit("MAGIC_GOT");
       }
     }
 
@@ -448,7 +448,7 @@ namespace game {
       this.setCellNumber(point, num);
       // 发红包
       if (num === MAGIC_NUMBER) {
-        yyw.emit("ARENA_MAGIC_NUMBER_GOT");
+        yyw.emit("MAGIC_GOT");
       }
       await cell.fadeIn();
     }
