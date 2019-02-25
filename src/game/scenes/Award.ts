@@ -35,6 +35,7 @@ namespace game {
           const { x, y } = this.modal.localToGlobal();
           if (await yyw.reward.apply("coin", {
             share: {
+              title: `噢耶！挖到 ${this.coins} 枚金币`,
               imageUrl: canvas.toTempFilePathSync({
                 x: x + 20,
                 y: y + 20,

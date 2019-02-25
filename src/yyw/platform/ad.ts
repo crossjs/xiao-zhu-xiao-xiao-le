@@ -11,7 +11,7 @@ namespace yyw {
   };
 
   export async function showBannerAd(
-    adUnitId: string = CONFIG.adUnitId,
+    adUnitId: string = CONFIG.bannerAd,
   ): Promise<any> {
     if (!adUnitId) {
       return;
@@ -31,6 +31,9 @@ namespace yyw {
         height: BANNER_HEIGHT,
       },
     });
+    bannerAd.onError(({ errMsg }) => {
+      showToast(errMsg);
+    });
     bannerAd.onResize(onBannerAdResize);
 
     return bannerAd.show();
@@ -46,13 +49,16 @@ namespace yyw {
   let videoAd: wx.RewardedVideoAd;
 
   export function initVideoAd(
-    adUnitId: string = CONFIG.adUnitId,
+    adUnitId: string = CONFIG.rewardAd,
   ): void {
     if (!adUnitId) {
       return;
     }
     videoAd = wx.createRewardedVideoAd({
       adUnitId,
+    });
+    videoAd.onError(({ errMsg }) => {
+      showToast(errMsg);
     });
   }
 
@@ -62,7 +68,7 @@ namespace yyw {
    * undefined: 调起失败
    */
   export async function showVideoAd(): Promise<any> {
-    if (!CONFIG.adUnitId) {
+    if (!videoAd) {
       return;
     }
     try {

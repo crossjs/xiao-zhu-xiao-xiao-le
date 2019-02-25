@@ -13,7 +13,8 @@ namespace yyw {
   let boxEnabled: boolean = true;
   let toolAmount: number = 3;
   let toolReward: number = 0;
-  let adUnitId: string = "";
+  let bannerAd: string = "";
+  let rewardAd: string = "";
   let soundEnabled: boolean = true;
   let vibrationEnabled: boolean = true;
 
@@ -85,12 +86,20 @@ namespace yyw {
       toolReward = value;
     },
 
-    get adUnitId(): string {
-      return adUnitId;
+    get bannerAd(): string {
+      return bannerAd;
     },
 
-    set adUnitId(value: string) {
-      adUnitId = value;
+    set bannerAd(value: string) {
+      bannerAd = value;
+    },
+
+    get rewardAd(): string {
+      return rewardAd;
+    },
+
+    set rewardAd(value: string) {
+      rewardAd = value;
     },
 
     get soundEnabled(): boolean {
@@ -118,7 +127,8 @@ namespace yyw {
         toolAmount = 3,
         toolReward = 0,
         boxEnabled = true,
-        adUnitId = "",
+        bannerAd = "",
+        rewardAd = "",
        } = await request({
         url: `${CONFIG.serverOrigin}/api/config`,
       });
@@ -128,7 +138,8 @@ namespace yyw {
         toolAmount,
         toolReward,
         boxEnabled,
-        adUnitId,
+        bannerAd,
+        rewardAd,
       });
     } catch (error) {
       egret.error(error);

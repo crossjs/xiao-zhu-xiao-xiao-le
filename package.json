@@ -1,6 +1,6 @@
 {
   "name": "g4",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "小猪消消乐",
   "private": true,
   "scripts": {
@@ -25,6 +25,7 @@
     "DIR_TO_COPY": [
       "sub"
     ],
+    "ALD_APP_KEY": "3e491ead3ac717eefc4add216ab06dd6",
     "SERVER_ORIGIN": {
       "dev": "http://127.0.0.1:7014",
       "release": "https://g4.minipx.cn"

@@ -7,7 +7,7 @@ namespace yyw {
     can(type?: string, sub?: string): boolean {
       const status = (type ? CONFIG[`${type}Reward`] : 3) || 0;
 
-      const canVideo = (status & 2) === 2 && !!CONFIG.adUnitId;
+      const canVideo = (status & 2) === 2 && !!CONFIG.rewardAd;
       const canShare = (status & 1) === 1
         && !(USER.nickname && /^(?:tencent_game_|rdgztest_|minigamecheck)/.test(USER.nickname)) ;
 
@@ -36,7 +36,7 @@ namespace yyw {
         return;
       }
 
-      const tryVideo = (status & 2) === 2 && !!CONFIG.adUnitId;
+      const tryVideo = (status & 2) === 2 && !!CONFIG.rewardAd;
       const tryShare = (status & 1) === 1;
 
       // 启用了视频激励，且有 adUnitId
