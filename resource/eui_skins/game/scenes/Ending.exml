@@ -3,10 +3,9 @@
 	 width="750"
 	height="1334" xmlns:e="http://ns.egret.com/eui">
 	<e:Image id="bg" source="sprites_json.mask_bg" fillMode="scale" touchEnabled="true" scale9Grid="10,10,10,10" width="750" height="1334" visible="true"/>
-	<e:Group id="body" width="750" y="20" touchEnabled="false" x="0">
-		<e:Group id="main" horizontalCenter="0.5" verticalCenter="0">
+	<e:Group id="body" width="750" touchEnabled="false" bottom="262" height="1072">
+		<e:Group id="main" horizontalCenter="0" verticalCenter="0" height="360">
 			<e:Image source="sprites_json.hyph" x="145" y="-90"/>
-			<e:Image id="btnEscape" source="sprites_json.close" x="409" y="-90" visible="true"/>
 			<e:Group id="modal" x="0" y="0" touchEnabled="false" touchChildren="false">
 				<e:Image width="480" scale9Grid="36,36,6,6" height="312" source="sprites_json.round_white" x="0" y="0"/>
 				<e:Group id="board" y="36" width="480" height="240" x="0">
@@ -18,5 +17,6 @@
 			<e:Label id="tfdTip" y="400" text="" textAlign="center" height="30" left="0" right="0" visible="true"/>
 			<e:Button id="btnOK" label="" y="436" skinName="ButtonDefaultSkin" width="300" height="102" horizontalCenter="0" icon="sprites_json.mffh"/>
 		</e:Group>
+		<e:Image id="btnEscape" visible="true" source="sprites_json.dismiss" fillMode="scale" horizontalCenter="0" bottom="0"/>
 	</e:Group>
 </e:Skin>

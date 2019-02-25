@@ -8,6 +8,7 @@ namespace game {
     private tfdScore: eui.BitmapLabel;
     private tfdTasks: eui.BitmapLabel;
     private tfdCoins: eui.BitmapLabel;
+    // private boxAll: box.All;
     private tasks: number = 0;
     private coins: number = 0;
     /** 单局最大连击数 */
@@ -48,6 +49,8 @@ namespace game {
       this.isGameOver = false;
 
       if (fromChildrenCreated) {
+        yyw.analysis.addEvent("开始游戏");
+
         if (!yyw.USER.score) {
           yyw.director.toScene("guide", true);
         }
@@ -72,8 +75,11 @@ namespace game {
           yyw.onTap(this.btnShop, () => {
             yyw.director.toScene("shop", true);
           });
-          yyw.on("COINS_CHANGE", ({ data: coins }) => {
-            this.updateCoins(coins);
+          yyw.on("COINS_GOT", ({ data: { amount } }) => {
+            this.updateCoins(amount);
+          });
+          yyw.on("COINS_USED", ({ data: { amount } }) => {
+            this.updateCoins(-amount);
           });
 
           this.updateCoins();
@@ -127,7 +133,7 @@ namespace game {
     private createClosest() {
       this.closest = new Closest();
       this.closest.x = 21;
-      this.closest.y = 120;
+      this.closest.y = 144;
       this.body.addChild(this.closest);
     }
 
@@ -163,10 +169,11 @@ namespace game {
 
     private initToolsTarget() {
       const { x, y, width, height } = this.arena;
-      const padding = 21;
+      const padding = 15;
       const rect = new egret.Rectangle(
         x + padding,
-        y + padding,
+        // 因为 body 限制了高度 1072，且距离底部 262，所以是 1334，也就是界面的设计高度
+        y + padding + this.stage.stageHeight - 1334,
         width - padding * 2,
         height - padding * 2,
       );

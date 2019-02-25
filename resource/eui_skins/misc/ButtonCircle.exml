@@ -2,5 +2,5 @@
 <e:Skin class="ButtonCircleSkin" width="72" height="72" currentState="up" xmlns:e="http://ns.egret.com/eui" states="up,down">
 	<e:Image includeIn="down" width="100%" height="100%" scale9Grid="36,36,6,6" source="sprites_json.round_grass"/>
 	<e:Image includeIn="up" source="sprites_json.round_white" width="100%" height="100%" scale9Grid="36,36,6,6"/>
-	<e:Image id="iconDisplay" horizontalCenter="0" verticalCenter="0" includeIn="up,down" filters.disabled="[yyw.grayFilter]"/>
+	<e:Image id="iconDisplay" horizontalCenter="0" verticalCenter="0" includeIn="up,down"/>
 </e:Skin>

@@ -48,7 +48,10 @@ namespace game {
 
         if (ok1 || ok2 || ok3) {
           yyw.emit("TASK_DONE");
-          yyw.emit("COINS_CHANGE", coins);
+          yyw.emit("COINS_GOT", {
+            type: "task",
+            amount: coins,
+          });
           task.fulfilled = true;
           const item: TaskItem = this[`task${task.key}`];
           // 可能还没初始化

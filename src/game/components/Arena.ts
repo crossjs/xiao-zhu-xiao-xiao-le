@@ -39,6 +39,7 @@ namespace game {
       } else {
         this.ensureData();
       }
+      yyw.emit("GAME_START");
     }
 
     public onGameOver() {
@@ -103,7 +104,12 @@ namespace game {
     private increaseLives(n: number) {
       this.lives = Math.max(0, Math.min(5, this.lives + n));
       for (let step = 1; step <= 5; step++) {
-        this[`b${step}`].visible = step <= this.lives;
+        const b: eui.Image = this[`b${step}`];
+        if (step <= this.lives) {
+          yyw.nude(b);
+        } else {
+          yyw.gray(b);
+        }
       }
       if (n < 0) {
         if (this.lives === 1) {
@@ -279,7 +285,7 @@ namespace game {
           return this.setCellNumber(point, num);
         }),
       );
-      // 发红包
+      // 棒棒糖
       if (num === MAGIC_NUMBER) {
         yyw.emit("MAGIC_GOT");
       }
@@ -446,7 +452,7 @@ namespace game {
         num = MAGIC_NUMBER;
       }
       this.setCellNumber(point, num);
-      // 发红包
+      // 棒棒糖
       if (num === MAGIC_NUMBER) {
         yyw.emit("MAGIC_GOT");
       }

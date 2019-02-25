@@ -1,6 +1,6 @@
 {
   "name": "g4",
-  "version": "1.4.1",
+  "version": "1.4.3",
   "description": "小猪消消乐",
   "private": true,
   "scripts": {
@@ -20,6 +20,7 @@
     "APP_ID": "wx2d01e63038198832",
     "APP_NAME": "小猪消消乐",
     "APP_ID_LIST": [
+      "wxfed1a9e69738536a",
       "wxb17a18edcbb93d0a"
     ],
     "DIR_TO_COPY": [

@@ -6,7 +6,12 @@ namespace yyw {
     0,    0,    0,    1, 0,
   ];
 
+  // 给 EXML 用
   export const grayFilter = new egret.ColorMatrixFilter(colorMatrix);
+
+  export function nude(target: egret.DisplayObject) {
+    target.filters = null;
+  }
 
   export function gray(target: egret.DisplayObject) {
     target.filters = [grayFilter];

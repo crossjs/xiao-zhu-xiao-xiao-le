@@ -24,6 +24,12 @@ namespace game {
 
     public increaseAmount(amount: number): void {
       this.amount += amount;
+      if (amount > 0) {
+        yyw.emit("TOOL_USED", {
+          type: this.type,
+          amount,
+        });
+      }
       this.update();
     }
 
@@ -49,10 +55,12 @@ namespace game {
         yyw.onTap(this, async () => {
           this.zoomOut();
           if (!this.amount) {
+            this.enabled = false;
             if (await yyw.reward.apply("tool")) {
               this.increaseAmount(1);
               this.afterGet(1);
             }
+            this.enabled = true;
             return;
           }
           if (!this.dnd) {
@@ -64,7 +72,6 @@ namespace game {
             });
             return;
           }
-          yyw.showToast("请直接拖动到棋盘中");
         });
 
         if (this.dnd) {
@@ -119,6 +126,7 @@ namespace game {
               });
               targetXY = null;
             } else {
+              yyw.showToast("请拖放到棋盘中");
               yyw.emit("TOOL_USING", {
                 type: this.type,
                 cancel: reset,

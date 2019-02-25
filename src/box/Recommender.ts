@@ -242,6 +242,7 @@ namespace box {
         cb(this.games.length ? this.games : null, this);
         return;
       }
+      // 避免重复添加
       if (this.readyHandlers.indexOf(cb) === -1) {
         this.readyHandlers.push(cb);
         return () => {
@@ -254,6 +255,7 @@ namespace box {
       if (typeof cb !== "function") {
         return;
       }
+      // 避免重复添加
       if (this.changeHandlers.indexOf(cb) === -1) {
         this.changeHandlers.push(cb);
         return () => {

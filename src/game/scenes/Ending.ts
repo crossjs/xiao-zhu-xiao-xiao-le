@@ -27,19 +27,21 @@ namespace game {
       super.createView(fromChildrenCreated);
 
       if (fromChildrenCreated) {
-        if (!yyw.reward.can("tool")) {
+        const canTool = yyw.reward.can("revive");
+
+        if (canTool) {
+          const canVideo = yyw.reward.can("revive", "video");
+          this.tfdTip.text = `${ canVideo ? "观看视频" : "转发到群" }获得复活机会`;
+        } else {
           this.btnEscape.visible = false;
           this.btnOK.iconDisplay.source = "sprites_json.zlyc";
         }
 
-        const canTool = yyw.reward.can("tool");
-        if (canTool) {
-          const canVideo = yyw.reward.can("tool", "video");
-          this.tfdTip.text = `${ canVideo ? "观看视频" : "转发到群" }获得复活机会`;
-        }
         yyw.onTap(this.btnOK, async () => {
           if (canTool) {
-            if (await yyw.reward.apply("tool")) {
+            const type = await yyw.reward.apply("revive");
+            if (type) {
+              yyw.emit("GAME_REVIVED", { type });
               this.revive();
             }
           } else {
@@ -63,7 +65,6 @@ namespace game {
         type: "livesUp",
         amount: 1,
       });
-      yyw.emit("GAME_REVIVED");
     }
 
     private createTop3() {

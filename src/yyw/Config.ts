@@ -5,14 +5,16 @@ namespace yyw {
   const launchOptions: wx.launchOptions = wx.getLaunchOptionsSync();
   // 数字越大，游戏节奏越慢
   const speedRatio: number = 1.5;
-  const stageWidth: number = 750;
-  const stageHeight: number = Math.floor(750 / systemInfo.windowWidth * systemInfo.windowHeight);
+  // const stageWidth: number = 750;
+  // const stageHeight: number = Math.floor(750 / systemInfo.windowWidth * systemInfo.windowHeight);
 
   let coinReward: number = 0;
   let shopStatus: number = 0;
   let boxEnabled: boolean = true;
   let toolAmount: number = 3;
   let toolReward: number = 0;
+  let checkinReward: number = 0;
+  let reviveReward: number = 0;
   let bannerAd: string = "";
   let rewardAd: string = "";
   let soundEnabled: boolean = true;
@@ -27,13 +29,13 @@ namespace yyw {
       return launchOptions;
     },
 
-    get stageWidth(): number {
-      return stageWidth;
-    },
+    // get stageWidth(): number {
+    //   return stageWidth;
+    // },
 
-    get stageHeight(): number {
-      return stageHeight;
-    },
+    // get stageHeight(): number {
+    //   return stageHeight;
+    // },
 
     get serverOrigin(): string {
       return serverOrigin;
@@ -86,6 +88,22 @@ namespace yyw {
       toolReward = value;
     },
 
+    get checkinReward(): number {
+      return checkinReward;
+    },
+
+    set checkinReward(value: number) {
+      checkinReward = value;
+    },
+
+    get reviveReward(): number {
+      return reviveReward;
+    },
+
+    set reviveReward(value: number) {
+      reviveReward = value;
+    },
+
     get bannerAd(): string {
       return bannerAd;
     },
@@ -126,6 +144,8 @@ namespace yyw {
         shopStatus = 0,
         toolAmount = 3,
         toolReward = 0,
+        checkinReward = 0,
+        reviveReward = 0,
         boxEnabled = true,
         bannerAd = "",
         rewardAd = "",
@@ -137,6 +157,8 @@ namespace yyw {
         shopStatus,
         toolAmount,
         toolReward,
+        checkinReward,
+        reviveReward,
         boxEnabled,
         bannerAd,
         rewardAd,

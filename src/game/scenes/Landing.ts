@@ -10,6 +10,7 @@ namespace game {
     private favorite: eui.Image;
     private pig: eui.Image;
     private numbers: eui.Image;
+    private boxAll: box.All;
     private userInfoButton: wx.UserInfoButton;
     private duration: number = 500;
     private offLight: () => void;
@@ -67,6 +68,7 @@ namespace game {
       super.createView(fromChildrenCreated);
 
       if (fromChildrenCreated) {
+        yyw.analysis.addEvent("进入主页");
         // const { width, height } = this.btnStart;
         // const { x: left, y: top } = this.btnStart.localToGlobal();
         // TODO 封装成 Component
@@ -75,7 +77,8 @@ namespace game {
           top: this.stage.stageHeight - 478,
           width: 432,
           height: 144,
-          onTap: () => {
+          onTap: (authorized: boolean) => {
+            yyw.analysis.addEvent(authorized ? "确认授权" : "取消授权");
             yyw.director.toScene("playing");
           },
         });
@@ -131,15 +134,20 @@ namespace game {
         }
       }
 
-      // 每次进入，都刷新广告
-      yyw.showBannerAd();
-
       this.offLight = yyw.light(this.bg);
       this.offWave = yyw.wave(this.pig);
 
       // 初始化全局配置
       const { score = 0 } = await yyw.pbl.me();
       this.tfdBestScore.text = `历史最高分数：${score}`;
+
+      try {
+        // 每次进入，都刷新广告
+        await yyw.showBannerAd();
+      } catch (error) {
+        // 没有广告，显示交叉营销
+        this.boxAll.showBox();
+      }
     }
   }
 }

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="PlayingSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*" xmlns:box="box.*" xmlns:w="http://ns.egret.com/wing" >
+<e:Skin class="PlayingSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*" xmlns:box="box.*" >
 	<e:Image id="bg" fillMode="clip" source="bg" height="1334" scale9Grid="0,480,750,384"/>
-	<e:Group id="body" y="20" width="750">
-		<e:Image source="sprites_json.current" horizontalCenter="0.5"/>
-    <e:BitmapLabel id="tfdScore" text="0" y="66" font="score_fnt" height="72" width="360" textAlign="center" anchorOffsetX="180" anchorOffsetY="36" horizontalCenter="-5"/>
-		<box:All bottom="0"/>
-		<game:Arena id="arena" y="318"/>
-		<game:Me id="me"/>
-		<e:Group id="btnShop" x="588" y="90" touchChildren="false" visible="false">
-			<e:Image y="0" x="0" visible="true" source="sprites_json.coin" scaleX="0.375" scaleY="0.375"/>
-			<e:BitmapLabel id="tfdCoins" text="0" y="0" font="score_fnt" height="72" width="210" scaleX="0.5" scaleY="0.5" x="42" visible="true"/>
+	<e:Group id="body" width="750" bottom="262" height="1072">
+		<e:Image source="sprites_json.current" horizontalCenter="0.5" y="21"/>
+		<e:BitmapLabel id="tfdScore" text="0" y="87" font="score_fnt" height="72" width="360" textAlign="center" anchorOffsetX="180" anchorOffsetY="36" horizontalCenter="-5"/>
+		<game:Arena id="arena" y="342"/>
+		<game:Me id="me" y="21"/>
+		<e:Group id="btnShop" x="594" y="111" touchChildren="false" visible="false">
+		<e:Image y="0" x="0" visible="true" source="sprites_json.coin" scaleX="0.375" scaleY="0.375"/>
+		<e:BitmapLabel id="tfdCoins" text="" y="0" font="score_fnt" height="72" width="210" scaleX="0.5" scaleY="0.5" x="36" visible="true"/>
 		</e:Group>
-		<e:Group id="btnTask" x="128" y="90" touchChildren="false">
-			<e:Image y="0" x="0" visible="true" scaleX="0.375" scaleY="0.375" source="sprites_json.task"/>
-			<e:BitmapLabel id="tfdTasks" text="0/6" y="0" font="score_fnt" height="72" width="210" scaleX="0.5" scaleY="0.5" x="42" visible="true"/>
+		<e:Group id="btnTask" x="474" y="111" touchChildren="false">
+		<e:Image y="0" x="0" visible="true" scaleX="0.375" scaleY="0.375" source="sprites_json.task"/>
+		<e:BitmapLabel id="tfdTasks" text="0/6" y="0" font="score_fnt" height="72" width="120" scaleX="0.5" scaleY="0.5" x="36" visible="true"/>
 		</e:Group>
-		<game:Tools id="tools" y="168" locked="true"/>
-		<game:Words id="words" touchEnabled="false" touchChildren="false" locked="true"/>
+		<game:Tools id="tools" y="189"/>
+		<game:Words id="words" touchEnabled="false" touchChildren="false" visible="true" locked="true"/>
 	</e:Group>
+	<box:All id="boxAll" bottom="0"/>
 </e:Skin>

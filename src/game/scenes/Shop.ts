@@ -16,14 +16,18 @@ namespace game {
           ((index) => {
             yyw.onTap(this[`btn${index}`], async () => {
               // 消费
-              const coins = -this.prices[index];
+              const type = this.goods[index];
+              const coins = this.prices[index];
               await yyw.award.save({
-                coins,
+                coins: -coins,
               });
-              yyw.emit("COINS_CHANGE", coins);
+              yyw.emit("COINS_USED", {
+                type,
+                amount: coins,
+              });
               yyw.showToast("兑换成功");
               yyw.emit("TOOL_GOT", {
-                type: this.goods[index],
+                type,
                 amount: 1,
               });
               // 刷新

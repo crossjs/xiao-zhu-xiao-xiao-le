@@ -39,11 +39,12 @@ namespace game {
               imageUrl: canvas.toTempFilePathSync({
                 x: x + 20,
                 y: y + 20,
-                width: this.modal.width - 20,
-                height: this.modal.height - 20,
+                width: this.modal.width - 30,
+                height: this.modal.height - 30,
                 destWidth: 500,
                 destHeight: 400,
               }),
+              ald_desc: "magic",
             },
           })) {
             await this.saveCoins();
@@ -62,7 +63,7 @@ namespace game {
       this.tfdTip.visible = true;
       this.btnOK.visible = true;
       this.btnEscape.visible = true;
-      this.coins = yyw.random(99) + 1;
+      this.coins = yyw.random(50) + 50;
       this.tfdCoins.text = `${this.coins}`;
     }
 
@@ -72,7 +73,10 @@ namespace game {
       await yyw.award.save({
         coins: this.coins,
       });
-      yyw.emit("COINS_CHANGE", this.coins);
+      yyw.emit("COINS_GOT", {
+        type: "magic",
+        amount: this.coins,
+      });
     }
   }
 }

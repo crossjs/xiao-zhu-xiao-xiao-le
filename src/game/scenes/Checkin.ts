@@ -47,14 +47,17 @@ namespace game {
             if (!isPast || yyw.reward.can()) {
               const offTap = yyw.onTap(child, async () => {
                 if (isPast) {
-                  if (!await yyw.reward.apply()) {
+                  if (!await yyw.reward.apply("checkin")) {
                     return;
                   }
                 }
                 offTap();
                 const [ coins, type ] = bonus[index];
                 await yyw.award.save({ coins });
-                yyw.emit("COINS_CHANGE", coins);
+                yyw.emit("COINS_GOT", {
+                  type: "checkin",
+                  amount: coins,
+                });
                 if (type) {
                   yyw.emit("TOOL_GOT", {
                     type,

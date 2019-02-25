@@ -24,6 +24,7 @@ namespace game {
         });
 
         yyw.onTap(this.btnRestart, () => {
+          yyw.emit("GAME_INTERRUPT");
           yyw.director.toScene("playing", false, (scene: Playing) => {
             scene.startGame();
           });

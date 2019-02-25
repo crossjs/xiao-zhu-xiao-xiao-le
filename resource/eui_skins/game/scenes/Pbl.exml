@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <e:Skin class="PblSkin" xmlns:e="http://ns.egret.com/eui">
 	<e:Image id="bg" fillMode="scale" source="sprites_json.mask_bg" scale9Grid="10,10,10,10" touchEnabled="true" width="750" height="1334"/>
-	<e:Group id="body" y="20" width="750" touchEnabled="false">
-		<e:Group id="main" horizontalCenter="0" verticalCenter="0" touchEnabled="false" touchChildren="true">
+	<e:Group id="body" width="750" touchEnabled="false" bottom="262" height="1072">
+		<e:Group id="main" horizontalCenter="0" verticalCenter="0" touchEnabled="false" touchChildren="true" height="460">
 			<e:Group id="modal" touchEnabled="false" touchChildren="false">
 				<e:Image width="660" height="460" source="sprites_json.round_white" scale9Grid="36,36,6,6"/>
 				<e:Image source="sprites_json.zgfs" x="60" y="60"/>

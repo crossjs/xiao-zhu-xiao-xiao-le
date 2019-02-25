@@ -162,11 +162,13 @@ namespace yyw {
 
     button.onTap(async ({ errMsg, encryptedData, iv, userInfo }: any) => {
       button.destroy();
+      let authorized = true;
       try {
         if (errMsg === "getUserInfo:ok") {
           // 取到加密过的用户信息，丢到服务端去解密
           await login({ encryptedData, iv, userInfo });
         } else {
+          authorized = false;
           const isLoggedIn: boolean = !!await getAccessToken();
           if (!isLoggedIn) {
             // 用户拒绝，直接登录
@@ -178,7 +180,7 @@ namespace yyw {
         await login();
       }
       if (onTap) {
-        onTap();
+        onTap(authorized);
       }
     });
 

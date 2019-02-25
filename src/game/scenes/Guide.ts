@@ -26,24 +26,28 @@ namespace game {
       const tweenFinger = yyw.getTween(this.finger);
       const tweenNumFrom = yyw.getTween(this.numFrom);
       const tweenNumTo = yyw.getTween(this.numTo);
+      const y1 = this.numFrom.y;
+      const y2 = this.numTo.y;
+      const fy1 = this.finger.y;
+      const fy2 = fy1 + y2 - y1;
       const tween = async () => {
         tweenNumFrom.to({
-          y: 444,
+          y: y2,
         }, 500);
         tweenNumTo.to({
-          y: 300,
+          y: y1,
         }, 500);
         await tweenFinger.to({
-          y: 504,
+          y: fy2,
         }, 500);
         tweenNumFrom.to({
-          y: 300,
+          y: y1,
         }, 500);
         tweenNumTo.to({
-          y: 444,
+          y: y2,
         }, 500);
         await tweenFinger.to({
-          y: 330,
+          y: fy1,
         }, 500);
         egret.setTimeout(() => {
           if (this.parent) {

@@ -5,6 +5,14 @@ class Main extends eui.UILayer {
   // debug 模式，使用图形绘制
   // private isDebug: boolean = true;
 
+  /**
+   * 埋点
+   * 1、开始资源加载
+   * 2、资源加载完成
+   * 3、开始游戏（授权）
+   * 4、进入游戏（确认授权）
+   */
+
   protected createChildren(): void {
     super.createChildren();
 
@@ -39,12 +47,14 @@ class Main extends eui.UILayer {
     let loaded: boolean = false;
     egret.setTimeout(() => {
       if (!loaded) {
-        egret.error("加载超时，强制进入");
+        yyw.analysis.addEvent("加载超时");
         this.createGameScene();
       }
     }, null, 10000);
+    yyw.analysis.addEvent("开始加载");
     await this.loadResource();
     loaded = true;
+    yyw.analysis.addEvent("加载完成");
     await this.createGameScene();
   }
 
@@ -81,6 +91,7 @@ class Main extends eui.UILayer {
 
     this.created = true;
 
+    yyw.analysis.addEvent("加载配置");
     // 可能网络请求失败，比如断网
     try {
       // 初始化全局配置
@@ -108,9 +119,6 @@ class Main extends eui.UILayer {
 
     // 初始化转发参数
     yyw.initShare();
-
-    // 初始化视频广告
-    yyw.initVideoAd();
 
     // 初始化子域资源
     yyw.sub.postMessage({
@@ -154,15 +162,52 @@ class Main extends eui.UILayer {
     if (yyw.reward.can("coin")) {
       // 获得魔法数字
       yyw.on("MAGIC_GOT", () => {
+        yyw.analysis.onRunning("award", "magic");
         yyw.director.toScene("award", true);
       });
     }
 
+    // 游戏开始
+    yyw.on("GAME_START", () => {
+      yyw.analysis.onStart();
+    });
+
+    // 游戏中止
+    yyw.on("GAME_INTERRUPT", () => {
+      yyw.analysis.onEnd("fail");
+    });
+
+    // 游戏复活
+    yyw.on("GAME_REVIVED", ({ data: { type }}) => {
+      yyw.analysis.onRunning("revive", type);
+    });
+
     // 游戏结束
     yyw.on("GAME_OVER", () => {
+      yyw.analysis.onEnd();
       yyw.director.toScene("playing", false, (scene: game.Playing) => {
         scene.startGame();
       });
+    });
+
+    // 获得道具
+    yyw.on("TOOL_GOT", ({ data: { type, amount }}) => {
+      yyw.analysis.onRunning("award", type, amount);
+    });
+
+    // 使用道具
+    yyw.on("TOOL_USED", ({ data: { type, amount }}) => {
+      yyw.analysis.onRunning("tools", type, amount);
+    });
+
+    // 获得金币
+    yyw.on("COINS_GOT", ({ data: { amount } }) => {
+      yyw.analysis.onRunning("award", "coins", amount);
+    });
+
+    // 使用金币
+    yyw.on("COINS_USED", ({ data: { type } }) => {
+      yyw.analysis.onRunning("paySuccess", type);
     });
   }
 

@@ -9,7 +9,7 @@ namespace yyw {
 
       const canVideo = (status & 2) === 2 && !!CONFIG.rewardAd;
       const canShare = (status & 1) === 1
-        && !(USER.nickname && /^(?:tencent_game_|rdgztest_|minigamecheck)/.test(USER.nickname)) ;
+        && !(USER.nickname && /^(?:tencent_game_|rdgztest_|minigamecheck)/.test(USER.nickname));
 
       if (sub) {
         return sub === "video" ? canVideo : canShare;
@@ -23,7 +23,7 @@ namespace yyw {
      * @param type string
      * @param options any
      */
-    async apply(type?: string, options: any = {}): Promise<boolean | undefined> {
+    async apply(type?: string, options: any = {}): Promise<boolean | string | undefined> {
       // 0 关闭
       // 1 分享
       // 2 视频
@@ -37,14 +37,15 @@ namespace yyw {
       }
 
       const tryVideo = (status & 2) === 2 && !!CONFIG.rewardAd;
-      const tryShare = (status & 1) === 1;
+      const tryShare = (status & 1) === 1
+        && !(USER.nickname && /^(?:tencent_game_|rdgztest_|minigamecheck)/.test(USER.nickname));
 
       // 启用了视频激励，且有 adUnitId
       if (tryVideo) {
         // 看完视频广告
         const videoPlayed = await showVideoAd();
         if (videoPlayed) {
-          return true;
+          return "video";
         } else {
           if (videoPlayed === false) {
             showToast("看完整个视频才能获得奖励");
@@ -56,8 +57,11 @@ namespace yyw {
       // 启用了分享激励
       if (tryShare) {
         // 完成转发
-        if (await share(options.share)) {
-          return true;
+        if (await share({
+          ald_desc: type,
+          ...options.share,
+        })) {
+          return "share";
         } else {
           showToast("完成转发才能获得奖励");
           return false;

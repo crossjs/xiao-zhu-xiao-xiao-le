@@ -17,7 +17,7 @@ namespace yyw {
     wx.showShareMenu({
       withShareTicket: true,
     });
-    wx.onShareAppMessage(() => SHARE_OPTIONS[currentIndex++ % 2]);
+    wx.aldOnShareAppMessage(() => SHARE_OPTIONS[currentIndex++ % 2]);
   }
 
   export function share(options = {}): Promise<boolean> {
@@ -29,7 +29,7 @@ namespace yyw {
         wx.offShow(onShow);
       };
       wx.onShow(onShow);
-      wx.shareAppMessage({
+      wx.aldShareAppMessage({
         ...SHARE_OPTIONS[currentIndex++ % 2],
         ...options,
       });

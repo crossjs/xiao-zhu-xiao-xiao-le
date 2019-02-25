@@ -14,7 +14,7 @@ namespace yyw {
     adUnitId: string = CONFIG.bannerAd,
   ): Promise<any> {
     if (!adUnitId) {
-      return;
+      throw new Error("closed");
     }
 
     if (bannerAd) {
@@ -31,9 +31,11 @@ namespace yyw {
         height: BANNER_HEIGHT,
       },
     });
+
     bannerAd.onError(({ errMsg }) => {
-      showToast(errMsg);
+      // showToast(errMsg);
     });
+
     bannerAd.onResize(onBannerAdResize);
 
     return bannerAd.show();
@@ -48,28 +50,24 @@ namespace yyw {
 
   let videoAd: wx.RewardedVideoAd;
 
-  export function initVideoAd(
-    adUnitId: string = CONFIG.rewardAd,
-  ): void {
-    if (!adUnitId) {
-      return;
-    }
-    videoAd = wx.createRewardedVideoAd({
-      adUnitId,
-    });
-    videoAd.onError(({ errMsg }) => {
-      showToast(errMsg);
-    });
-  }
-
   /**
    * true: 播放完成
    * false: 用户取消
    * undefined: 调起失败
    */
-  export async function showVideoAd(): Promise<any> {
-    if (!videoAd) {
+  export async function showVideoAd(
+    adUnitId: string = CONFIG.rewardAd,
+  ): Promise<any> {
+    if (!adUnitId) {
       return;
+    }
+    if (!videoAd) {
+      videoAd = wx.createRewardedVideoAd({
+        adUnitId,
+      });
+      videoAd.onError(({ errMsg }) => {
+        // showToast(errMsg);
+      });
     }
     try {
       await videoAd.show();

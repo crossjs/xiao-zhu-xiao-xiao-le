@@ -67,20 +67,6 @@ namespace yyw {
         }, true);
       }
 
-      // 匹配刘海屏
-      if (this.body) {
-        const { system, statusBarHeight } = CONFIG.systemInfo;
-        // yyw.showToast(`SBH: ${statusBarHeight}`);
-        let top: number;
-        if (/android/i.test(system)) {
-          top = statusBarHeight > 18 ? 88 : 33;
-        } else {
-          top = statusBarHeight > 20 ? statusBarHeight * 2 : 20;
-        }
-        this.body.y = top;
-        this.body.height = this.stage.stageHeight - top;
-      }
-
       if (this.btnEscape) {
         onTap(this.btnEscape, () => {
           director.escape();
