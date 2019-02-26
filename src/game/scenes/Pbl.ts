@@ -30,6 +30,8 @@ namespace game {
           });
         });
       }
+
+      yyw.analysis.addEvent("7进入场景", { s: "数据统计" });
     }
   }
 }

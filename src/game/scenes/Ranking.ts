@@ -56,6 +56,8 @@ namespace game {
         openid: yyw.USER.openId || 0,
         pageSize: this.pageSize,
       });
+
+      yyw.analysis.addEvent("7进入场景", { s: "好友排行" });
     }
 
     private async showWorld() {
@@ -76,6 +78,8 @@ namespace game {
       } catch (error) {
         yyw.showToast("当前无数据");
       }
+
+      yyw.analysis.addEvent("7进入场景", { s: "世界排行" });
     }
 
     /**

@@ -38,6 +38,8 @@ namespace game {
       }
 
       await this.update();
+
+      yyw.analysis.addEvent("7进入场景", { s: "道具兑换" });
     }
 
     private async update() {

@@ -49,7 +49,7 @@ namespace game {
       this.isGameOver = false;
 
       if (fromChildrenCreated) {
-        yyw.analysis.addEvent("开始游戏");
+        yyw.analysis.addEvent("6开始游戏");
 
         if (!yyw.USER.score) {
           yyw.director.toScene("guide", true);

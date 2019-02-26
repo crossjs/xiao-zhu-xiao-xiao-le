@@ -36,6 +36,8 @@ namespace game {
           item.setData(task);
         });
       }
+
+      yyw.analysis.addEvent("7进入场景", { s: "每日任务" });
     }
 
     private checkTasks() {

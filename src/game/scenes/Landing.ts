@@ -68,7 +68,7 @@ namespace game {
       super.createView(fromChildrenCreated);
 
       if (fromChildrenCreated) {
-        yyw.analysis.addEvent("进入主页");
+        yyw.analysis.addEvent("4进入主页");
         // const { width, height } = this.btnStart;
         // const { x: left, y: top } = this.btnStart.localToGlobal();
         // TODO 封装成 Component
@@ -78,7 +78,7 @@ namespace game {
           width: 432,
           height: 144,
           onTap: (authorized: boolean) => {
-            yyw.analysis.addEvent(authorized ? "确认授权" : "取消授权");
+            yyw.analysis.addEvent(authorized ? "5确认授权" : "5取消授权");
             yyw.director.toScene("playing");
           },
         });
@@ -141,13 +141,13 @@ namespace game {
       const { score = 0 } = await yyw.pbl.me();
       this.tfdBestScore.text = `历史最高分数：${score}`;
 
-      try {
-        // 每次进入，都刷新广告
-        await yyw.showBannerAd();
-      } catch (error) {
+      // 每次进入，都刷新广告
+      if (!await yyw.showBannerAd()) {
         // 没有广告，显示交叉营销
         this.boxAll.showBox();
       }
+
+      yyw.analysis.addEvent("7进入场景", { s: "主界面" });
     }
   }
 }

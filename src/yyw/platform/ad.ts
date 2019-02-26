@@ -10,11 +10,33 @@ namespace yyw {
     bannerAd.style.top = CONFIG.systemInfo.windowHeight - height;
   };
 
+  // 微信奇怪地返回 Unhandled promise rejection
+  // 所以干脆自己封装，统一返回 true/false
+  const promisedBannerAd = (): Promise<boolean> => {
+    return new Promise(async (resolve, reject) => {
+      bannerAd.onLoad(() => {
+        resolve(true);
+      });
+
+      bannerAd.onError(({ errMsg }) => {
+        resolve(false);
+      });
+
+      try {
+        await bannerAd.show();
+        resolve(true);
+      } catch (error) {
+        egret.error(error);
+        resolve(false);
+      }
+    });
+  };
+
   export async function showBannerAd(
     adUnitId: string = CONFIG.bannerAd,
-  ): Promise<any> {
+  ): Promise<boolean> {
     if (!adUnitId) {
-      throw new Error("closed");
+      return false;
     }
 
     if (bannerAd) {
@@ -32,13 +54,9 @@ namespace yyw {
       },
     });
 
-    bannerAd.onError(({ errMsg }) => {
-      // showToast(errMsg);
-    });
-
     bannerAd.onResize(onBannerAdResize);
 
-    return bannerAd.show();
+    return promisedBannerAd();
   }
 
   export async function hideBannerAd(): Promise<any> {

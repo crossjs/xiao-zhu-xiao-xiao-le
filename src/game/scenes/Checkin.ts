@@ -76,7 +76,7 @@ namespace game {
         });
       }
 
-      // this.showFriend();
+      yyw.analysis.addEvent("7进入场景", { s: "每日签到" });
     }
   }
 }

@@ -47,14 +47,14 @@ class Main extends eui.UILayer {
     let loaded: boolean = false;
     egret.setTimeout(() => {
       if (!loaded) {
-        yyw.analysis.addEvent("加载超时");
+        yyw.analysis.addEvent("2加载超时");
         this.createGameScene();
       }
     }, null, 10000);
-    yyw.analysis.addEvent("开始加载");
+    yyw.analysis.addEvent("1开始加载");
     await this.loadResource();
     loaded = true;
-    yyw.analysis.addEvent("加载完成");
+    yyw.analysis.addEvent("2加载完成");
     await this.createGameScene();
   }
 
@@ -91,7 +91,7 @@ class Main extends eui.UILayer {
 
     this.created = true;
 
-    yyw.analysis.addEvent("加载配置");
+    yyw.analysis.addEvent("3加载配置");
     // 可能网络请求失败，比如断网
     try {
       // 初始化全局配置
