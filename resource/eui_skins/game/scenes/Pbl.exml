@@ -4,7 +4,7 @@
 	<e:Group id="body" width="750" touchEnabled="false" bottom="262" height="1072">
 		<e:Group id="main" horizontalCenter="0" verticalCenter="0" touchEnabled="false" touchChildren="true" height="460">
 			<e:Group id="modal" touchEnabled="false" touchChildren="false">
-				<e:Image width="660" height="460" source="sprites_json.round_white" scale9Grid="36,36,6,6"/>
+				<e:Image width="660" height="460" source="sprites_json.round_white" scale9Grid="36,36,6,6" x="0"/>
 				<e:Image source="sprites_json.zgfs" x="60" y="60"/>
 				<e:BitmapLabel textAlign="right" id="tfdScore" x="300" y="60" width="300" height="60" font="score_fnt" text=""/>
 				<e:Image source="sprites_json.zgnd" x="60" y="130"/>
@@ -18,8 +18,7 @@
 			</e:Group>
 			<e:Image id="btnEscape" source="sprites_json.close" x="559" y="-90"/>
 			<e:Image source="sprites_json.sjtj" y="-90" x="235"/>
-			<e:Button id="btnHome" x="60" y="508" icon="sprites_json.fhsy" skinName="ButtonDefaultSkin" width="240" height="90"/>
-			<e:Button id="btnRestart" x="360" y="508" icon="sprites_json.cxks" skinName="ButtonDefaultSkin" width="240" height="90"/>
+			<e:Button id="btnRestart" x="210" y="508" icon="sprites_json.cxks" skinName="ButtonDefaultSkin" width="240" height="90"/>
 		</e:Group>
 	</e:Group>
 </e:Skin>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="AllSkin" width="750" height="208" xmlns:e="http://ns.egret.com/eui" >
-	<e:Image id="main" source="sprites_json.bottom_bg" left="0" right="0" top="0" bottom="0" scale9Grid="10,10,10,10" visible="false"/>
 	<e:Scroller width="714" height="172" x="18" y="18">
 		<e:Group id="container">
 			<e:layout>

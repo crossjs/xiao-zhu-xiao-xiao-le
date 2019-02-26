@@ -6,11 +6,15 @@ namespace game {
       // 体力耗尽，会跳转到结算界面，
       // 此时界面上存在两个开放域，
       // 为避免冲突，应将 closest 移除
-      yyw.on("LIVES_EMPTY", () => {
-        this.removeBmp();
+      yyw.on("SCENE_ENTERING", ({ data: { name }}) => {
+        if (name === "ending" || name === "ranking") {
+          this.removeBmp();
+        }
       });
-      yyw.on("GAME_REVIVED", () => {
-        egret.setTimeout(this.createBmp, this, 500);
+      yyw.on("SCENE_ESCAPED", ({ data: { name }}) => {
+        if (name === "ending" || name === "ranking") {
+          egret.setTimeout(this.createBmp, this, 500);
+        }
       });
     }
 

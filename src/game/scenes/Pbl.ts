@@ -1,6 +1,5 @@
 namespace game {
   export class Pbl extends yyw.Base {
-    private btnHome: eui.Button;
     private btnRestart: eui.Button;
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
@@ -19,10 +18,6 @@ namespace game {
       }
 
       if (fromChildrenCreated) {
-        yyw.onTap(this.btnHome, () => {
-          yyw.director.toScene("landing");
-        });
-
         yyw.onTap(this.btnRestart, () => {
           yyw.emit("GAME_INTERRUPT");
           yyw.director.toScene("playing", false, (scene: Playing) => {

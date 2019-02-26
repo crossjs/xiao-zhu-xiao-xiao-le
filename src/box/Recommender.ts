@@ -7,18 +7,23 @@ namespace box {
     [key: string]: any;
   }
 
+  interface IRequestParams {
+    url: any;
+    data?: any;
+    method?: any;
+  }
+
+  const defaultOrigins = {
+    box: "https://box.minipx.cn",
+    log: "https://log.minipx.cn",
+  };
+
   function noop() {
     // empty
   }
 
   function caniuse(ability: string) {
     return typeof wx !== "undefined" && Boolean(wx[ability]);
-  }
-
-  interface IRequestParams {
-    url: any;
-    data?: any;
-    method?: any;
   }
 
   function request({ url, data, method = "GET" }: IRequestParams) {
@@ -36,11 +41,6 @@ namespace box {
       });
     });
   }
-
-  const defaultOrigins = {
-    box: "https://box.minipx.cn",
-    log: "https://log.minipx.cn",
-  };
 
   function makeArray(length, value) {
     const a = [];

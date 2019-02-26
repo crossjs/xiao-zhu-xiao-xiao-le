@@ -62,6 +62,7 @@ namespace game {
       if (this.offWave) {
         this.offWave();
       }
+      yyw.removeElement(this.boxAll);
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
@@ -69,14 +70,12 @@ namespace game {
 
       if (fromChildrenCreated) {
         yyw.analysis.addEvent("4进入主页");
-        // const { width, height } = this.btnStart;
-        // const { x: left, y: top } = this.btnStart.localToGlobal();
-        // TODO 封装成 Component
+        const { x: left, y: top, width, height } = this.btnStart;
         this.userInfoButton = await yyw.createUserInfoButton({
-          left: 159,
-          top: this.stage.stageHeight - 478,
-          width: 432,
-          height: 144,
+          left,
+          top: this.stage.stageHeight - 1334 + top,
+          width,
+          height,
           onTap: (authorized: boolean) => {
             yyw.analysis.addEvent(authorized ? "5确认授权" : "5取消授权");
             yyw.director.toScene("playing");
@@ -144,7 +143,9 @@ namespace game {
       // 每次进入，都刷新广告
       if (!await yyw.showBannerAd()) {
         // 没有广告，显示交叉营销
-        this.boxAll.showBox();
+        this.boxAll = new box.All();
+        this.boxAll.bottom = 0;
+        this.addChild(this.boxAll);
       }
 
       yyw.analysis.addEvent("7进入场景", { s: "主界面" });

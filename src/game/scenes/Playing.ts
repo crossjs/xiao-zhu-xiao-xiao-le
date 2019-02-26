@@ -3,12 +3,17 @@ namespace game {
 
   export class Playing extends yyw.Base {
     private isGameOver: boolean = false;
+    private btnHome: eui.Button;
+    private btnCheckin: eui.Button;
+    private btnSound: eui.ToggleButton;
+    private btnVibration: eui.ToggleButton;
+    private btnBoard: eui.Button;
     private btnTask: eui.Group;
     private btnShop: eui.Group;
     private tfdScore: eui.BitmapLabel;
     private tfdTasks: eui.BitmapLabel;
     private tfdCoins: eui.BitmapLabel;
-    // private boxAll: box.All;
+    private boxAll: box.All;
     private tasks: number = 0;
     private coins: number = 0;
     /** 单局最大连击数 */
@@ -60,6 +65,41 @@ namespace game {
 
         this.initToolsTarget();
 
+        yyw.onTap(this.btnHome, () => {
+          yyw.director.toScene("landing");
+        });
+
+        // 每日签到
+        yyw.onTap(this.btnCheckin, () => {
+          yyw.director.toScene("checkin", true);
+        });
+
+        // 声音
+        yyw.onTap(this.btnSound, () => {
+          const { selected } = this.btnSound;
+          this.btnSound.currentState = selected ? "selected" : "up";
+          yyw.CONFIG.soundEnabled = selected;
+        });
+        this.btnSound.selected = true;
+
+        const canVibrate = !/^iPhone (?:4|5|6)/i.test(yyw.CONFIG.systemInfo.model);
+        if (canVibrate) {
+          // 振动
+          yyw.onTap(this.btnVibration, () => {
+            const { selected } = this.btnVibration;
+            this.btnVibration.currentState = selected ? "selected" : "up";
+            yyw.CONFIG.vibrationEnabled = selected;
+          });
+        } else {
+          this.btnVibration.currentState = "disabled";
+          yyw.CONFIG.vibrationEnabled = false;
+        }
+
+        // 排行榜
+        yyw.onTap(this.btnBoard, () => {
+          yyw.director.toScene("ranking", true);
+        });
+
         this.btnTask.visible = true;
         yyw.onTap(this.btnTask, () => {
           yyw.director.toScene("task", true);
@@ -83,6 +123,14 @@ namespace game {
           });
 
           this.updateCoins();
+        }
+
+        // 初次进入，刷新广告
+        if (!await yyw.showBannerAd()) {
+          // 没有广告，显示交叉营销
+          this.boxAll = new box.All();
+          this.boxAll.bottom = 0;
+          this.addChild(this.boxAll);
         }
       }
     }
@@ -132,8 +180,8 @@ namespace game {
 
     private createClosest() {
       this.closest = new Closest();
-      this.closest.x = 21;
-      this.closest.y = 144;
+      this.closest.x = 15;
+      this.closest.y = 132;
       this.body.addChild(this.closest);
     }
 
@@ -148,8 +196,8 @@ namespace game {
     } }: egret.Event) {
       this.maxCombo = Math.max(combo, this.maxCombo);
       const tween = yyw.getTween(this.tfdScore);
-      await tween.to({ scale: 1.5 });
-      this.tfdScore.text = `${score}`;
+      await tween.to({ scale: 2 });
+      this.tfdScore.text = yyw.zeroPadding(`${score}`, 5);
       await tween.to({ scale: 1 });
     }
 

@@ -31,7 +31,7 @@
 			"url": "assets/sprites.json",
 			"type": "sheet",
 			"name": "sprites_json",
-			"subkeys": "avatar,board,bottom_bg,button_disabled,button_down,button_up,checked,checkin,cheng1,circle_add,circle_red,close,closest,closest_bg,coin,current,dismiss,favorite,finger,games,heart,important,lives_bg,magic,main_bg,mask_bg,me_bg,point,round_disabled,round_grass,round_white,score,sound,start,task,tool_bg,tool_breaker,tool_livesup,tool_shuffle,tool_valueup,top1,top2,top3,vibration,zgfs,zgnd,zglj,ljfs,ljjs,hyph,sjph,ckhyph,cksjph,djdh,sjtj,tlbz,wdjk,mffh,cxks,fhsy,cxks,zlyc,ljhd,mrqd,mrrw"
+			"subkeys": "avatar,board,bottom_bg,button_disabled,button_down,button_up,checked,checkin,cheng1,circle_add,circle_red,close,closest,closest_bg,coin,dismiss,favorite,finger,games,heart,home,important,lives_bg,magic,main_bg,mask_bg,me_bg,point,round_disabled,round_grass,round_white,score,sound,start,task,tool_bg,tool_breaker,tool_livesup,tool_shuffle,tool_valueup,top1,top2,top3,vibration,zgfs,zgnd,zglj,ljfs,ljjs,hyph,sjph,ckhyph,cksjph,djdh,sjtj,tlbz,wdjk,mffh,cxks,cxks,zlyc,ljhd,mrqd,mrrw"
 		},
 		{
 			"url": "assets/sprites2.json",

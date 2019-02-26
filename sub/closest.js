@@ -20,11 +20,11 @@ export const Closest = {
       this.cleanScreen();
       this.lastOpenid = openid;
       // 绘制头像
-      this.drawImage(avatarUrl, 24, 12, 48, 48);
+      this.drawImage(avatarUrl, (width - 48) / 2, 12, 48, 48);
       // 绘制名称
-      this.drawText(nickname, 48, 90, 95);
+      this.drawText(nickname, width / 2, 90, width);
       // 绘制分数
-      this.drawText(score, 48, 114, 95);
+      this.drawText(score, width / 2, 114, width);
     } else {
       console.error("创建开放数据域失败，请检查是否加载开放数据域资源");
     }

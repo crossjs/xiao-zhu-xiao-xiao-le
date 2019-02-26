@@ -1,8 +1,8 @@
 namespace yyw {
   interface ISceneManager {
     scenes?: { [key: string]: Base; };
-    theStage?: eui.UILayer; // 设置所有场景所在的舞台(根)
-    theScene?: Base; // 当前场景
+    stageLayer?: eui.UILayer; // 设置所有场景所在的舞台(根)
+    currentName?: string; // 当前场景名称
     [key: string]: any;
   }
 
@@ -15,8 +15,10 @@ namespace yyw {
     },
 
     async escape(): Promise<void> {
-      await this.theScene.exiting();
-      removeElement(this.theScene);
+      const scene = this.getScene(this.currentName);
+      await scene.exiting();
+      removeElement(scene);
+      emit("SCENE_ESCAPED", { name: this.currentName });
     },
 
     async toScene(
@@ -25,7 +27,7 @@ namespace yyw {
       callback?: any,
     ): Promise<Base> {
       // (根) 舞台
-      const stage: egret.DisplayObjectContainer = this.theStage;
+      const stage: egret.DisplayObjectContainer = this.stageLayer;
       const scene = this.getScene(name);
 
       if (!keepOther) {
@@ -37,9 +39,10 @@ namespace yyw {
 
       // 判断场景是否有父级（如果有，说明已经被添加到了场景中）
       if (!scene.parent) {
+        emit("SCENE_ENTERING", { name });
         // 未被添加到场景，把场景添加到之前设置好的根舞台中
         stage.addChild(scene);
-        this.theScene = scene;
+        this.currentName = name;
         // 创建 Tween 对象
         await scene.entering();
       }
@@ -56,7 +59,7 @@ namespace yyw {
      * 设置根场景
      */
     setStage(stage: eui.UILayer) {
-      this.theStage = stage;
+      this.stageLayer = stage;
     },
 
     /**

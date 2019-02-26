@@ -24,7 +24,7 @@ namespace game {
         this.bmpMe = await yyw.loadImage(yyw.USER.avatarUrl);
         this.bmpMe.width = 48;
         this.bmpMe.height = 48;
-        this.bmpMe.x = 45;
+        this.bmpMe.x = 42;
         this.bmpMe.y = 12;
         this.addChildAt(this.bmpMe, 1);
         this.offLight = yyw.light(this.bmpMe);

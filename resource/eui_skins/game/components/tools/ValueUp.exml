@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
-<e:Skin class="ValueUpSkin" xmlns:e="http://ns.egret.com/eui" width="72" height="72">
-	<e:Group id="main" touchChildren="false" x="39" y="39" anchorOffsetX="39" anchorOffsetY="39">
-		<e:Image source="sprites_json.round_grass" scale9Grid="36,36,6,6" y="0" x="0" width="72" height="72"/>
-		<e:Image touchEnabled="false" source="sprites_json.tool_valueup" y="16" x="14" scaleX="0.9" scaleY="0.9"/>
-		<e:Image source="sprites_json.circle_red" x="51" y="-18"/>
-		<e:Label id="tfd" width="27" height="27" text="" touchEnabled="false" x="59" y="-9" textAlign="center" size="24"/>
+<e:Skin class="ValueUpSkin" xmlns:e="http://ns.egret.com/eui">
+	<e:Group id="main" touchChildren="false" x="36" y="36" anchorOffsetX="36" anchorOffsetY="36" width="72" height="72">
+		<e:Image source="sprites_json.round_white" scale9Grid="36,36,6,6" y="0" x="0" width="72" height="72"/>
+		<e:Image touchEnabled="false" source="sprites_json.tool_valueup" y="16" x="12" scaleX="0.9" scaleY="0.9"/>
+		<e:Image source="sprites_json.circle_red" x="51" y="-13.556" width="30" height="30"/>
+		<e:Label id="tfd" width="27" height="27" text="" touchEnabled="false" x="53" y="-10.556" textAlign="center" size="24"/>
 		<e:Image id="img" source="sprites_json.circle_add" touchEnabled="false" x="51" y="-18" visible="false"/>
 	</e:Group>
 </e:Skin>

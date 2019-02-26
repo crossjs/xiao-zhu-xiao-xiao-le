@@ -17,4 +17,9 @@ namespace yyw {
     }
     return value.substring(0, size);
   }
+
+  export function zeroPadding(str: string, size: number): string {
+    const padding = "0000000000";
+    return `${padding.slice(0, size - str.length)}${str}`;
+  }
 }
