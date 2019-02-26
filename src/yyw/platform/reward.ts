@@ -23,7 +23,7 @@ namespace yyw {
      * @param type string
      * @param options any
      */
-    async apply(type?: string, options: any = {}): Promise<boolean | string | undefined> {
+    async apply(type?: string, options: any = {}): Promise<false | string | undefined> {
       // 0 关闭
       // 1 分享
       // 2 视频

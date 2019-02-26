@@ -41,8 +41,7 @@ namespace game {
           if (canTool) {
             const type = await yyw.reward.apply("revive");
             if (type) {
-              yyw.emit("GAME_REVIVED", { type });
-              this.revive();
+              this.revive(type);
             }
           } else {
             yyw.director.escape();
@@ -59,7 +58,8 @@ namespace game {
       this.createTop3();
     }
 
-    private async revive() {
+    private async revive(type: string) {
+      yyw.emit("GAME_REVIVED", { type });
       await yyw.director.escape();
       yyw.emit("TOOL_GOT", {
         type: "livesUp",
