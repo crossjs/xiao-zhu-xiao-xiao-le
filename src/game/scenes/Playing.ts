@@ -3,19 +3,9 @@ namespace game {
 
   export class Playing extends yyw.Base {
     private isGameOver: boolean = false;
-    private btnHome: eui.Button;
-    private btnCheckin: eui.Button;
-    private btnSound: eui.ToggleButton;
-    private btnVibration: eui.ToggleButton;
-    private btnBoard: eui.Button;
-    private btnTask: eui.Group;
-    private btnShop: eui.Group;
-    private tfdScore: eui.BitmapLabel;
-    private tfdTasks: eui.BitmapLabel;
-    private tfdCoins: eui.BitmapLabel;
+    private ctrlShop: game.CtrlShop;
+    private ctrlGroup3: game.CtrlGroup3;
     private boxAll: box.All;
-    private tasks: number = 0;
-    private coins: number = 0;
     /** 单局最大连击数 */
     private maxCombo: number = 0;
     private arena: Arena;
@@ -65,64 +55,14 @@ namespace game {
 
         this.initToolsTarget();
 
-        yyw.onTap(this.btnHome, () => {
-          yyw.director.toScene("landing");
-        });
-
-        // 每日签到
-        yyw.onTap(this.btnCheckin, () => {
-          yyw.director.toScene("checkin", true);
-        });
-
-        // 声音
-        yyw.onTap(this.btnSound, () => {
-          const { selected } = this.btnSound;
-          this.btnSound.currentState = selected ? "selected" : "up";
-          yyw.CONFIG.soundEnabled = selected;
-        });
-        this.btnSound.selected = true;
-
-        const canVibrate = !/^iPhone (?:4|5|6)/i.test(yyw.CONFIG.systemInfo.model);
-        if (canVibrate) {
-          // 振动
-          yyw.onTap(this.btnVibration, () => {
-            const { selected } = this.btnVibration;
-            this.btnVibration.currentState = selected ? "selected" : "up";
-            yyw.CONFIG.vibrationEnabled = selected;
-          });
-        } else {
-          this.btnVibration.currentState = "disabled";
-          yyw.CONFIG.vibrationEnabled = false;
+        if (this.stage.stageHeight <= 1334) {
+          this.ctrlGroup3.y = 108;
+          this.ctrlGroup3.scale = 0.75;
         }
-
-        // 排行榜
-        yyw.onTap(this.btnBoard, () => {
-          yyw.director.toScene("ranking", true);
-        });
-
-        this.btnTask.visible = true;
-        yyw.onTap(this.btnTask, () => {
-          yyw.director.toScene("task", true);
-        });
-        yyw.on("TASK_DONE", () => {
-          this.updateTasks(1);
-        });
-
-        this.updateTasks();
+        this.ctrlGroup3.visible = true;
 
         if (yyw.CONFIG.shopStatus) {
-          this.btnShop.visible = true;
-          yyw.onTap(this.btnShop, () => {
-            yyw.director.toScene("shop", true);
-          });
-          yyw.on("COINS_GOT", ({ data: { amount } }) => {
-            this.updateCoins(amount);
-          });
-          yyw.on("COINS_USED", ({ data: { amount } }) => {
-            this.updateCoins(-amount);
-          });
-
-          this.updateCoins();
+          this.ctrlShop.visible = true;
         }
 
         // 初次进入，刷新广告
@@ -133,34 +73,6 @@ namespace game {
           this.addChild(this.boxAll);
         }
       }
-    }
-
-    private async updateTasks(mutation?: number) {
-      if (mutation) {
-        this.tasks += mutation;
-      } else {
-        try {
-          const tasks = await yyw.task.me();
-          this.tasks = tasks.length;
-        } catch (error) {
-          egret.error(error);
-        }
-      }
-      this.tfdTasks.text = `${this.tasks}/6`;
-    }
-
-    private async updateCoins(mutation?: number) {
-      if (mutation) {
-        this.coins += mutation;
-      } else {
-        try {
-          const { coins } = await yyw.pbl.me();
-          this.coins = coins;
-        } catch (error) {
-          egret.error(error);
-        }
-      }
-      this.tfdCoins.text = `${this.coins}`;
     }
 
     private async getSnapshot() {
@@ -192,13 +104,8 @@ namespace game {
 
     private async onGameData({ data: {
       combo,
-      score,
     } }: egret.Event) {
       this.maxCombo = Math.max(combo, this.maxCombo);
-      const tween = yyw.getTween(this.tfdScore);
-      await tween.to({ scale: 2 });
-      this.tfdScore.text = yyw.zeroPadding(`${score}`, 5);
-      await tween.to({ scale: 1 });
     }
 
     private onGameOver({ data: {

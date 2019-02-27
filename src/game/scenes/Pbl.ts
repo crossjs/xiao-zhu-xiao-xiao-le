@@ -18,6 +18,10 @@ namespace game {
       }
 
       if (fromChildrenCreated) {
+        yyw.on("ARENA_RUN", ({ data: running }: egret.Event) => {
+          this.enabled = !running;
+        });
+
         yyw.onTap(this.btnRestart, () => {
           yyw.emit("GAME_INTERRUPT");
           yyw.director.toScene("playing", false, (scene: Playing) => {

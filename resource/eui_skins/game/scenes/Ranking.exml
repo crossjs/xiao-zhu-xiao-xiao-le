@@ -1,11 +1,11 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="RankingSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*">
 	<e:Image id="bg" fillMode="scale" source="sprites_json.mask_bg" scale9Grid="10,10,10,10" touchEnabled="true" width="750" height="1334"/>
 	<e:Group id="body" width="750" touchEnabled="false" bottom="262" height="1072">
 		<e:Group id="main" width="660" horizontalCenter="0" verticalCenter="0" touchEnabled="false" height="468">
-			<e:Group id="modal" x="0" y="0" touchEnabled="false">
-				<e:Image width="660" height="468" source="sprites_json.round_white" y="0" x="0" scale9Grid="36,36,6,6"/>
-				<e:Group x="30" y="30" width="600" visible="true" touchEnabled="false" touchChildren="false">
+			<e:Group id="modal" touchEnabled="false">
+				<e:Image width="660" height="468" source="sprites_json.round_white" scale9Grid="36,36,6,6"/>
+				<e:Group x="30" y="30" width="600" touchEnabled="false" touchChildren="false">
 					<e:Image height="72" left="0" right="0" source="sprites_json.round_grass" scale9Grid="36,36,6,6"/>
 					<e:Image height="72" left="0" right="0" source="sprites_json.round_grass" scale9Grid="36,36,6,6" y="84"/>
 					<e:Image height="72" left="0" right="0" source="sprites_json.round_grass" scale9Grid="36,36,6,6" y="168"/>
@@ -13,7 +13,7 @@
 					<e:Image height="72" left="0" right="0" source="sprites_json.round_grass" scale9Grid="36,36,6,6" y="336"/>
 					<e:Image height="72" left="0" right="0" source="sprites_json.round_grass" scale9Grid="36,36,6,6" y="450"/>
 				</e:Group>
-				<e:Group id="groupFriend" width="572" y="30" visible="true" height="522" x="44"/>
+				<e:Group id="groupFriend" width="572" y="30" height="522" x="44"/>
 				<e:Group id="groupWorld" y="30" visible="false" x="44">
 					<game:RankingItem id="r0"/>
 					<game:RankingItem id="r1" y="84"/>

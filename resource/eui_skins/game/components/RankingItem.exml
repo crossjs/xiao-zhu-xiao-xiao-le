@@ -1,8 +1,8 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="RankingItemSkin" xmlns:e="http://ns.egret.com/eui">
 	<e:Label id="labelKey" x="2" y="8" size="24" width="54" height="54" verticalAlign="middle" textAlign="center" fontFamily="sans-serif" textColor="16777215"/>
   <e:Image id="imageKey" y="10" source="sprites_json.top1" visible="false"/>
 	<e:Image id="imageAvatar" width="48" height="48" x="64" y="12"/>
-	<e:Label id="labelNickname" x="122" width="296" size="36" height="72" verticalAlign="middle" fontFamily="sans-serif" multiline="false" y="0" textColor="6971468"/>
+	<e:Label id="labelNickname" x="122" width="296" size="36" height="72" verticalAlign="middle" fontFamily="sans-serif" multiline="false" textColor="6971468"/>
 	<e:Label id="labelScore" x="418" textAlign="right" width="144" size="36" height="72" verticalAlign="middle" fontFamily="sans-serif" textColor="12798297"/>
 </e:Skin>

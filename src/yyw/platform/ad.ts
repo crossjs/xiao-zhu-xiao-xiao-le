@@ -1,5 +1,5 @@
 namespace yyw {
-  const BANNER_HEIGHT = 131;
+  export const BANNER_HEIGHT = 262;
 
   let bannerAd: wx.BannerAd;
 
@@ -26,9 +26,9 @@ namespace yyw {
       adUnitId,
       style: {
         left: 0,
-        top: CONFIG.systemInfo.windowHeight - BANNER_HEIGHT,
+        top: CONFIG.systemInfo.windowHeight - BANNER_HEIGHT / 2,
         width: CONFIG.systemInfo.windowWidth,
-        height: BANNER_HEIGHT,
+        height: BANNER_HEIGHT / 2,
       },
     });
 

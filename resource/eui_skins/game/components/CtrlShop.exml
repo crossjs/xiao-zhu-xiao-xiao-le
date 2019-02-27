@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="CtrlShopSkin" xmlns:e="http://ns.egret.com/eui">
+	<e:Group id="main">
+		<e:Image source="sprites_json.coin" scaleX="0.375" scaleY="0.375" x="37"/>
+		<e:BitmapLabel id="tfdCoins" text="0" y="36" font="score_fnt" height="72" width="210" scaleX="0.5" scaleY="0.5" textAlign="center"/>
+	</e:Group>
+</e:Skin>

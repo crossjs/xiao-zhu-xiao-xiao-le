@@ -89,37 +89,6 @@ namespace game {
           yyw.director.toScene("playing");
         });
 
-        // 声音
-        yyw.onTap(this.btnSound, () => {
-          const { selected } = this.btnSound;
-          this.btnSound.currentState = selected ? "selected" : "up";
-          yyw.CONFIG.soundEnabled = selected;
-        });
-        this.btnSound.selected = true;
-
-        const canVibrate = !/^iPhone (?:4|5|6)/i.test(yyw.CONFIG.systemInfo.model);
-        if (canVibrate) {
-          // 振动
-          yyw.onTap(this.btnVibration, () => {
-            const { selected } = this.btnVibration;
-            this.btnVibration.currentState = selected ? "selected" : "up";
-            yyw.CONFIG.vibrationEnabled = selected;
-          });
-        } else {
-          this.btnVibration.currentState = "disabled";
-          yyw.CONFIG.vibrationEnabled = false;
-        }
-
-        // 每日签到
-        yyw.onTap(this.btnCheckin, () => {
-          yyw.director.toScene("checkin", true);
-        });
-
-        // 排行榜
-        yyw.onTap(this.btnBoard, () => {
-          yyw.director.toScene("ranking", true);
-        });
-
         const STICKY_KEY = "STICKY_ENTRY";
         if (!(await yyw.db.get(STICKY_KEY))) {
           // 微信聊天主界面下拉，「我的小程序」栏（基础库2.2.4版本起废弃）

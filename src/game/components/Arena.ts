@@ -3,6 +3,7 @@ namespace game {
 
   export class Arena extends yyw.Base {
     private isGameOver: boolean = false;
+    private tfdScore: eui.BitmapLabel;
     private cellWidth: number = 144;
     private cellHeight: number = 144;
     private cols: number = 5;
@@ -311,6 +312,15 @@ namespace game {
     private increaseScore(n: number) {
       this.score += n;
       this.model.setLevel(Math.floor(this.score / 3000));
+      this.flashScore();
+    }
+
+    @yyw.debounce()
+    private async flashScore() {
+      const tween = yyw.getTween(this.tfdScore);
+      await tween.to({ scale: 1.5 });
+      this.tfdScore.text = yyw.zeroPadding(`${this.score}`, 5);
+      await tween.to({ scale: 1 });
     }
 
     @yyw.debounce()

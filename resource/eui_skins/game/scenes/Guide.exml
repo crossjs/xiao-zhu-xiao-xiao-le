@@ -1,32 +1,34 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="GuideSkin"
 	 width="750"
-	height="1334" xmlns:e="http://ns.egret.com/eui">
+	height="1334" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Image id="bg" touchEnabled="true" fillMode="scale" source="sprites_json.mask_bg" scale9Grid="10,10,10,10" width="750" height="1334"/>
-	<e:Group id="body" touchEnabled="false" width="750" touchChildren="false" x="0" bottom="262" height="1072">
-		<e:Group x="187" y="189" scaleY="1.25" scaleX="1.25">
-			<e:Image source="sprites_json.round_white" x="0" y="0" width="72" height="72"/>
-			<e:Image x="12" source="sprites_json.tool_valueup" y="14"/>
+	<e:Group id="body" touchEnabled="false" width="750" touchChildren="false" bottom="262" height="1072">
+		<e:Group id="main" width="750" height="750" bottom="205">
+			<e:Group x="262" y="40" scaleY="1.25" scaleX="1.25">
+				<e:Image source="sprites_json.round_white" width="72" height="72"/>
+				<e:Image x="12" source="sprites_json.tool_valueup" y="14"/>
+			</e:Group>
+			<e:Group x="380" y="40" scaleY="1.25" scaleX="1.25">
+				<e:Image source="sprites_json.round_white" width="72" height="72"/>
+				<e:Image x="7" source="sprites_json.tool_shuffle" y="12"/>
+			</e:Group>
+			<e:Group x="498" y="40" scaleY="1.25" scaleX="1.25">
+				<e:Image source="sprites_json.round_white" width="72" height="72"/>
+				<e:Image x="8" source="sprites_json.tool_breaker" y="7"/>
+			</e:Group>
+			<e:Image x="609" y="66" source="sprites_json.tool_livesup"/>
+			<e:Label x="199" y="0" text="指定格子数字+1" fontFamily="sans-serif"/>
+			<e:Label x="606" y="208" text="体力值+1" fontFamily="sans-serif"/>
+			<e:Label x="335" y="142" text="重新随机排列" fontFamily="sans-serif"/>
+			<e:Label x="300" y="537" text="相同数字相连即可消除并得分" fontFamily="sans-serif"/>
+			<e:Label y="579" text="五个连成直线可获得特殊奖励" fontFamily="sans-serif" x="300"/>
+			<e:Label x="453" y="0" text="移除指定格子" fontFamily="sans-serif"/>
+			<e:Image id="numTo" source="numbers_json.4" x="102" y="474"/>
+			<e:Image id="numFrom" source="numbers_json.3" x="102" y="330"/>
+			<e:Image source="numbers_json.3" x="246" y="618"/>
+			<e:Image source="numbers_json.3" x="102" y="618"/>
+			<e:Image id="finger" source="sprites_json.finger" x="180" y="360"/>
 		</e:Group>
-		<e:Group x="327" y="189" scaleY="1.25" scaleX="1.25">
-			<e:Image source="sprites_json.round_white" x="0" y="0" width="72" height="72"/>
-			<e:Image x="7" source="sprites_json.tool_shuffle" y="12"/>
-		</e:Group>
-		<e:Group x="467" y="189" scaleY="1.25" scaleX="1.25">
-			<e:Image source="sprites_json.round_white" x="0" y="0" width="72" height="72"/>
-			<e:Image x="8" source="sprites_json.tool_breaker" y="7"/>
-		</e:Group>
-		<e:Image x="600" y="203" source="sprites_json.tool_livesup"/>
-		<e:Label x="118" y="149" text="指定格子数字+1" fontFamily="sans-serif"/>
-		<e:Label x="597" y="345" text="体力值+1" fontFamily="sans-serif"/>
-		<e:Label x="276" y="291" text="重新随机排列" fontFamily="sans-serif"/>
-		<e:Label x="300" y="687" text="相同数字相连即可消除并得分" fontFamily="sans-serif"/>
-		<e:Label y="987" text="小提示：五个相同数字连成直线可获得特殊奖励" fontFamily="sans-serif" horizontalCenter="0" x="60"/>
-		<e:Label x="416" y="149" text="移除指定格子" fontFamily="sans-serif"/>
-		<e:Image id="numTo" source="numbers_json.4" x="102" y="621"/>
-		<e:Image id="numFrom" source="numbers_json.3" x="102" y="477"/>
-		<e:Image source="numbers_json.3" x="246" y="765"/>
-		<e:Image source="numbers_json.3" x="102" y="765"/>
-		<e:Image id="finger" source="sprites_json.finger" x="180" y="507"/>
 	</e:Group>
 </e:Skin>

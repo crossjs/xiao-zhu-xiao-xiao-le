@@ -1,67 +1,67 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="CheckinSkin" xmlns:e="http://ns.egret.com/eui">
 	<e:Image id="bg" fillMode="scale" source="sprites_json.mask_bg" touchEnabled="true" scale9Grid="10,10,10,10" width="750" height="1334"/>
 	<e:Group id="body" width="750" touchEnabled="false" bottom="262" height="1072">
-		<e:Group id="main" width="660" horizontalCenter="0" verticalCenter="0" visible="true" touchEnabled="false">
-			<e:Group id="modal" x="0" y="0" touchEnabled="false">
-				<e:Image y="0" width="660" height="690" x="0" source="sprites_json.round_white" scale9Grid="36,36,6,6"/>
+		<e:Group id="main" width="660" horizontalCenter="0" verticalCenter="0" touchEnabled="false">
+			<e:Group id="modal" touchEnabled="false">
+				<e:Image width="660" height="660" source="sprites_json.round_white" scale9Grid="36,36,6,6"/>
 				<e:Group id="groupDays" x="60" y="60" touchEnabled="false">
-					<e:Group x="0" y="0" visible="true">
-					<e:Image width="144" height="144" scale9Grid="36,36,6,6" x="0" source="sprites_json.round_white"/>
+					<e:Group>
+					<e:Image width="144" height="144" scale9Grid="36,36,6,6" source="sprites_json.round_white"/>
 					<e:Image source="sprites_json.coin" x="50" y="35" scaleX="0.5" scaleY="0.5"/>
 					<e:BitmapLabel x="50" y="90" text="100" scaleX="0.375" scaleY="0.375" font="score_fnt" textAlign="center" width="120"/>
 					<e:Label x="45" y="150" text="星期一" size="18" textColor="6971468"/>
 					<e:Image x="102" y="-10" visible="false" source="sprites_json.checked"/>
 					</e:Group>
-					<e:Group x="198" y="0" visible="true">
-					<e:Image source="sprites_json.round_white" width="144" height="144" scale9Grid="36,36,6,6" x="0"/>
+					<e:Group x="198">
+					<e:Image source="sprites_json.round_white" width="144" height="144" scale9Grid="36,36,6,6"/>
 					<e:Image source="sprites_json.coin" x="50" y="35" scaleX="0.5" scaleY="0.5"/>
 					<e:BitmapLabel x="50" y="90" text="150" scaleX="0.375" scaleY="0.375" font="score_fnt" textAlign="center" width="120"/>
 					<e:Label x="45" y="150" text="星期二" size="18" textColor="6971468"/>
 					<e:Image x="102" y="-10" visible="false" source="sprites_json.checked"/>
 					</e:Group>
-					<e:Group x="396" y="0" visible="true">
-					<e:Image source="sprites_json.round_white" width="144" height="144" scale9Grid="36,36,6,6" x="0"/>
+					<e:Group x="396">
+					<e:Image source="sprites_json.round_white" width="144" height="144" scale9Grid="36,36,6,6"/>
 					<e:Image source="sprites_json.coin" x="50" y="35" scaleX="0.5" scaleY="0.5"/>
 					<e:BitmapLabel x="50" y="90" text="200" scaleX="0.375" scaleY="0.375" font="score_fnt" textAlign="center" width="120"/>
 					<e:Label x="45" y="150" text="星期三" size="18" textColor="6971468"/>
 					<e:Image x="102" y="-10" visible="false" source="sprites_json.checked"/>
 					</e:Group>
-					<e:Group x="0" y="200" visible="true">
-					<e:Image width="342" height="144" scale9Grid="36,36,6,6" y="0" source="sprites_json.round_white" x="0"/>
+					<e:Group y="185">
+					<e:Image width="342" height="144" scale9Grid="36,36,6,6" source="sprites_json.round_white"/>
 					<e:Image source="sprites_json.coin" x="50" y="35" scaleX="0.5" scaleY="0.5"/>
 					<e:BitmapLabel x="50" y="90" text="250" scaleX="0.375" scaleY="0.375" font="score_fnt" textAlign="center" width="120"/>
 					<e:BitmapLabel x="149" y="63" text="+" scaleX="0.375" scaleY="0.375" font="score_fnt" textAlign="center" width="120"/>
 					<e:Label x="144" y="150" text="星期四" size="18" textColor="6971468"/>
 					<e:Group y="36" x="234">
-						<e:Image source="sprites_json.round_grass" width="72" height="72" scale9Grid="36,36,6,6" y="0" x="0"/>
+						<e:Image source="sprites_json.round_grass" width="72" height="72" scale9Grid="36,36,6,6"/>
 						<e:Image source="sprites_json.tool_breaker" x="11" y="9" scaleX="0.9" scaleY="0.9"/>
 					</e:Group>
 					<e:Image x="300" y="-10" visible="false" source="sprites_json.checked"/>
 					</e:Group>
-					<e:Group x="396" y="200" visible="true">
-					<e:Image source="sprites_json.round_white" width="144" height="144" scale9Grid="36,36,6,6" x="0"/>
+					<e:Group x="396" y="185">
+					<e:Image source="sprites_json.round_white" width="144" height="144" scale9Grid="36,36,6,6"/>
 					<e:Image source="sprites_json.coin" x="50" y="35" scaleX="0.5" scaleY="0.5"/>
 					<e:BitmapLabel x="50" y="90" text="300" scaleX="0.375" scaleY="0.375" font="score_fnt" textAlign="center" width="120"/>
 					<e:Label x="45" y="150" text="星期五" size="18" textColor="6971468"/>
 					<e:Image x="102" y="-10" visible="false" source="sprites_json.checked"/>
 					</e:Group>
-					<e:Group x="0" y="400" visible="true">
-					<e:Image source="sprites_json.round_white" width="144" height="144" scale9Grid="36,36,6,6" x="0"/>
+					<e:Group y="370">
+					<e:Image source="sprites_json.round_white" width="144" height="144" scale9Grid="36,36,6,6"/>
 					<e:Image source="sprites_json.coin" x="50" y="35" scaleX="0.5" scaleY="0.5"/>
 					<e:BitmapLabel x="50" y="90" text="350" scaleX="0.375" scaleY="0.375" font="score_fnt" textAlign="center" width="120"/>
 					<e:Label x="45" y="150" text="星期六" size="18" textColor="6971468"/>
 					<e:Image x="102" y="-10" visible="false" source="sprites_json.checked"/>
 					</e:Group>
-					<e:Group x="198" y="400" visible="true">
-					<e:Image source="sprites_json.round_white" width="342" height="144" scale9Grid="36,36,6,6" y="0" x="0"/>
+					<e:Group x="198" y="370">
+					<e:Image source="sprites_json.round_white" width="342" height="144" scale9Grid="36,36,6,6"/>
 					<e:BitmapLabel text="+" scaleX="0.375" scaleY="0.375" font="score_fnt" textAlign="center" width="120" x="149" y="63"/>
 					<e:Image source="sprites_json.coin" x="50" y="35" scaleX="0.5" scaleY="0.5"/>
 					<e:BitmapLabel x="50" y="90" text="400" scaleX="0.375" scaleY="0.375" font="score_fnt" textAlign="center" width="120"/>
 					<e:Label x="144" y="150" text="星期日" size="18" textColor="6971468"/>
 					<e:Group x="234" y="36">
-						<e:Image source="sprites_json.round_grass" width="72" height="72" scale9Grid="36,36,6,6" x="0" y="0"/>
-						<e:Image source="sprites_json.tool_shuffle" x="10" y="14" visible="true" scaleX="0.9" scaleY="0.9"/>
+						<e:Image source="sprites_json.round_grass" width="72" height="72" scale9Grid="36,36,6,6"/>
+						<e:Image source="sprites_json.tool_shuffle" x="10" y="14" scaleX="0.9" scaleY="0.9"/>
 					</e:Group>
 					<e:Image x="300" y="-10" visible="false" source="sprites_json.checked"/>
 					</e:Group>

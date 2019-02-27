@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="PlayingSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*" xmlns:box="box.*" xmlns:w="http://ns.egret.com/wing" >
+<e:Skin class="PlayingSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*">
 	<e:Image id="bg" fillMode="clip" source="bg" height="1334" scale9Grid="0,480,750,384"/>
 	<e:Group id="body" width="750" bottom="262" height="1072">
-		<game:Arena id="arena" y="342"/>
+		<game:Arena id="arena" bottom="0"/>
+		<game:Words id="words" touchEnabled="false" touchChildren="false"/>
 		<game:Me id="me" y="21"/>
-		<e:Button id="btnHome" skinName="ButtonCircleSkin" icon="sprites_json.home" x="147" y="21"/>
-		<e:Button id="btnTask" x="234" skinName="ButtonCircleSkin" icon="sprites_json.task" y="21"/>
-		<e:Button id="btnCheckin" x="324" skinName="ButtonCircleSkin" icon="sprites_json.checkin" y="21"/>
-		<e:Button id="btnBoard" x="411" skinName="ButtonCircleSkin" icon="sprites_json.board" y="21"/>
-		<e:ToggleButton id="btnSound" x="615" skinName="ButtonToggleSkin" icon="sprites_json.sound" y="120" scaleX="0.75" scaleY="0.75"/>
-		<e:ToggleButton id="btnVibration" skinName="ButtonToggleSkin" icon="sprites_json.vibration" y="120" scaleX="0.75" scaleY="0.75" x="675"/>
-		<e:BitmapLabel id="tfdTasks" text="0/6" y="93" font="score_fnt" height="72" width="120" scaleX="0.375" scaleY="0.375" visible="true" textAlign="center" x="246"/>
-		<game:Tools id="tools" y="179" visible="true"/>
-		<e:Group id="btnShop" x="144" y="150" touchChildren="false" visible="false">
-			<e:Image y="0" visible="true" source="sprites_json.coin" scaleX="0.375" scaleY="0.375" horizontalCenter="1.5"/>
-			<e:BitmapLabel id="tfdCoins" text="0" y="36" font="score_fnt" height="72" width="210" scaleX="0.5" scaleY="0.5" visible="true" horizontalCenter="0" textAlign="center"/>
-		</e:Group>
-		<game:Words id="words" touchEnabled="false" touchChildren="false" visible="true" locked="true"/>
-		<e:BitmapLabel id="tfdScore" text="00000" y="306" font="score_fnt" height="72" width="240" textAlign="center" anchorOffsetX="120" anchorOffsetY="36" x="135"/>
+		<game:CtrlGroup1 id="ctrlGroup1" x="147" y="21"/>
+		<game:CtrlGroup2 id="ctrlGroup2" x="315" y="21"/>
+		<game:CtrlGroup3 id="ctrlGroup3" y="21" right="15" visible="false"/>
+		<game:CtrlShop id="ctrlShop" x="144" y="150" visible="false"/>
+		<game:Tools id="tools" y="159"/>
 	</e:Group>
 </e:Skin>

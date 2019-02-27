@@ -19,6 +19,7 @@ namespace game {
         });
       }
 
+      this.bottom = yyw.BANNER_HEIGHT;
       this.animate();
     }
 
