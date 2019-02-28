@@ -2,7 +2,7 @@
 <e:Skin class="PlayingSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*">
 	<e:Image id="bg" fillMode="clip" source="bg" height="1334" scale9Grid="0,480,750,384"/>
 	<e:Group id="body" width="750" bottom="262" height="1072">
-		<game:Arena id="arena" bottom="0"/>
+		<game:Arena id="arena" y="322"/>
 		<game:Words id="words" touchEnabled="false" touchChildren="false"/>
 		<game:Me id="me" y="21"/>
 		<game:CtrlGroup1 id="ctrlGroup1" x="147" y="21"/>

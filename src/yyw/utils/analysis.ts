@@ -1,15 +1,20 @@
 namespace yyw {
   const Performance: wx.Performance = wx.getPerformance();
-  const startTime: number = Performance.now();
+  let begin: number = Performance.now();
 
   export const analysis = {
     addEvent(event: string, data?: {
       [key: string]: string;
     }) {
-      wx.aldSendEvent(event, {
-        ...data,
-        d: `${(Performance.now() - startTime) | 0}`,
-      });
+      // 添加执行时间统计
+      if (!data) {
+        const now = Performance.now();
+        data = {
+          d: `${(now - begin) | 0}ms`,
+        };
+        begin = now;
+      }
+      wx.aldSendEvent(event, data);
     },
 
     onStart() {

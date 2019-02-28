@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="ToolsSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*" xmlns:w="http://ns.egret.com/wing">
 	<e:Group id="main" touchEnabled="false" width="750">
-		<e:Group x="262" y="0" scaleX="1.25" scaleY="1.25">
-			<game:ValueUp id="toolValueUp" x="0" y="0"/>
-			<game:Shuffle id="toolShuffle" x="94" y="0"/>
-			<game:Breaker id="toolBreaker" x="188" y="0"/>
-		</e:Group>
+		<game:ValueUp id="toolValueUp" x="262" y="0" scaleX="1.25" scaleY="1.25"/>
+		<game:Shuffle id="toolShuffle" x="380" y="0" scaleX="1.25" scaleY="1.25"/>
+		<game:Breaker id="toolBreaker" x="498" y="0" scaleX="1.25" scaleY="1.25"/>
 		<game:LivesUp id="toolLivesUp" x="609" y="26"/>
 	</e:Group>
 </e:Skin>

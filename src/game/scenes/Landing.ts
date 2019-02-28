@@ -69,7 +69,6 @@ namespace game {
       super.createView(fromChildrenCreated);
 
       if (fromChildrenCreated) {
-        yyw.analysis.addEvent("4进入主页");
         const { x: left, y: top, width, height } = this.btnStart;
         this.userInfoButton = await yyw.createUserInfoButton({
           left,

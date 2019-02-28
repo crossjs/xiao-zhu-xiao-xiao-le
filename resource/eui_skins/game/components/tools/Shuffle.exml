@@ -3,8 +3,8 @@
 	<e:Group id="main" touchChildren="false" x="36" y="36" anchorOffsetX="36" anchorOffsetY="36" width="72" height="72">
 		<e:Image source="sprites_json.round_white" scale9Grid="36,36,6,6" width="72" height="72"/>
 		<e:Image touchEnabled="false" source="sprites_json.tool_shuffle" y="14" x="10" scaleX="0.9" scaleY="0.9"/>
-		<e:Image source="sprites_json.circle_red" x="51" y="-13.556" width="30" height="30"/>
-		<e:Label id="tfd" width="27" height="27" touchEnabled="false" x="53" y="-10.556" textAlign="center" size="24"/>
-		<e:Image id="img" source="sprites_json.circle_add" touchEnabled="false" x="51" y="-18" visible="false"/>
+		<e:Image source="sprites_json.circle_red" x="51" y="-12" width="30" height="30"/>
+		<e:Label id="tfd" width="27" height="27" touchEnabled="false" x="53" y="-9" textAlign="center" size="24" text=""/>
+		<e:Image id="img" source="sprites_json.circle_add" touchEnabled="false" x="51" y="-12" visible="false" width="30" height="30"/>
 	</e:Group>
 </e:Skin>

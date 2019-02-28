@@ -155,7 +155,7 @@ export const Ranking = {
     // 绘制名称
     this.drawText(data.nickname, xArr[3], y, nameWidth, barHeight, {
       align: "left",
-      color: "#6A604C"
+      color: "#27361F"
     });
     // 绘制分数
     this.drawText(data.score, xArr[4], y, scoreWidth, barHeight, {

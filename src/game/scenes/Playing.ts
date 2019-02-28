@@ -44,11 +44,7 @@ namespace game {
       this.isGameOver = false;
 
       if (fromChildrenCreated) {
-        yyw.analysis.addEvent("6开始游戏");
-
-        if (!yyw.USER.score) {
-          yyw.director.toScene("guide", true);
-        }
+        yyw.director.toScene(yyw.USER.score ? "task" : "guide", true);
 
         yyw.on("GAME_DATA", this.onGameData, this);
         yyw.on("GAME_OVER", this.onGameOver, this);
@@ -73,6 +69,8 @@ namespace game {
           this.addChild(this.boxAll);
         }
       }
+
+      yyw.analysis.addEvent("7进入场景", { s: "游戏界面" });
     }
 
     private async getSnapshot() {

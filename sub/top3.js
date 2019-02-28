@@ -100,7 +100,7 @@ export const Top3 = {
       y,
       colWidth,
       {
-        color: "#6A604C",
+        color: "#27361F",
         fontSize,
       },
     );

@@ -63,7 +63,7 @@ namespace game {
       this.tfdTip.visible = true;
       this.btnOK.visible = true;
       this.btnEscape.visible = true;
-      this.coins = yyw.random(50) + 50;
+      this.coins = yyw.random(500) + 500;
       this.tfdCoins.text = `${this.coins}`;
     }
 
