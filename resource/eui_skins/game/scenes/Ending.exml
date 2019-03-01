@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="EndingSkin"
-	 width="750"
-	height="1334" xmlns:e="http://ns.egret.com/eui">
+ xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
 	<e:Image id="bg" source="sprites_json.mask_bg" fillMode="scale" touchEnabled="true" scale9Grid="10,10,10,10" width="750" height="1334"/>
 	<e:Group id="body" width="750" touchEnabled="false" bottom="262" height="1072">
-		<e:Group id="main" horizontalCenter="0" verticalCenter="0" height="360">
-			<e:Image source="sprites_json.hyph" x="145" y="-90"/>
+		<e:Group id="main" horizontalCenter="0" verticalCenter="0" height="320">
+			<e:Image y="-90" source="sprites_json.yxjs" horizontalCenter="0"/>
 			<e:Group id="modal" touchEnabled="false" touchChildren="false">
-				<e:Image width="480" scale9Grid="36,36,6,6" height="312" source="sprites_json.round_white"/>
-				<e:Group id="board" y="36" width="480" height="240">
-				<e:Image x="321" width="3" height="180" y="30" fillMode="scale" alpha="0.5" source="sprites_json.mask_bg"/>
-				<e:Image source="sprites_json.mask_bg" x="156" width="3" height="180" y="30" fillMode="scale" alpha="0.5"/>
-				</e:Group>
+				<e:Image width="660" height="320" source="sprites_json.round_white" scale9Grid="36,36,6,6"/>
+				<e:Image source="sprites_json.zgfs" x="60" y="60"/>
+				<e:BitmapLabel id="tfdScore" textAlign="right" x="300" y="60" width="300" height="60" font="score_fnt"/>
+				<e:Image source="sprites_json.zgnd" x="60" y="130"/>
+				<e:BitmapLabel id="tfdLevel" textAlign="right" x="300" y="130" width="300" height="60" font="score_fnt"/>
+				<e:Image source="sprites_json.zglj" x="60" y="200"/>
+				<e:BitmapLabel id="tfdCombo" textAlign="right" x="300" y="200" width="300" height="60" font="score_fnt"/>
 			</e:Group>
-			<e:Label id="tfdScore" y="330" textAlign="center" height="30" left="0" right="0" size="36"/>
-			<e:Label id="tfdTip" y="400" textAlign="center" height="30" left="0" right="0"/>
-			<e:Button id="btnOK" y="436" skinName="ButtonDefaultSkin" width="300" height="102" horizontalCenter="0" icon="sprites_json.mffh"/>
+			<e:Button id="btnOK" y="368" skinName="ButtonDefaultSkin" width="300" height="102" icon="sprites_json.xyyx" horizontalCenter="0"/>
+			<e:Image id="btnEscape" fillMode="scale" horizontalCenter="0" source="sprites_json.zlyc" y="510"/>
 		</e:Group>
-		<e:Image id="btnEscape" source="sprites_json.dismiss" fillMode="scale" horizontalCenter="0" bottom="0"/>
 	</e:Group>
 </e:Skin>

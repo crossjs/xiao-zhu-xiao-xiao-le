@@ -1,16 +1,9 @@
 namespace yyw {
-  interface ISceneManager {
-    scenes?: { [key: string]: Base; };
-    stageLayer?: eui.UILayer; // 设置所有场景所在的舞台(根)
-    currentName?: string; // 当前场景名称
-    [key: string]: any;
-  }
-
   /**
    * 场景管理类
    */
-  export const director: ISceneManager = {
-    init(scenes: Base[]) {
+  export const director = {
+    init(scenes: { [name: string]: Base }) {
       this.scenes = scenes;
     },
 

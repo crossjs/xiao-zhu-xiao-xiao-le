@@ -2,10 +2,10 @@
 <e:Skin class="AlarmSkin" xmlns:e="http://ns.egret.com/eui">
 	<e:Image id="bg" source="sprites_json.mask_bg" fillMode="scale" visible="false" touchEnabled="true" height="1334" width="750" scale9Grid="10,10,10,10"/>
 	<e:Group id="body" width="750" touchEnabled="false" bottom="262" height="1072">
-		<e:Group id="main" touchEnabled="false" touchChildren="true" height="660" horizontalCenter="0" verticalCenter="0" x="75" y="75">
+		<e:Group id="main" touchEnabled="false" touchChildren="true" height="540" horizontalCenter="0" verticalCenter="0" x="75" y="75">
 			<e:Image id="hdr" y="-90" x="205" visible="false" source="sprites_json.tlbz"/>
 			<e:Group id="modal" x="300" y="330" anchorOffsetX="300" anchorOffsetY="330" visible="false" touchEnabled="false" touchChildren="false">
-			<e:Image source="sprites_json.round_white" width="600" height="660" scale9Grid="36,36,6,6"/>
+			<e:Image source="sprites_json.round_white" width="600" height="540" scale9Grid="36,36,6,6"/>
 			<e:Image source="sprites2_json.fu" y="210" x="108"/>
 			<e:Group id="images" y="72" horizontalCenter="0">
 				<e:Image source="sprites_json.round_grass" width="90" height="90"/>
@@ -16,8 +16,8 @@
 				<e:Image x="237" source="sprites_json.tool_breaker" y="16"/>
 			</e:Group>
 			</e:Group>
-			<e:Label id="tfdTip" y="690" textAlign="center" height="30" left="0" right="0" visible="false"/>
-			<e:Button id="btnOK" y="728" skinName="ButtonDefaultSkin" width="360" height="102" horizontalCenter="0" visible="false" icon="sprites_json.ljhd"/>
+			<e:Label id="tfdTip" y="570" textAlign="center" height="30" left="0" right="0" visible="false"/>
+			<e:Button id="btnOK" y="608" skinName="ButtonDefaultSkin" width="360" height="102" horizontalCenter="0" visible="false" icon="sprites_json.ljhd"/>
 		</e:Group>
 		<e:Image id="btnEscape" source="sprites_json.dismiss" visible="false" fillMode="scale" horizontalCenter="0" bottom="0"/>
 	</e:Group>

@@ -131,17 +131,18 @@ class Main extends eui.UILayer {
 
   private initScenes() {
     yyw.director.init({
+      alarm: new game.Alarm(),
+      award: new game.Award(),
+      checkin: new game.Checkin(),
+      ending: new game.Ending(),
+      guide: new game.Guide(),
       landing: new game.Landing(),
       pbl: new game.Pbl(),
       playing: new game.Playing(),
-      guide: new game.Guide(),
       ranking: new game.Ranking(),
-      checkin: new game.Checkin(),
-      ending: new game.Ending(),
-      task: new game.Task(),
+      reviving: new game.Reviving(),
       shop: new game.Shop(),
-      alarm: new game.Alarm(),
-      award: new game.Award(),
+      task: new game.Task(),
       words: new game.Words(),
     });
 
@@ -153,42 +154,20 @@ class Main extends eui.UILayer {
       });
     }
 
+    const canRevive = yyw.reward.can("revive");
     // 体力耗尽
     yyw.on("LIVES_EMPTY", () => {
-      yyw.director.toScene("ending", true);
+      yyw.director.toScene(canRevive ? "reviving" : "ending", true);
     });
 
     // 启用金币奖励
     if (yyw.reward.can("coin")) {
       // 获得魔法数字
       yyw.on("MAGIC_GOT", () => {
-        yyw.analysis.onRunning("award", "magic");
         yyw.director.toScene("award", true);
+        yyw.analysis.onRunning("award", "magic");
       });
     }
-
-    // 游戏开始
-    yyw.on("GAME_START", () => {
-      yyw.analysis.onStart();
-    });
-
-    // 游戏中止
-    yyw.on("GAME_INTERRUPT", () => {
-      yyw.analysis.onEnd("fail");
-    });
-
-    // 游戏复活
-    yyw.on("GAME_REVIVED", ({ data: { type }}) => {
-      yyw.analysis.onRunning("revive", type);
-    });
-
-    // 游戏结束
-    yyw.on("GAME_OVER", () => {
-      yyw.analysis.onEnd();
-      yyw.director.toScene("playing", false, (scene: game.Playing) => {
-        scene.startGame();
-      });
-    });
 
     // 获得道具
     yyw.on("TOOL_GOT", ({ data: { type, amount }}) => {

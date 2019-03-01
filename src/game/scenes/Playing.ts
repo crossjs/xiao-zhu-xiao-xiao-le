@@ -12,13 +12,14 @@ namespace game {
     private tools: Tools;
     private closest: Closest;
 
-    public startGame() {
-      this.arena.startGame();
-      this.createClosest();
-    }
-
     public async exiting() {
       // no animation
+    }
+
+    protected initialize() {
+      yyw.on("RESTART", () => {
+        this.startGame();
+      });
     }
 
     protected destroy() {
@@ -46,7 +47,6 @@ namespace game {
       if (fromChildrenCreated) {
         yyw.director.toScene(yyw.USER.score ? "task" : "guide", true);
 
-        yyw.on("GAME_DATA", this.onGameData, this);
         yyw.on("GAME_OVER", this.onGameOver, this);
 
         this.initToolsTarget();
@@ -71,6 +71,11 @@ namespace game {
       }
 
       yyw.analysis.addEvent("7进入场景", { s: "游戏界面" });
+    }
+
+    private startGame() {
+      this.arena.startGame();
+      this.createClosest();
     }
 
     private async getSnapshot() {

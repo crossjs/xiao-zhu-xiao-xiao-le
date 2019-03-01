@@ -40,7 +40,7 @@ namespace game {
       } else {
         this.ensureData();
       }
-      yyw.emit("GAME_START");
+      yyw.analysis.onStart();
     }
 
     public onGameOver() {
@@ -253,11 +253,7 @@ namespace game {
             this.increaseLives(-1);
             if (this.lives === 0) {
               // 体力耗尽
-              yyw.emit("LIVES_EMPTY", {
-                score: this.score,
-                level: this.model.getLevel(),
-                combo: this.combo,
-              });
+              yyw.emit("LIVES_EMPTY");
             }
           }
         }

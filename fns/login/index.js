@@ -58,8 +58,7 @@ exports.main = async ({ fullUserInfo }, context) => {
     console.error(error);
   }
 
-  Object.assign(user, fullUserInfo, {
-  });
+  Object.assign(user, fullUserInfo);
 
   if (isNew) {
     await doc.set({

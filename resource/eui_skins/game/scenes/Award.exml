@@ -2,18 +2,18 @@
 <e:Skin class="AwardSkin" xmlns:e="http://ns.egret.com/eui">
 	<e:Image id="bg" source="sprites_json.mask_bg" fillMode="scale" visible="false" touchEnabled="true" left="0" right="0" top="0" bottom="0" scale9Grid="10,10,10,10"/>
 	<e:Group id="body" width="750" touchEnabled="false" bottom="262" height="1072">
-		<e:Group id="main" height="660" touchEnabled="false" horizontalCenter="0" verticalCenter="0" x="75">
+		<e:Group id="main" height="540" touchEnabled="false" horizontalCenter="0" verticalCenter="0" x="75">
 			<e:Image id="hdr" y="-90" x="205" visible="false" source="sprites_json.wdjk"/>
 			<e:Group id="modal" touchEnabled="false" touchChildren="false" visible="false" anchorOffsetX="300" anchorOffsetY="330" x="300" y="330">
-			<e:Image source="sprites_json.round_white" width="600" height="660" scale9Grid="36,36,6,6"/>
-			<e:Image source="sprites2_json.fu" y="210" horizontalCenter="0"/>
+			<e:Image source="sprites_json.round_white" width="600" height="540" scale9Grid="36,36,6,6" x="0"/>
+			<e:Image source="sprites2_json.fu" y="210" x="100"/>
 			<e:Image source="sprites_json.coin" x="213" y="97"/>
 			<e:Image source="sprites_json.coin" x="303" y="157" width="72" height="72"/>
 			<e:Image source="sprites_json.coin" x="263" y="227" width="48" height="48"/>
-			<e:BitmapLabel id="tfdCoins" text="88" touchEnabled="false" textAlign="center" y="27" width="192" font="score_fnt" horizontalCenter="0" height="72" scaleX="1.5" scaleY="1.5"/>
+			<e:BitmapLabel id="tfdCoins" text="" touchEnabled="false" textAlign="center" y="27" width="192" font="score_fnt" horizontalCenter="0" height="72" scaleX="1.5" scaleY="1.5"/>
 			</e:Group>
-			<e:Label id="tfdTip" y="690" textAlign="center" height="30" left="0" right="0" visible="false"/>
-			<e:Button id="btnOK" y="728" skinName="ButtonDefaultSkin" width="300" height="102" visible="false" icon="sprites_json.ljhd" x="150"/>
+			<e:Label id="tfdTip" y="570" textAlign="center" height="30" left="0" right="0" visible="false"/>
+			<e:Button id="btnOK" y="608" skinName="ButtonDefaultSkin" width="420" height="102" visible="false" icon="sprites_json.video" x="90"/>
 		</e:Group>
 		<e:Image id="btnEscape" visible="false" source="sprites_json.dismiss" fillMode="scale" horizontalCenter="0" bottom="0"/>
 	</e:Group>

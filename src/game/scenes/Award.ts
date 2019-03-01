@@ -30,26 +30,33 @@ namespace game {
 
       if (fromChildrenCreated) {
         const canVideo = yyw.reward.can("coin", "video");
-        this.tfdTip.text = `${ canVideo ? "观看视频" : "转发到群" }获得金币`;
+        this.tfdTip.text = `${ canVideo ? "观看视频" : "转发到群" }获得 10 倍奖励`;
         yyw.onTap(this.btnOK, async () => {
-          const { x, y } = this.modal.localToGlobal();
+          const { windowWidth, windowHeight } = yyw.CONFIG.systemInfo;
+          const { width, height } = this.main;
+          const { x, y } = this.main.localToGlobal();
+          const scaleX = windowWidth / 375;
+          const scaleY = scaleX * windowHeight / 667;
           if (await yyw.reward.apply("coin", {
             share: {
-              title: `噢耶！挖到 ${this.coins} 枚金币`,
+              title: `噢耶！我挖到了 ${this.coins} 枚金币`,
               imageUrl: canvas.toTempFilePathSync({
-                x: x + 20,
-                y: y + 20,
-                width: this.modal.width - 30,
-                height: this.modal.height - 30,
+                x,
+                y,
+                width: width * scaleX,
+                height: height * scaleY,
                 destWidth: 500,
                 destHeight: 400,
               }),
               ald_desc: "magic",
             },
           })) {
-            await this.saveCoins();
-            yyw.director.escape();
+            await this.saveCoins(10);
           }
+        });
+        yyw.onTap(this.btnEscape, async (e: egret.TouchEvent) => {
+          e.stopImmediatePropagation();
+          await this.saveCoins();
         });
       }
 
@@ -63,19 +70,21 @@ namespace game {
       this.tfdTip.visible = true;
       this.btnOK.visible = true;
       this.btnEscape.visible = true;
-      this.coins = yyw.random(500) + 500;
+      this.coins = yyw.random(100) + 100;
       this.tfdCoins.text = `${this.coins}`;
     }
 
-    private async saveCoins() {
+    private async saveCoins(multiple: number = 1) {
+      yyw.director.escape();
       CoinsSound.play();
+      const coins = this.coins * multiple;
       // TODO 入袋动画
       await yyw.award.save({
-        coins: this.coins,
+        coins,
       });
       yyw.emit("COINS_GOT", {
         type: "magic",
-        amount: this.coins,
+        amount: coins,
       });
     }
   }

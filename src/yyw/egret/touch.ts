@@ -12,20 +12,32 @@ namespace yyw {
 
   export function onTap(
     target: egret.DisplayObject,
-    handler: any,
-    mute?: boolean,
+    handler: (e: egret.TouchEvent) => any,
+    {
+      priority = 0,
+      mute = false,
+      useCapture = false,
+    }: {
+      priority?: number,
+      mute?: boolean,
+      useCapture?: boolean,
+    } = {},
   ): () => void {
     if (!mute) {
       target.addEventListener(
         egret.TouchEvent.TOUCH_BEGIN,
         hi,
         target,
+        useCapture,
+        priority,
       );
     }
     target.addEventListener(
       egret.TouchEvent.TOUCH_TAP,
       handler,
       target,
+      useCapture,
+      priority,
     );
 
     return () => {
@@ -35,25 +47,6 @@ namespace yyw {
       target.removeEventListener(egret.TouchEvent.TOUCH_TAP, handler, target);
     };
   }
-
-  // export function onceTap(
-  //   target: egret.DisplayObject,
-  //   handler: any,
-  //   mute?: boolean,
-  // ): void {
-  //   if (!mute) {
-  //     target.once(
-  //       egret.TouchEvent.TOUCH_BEGIN,
-  //       hi,
-  //       target,
-  //     );
-  //   }
-  //   target.once(
-  //     egret.TouchEvent.TOUCH_TAP,
-  //     handler,
-  //     target,
-  //   );
-  // }
 
   export function onDnd(
     target: egret.DisplayObject,

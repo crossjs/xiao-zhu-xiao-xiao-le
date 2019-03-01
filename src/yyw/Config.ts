@@ -5,8 +5,6 @@ namespace yyw {
   const launchOptions: wx.launchOptions = wx.getLaunchOptionsSync();
   // 数字越大，游戏节奏越慢
   const speedRatio: number = 1.5;
-  // const stageWidth: number = 750;
-  // const stageHeight: number = Math.floor(750 / systemInfo.windowWidth * systemInfo.windowHeight);
 
   let coinReward: number = 0;
   let shopStatus: number = 0;
@@ -28,14 +26,6 @@ namespace yyw {
     get launchOptions(): wx.launchOptions {
       return launchOptions;
     },
-
-    // get stageWidth(): number {
-    //   return stageWidth;
-    // },
-
-    // get stageHeight(): number {
-    //   return stageHeight;
-    // },
 
     get serverOrigin(): string {
       return serverOrigin;

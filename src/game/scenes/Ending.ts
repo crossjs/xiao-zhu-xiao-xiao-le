@@ -1,93 +1,66 @@
 namespace game {
   export class Ending extends yyw.Base {
-    private board: eui.Group;
-    private tfdTip: eui.Label;
     private btnOK: eui.Button;
-    private tfdScore: eui.BitmapLabel;
-    private bmpTop3: egret.Bitmap;
     private gameData: {
       level?: number,
       combo?: number,
       score?: number,
-    } = {};
+    } = {
+      level: 0,
+      combo: 0,
+      score: 0,
+    };
 
     protected async initialize(): Promise<void> {
       // 放在这里注册，确保优先级
-      // 生命耗尽
-      yyw.on("LIVES_EMPTY", ({ data }: egret.Event) => {
-        Object.assign(this.gameData, data);
+      yyw.on("GAME_DATA", ({ data: { score, level, combo } }: egret.Event) => {
+        this.gameData = {
+          score,
+          level,
+          combo: Math.max(combo, this.gameData.combo),
+        };
       });
-    }
-
-    protected destroy() {
-      this.removeTop3();
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       super.createView(fromChildrenCreated);
 
       if (fromChildrenCreated) {
-        const canTool = yyw.reward.can("revive");
-
-        if (canTool) {
-          const canVideo = yyw.reward.can("revive", "video");
-          this.tfdTip.text = `${ canVideo ? "观看视频" : "转发到群" }获得复活机会`;
-        } else {
-          this.btnEscape.visible = false;
-          this.btnOK.iconDisplay.source = "sprites_json.zlyc";
-        }
-
         yyw.onTap(this.btnOK, async () => {
-          if (canTool) {
-            const type = await yyw.reward.apply("revive");
-            if (type) {
-              this.revive(type);
-            }
-          } else {
-            yyw.director.escape();
-            yyw.emit("GAME_OVER", this.gameData);
-          }
+          const { windowWidth, windowHeight } = yyw.CONFIG.systemInfo;
+          const { score, combo } = this.gameData;
+          const { width, height } = this.main;
+          const { x, y } = this.main.localToGlobal();
+          const scaleX = windowWidth / 375;
+          const scaleY = scaleX * windowHeight / 667;
+          yyw.share({
+            title: `噢耶！我得到了 ${score} 分与 ${combo} 次连击`,
+            imageUrl: canvas.toTempFilePathSync({
+              x,
+              y,
+              width: width * scaleX,
+              height: height * scaleY,
+              destWidth: 500,
+              destHeight: 400,
+            }),
+            ald_desc: "ending",
+          });
         });
 
         yyw.onTap(this.btnEscape, () => {
-          yyw.emit("GAME_OVER", this.gameData);
+          yyw.emit("RESTART");
         });
       }
 
-      this.tfdScore.text = `本局得分：${this.gameData.score}`;
-      this.createTop3();
-    }
-
-    private async revive(type: string) {
-      yyw.emit("GAME_REVIVED", { type });
-      await yyw.director.escape();
-      yyw.emit("TOOL_GOT", {
-        type: "livesUp",
-        amount: 1,
+      Object.entries(this.gameData).forEach(([ key, value ]: [string, number]) => {
+        const field: eui.BitmapLabel = this[`tfd${key.replace(/^\w/, ($0) => $0.toUpperCase())}`];
+        if (field) {
+          field.text = `${value}`;
+        }
       });
-    }
 
-    private createTop3() {
-      if (!this.bmpTop3) {
-        const { width, height } = this.board;
-        this.bmpTop3 = yyw.sub.createDisplayObject(null, width, height);
-        this.board.addChild(this.bmpTop3);
-
-        // 主域向子域发送自定义消息
-        yyw.sub.postMessage({
-          command: "openTop3",
-          width,
-          height,
-        });
-      }
-    }
-
-    private removeTop3() {
-      yyw.removeElement(this.bmpTop3);
-      this.bmpTop3 = null;
-      yyw.sub.postMessage({
-        command: "closeTop3",
-      });
+      yyw.emit("GAME_OVER", this.gameData);
+      yyw.analysis.onEnd();
     }
   }
 }

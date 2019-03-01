@@ -58,7 +58,7 @@ namespace game {
                 child.alpha = 1;
                 child.getChildAt(child.numChildren - 1).visible = true;
                 yyw.showToast(`${isPast ? "补签" : "签到"}成功，奖励已发放`);
-              }, true);
+              });
             }
           }
         });

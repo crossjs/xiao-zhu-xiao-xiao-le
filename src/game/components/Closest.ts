@@ -7,12 +7,12 @@ namespace game {
       // 此时界面上存在两个开放域，
       // 为避免冲突，应将 closest 移除
       yyw.on("SCENE_ENTERING", ({ data: { name }}) => {
-        if (name === "ending" || name === "ranking") {
+        if (name === "reviving" || name === "ranking") {
           this.removeBmp();
         }
       });
       yyw.on("SCENE_ESCAPED", ({ data: { name }}) => {
-        if (name === "ending" || name === "ranking") {
+        if (name === "reviving" || name === "ranking") {
           egret.setTimeout(this.createBmp, this, 500);
         }
       });

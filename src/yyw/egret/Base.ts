@@ -64,13 +64,13 @@ namespace yyw {
         this.bg.height = this.stage.stageHeight;
         yyw.onTap(this.bg, (e: egret.TouchEvent) => {
           e.stopPropagation();
-        }, true);
+        }, { mute: true, priority: -1 });
       }
 
       if (this.btnEscape) {
         onTap(this.btnEscape, () => {
           director.escape();
-        });
+        }, { priority: -1 });
       }
 
       this.createView(true);

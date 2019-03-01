@@ -22,11 +22,11 @@ namespace game {
           this.enabled = !running;
         });
 
-        yyw.onTap(this.btnRestart, () => {
-          yyw.emit("GAME_INTERRUPT");
-          yyw.director.toScene("playing", false, (scene: Playing) => {
-            scene.startGame();
-          });
+        yyw.onTap(this.btnRestart, async () => {
+          if (await yyw.showModal("确定放弃当前进度？")) {
+            yyw.emit("RESTART");
+            yyw.analysis.onEnd("fail");
+          }
         });
       }
 
