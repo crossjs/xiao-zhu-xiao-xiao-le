@@ -53,7 +53,7 @@ namespace game {
         command: "openRanking",
         width,
         height,
-        openid: yyw.USER.openId || 0,
+        openid: yyw.USER.openid || 0,
         pageSize: this.pageSize,
       });
 
@@ -65,10 +65,7 @@ namespace game {
       this.btnFriend.visible = true;
       try {
         this.rankingData = await yyw.pbl.all();
-        this.rankingData.forEach((item, index) => {
-          item.key = index + 1;
-        });
-        this.myRankingData = this.rankingData.find(({ openId }) => yyw.USER.openId === openId);
+        this.myRankingData = this.rankingData.find(({ openid }) => yyw.USER.openid === openid);
         this.pageTotal = Math.ceil(this.rankingData.length / this.pageSize);
         this.groupWorld.visible = true;
         this.drawRanking();

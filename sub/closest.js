@@ -10,7 +10,7 @@ export const Closest = {
    * 绘制屏幕
    * 这个函数会在加载完所有资源之后被调用
    */
-  async create({ width, height, openid, avatarUrl, nickname, score }) {
+  async create({ width, height, openid, avatarUrl, nickName, nickname, score }) {
     if (this.lastOpenid === openid) {
       // console.log("数据没有变化，无需更新");
     } else if (sharedCanvas.width && sharedCanvas.height) {
@@ -22,7 +22,7 @@ export const Closest = {
       // 绘制头像
       this.drawImage(avatarUrl, (width - 48) / 2, 12, 48, 48);
       // 绘制名称
-      this.drawText(nickname, width / 2, 90, width);
+      this.drawText(nickName || nickname, width / 2, 90, width);
       // 绘制分数
       this.drawText(score, width / 2, 114, width);
     } else {

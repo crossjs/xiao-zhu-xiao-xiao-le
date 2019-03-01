@@ -3,6 +3,7 @@
 .vscode/
 .wing/
 bin-debug/
+db/
 design/
 dist/
 libs/

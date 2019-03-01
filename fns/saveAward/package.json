@@ -1,0 +1,9 @@
+{
+  "name": "saveAward",
+  "version": "1.0.0",
+  "description": "获取世界排行",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

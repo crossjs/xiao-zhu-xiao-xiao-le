@@ -21,7 +21,7 @@ namespace yyw {
       wx.aldStage.onStart({
         stageId: "1",
         stageName: "normal",
-        userId: USER.openId,
+        userId: USER.openid,
       });
     },
 
@@ -34,7 +34,7 @@ namespace yyw {
       wx.aldStage.onRunning({
         stageId: "1",
         stageName: "normal",
-        userId: USER.openId,
+        userId: USER.openid,
         event,
         params: {
           itemName,
@@ -48,7 +48,7 @@ namespace yyw {
       wx.aldStage.onEnd({
         stageId: "1",
         stageName: "normal",
-        userId: USER.openId,
+        userId: USER.openid,
         event,
       });
     },

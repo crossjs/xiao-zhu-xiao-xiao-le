@@ -1,0 +1,9 @@
+{
+  "name": "setStorage",
+  "version": "1.0.0",
+  "description": "提交用户配置",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

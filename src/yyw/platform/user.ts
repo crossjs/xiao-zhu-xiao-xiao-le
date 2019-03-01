@@ -1,50 +1,30 @@
 namespace yyw {
   interface IUser {
-    accessToken?: string;
-    avatar?: string;
+    openid?: string;
+    unionid?: string;
+    nickName?: string;
     avatarUrl?: string;
+    gender?: number;
+    province?: string;
+    city?: string;
+    country?: string;
     coins?: number;
-    createdAt?: number;
-    enabled?: boolean;
-    expiresIn?: number;
-    id?: string;
     level?: number;
-    nickname?: string;
-    openId?: string;
     points?: number;
-    provider?: string;
     score?: number;
-    unionId?: string;
-    updatedAt?: number;
-    username?: string;
   }
 
-  const USER_KEY = "YYW_G4_USER";
+  const USER_KEY = "USER";
 
   export const USER: IUser = {};
-
-  // 总是能取到 code，不需要用户确认
-  function getLoginCode(): Promise<string> {
-    return new Promise((resolve) => {
-      wx.login({
-        success({ code }) {
-          resolve(code);
-        },
-        fail() {
-          resolve();
-        },
-      });
-    });
-  }
 
   function getUserInfo(): Promise<object> {
     return new Promise((resolve) => {
       wx.getUserInfo({
-        withCredentials: true,
-        success({ errMsg, encryptedData, iv, userInfo }: any) {
+        withCredentials: false,
+        success({ errMsg, userInfo }: any) {
           if (errMsg === "getUserInfo:ok") {
-            // 取到加密过的用户信息，丢到服务端去解密
-            resolve({ encryptedData, iv, userInfo });
+            resolve(userInfo);
           } else {
             // 用户拒绝，直接登录
             resolve(null);
@@ -70,39 +50,26 @@ namespace yyw {
     });
   }
 
-  // encryptedData, iv, userInfo
-  async function login(payload: any = {}): Promise<any> {
-    const isLoggedIn = !!USER.accessToken;
+  async function login(fullUserInfo?: any): Promise<any> {
+    const isLoggedIn = !!USER.openid;
 
-    // 没有 code
-    if (!payload.code) {
+    // 没有 fullUserInfo
+    if (!fullUserInfo) {
       // 去微信取
-      Object.assign(payload, {
-        code: await getLoginCode(),
-      });
+      fullUserInfo = await getUserInfo();
     }
 
-    // 没有 userInfo
-    if (!payload.userInfo) {
-      // 去微信取
-      Object.assign(payload, await getUserInfo());
-    }
-
-    const { expiresIn = 0, ...currentUser } = await request({
-      url: `${CONFIG.serverOrigin}/api/user/login`,
-      data: payload,
-      method: "POST",
-    });
+    const currentUser = await cloud.call("login", { fullUserInfo });
 
     // 合入到全局
     Object.assign(USER, currentUser);
-    await storage.set(USER_KEY, USER, expiresIn);
+    await storage.set(USER_KEY, USER);
 
     // 如果之前是未登录状态，则通知登录
     if (!isLoggedIn) {
       yyw.emit("LOGIN");
     }
-    return currentUser;
+    return USER;
   }
 
   export async function logout(): Promise<any> {
@@ -115,17 +82,17 @@ namespace yyw {
     yyw.emit("LOGOUT");
   }
 
-  export async function getAccessToken(): Promise<string> {
-    if (!USER.accessToken) {
+  export async function getLogin(): Promise<boolean> {
+    if (!USER.openid) {
       const cachedUser = await storage.get(USER_KEY);
       if (cachedUser) {
         Object.assign(USER, cachedUser);
       }
     }
-    if (!USER.accessToken) {
+    if (!USER.openid) {
       await login();
     }
-    return USER.accessToken;
+    return !!USER.openid;
   }
 
   /**
@@ -157,19 +124,19 @@ namespace yyw {
         borderColor: "transparent",
         borderWidth: 0,
       },
-      withCredentials: true,
+      withCredentials: false,
     });
 
-    button.onTap(async ({ errMsg, encryptedData, iv, userInfo }: any) => {
+    button.onTap(async ({ errMsg, userInfo }: any) => {
       button.destroy();
       let authorized = true;
       try {
         if (errMsg === "getUserInfo:ok") {
           // 取到加密过的用户信息，丢到服务端去解密
-          await login({ encryptedData, iv, userInfo });
+          await login(userInfo);
         } else {
           authorized = false;
-          const isLoggedIn: boolean = !!await getAccessToken();
+          const isLoggedIn: boolean = await getLogin();
           if (!isLoggedIn) {
             // 用户拒绝，直接登录
             await login();

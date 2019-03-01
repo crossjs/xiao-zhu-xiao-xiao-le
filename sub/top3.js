@@ -74,10 +74,11 @@ export const Top3 = {
     const iconWidth = 72;
     const fontSize = 24;
     const x = (i === 0 ? 1 : i === 1 ? 0 : 2) * colWidth;
+    const { key, avatarUrl, nickName, nickname, score } = data;
     let y = i === 0 ? 0 : 30;
     // 绘制序号
     this.drawImage(
-      assets[`top${data.key}`],
+      assets[`top${key}`],
       x + (colWidth - crownWidth) / 2,
       y,
       crownWidth,
@@ -86,7 +87,7 @@ export const Top3 = {
     y += crownHeight + gutterHeight;
     // 绘制头像
     this.drawImage(
-      data.avatarUrl,
+      avatarUrl,
       x + (colWidth - iconWidth) / 2,
       y,
       iconWidth,
@@ -95,7 +96,7 @@ export const Top3 = {
     y += iconWidth + gutterHeight * 2;
     // 绘制名称
     this.drawText(
-      data.nickname,
+      nickName || nickname,
       x,
       y,
       colWidth,
@@ -107,7 +108,7 @@ export const Top3 = {
     y += fontSize + gutterHeight;
     // 绘制分数
     this.drawText(
-      data.score,
+      score,
       x,
       y,
       colWidth,

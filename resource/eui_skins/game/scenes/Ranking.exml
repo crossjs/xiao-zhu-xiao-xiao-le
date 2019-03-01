@@ -11,6 +11,7 @@
 					<e:Image height="72" left="0" right="0" source="sprites_json.round_grass" scale9Grid="36,36,6,6" y="168"/>
 					<e:Image height="72" left="0" right="0" source="sprites_json.round_grass" scale9Grid="36,36,6,6" y="252"/>
 					<e:Image height="72" left="0" right="0" source="sprites_json.round_grass" scale9Grid="36,36,6,6" y="336"/>
+					<e:Image height="72" left="0" right="0" scale9Grid="36,36,6,6" y="450" source="sprites_json.round_white"/>
 					<e:Image height="72" left="0" right="0" source="sprites_json.round_grass" scale9Grid="36,36,6,6" y="450"/>
 				</e:Group>
 				<e:Group id="groupFriend" width="572" y="30" height="522" x="44"/>

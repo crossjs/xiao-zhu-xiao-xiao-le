@@ -11,7 +11,7 @@ namespace game {
         child.visible = !!data;
       });
       if (data) {
-        const { key, avatarUrl, nickname, score } = data;
+        const { key, avatarUrl, nickName, score } = data;
         if (key < 4) {
           this.labelKey.visible = false;
           this.imageKey.source = `sprites_json.top${key}`;
@@ -23,7 +23,7 @@ namespace game {
         }
         const avatar: egret.Bitmap = await yyw.loadImage(avatarUrl);
         this.imageAvatar.source = avatar.texture;
-        this.labelNickname.text = yyw.sliceString(nickname);
+        this.labelNickname.text = yyw.sliceString(nickName);
         this.labelScore.text = `${score}`;
       }
     }

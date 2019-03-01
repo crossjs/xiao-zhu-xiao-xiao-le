@@ -9,7 +9,7 @@ namespace yyw {
 
       const canVideo = (status & 2) === 2 && !!CONFIG.rewardAd;
       const canShare = (status & 1) === 1
-        && !(USER.nickname && /^(?:tencent_game_|rdgztest_|minigamecheck)/.test(USER.nickname));
+        && !(USER.nickName && /^(?:tencent_game_|rdgztest_|minigamecheck)/.test(USER.nickName));
 
       if (sub) {
         return sub === "video" ? canVideo : canShare;
@@ -38,7 +38,7 @@ namespace yyw {
 
       const tryVideo = (status & 2) === 2 && !!CONFIG.rewardAd;
       const tryShare = (status & 1) === 1
-        && !(USER.nickname && /^(?:tencent_game_|rdgztest_|minigamecheck)/.test(USER.nickname));
+        && !(USER.nickName && /^(?:tencent_game_|rdgztest_|minigamecheck)/.test(USER.nickName));
 
       // 启用了视频激励，且有 adUnitId
       if (tryVideo) {

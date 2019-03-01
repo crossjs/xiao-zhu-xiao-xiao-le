@@ -69,9 +69,9 @@ namespace box {
     private sessionId: string;
     private loopHandler: any;
     private nextIndex: any;
-    private unionId: string;
+    private unionid: string;
     private appId: any;
-    private openId: any;
+    private openid: any;
     private delay: any;
     private origins: any;
     private readyHandlers: any[];
@@ -81,7 +81,7 @@ namespace box {
 
     constructor({
       appId,
-      openId,
+      openid,
       onReady = noop,
       onChange = noop,
       delay = 8,
@@ -94,7 +94,7 @@ namespace box {
 
       // 只允许存在一个
       if (Recommender.instance) {
-        if (Recommender.instance.openId === openId
+        if (Recommender.instance.openid === openid
             && Recommender.instance.appId === appId) {
           Recommender.instance.onReady(onReady);
           Recommender.instance.onChange(onChange);
@@ -104,8 +104,8 @@ namespace box {
       }
       Recommender.instance = this;
 
-      if (!openId) {
-        console.warn("请传入当前玩家的 openId");
+      if (!openid) {
+        console.warn("请传入当前玩家的 openid");
       }
 
       this.isReady = false;
@@ -118,7 +118,7 @@ namespace box {
       this.loopHandler = 0;
       this.nextIndex = 0;
       this.appId = appId;
-      this.openId = openId;
+      this.openid = openid;
       // 循环间隔
       this.delay = delay;
       this.origins = origins;
@@ -134,7 +134,7 @@ namespace box {
         })
           .then((data: any) => {
             if (data && data.items && data.items.length) {
-              this.unionId = data.id;
+              this.unionid = data.id;
               this.games = data.items.map((item) =>
                 (Object as any).assign(item, {
                   iconUrl: `${this.origins.box}${item.iconUrl}`,
@@ -208,7 +208,7 @@ namespace box {
         path,
         extraData: (Object as any).assign(
           {
-            yyw: this.unionId,
+            yyw: this.unionid,
           },
           extraData,
         ),
@@ -266,10 +266,10 @@ namespace box {
 
     public report(type: number, { appId: toAppId = 0 } = {}) {
       const data = [
-        this.unionId,
+        this.unionid,
         type,
         this.appId,
-        this.openId,
+        this.openid,
         toAppId,
         this.sessionId,
       ];
@@ -307,12 +307,12 @@ namespace box {
 
   function getInstance(): Recommender {
     if (!instance) {
-      const { openId } = yyw.USER;
-      if (openId) {
+      const { openid } = yyw.USER;
+      if (openid) {
         // 初始化交叉营销
         instance = new Recommender({
           appId: APP_ID,
-          openId,
+          openid,
           // origins: {
           //   box: "http://127.0.0.1:7001",
           //   log: "http://127.0.0.1:7002",

@@ -48,7 +48,7 @@ namespace game {
         score,
         width: this.width,
         height: this.height,
-        openid: yyw.USER.openId || 0,
+        openid: yyw.USER.openid || 0,
       });
     }
 

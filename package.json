@@ -1,6 +1,6 @@
 {
   "name": "g4",
-  "version": "1.4.9",
+  "version": "1.5.0",
   "description": "小猪消消乐",
   "private": true,
   "scripts": {
@@ -14,7 +14,8 @@
     "@minipx/cli": "~/minipx/cli",
     "tslib": "^1.9.3",
     "tslint": "^5.12.0",
-    "typescript": "^3.2.2"
+    "typescript": "^3.2.2",
+    "wx-server-sdk": "^0.1.4"
   },
   "wxgame": {
     "APP_ID": "wx2d01e63038198832",
@@ -23,14 +24,17 @@
       "wxfed1a9e69738536a",
       "wxb17a18edcbb93d0a"
     ],
-    "DIR_TO_COPY": [
-      "sub"
-    ],
+    "FNS_ROOT": "fns",
+    "SUB_ROOT": "sub",
     "ALD_APP_KEY": "3e491ead3ac717eefc4add216ab06dd6",
     "FDB_API_KEY": "1540734362ed95c5d0a00318ecf630f3d2bfac0c6a321012f946fb87c332af8a",
     "SERVER_ORIGIN": {
       "dev": "http://127.0.0.1:7014",
       "release": "https://g4.minipx.cn"
+    },
+    "CLOUD_ENV": {
+      "dev": "releas-529ffe",
+      "release": "dev-529ffe"
     }
   }
 }

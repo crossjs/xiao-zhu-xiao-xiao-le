@@ -1,5 +1,5 @@
 namespace game {
-  const STORAGE_KEY = "YYW_G4_CHECKIN";
+  const STORAGE_KEY = "CHECKIN";
   const bonus: any[] = [[100], [150], [200], [250, "breaker"], [300], [350], [400, "shuffle"]];
 
   export class Checkin extends yyw.Base {
@@ -16,28 +16,18 @@ namespace game {
       super.createView(fromChildrenCreated);
 
       if (fromChildrenCreated) {
-        const checkins = await yyw.db.get(STORAGE_KEY) || {};
-
-        const now = new Date();
-        const day = now.getDay() || 7;
-        const end = new Date(
-          now.getFullYear(),
-          now.getMonth(),
-          now.getDate() + 7 - day,
-          23,
-          59,
-          59,
-        );
+        const days = await yyw.checkin.get();
 
         yyw.eachChild(this.groupDays, (child: eui.Group, index: number) => {
-          if (index >= day) {
+          const day = days[index];
+          if (day.offset > 0) {
             // 未来
             child.alpha = 0.5;
-          } else if (checkins[`${index}`]) {
+          } else if (day.checked) {
             // 已签到，显示勾
             child.getChildAt(child.numChildren - 1).visible = true;
           } else {
-            const isPast = index + 1 < day;
+            const isPast = day.offset < 0;
             // 过去
             if (isPast) {
               child.alpha = 0.75;
@@ -64,9 +54,7 @@ namespace game {
                     amount: 1,
                   });
                 }
-                const expiresIn = end.getTime() - Date.now();
-                Object.assign(checkins, { [`${index}`]: true });
-                yyw.db.set(STORAGE_KEY, checkins, expiresIn);
+                yyw.checkin.save(index);
                 child.alpha = 1;
                 child.getChildAt(child.numChildren - 1).visible = true;
                 yyw.showToast(`${isPast ? "补签" : "签到"}成功，奖励已发放`);

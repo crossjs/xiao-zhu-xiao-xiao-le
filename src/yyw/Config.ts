@@ -149,9 +149,8 @@ namespace yyw {
         boxEnabled = true,
         bannerAd = "",
         rewardAd = "",
-       } = await request({
-        url: `${CONFIG.serverOrigin}/api/config`,
-      });
+      } = await cloud.call("getConfig");
+
       Object.assign(CONFIG, {
         coinReward,
         shopStatus,

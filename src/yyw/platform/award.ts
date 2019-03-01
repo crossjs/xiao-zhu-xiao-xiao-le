@@ -1,15 +1,11 @@
 namespace yyw {
   export const award = {
     async save({
-      coins,
+      coins = 0,
+      points = 0,
     }: { coins?: number, points?: number }): Promise<any> {
       if (coins) {
-        // 保存到自己的服务器
-        return requestWithAuth({
-          url: `${CONFIG.serverOrigin}/api/user/award`,
-          data: { coins },
-          method: "POST",
-        });
+        return cloud.call("saveAward", { coins, points });
       }
       return {};
     },

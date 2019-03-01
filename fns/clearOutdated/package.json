@@ -1,0 +1,9 @@
+{
+  "name": "clearOutdated",
+  "version": "1.0.0",
+  "description": "清除过期的数据",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

@@ -117,9 +117,9 @@ export const Proxy = {
       wx.getFriendCloudStorage({
         keyList: ["score"],
         success: ({ data }) => {
-          this.cachedRankingData = data.map(({ KVDataList, nickname, ...rest }) => ({
+          this.cachedRankingData = data.map(({ KVDataList, nickName, nickname, ...rest }) => ({
             ...rest,
-            nickname: sliceString(nickname),
+            nickName: sliceString(nickName || nickname),
             score: getScoreFormKVDataList(KVDataList),
           })).sort((a, b) => {
             return a.score > b.score ? -1 : 1;

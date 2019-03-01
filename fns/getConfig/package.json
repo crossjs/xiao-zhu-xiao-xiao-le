@@ -1,0 +1,9 @@
+{
+  "name": "getConfig",
+  "version": "1.0.0",
+  "description": "获取游戏配置",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

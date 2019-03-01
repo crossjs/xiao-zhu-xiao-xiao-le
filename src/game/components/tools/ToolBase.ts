@@ -127,10 +127,7 @@ namespace game {
               targetXY = null;
             } else {
               yyw.showToast("请拖放到棋盘中");
-              yyw.emit("TOOL_USING", {
-                type: this.type,
-                cancel: reset,
-              });
+              await reset();
             }
           });
         }
@@ -147,7 +144,7 @@ namespace game {
 
     private zoomIn() {
       yyw.getTween(this.main).to({
-        scale: 1.5,
+        scale: 1.2,
       });
     }
 

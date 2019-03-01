@@ -98,7 +98,7 @@ class Main extends eui.UILayer {
       await yyw.initConfig();
 
       // 先自动登录
-      await yyw.getAccessToken();
+      await yyw.getLogin();
     } catch (error) {
       egret.error(error);
     }

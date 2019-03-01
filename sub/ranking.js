@@ -128,37 +128,38 @@ export const Ranking = {
       height,
       assets
     } = this;
+    const { key, avatarUrl, nickName, nickname, score } = data;
     const y = (i === this.pageSize) ? height - myBarHeight : i * (barHeight + gutterHeight);
     // 绘制序号
-    if (data.key < 4) {
+    if (key < 4) {
       this.drawImage(
-        assets[`top${data.key}`],
+        assets[`top${key}`],
         xArr[1],
         y + (barHeight - indexWidth) / 2,
         56,
         53
       );
     } else {
-      this.drawText(data.key, xArr[1], y, indexWidth, barHeight, {
+      this.drawText(key, xArr[1], y, indexWidth, barHeight, {
         align: "center",
         fontSize: 24,
       });
     }
     // 绘制头像
     this.drawImage(
-      data.avatarUrl,
+      avatarUrl,
       xArr[2],
       y + (barHeight - iconWidth) / 2,
       iconWidth,
       iconWidth
     );
     // 绘制名称
-    this.drawText(data.nickname, xArr[3], y, nameWidth, barHeight, {
+    this.drawText(nickName || nickname, xArr[3], y, nameWidth, barHeight, {
       align: "left",
       color: "#27361F"
     });
     // 绘制分数
-    this.drawText(data.score, xArr[4], y, scoreWidth, barHeight, {
+    this.drawText(score, xArr[4], y, scoreWidth, barHeight, {
       align: "right",
       color: "#C34959"
     });

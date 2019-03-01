@@ -34,8 +34,8 @@ namespace game {
         this.taskSofar += mutation;
       } else {
         try {
-          const tasks = await yyw.task.me();
-          this.taskSofar = tasks.length;
+          const tasks = await yyw.task.get();
+          this.taskSofar = tasks.filter(({ fulfilled }) => fulfilled).length;
         } catch (error) {
           egret.error(error);
         }

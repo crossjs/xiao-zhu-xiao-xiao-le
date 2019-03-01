@@ -11,11 +11,11 @@ namespace yyw {
 
   export const pbl = {
     async all(): Promise<IPbl[]> {
-      return request(`${CONFIG.serverOrigin}/api/pbl`);
+      return cloud.call("getPbl");
     },
 
     async me(): Promise<IPbl> {
-      return requestWithAuth(`${CONFIG.serverOrigin}/api/user/pbl`);
+      return cloud.call("getMyPbl");
     },
 
     async save({
@@ -33,11 +33,7 @@ namespace yyw {
           score,
         });
       }
-      return requestWithAuth({
-        url: `${CONFIG.serverOrigin}/api/user/pbl`,
-        data: { score, level, combo },
-        method: "POST",
-      });
+      return cloud.call("saveMyPbl", { score, level, combo });
     },
   };
 }
