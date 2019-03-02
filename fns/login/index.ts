@@ -1,13 +1,14 @@
-const cloud = require("wx-server-sdk");
+import cloud from "wx-server-sdk";
 
 cloud.init();
 
 const db = cloud.database();
 
-// userInfo 已经被系统占用了
-// 所以外部传入，使用 fullUserInfo
-
-exports.main = async ({ fullUserInfo }, context) => {
+/**
+ * userInfo 已经被系统占用了
+ * 所以外部传入，使用 fullUserInfo
+ */
+export const main = async ({ fullUserInfo }, context) => {
   const { OPENID: openid, UNIONID: unionid } = cloud.getWXContext();
 
   const user = {

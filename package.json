@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@minipx/cli": "~/minipx/cli",
+    "eslint": "^5.14.1",
     "tslib": "^1.9.3",
     "tslint": "^5.12.0",
     "typescript": "^3.2.2",

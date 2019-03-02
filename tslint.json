@@ -4,9 +4,6 @@
     "tslint:recommended"
   ],
   "jsRules": {
-    "rule": {
-      "severity": "error"
-    }
   },
   "rules": {
     "interface-name": false,

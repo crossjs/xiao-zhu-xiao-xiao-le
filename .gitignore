@@ -8,4 +8,5 @@ design/
 dist/
 libs/
 node_modules/
+fns/**/*.js
 info.json
