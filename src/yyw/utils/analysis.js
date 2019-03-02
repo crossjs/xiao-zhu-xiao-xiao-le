@@ -1,44 +1,48 @@
 var yyw;
 (function (yyw) {
-    const Performance = wx.getPerformance();
-    let begin = Performance.now();
+    var Performance = wx.getPerformance();
+    var begin = Performance.now();
     yyw.analysis = {
-        addEvent(event, data) {
+        addEvent: function (event, data) {
+            // 添加执行时间统计
             if (!data) {
-                const now = Performance.now();
+                var now = Performance.now();
                 data = {
-                    d: `${(now - begin) | 0}ms`,
+                    d: ((now - begin) | 0) + "ms",
                 };
                 begin = now;
             }
             wx.aldSendEvent(event, data);
         },
-        onStart() {
+        onStart: function () {
             wx.aldStage.onStart({
                 stageId: "1",
                 stageName: "normal",
                 userId: yyw.USER.openid,
             });
         },
-        onRunning(event, itemName, itemCount = 1, itemMoney = 0) {
+        onRunning: function (event, itemName, itemCount, itemMoney) {
+            if (itemCount === void 0) { itemCount = 1; }
+            if (itemMoney === void 0) { itemMoney = 0; }
             wx.aldStage.onRunning({
                 stageId: "1",
                 stageName: "normal",
                 userId: yyw.USER.openid,
-                event,
+                event: event,
                 params: {
-                    itemName,
-                    itemCount,
-                    itemMoney,
+                    itemName: itemName,
+                    itemCount: itemCount,
+                    itemMoney: itemMoney,
                 },
             });
         },
-        onEnd(event = "complete") {
+        onEnd: function (event) {
+            if (event === void 0) { event = "complete"; }
             wx.aldStage.onEnd({
                 stageId: "1",
                 stageName: "normal",
                 userId: yyw.USER.openid,
-                event,
+                event: event,
             });
         },
     };

@@ -1,19 +1,23 @@
 var yyw;
 (function (yyw) {
+    /**
+     * 开放数据域
+     */
     yyw.sub = {
-        createDisplayObject(type, width, height) {
-            const bitmapData = new egret.BitmapData(sharedCanvas);
+        createDisplayObject: function (type, width, height) {
+            var bitmapData = new egret.BitmapData(sharedCanvas);
             bitmapData.$deleteSource = false;
-            const texture = new egret.Texture();
+            var texture = new egret.Texture();
             texture._setBitmapData(bitmapData);
-            const bitmap = new egret.Bitmap(texture);
+            var bitmap = new egret.Bitmap(texture);
             bitmap.width = width;
             bitmap.height = height;
             if (egret.Capabilities.renderMode === "webgl") {
-                const renderContext = egret.wxgame.WebGLRenderContext.getInstance();
-                const context = renderContext.context;
+                var renderContext = egret.wxgame.WebGLRenderContext.getInstance();
+                var context = renderContext.context;
                 if (!context.wxBindCanvasTexture) {
-                    egret.setInterval(() => {
+                    // 每半秒调用一次，避免性能问题
+                    egret.setInterval(function () {
                         egret.WebGLUtils.deleteWebGLTexture(bitmapData.webGLTexture);
                         bitmapData.webGLTexture = null;
                     }, this, 500);
@@ -21,8 +25,8 @@ var yyw;
             }
             return bitmap;
         },
-        postMessage(data) {
-            const openDataContext = wx.getOpenDataContext();
+        postMessage: function (data) {
+            var openDataContext = wx.getOpenDataContext();
             openDataContext.postMessage(data);
         },
     };

@@ -1,10 +1,10 @@
-const cloud = require("wx-server-sdk");
+import cloud from "wx-server-sdk";
 
 cloud.init();
 
 const db = cloud.database();
 
-exports.main = async (event, context) => {
+export const main = async (event, context) => {
   const { data: [ config ] } = await db
     .collection("configs")
     .limit(1)

@@ -1,26 +1,38 @@
+/**
+ * 带过期时间的缓存库
+ */
 var yyw;
 (function (yyw) {
     yyw.storage = {
-        remove(key) {
-            return new Promise((resolve, reject) => {
+        /**
+         * 清除指定键的值
+         * @param key 键
+         */
+        remove: function (key) {
+            return new Promise(function (resolve, reject) {
                 wx.removeStorage({
-                    key,
-                    success() {
+                    key: key,
+                    success: function () {
                         resolve();
                     },
-                    fail(e) {
+                    fail: function (e) {
                         resolve(null);
                     },
                 });
             });
         },
-        get(key) {
-            return new Promise((resolve, reject) => {
+        /**
+         * 获取指定键的值
+         * @param key 键
+         */
+        get: function (key) {
+            return new Promise(function (resolve, reject) {
                 wx.getStorage({
-                    key,
-                    success({ data }) {
+                    key: key,
+                    success: function (_a) {
+                        var data = _a.data;
                         if (data) {
-                            const { value, expiresAt } = data;
+                            var value = data.value, expiresAt = data.expiresAt;
                             resolve((!expiresAt || expiresAt > Date.now()) ? value : null);
                         }
                         else {
@@ -28,25 +40,31 @@ var yyw;
                             yyw.storage.remove(key);
                         }
                     },
-                    fail(e) {
+                    fail: function (e) {
                         resolve(null);
                         yyw.storage.remove(key);
                     },
                 });
             });
         },
-        set(key, data, expiresIn) {
-            return new Promise((resolve, reject) => {
+        /**
+         * 设置指定键的值
+         * @param key 键
+         * @param data 值
+         * @param expiresIn 过期毫秒数
+         */
+        set: function (key, data, expiresIn) {
+            return new Promise(function (resolve, reject) {
                 wx.setStorage({
-                    key,
+                    key: key,
                     data: {
                         value: data,
                         expiresAt: expiresIn ? (Date.now() + expiresIn) : 0,
                     },
-                    success() {
+                    success: function () {
                         resolve();
                     },
-                    fail(e) {
+                    fail: function (e) {
                         resolve(null);
                     },
                 });

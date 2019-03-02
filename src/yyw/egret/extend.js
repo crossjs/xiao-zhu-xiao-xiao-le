@@ -1,8 +1,9 @@
+// 使显示对象有 scale 属性
 Object.defineProperty(egret.DisplayObject.prototype, "scale", {
-    get() {
+    get: function () {
         return this.scaleX;
     },
-    set(value) {
+    set: function (value) {
         this.scaleX = this.scaleY = value;
     },
 });

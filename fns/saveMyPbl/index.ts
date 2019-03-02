@@ -1,10 +1,10 @@
-const cloud = require("wx-server-sdk");
+import cloud from "wx-server-sdk";
 
 cloud.init();
 
 const db = cloud.database();
 
-exports.main = async ({ score, level, combo }, context) => {
+export const main = async ({ score, level, combo }, context) => {
   const { OPENID: openid } = cloud.getWXContext();
 
   const doc = db
@@ -20,6 +20,6 @@ exports.main = async ({ score, level, combo }, context) => {
       combo: Math.max(data.combo, combo),
       scores: data.scores + score,
       played: data.played + 1,
-    }
+    },
   });
 };

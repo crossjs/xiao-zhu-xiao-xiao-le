@@ -2,7 +2,7 @@ var yyw;
 (function (yyw) {
     function removeChildren(container) {
         if (container) {
-            let n = container.numChildren;
+            var n = container.numChildren;
             while (n--) {
                 container.removeChildAt(n);
             }
@@ -11,18 +11,18 @@ var yyw;
     yyw.removeChildren = removeChildren;
     function removeElement(target) {
         if (target) {
-            const { parent } = target;
-            if (parent) {
-                parent.removeChild(target);
+            var parent_1 = target.parent;
+            if (parent_1) {
+                parent_1.removeChild(target);
             }
         }
     }
     yyw.removeElement = removeElement;
     function getZIndex(target) {
         if (target) {
-            const { parent } = target;
-            if (parent) {
-                return parent.getChildIndex(target);
+            var parent_2 = target.parent;
+            if (parent_2) {
+                return parent_2.getChildIndex(target);
             }
         }
         return -1;
@@ -30,19 +30,19 @@ var yyw;
     yyw.getZIndex = getZIndex;
     function setZIndex(target, zIndex) {
         if (target) {
-            const { parent } = target;
-            if (parent) {
-                parent.setChildIndex(target, zIndex === undefined ? parent.numChildren : zIndex);
+            var parent_3 = target.parent;
+            if (parent_3) {
+                parent_3.setChildIndex(target, zIndex === undefined ? parent_3.numChildren : zIndex);
             }
         }
     }
     yyw.setZIndex = setZIndex;
     function eachChild(target, handler) {
         if (target) {
-            const { numChildren } = target;
+            var numChildren = target.numChildren;
             if (numChildren) {
-                for (let index = 0; index < numChildren; index++) {
-                    const child = target.getChildAt(index);
+                for (var index = 0; index < numChildren; index++) {
+                    var child = target.getChildAt(index);
                     handler(child, index);
                 }
             }
@@ -51,7 +51,7 @@ var yyw;
     yyw.eachChild = eachChild;
     function randomChild(target) {
         if (target) {
-            const { numChildren } = target;
+            var numChildren = target.numChildren;
             if (numChildren) {
                 return target.getChildAt(yyw.random(numChildren));
             }

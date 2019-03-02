@@ -1,27 +1,29 @@
 var yyw;
 (function (yyw) {
-    function sliceString(value, size = 6, asciiAsHalf = true) {
+    function sliceString(value, size, asciiAsHalf) {
+        if (size === void 0) { size = 6; }
+        if (asciiAsHalf === void 0) { asciiAsHalf = true; }
         if (asciiAsHalf) {
-            const chars = [];
-            const maxIndex = value.length;
-            let n = size * 2;
-            let i = 0;
+            var chars_1 = [];
+            var maxIndex = value.length;
+            var n = size * 2;
+            var i = 0;
             while (n > 0 && i <= maxIndex) {
-                const char = value.charAt(i++);
+                var char = value.charAt(i++);
                 n--;
                 if (char.charCodeAt(0) > 255) {
                     n--;
                 }
-                chars.push(char);
+                chars_1.push(char);
             }
-            return chars.join("");
+            return chars_1.join("");
         }
         return value.substring(0, size);
     }
     yyw.sliceString = sliceString;
     function zeroPadding(str, size) {
-        const padding = "0000000000";
-        return `${padding.slice(0, size - str.length)}${str}`;
+        var padding = "0000000000";
+        return "" + padding.slice(0, size - str.length) + str;
     }
     yyw.zeroPadding = zeroPadding;
 })(yyw || (yyw = {}));

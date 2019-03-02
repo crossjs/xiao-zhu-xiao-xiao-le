@@ -1,10 +1,10 @@
-const cloud = require("wx-server-sdk");
+import cloud from "wx-server-sdk";
 
 cloud.init();
 
 const db = cloud.database();
 
-exports.main = async ({ coins = 0, points = 0 }, context) => {
+export const main = async ({ coins = 0, points = 0 }, context) => {
   const { OPENID: openid } = cloud.getWXContext();
 
   const doc = db
@@ -17,6 +17,6 @@ exports.main = async ({ coins = 0, points = 0 }, context) => {
     data: {
       coins: data.coins + coins,
       points: data.points + points,
-    }
+    },
   });
 };

@@ -1,18 +1,24 @@
 var yyw;
 (function (yyw) {
-    function debounce(timeout = 100) {
-        return (target, key, descriptor) => {
+    function debounce(timeout) {
+        if (timeout === void 0) { timeout = 100; }
+        return function (target, key, descriptor) {
             if (descriptor === undefined) {
                 descriptor = Object.getOwnPropertyDescriptor(target, key);
             }
-            const originalMethod = descriptor.value;
-            let handle;
-            descriptor.value = function (...args) {
+            var originalMethod = descriptor.value;
+            var handle;
+            descriptor.value = function () {
+                var _this = this;
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i] = arguments[_i];
+                }
                 if (handle) {
                     egret.clearTimeout(handle);
                 }
-                handle = egret.setTimeout(() => {
-                    originalMethod.apply(this, args);
+                handle = egret.setTimeout(function () {
+                    originalMethod.apply(_this, args);
                 }, this, timeout * yyw.CONFIG.speedRatio);
             };
             return descriptor;

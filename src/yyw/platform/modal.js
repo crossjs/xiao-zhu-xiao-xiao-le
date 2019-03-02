@@ -1,11 +1,12 @@
 var yyw;
 (function (yyw) {
     function showModal(content) {
-        return new Promise((resolve, reject) => {
+        return new Promise(function (resolve, reject) {
             wx.showModal({
                 title: "",
-                content,
-                success: ({ confirm, cancel }) => {
+                content: content,
+                success: function (_a) {
+                    var confirm = _a.confirm, cancel = _a.cancel;
                     if (confirm) {
                         resolve(true);
                     }
@@ -13,7 +14,7 @@ var yyw;
                         resolve(false);
                     }
                 },
-                fail: () => {
+                fail: function () {
                     resolve(false);
                 },
             });
@@ -22,7 +23,7 @@ var yyw;
     yyw.showModal = showModal;
     function showToast(title) {
         wx.showToast({
-            title,
+            title: title,
             icon: "none",
         });
     }

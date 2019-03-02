@@ -66,14 +66,14 @@ export const main = async ({ fullUserInfo }, context) => {
       data: {
         ...user,
         created: db.serverDate(),
-      }
+      },
     });
   } else {
     await doc.update({
       data: {
         ...user,
         updated: db.serverDate(),
-      }
+      },
     });
   }
 
