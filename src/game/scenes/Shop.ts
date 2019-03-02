@@ -18,20 +18,24 @@ namespace game {
               // 消费
               const type = this.goods[index];
               const coins = this.prices[index];
-              await yyw.award.save({
-                coins: -coins,
-              });
-              yyw.emit("COINS_USED", {
-                type,
-                amount: coins,
-              });
-              yyw.showToast("兑换成功");
-              yyw.emit("TOOL_GOT", {
-                type,
-                amount: 1,
-              });
-              // 刷新
-              await this.update();
+              try {
+                await yyw.award.save({
+                  coins: -coins,
+                });
+                yyw.emit("COINS_USED", {
+                  type,
+                  amount: coins,
+                });
+                yyw.showToast("兑换成功");
+                yyw.emit("TOOL_GOT", {
+                  type,
+                  amount: 1,
+                });
+                // 刷新
+                await this.update();
+              } catch (error) {
+                yyw.showToast("余额不足");
+              }
             });
           })(i);
         }

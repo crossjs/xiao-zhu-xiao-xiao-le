@@ -45,12 +45,16 @@ class Main extends eui.UILayer {
       }
     }
     let loaded: boolean = false;
-    egret.setTimeout(() => {
-      if (!loaded) {
-        yyw.analysis.addEvent("2加载超时");
-        this.createGameScene();
-      }
-    }, null, 10000);
+    egret.setTimeout(
+      () => {
+        if (!loaded) {
+          yyw.analysis.addEvent("2加载超时");
+          this.createGameScene();
+        }
+      },
+      null,
+      10000,
+    );
     yyw.analysis.addEvent("1开始加载");
     await this.loadResource();
     loaded = true;
@@ -170,12 +174,12 @@ class Main extends eui.UILayer {
     }
 
     // 获得道具
-    yyw.on("TOOL_GOT", ({ data: { type, amount }}) => {
+    yyw.on("TOOL_GOT", ({ data: { type, amount } }) => {
       yyw.analysis.onRunning("award", type, amount);
     });
 
     // 使用道具
-    yyw.on("TOOL_USED", ({ data: { type, amount }}) => {
+    yyw.on("TOOL_USED", ({ data: { type, amount } }) => {
       yyw.analysis.onRunning("tools", type, amount);
     });
 
@@ -191,17 +195,38 @@ class Main extends eui.UILayer {
   }
 
   private initSounds() {
-    // tslint:disable
-    new game.AmazingSound();
-    new game.ClickSound();
-    new game.CoinsSound();
-    new game.ExcellentSound();
-    new game.GoodSound();
-    new game.GreatSound();
-    new game.MagicSound();
-    new game.PointSound();
-    new game.SwapSound();
-    // tslint:enable
+    wx.cloud.getTempFileURL({
+      fileList: [
+        "amazing",
+        "click",
+        "coins",
+        "excellent",
+        "good",
+        "great",
+        "magic",
+        "point",
+        "swap",
+      ].map((fileID) => `${CLOUD_DIR}/${fileID}.m4a`),
+      success: ({ fileList }) => {
+        fileList.forEach(({ status, fileID, tempFileURL }) => {
+          // cloud://dev-529ffe.6465-dev-529ffe/amazing.m4a
+          if (status === 0) {
+            const matched = fileID.match(/(\w)(\w+)(?=\.m4a)/);
+            if (matched) {
+              const SoundClass: typeof yyw.Sound = game[`${matched[1].toUpperCase()}${matched[2]}Sound`];
+              if (SoundClass) {
+                // tslint:disable
+                new SoundClass(tempFileURL);
+                // tslint:enable
+              }
+            }
+          }
+        });
+      },
+      fail: (error) => {
+        egret.error(error);
+      },
+    });
   }
 
   /**

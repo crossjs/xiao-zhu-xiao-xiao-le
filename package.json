@@ -1,6 +1,6 @@
 {
   "name": "g4",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "小猪消消乐",
   "private": true,
   "scripts": {
@@ -29,13 +29,13 @@
     "SUB_ROOT": "sub",
     "ALD_APP_KEY": "3e491ead3ac717eefc4add216ab06dd6",
     "FDB_API_KEY": "1540734362ed95c5d0a00318ecf630f3d2bfac0c6a321012f946fb87c332af8a",
-    "SERVER_ORIGIN": {
-      "dev": "http://127.0.0.1:7014",
-      "release": "https://g4.minipx.cn"
-    },
     "CLOUD_ENV": {
       "dev": "releas-529ffe",
       "release": "dev-529ffe"
+    },
+    "CLOUD_DIR": {
+      "dev": "cloud://dev-529ffe.6465-dev-529ffe",
+      "release": "cloud://dev-529ffe.6465-dev-529ffe"
     }
   }
 }

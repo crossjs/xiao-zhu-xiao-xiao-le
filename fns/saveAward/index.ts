@@ -1,4 +1,4 @@
-import cloud from "wx-server-sdk";
+import * as cloud from "wx-server-sdk";
 
 cloud.init();
 
@@ -13,10 +13,17 @@ export const main = async ({ coins = 0, points = 0 }, context) => {
 
   const { data } = await doc.get();
 
+  const toCoins = data.coins + coins;
+  const toPoints = data.points + points;
+
+  if (toCoins < 0 || toPoints < 0) {
+    throw new Error("余额不足");
+  }
+
   return await doc.update({
     data: {
-      coins: data.coins + coins,
-      points: data.points + points,
+      coins: toCoins,
+      points: toPoints,
     },
   });
 };

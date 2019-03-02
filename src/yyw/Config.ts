@@ -1,6 +1,4 @@
 namespace yyw {
-  const serverOrigin: string = SERVER_ORIGIN;
-
   const systemInfo: wx.systemInfo = wx.getSystemInfoSync();
   const launchOptions: wx.launchOptions = wx.getLaunchOptionsSync();
   // 数字越大，游戏节奏越慢
@@ -25,10 +23,6 @@ namespace yyw {
 
     get launchOptions(): wx.launchOptions {
       return launchOptions;
-    },
-
-    get serverOrigin(): string {
-      return serverOrigin;
     },
 
     /**

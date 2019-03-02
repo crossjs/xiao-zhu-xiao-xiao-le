@@ -1,13 +1,13 @@
 namespace yyw {
+  let clickFeedback = () => void 0;
+
   const hi = () => {
     vibrateShort();
-    playClickSound();
+    clickFeedback();
   };
 
-  let playClickSound = () => void 0;
-
-  export function setClick(playSound: any) {
-    playClickSound = playSound;
+  export function setClickFeedback(feedback: any) {
+    clickFeedback = feedback;
   }
 
   export function onTap(

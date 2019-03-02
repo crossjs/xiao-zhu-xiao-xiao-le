@@ -4,24 +4,22 @@ namespace yyw {
    */
   export class Sound {
     public static play() {
-      if (!this.instance) {
-        this.instance = new this();
+      if (this.instance) {
+        this.instance.play();
       }
-      this.instance.play();
     }
 
     private static instance: Sound;
 
-    protected url: string;
     protected sound: egret.Sound;
 
-    public constructor() {
-      egret.setTimeout(async () => {
-        if (this.url) {
-          this.sound = await loadAudio(this.url);
-        }
-      }, this, 0);
-      (this.constructor as any).instance = this;
+    public constructor(url: string) {
+      if (url) {
+        egret.setTimeout(async () => {
+          this.sound = await loadAudio(url);
+        }, null, 0);
+        (this.constructor as any).instance = this;
+      }
     }
 
     private play() {
