@@ -61,18 +61,23 @@ export const main = async ({ fullUserInfo }, context) => {
 
   Object.assign(user, fullUserInfo);
 
+  const { result: { now }} = await cloud.callFunction({
+    // 要调用的云函数名称
+    name: "dateUtil",
+  });
+
   if (isNew) {
     await doc.set({
       data: {
         ...user,
-        created: db.serverDate(),
+        createdAt: now,
       },
     });
   } else {
     await doc.update({
       data: {
         ...user,
-        updated: db.serverDate(),
+        updatedAt: now,
       },
     });
   }

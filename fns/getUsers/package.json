@@ -1,7 +1,7 @@
 {
-  "name": "clearOutdated",
+  "name": "getUsers",
   "version": "1.0.0",
-  "description": "清除过期的数据",
+  "description": "获取玩家列表",
   "main": "index.js",
   "dependencies": {
     "wx-server-sdk": "latest"

@@ -47,7 +47,7 @@ declare module "wx-server-sdk" {
   namespace Database {}
   interface Database {
     command: Command;
-    serverDate(offset?: number): Date;
+    serverDate(offset?: number): any;
     collection(name: string): Collection;
   }
 
@@ -65,4 +65,8 @@ declare module "wx-server-sdk" {
   function init(): void;
   function database(options?: DatabaseInitOptions): Database;
   function getWXContext(): WXContext;
+  function callFunction(options: {
+    name: string;
+    data?: any;
+  }): Promise<{ result: any }>;
 }

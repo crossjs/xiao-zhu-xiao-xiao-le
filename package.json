@@ -8,6 +8,7 @@
     "lint": "tslint -p ./ --fix",
     "dev": "cli dev",
     "debug": "cli debug",
+    "cloud": "cli cloud",
     "release": "cli release"
   },
   "devDependencies": {

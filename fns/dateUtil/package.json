@@ -1,0 +1,9 @@
+{
+  "name": "dateUtil",
+  "version": "1.0.0",
+  "description": "时间函数",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}
