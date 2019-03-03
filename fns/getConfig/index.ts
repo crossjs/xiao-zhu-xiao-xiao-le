@@ -4,7 +4,7 @@ cloud.init();
 
 const db = cloud.database();
 
-export const main = async (event, context) => {
+export const main = async (event: any, context: any) => {
   const { data: [ config ] } = await db
     .collection("configs")
     .limit(1)

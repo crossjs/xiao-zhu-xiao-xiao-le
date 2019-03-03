@@ -37,7 +37,7 @@
 			"url": "assets/sprites2.json",
 			"type": "sheet",
 			"name": "sprites2_json",
-			"subkeys": "amazing,excellent,fu,good,great,numbers,pig"
+			"subkeys": "fu,numbers,pig"
 		},
 		{
 			"name": "bg",

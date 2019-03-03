@@ -16,6 +16,7 @@ export const main = async ({ coins = 0, points = 0 }, context) => {
   const toCoins = data.coins + coins;
   const toPoints = data.points + points;
 
+  // TODO 增加状态字段？
   if (toCoins < 0 || toPoints < 0) {
     throw new Error("余额不足");
   }

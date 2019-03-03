@@ -24,6 +24,7 @@ namespace game {
 
         yyw.onTap(this.btnRestart, async () => {
           if (await yyw.showModal("确定放弃当前进度？")) {
+            yyw.director.escape();
             yyw.emit("RESTART");
             yyw.analysis.onEnd("fail");
           }

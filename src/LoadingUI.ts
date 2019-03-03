@@ -3,11 +3,12 @@ class LoadingUI extends yyw.Base implements RES.PromiseTaskReporter {
   private bar: eui.Image;
   private tip: eui.Label;
   private tips: string[] = [
-    "合成「棒棒糖」可得「金币」",
-    "直线五个数字可合成「棒棒糖」",
-    "「金币」可兑换「道具」或「实物」",
+    "连续消除得「💰」奖励",
+    "「💰」可以兑换「🧰」",
+    "五个🔢一条线合成「🍭」",
+    "合成「🍭」得「💰」奖励",
   ];
-  private index: number = yyw.random(2);
+  private index: number = yyw.random(4);
 
   public onProgress(current: number, total: number): void {
     if (this.initialized) {

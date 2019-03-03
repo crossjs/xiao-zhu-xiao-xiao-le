@@ -131,6 +131,8 @@ class Main extends eui.UILayer {
 
     // 加个物理引擎玩一玩
     // this.createP2Scene();
+
+    this.initAnalysis();
   }
 
   private initScenes() {
@@ -147,32 +149,10 @@ class Main extends eui.UILayer {
       reviving: new game.Reviving(),
       shop: new game.Shop(),
       task: new game.Task(),
-      words: new game.Words(),
     });
+  }
 
-    // 启用道具奖励
-    if (yyw.reward.can("tool")) {
-      // 体力过低
-      yyw.on("LIVES_LEAST", () => {
-        yyw.director.toScene("alarm", true);
-      });
-    }
-
-    const canRevive = yyw.reward.can("revive");
-    // 体力耗尽
-    yyw.on("LIVES_EMPTY", () => {
-      yyw.director.toScene(canRevive ? "reviving" : "ending", true);
-    });
-
-    // 启用金币奖励
-    if (yyw.reward.can("coin")) {
-      // 获得魔法数字
-      yyw.on("MAGIC_GOT", () => {
-        yyw.director.toScene("award", true);
-        yyw.analysis.onRunning("award", "magic");
-      });
-    }
-
+  private initAnalysis() {
     // 获得道具
     yyw.on("TOOL_GOT", ({ data: { type, amount } }) => {
       yyw.analysis.onRunning("award", type, amount);

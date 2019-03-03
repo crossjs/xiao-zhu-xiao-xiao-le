@@ -307,7 +307,15 @@ namespace game {
      */
     private increaseScore(n: number) {
       this.score += n;
-      this.model.setLevel(Math.floor(this.score / 3000));
+      // 0 -> 1
+      // 2000 -> 2
+      // 4000 -> 3
+      // 6000 -> 4
+      // ...
+      // 10000 -> 6
+      // ...
+      // 20000 -> 11
+      this.model.setLevel(Math.floor(this.score / 2000) + 1);
       this.flashScore();
     }
 
@@ -553,6 +561,8 @@ namespace game {
       this.isRunning = true;
       await this.growUpCellAt(point);
       this.getCellAt(point).zoomOut();
+
+      this.resetCombo();
       await this.mergeChains(point);
       this.isRunning = false;
       this.notify();
@@ -573,6 +583,7 @@ namespace game {
 
       await yyw.twirlIn(this.main, 200);
 
+      this.resetCombo();
       await this.mergeChains();
       this.isRunning = false;
       this.notify();
@@ -619,6 +630,8 @@ namespace game {
       this.setCellNumber(point, 0);
       await this.dropCellsDown();
       cell.fadeIn();
+
+      this.resetCombo();
       await this.mergeChains(point);
       this.isRunning = false;
       this.notify();

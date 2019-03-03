@@ -20,6 +20,94 @@ namespace game {
       yyw.on("RESTART", () => {
         this.startGame();
       });
+
+      const canTool = yyw.reward.can("tool");
+      // 启用道具奖励
+      if (canTool) {
+        // 体力过低
+        yyw.on("LIVES_LEAST", () => {
+          yyw.director.toScene("alarm", true);
+        });
+      }
+
+      const canRevive = yyw.reward.can("revive");
+      // 体力耗尽
+      yyw.on("LIVES_EMPTY", () => {
+        yyw.director.toScene(canRevive ? "reviving" : "ending", true);
+      });
+
+      const canCoin = yyw.reward.can("coin");
+      // 启用金币奖励
+      if (canCoin) {
+        // 获得魔法数字
+        yyw.on("MAGIC_GOT", () => {
+          yyw.director.toScene("award", true);
+          yyw.analysis.onRunning("award", "magic");
+        });
+      }
+
+      const sounds: Array<typeof yyw.Sound> = [
+        GoodSound,
+        GreatSound,
+        AmazingSound,
+        ExcellentSound,
+      ];
+
+      const threshold = 2;
+      let lastLevel = 1;
+
+      function isAwesome(combo: number, level: number): boolean {
+        switch (level) {
+          case 1:
+            return combo >= 5;
+          case 2:
+          case 3:
+          case 4:
+            return combo >= 4;
+          case 5:
+          case 6:
+          case 7:
+            return combo >= 3;
+          default:
+            return combo >= 2;
+        }
+      }
+
+      yyw.on("GAME_DATA", ({ data: { level, combo } }) => {
+        if (level > lastLevel) {
+          yyw.director.toScene("award", true);
+          yyw.analysis.onRunning("award", "level");
+        }
+        lastLevel = level;
+
+        if (combo > threshold) {
+          // 3 -> 0
+          // 4,5 -> 1
+          // 6,7 -> 2
+          // 8,9,10,... -> 3
+          sounds[Math.min(3, Math.floor((combo - threshold) / threshold))].play();
+        }
+
+        // score -> level
+        // 0-1999 -> 1
+        // 2000-3999 -> 2
+        // 4000-5999 -> 3
+        // 6000-7999 -> 4
+        // 8000-9999 -> 5
+        // 10000-11999 -> 6
+        // 12000-13999 -> 7
+        // 14000-15999 -> 8
+        // ...
+        // 启用金币奖励
+        if (canCoin && isAwesome(combo, level)) {
+          yyw.director.toScene("award", true);
+          yyw.analysis.onRunning("award", "combo");
+        }
+      });
+
+      yyw.on("GAME_OVER", () => {
+        lastLevel = 1;
+      });
     }
 
     protected destroy() {
@@ -48,6 +136,7 @@ namespace game {
         yyw.director.toScene(yyw.USER.score ? "task" : "guide", true);
 
         yyw.on("GAME_OVER", this.onGameOver, this);
+        yyw.on("GAME_DATA", this.onGameData, this);
 
         this.initToolsTarget();
 

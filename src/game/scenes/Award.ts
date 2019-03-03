@@ -60,7 +60,10 @@ namespace game {
         });
       }
 
-      this.showModal();
+      // 防止多次调用
+      if (!this.bg.visible) {
+        this.showModal();
+      }
     }
 
     private async showModal() {
@@ -70,7 +73,7 @@ namespace game {
       this.tfdTip.visible = true;
       this.btnOK.visible = true;
       this.btnEscape.visible = true;
-      this.coins = yyw.random(100) + 100;
+      this.coins = yyw.random(100) + 200;
       this.tfdCoins.text = `${this.coins}`;
     }
 

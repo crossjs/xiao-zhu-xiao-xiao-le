@@ -5,7 +5,7 @@ cloud.init();
 const db = cloud.database();
 const _ = db.command;
 
-export const main = async (event, context) => {
+export const main = async (event: any, context: any) => {
   const { data } = await db
     .collection("users")
     .where({
@@ -21,7 +21,7 @@ export const main = async (event, context) => {
     })
     .get();
 
-  return data.map(({ _id, nickName, avatarUrl, score }, index) => ({
+  return data.map(({ _id, nickName, avatarUrl, score }, index: number) => ({
     openid: _id,
     nickName,
     avatarUrl,

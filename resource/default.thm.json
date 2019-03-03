@@ -28,7 +28,6 @@
 		"game.TaskItem": "resource/eui_skins/game/components/TaskItem.exml",
 		"game.Tools": "resource/eui_skins/game/components/Tools.exml",
 		"game.ValueUp": "resource/eui_skins/game/components/tools/ValueUp.exml",
-		"game.Words": "resource/eui_skins/game/components/Words.exml",
 		"LoadingUI": "resource/eui_skins/game/Loading.exml"
 	},
 	"autoGenerateExmlsList": false,
@@ -49,7 +48,6 @@
 		"resource/eui_skins/game/components/tools/LivesUp.exml",
 		"resource/eui_skins/game/components/tools/Shuffle.exml",
 		"resource/eui_skins/game/components/tools/ValueUp.exml",
-		"resource/eui_skins/game/components/Words.exml",
 		"resource/eui_skins/game/Loading.exml",
 		"resource/eui_skins/game/scenes/Alarm.exml",
 		"resource/eui_skins/game/scenes/Award.exml",
