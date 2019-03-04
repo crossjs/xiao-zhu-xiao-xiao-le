@@ -1,6 +1,7 @@
 namespace yyw {
   export abstract class Base extends eui.Component implements eui.UIComponent {
     protected initialized: boolean = false;
+    protected destroyed: boolean;
     protected bg: eui.Image;
     protected body: eui.Group;
     protected main: eui.Group;
@@ -43,13 +44,14 @@ namespace yyw {
     }
 
     protected destroy() {
-      //
+      this.destroyed = true;
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       if (fromChildrenCreated) {
         this.initialized = true;
       }
+      this.destroyed = false;
     }
 
     // protected partAdded(partName: string, instance: any): void {

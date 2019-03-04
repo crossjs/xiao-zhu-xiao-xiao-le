@@ -17,6 +17,7 @@ namespace game {
     protected destroy() {
       this.removeFriend();
       this.removeWorld();
+      super.destroy();
     }
 
     /**

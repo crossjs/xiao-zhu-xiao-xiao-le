@@ -1,29 +1,38 @@
 namespace yyw {
+  const scenesStack = new Stack(true);
+  const scenesMap: any = {};
+  let stageLayer: eui.UILayer;
+
   /**
    * 场景管理类
    */
   export const director = {
     init(scenes: { [name: string]: Base }) {
-      this.scenes = scenes;
+      Object.assign(scenesMap, scenes);
     },
 
     async escape(): Promise<void> {
-      const scene = this.getScene(this.currentName);
-      await scene.exiting();
-      removeElement(scene);
-      emit("SCENE_ESCAPED", { name: this.currentName });
+      const name = scenesStack.pop();
+      if (name) {
+        const scene = this.getScene(name);
+        await scene.exiting();
+        removeElement(scene);
+        emit("SCENE_ESCAPED", { name });
+      }
     },
 
     async toScene(
       name: string,
       keepOther: boolean = false,
-      callback?: any,
+      callback?: (scene: Base) => void,
     ): Promise<Base> {
       // (根) 舞台
-      const stage: egret.DisplayObjectContainer = this.stageLayer;
+      const stage: egret.DisplayObjectContainer = stageLayer;
       const scene = this.getScene(name);
 
-      if (!keepOther) {
+      if (keepOther) {
+        scenesStack.add(name);
+      } else {
         await this.removeOthers(name);
       }
 
@@ -35,7 +44,6 @@ namespace yyw {
         emit("SCENE_ENTERING", { name });
         // 未被添加到场景，把场景添加到之前设置好的根舞台中
         stage.addChild(scene);
-        this.currentName = name;
         // 创建 Tween 对象
         await scene.entering();
       }
@@ -52,14 +60,14 @@ namespace yyw {
      * 设置根场景
      */
     setStage(stage: eui.UILayer) {
-      this.stageLayer = stage;
+      stageLayer = stage;
     },
 
     /**
      * 获取指定场景
      */
     getScene(name: string): Base {
-      return this.scenes[name];
+      return scenesMap[name];
     },
 
     /**
@@ -67,7 +75,7 @@ namespace yyw {
      * @param nameToKeep 不需要删除的场景的名字
      */
     removeOthers(nameToKeep: string) {
-      return Promise.all(Object.keys(this.scenes)
+      return Promise.all(Object.keys(scenesMap)
       .filter((key) => key !== nameToKeep)
       .map(async (key) => {
         const scene = this.getScene(key);

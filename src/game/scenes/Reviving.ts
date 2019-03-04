@@ -16,6 +16,7 @@ namespace game {
 
     protected destroy() {
       this.removeTop3();
+      super.destroy();
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {

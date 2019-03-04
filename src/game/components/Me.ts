@@ -9,6 +9,7 @@ namespace game {
       if (this.offLight) {
         this.offLight();
       }
+      super.destroy();
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {

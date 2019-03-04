@@ -6,13 +6,11 @@ namespace game {
     private btnOK: eui.Button;
     private tfdCoins: eui.BitmapLabel;
     private coins: number;
+    private type: string;
 
-    // public async hideModal() {
-    //   this.btnOK.visible = false;
-    //   this.btnKO.visible = false;
-    //   yyw.fadeOut(this.bg);
-    //   await yyw.twirlOut(this.modal);
-    // }
+    public setType(type: string) {
+      this.type = type;
+    }
 
     protected destroy() {
       yyw.removeTweens(this.bg);
@@ -23,6 +21,7 @@ namespace game {
       this.tfdTip.visible = false;
       this.btnOK.visible = false;
       this.btnEscape.visible = false;
+      super.destroy();
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
@@ -78,16 +77,15 @@ namespace game {
     }
 
     private async saveCoins(multiple: number = 1) {
-      yyw.director.escape();
+      await yyw.director.escape();
       CoinsSound.play();
       const coins = this.coins * multiple;
-      // TODO 入袋动画
+      yyw.emit("COINS_GOT", {
+        type: this.type,
+        amount: coins,
+      });
       await yyw.award.save({
         coins,
-      });
-      yyw.emit("COINS_GOT", {
-        type: "magic",
-        amount: coins,
       });
     }
   }

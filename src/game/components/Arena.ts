@@ -51,6 +51,7 @@ namespace game {
     protected destroy() {
       this.setSnapshot(this.isGameOver ? null : undefined);
       this.resetCells();
+      super.destroy();
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {

@@ -41,6 +41,7 @@ namespace game {
         breaker: this.breaker,
         livesUp: this.livesUp,
       });
+      super.destroy();
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {

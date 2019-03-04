@@ -152,6 +152,7 @@ namespace game {
 
     protected destroy() {
       this.reset();
+      super.destroy();
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {

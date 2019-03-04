@@ -21,6 +21,7 @@ namespace game {
       this.tfdTip.visible = false;
       this.btnOK.visible = false;
       this.btnEscape.visible = false;
+      super.destroy();
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {

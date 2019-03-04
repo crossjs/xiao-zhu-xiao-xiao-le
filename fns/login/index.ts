@@ -71,6 +71,7 @@ export const main = async ({ fullUserInfo }, context) => {
       data: {
         ...user,
         createdAt: now,
+        updatedAt: now,
       },
     });
   } else {

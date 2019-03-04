@@ -35,6 +35,7 @@ namespace game {
 
     protected destroy() {
       yyw.removeTweens(this.main);
+      super.destroy();
     }
 
     protected afterGet(amount: number) {

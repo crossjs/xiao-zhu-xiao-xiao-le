@@ -1,13 +1,8 @@
 namespace game {
-  const STORAGE_KEY = "CHECKIN";
-  const bonus: any[] = [[100], [150], [200], [250, "breaker"], [300], [350], [400, "shuffle"]];
+  const bonus: any[] = [[1500], [1000], [1000], [1000, "breaker"], [1000], [1000], [1000, "shuffle"]];
 
   export class Checkin extends yyw.Base {
     private groupDays: eui.Group;
-
-    protected destroy() {
-      //
-    }
 
     /**
      * 准备榜单
@@ -17,6 +12,8 @@ namespace game {
 
       if (fromChildrenCreated) {
         const days = await yyw.checkin.get();
+
+        const canCheckin = yyw.reward.can("checkin");
 
         yyw.eachChild(this.groupDays, (child: eui.Group, index: number) => {
           const day = days[index];
@@ -34,7 +31,7 @@ namespace game {
             }
 
             // 当日可签到，以前需要判断补签
-            if (!isPast || yyw.reward.can()) {
+            if (!isPast || canCheckin) {
               const offTap = yyw.onTap(child, async () => {
                 if (isPast) {
                   if (!await yyw.reward.apply("checkin")) {
@@ -43,7 +40,6 @@ namespace game {
                 }
                 offTap();
                 const [ coins, type ] = bonus[index];
-                await yyw.award.save({ coins });
                 yyw.emit("COINS_GOT", {
                   type: "checkin",
                   amount: coins,
@@ -54,6 +50,7 @@ namespace game {
                     amount: 1,
                   });
                 }
+                yyw.award.save({ coins });
                 yyw.checkin.save(index);
                 child.alpha = 1;
                 child.getChildAt(child.numChildren - 1).visible = true;

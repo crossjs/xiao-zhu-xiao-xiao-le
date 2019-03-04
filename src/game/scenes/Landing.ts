@@ -63,6 +63,7 @@ namespace game {
         this.offWave();
       }
       yyw.removeElement(this.boxAll);
+      super.destroy();
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
@@ -93,8 +94,8 @@ namespace game {
           // 微信聊天主界面下拉，「我的小程序」栏（基础库2.2.4版本起废弃）
           if (yyw.CONFIG.launchOptions.scene === 1104) {
             yyw.db.set(STICKY_KEY, true);
-            yyw.award.save({ coins: 1000 });
-            yyw.showToast("获得奖励：1000 金币！");
+            yyw.award.save({ coins: 2000 });
+            yyw.showToast("获得奖励：2000 金币！");
           } else {
             this.favorite.visible = true;
           }

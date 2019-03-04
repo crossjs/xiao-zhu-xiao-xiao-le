@@ -1,15 +1,23 @@
 namespace yyw {
   const systemInfo: wx.systemInfo = wx.getSystemInfoSync();
   const launchOptions: wx.launchOptions = wx.getLaunchOptionsSync();
-  // 数字越大，游戏节奏越慢
+
+  /**
+   * 游戏动画速率
+   * 数字越大，游戏节奏越慢
+   */
   const speedRatio: number = 1.5;
 
+  // 金币奖励获取方式
   let coinReward: number = 0;
   let shopStatus: number = 0;
   let boxEnabled: boolean = true;
   let toolAmount: number = 3;
+  // 道具奖励获取方式
   let toolReward: number = 0;
+  // 补签方式
   let checkinReward: number = 0;
+  // 复活方式
   let reviveReward: number = 0;
   let bannerAd: string = "";
   let rewardAd: string = "";
@@ -25,9 +33,6 @@ namespace yyw {
       return launchOptions;
     },
 
-    /**
-     * 游戏动画速率
-     */
     get speedRatio(): number {
       return speedRatio;
     },

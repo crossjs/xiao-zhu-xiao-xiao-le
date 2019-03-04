@@ -11,8 +11,8 @@
 		<e:Label id="tfdBestScore" width="600" textAlign="center" touchEnabled="false" horizontalCenter="0" size="36" height="48" y="730" x="75"/>
 		<e:Button id="btnStart" skinName="ButtonDefaultSkin" width="432" height="144" icon="sprites_json.start" y="780" x="159"/>
 		<e:Group y="944" horizontalCenter="0" x="171">
-      <game:CtrlGroup2 id="ctrlGroup2" x="164"/>
-      <game:CtrlGroup3 id="ctrlGroup3"/>
+			<game:CtrlGroup3 id="ctrlGroup3"/>
+			<game:CtrlGroup2 id="ctrlGroup2" x="180"/>
 		</e:Group>
 	</e:Group>
 </e:Skin>

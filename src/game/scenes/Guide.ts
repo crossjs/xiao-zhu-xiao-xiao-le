@@ -8,6 +8,7 @@ namespace game {
       yyw.removeTweens(this.finger);
       yyw.removeTweens(this.numFrom);
       yyw.removeTweens(this.numTo);
+      super.destroy();
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {

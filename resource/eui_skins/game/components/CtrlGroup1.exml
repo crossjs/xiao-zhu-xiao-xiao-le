@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="CtrlGroup1Skin" xmlns:e="http://ns.egret.com/eui">
   <e:Button id="btnHome" skinName="ButtonCircleSkin" icon="sprites_json.home"/>
-  <e:Button id="btnTask" x="84" skinName="ButtonCircleSkin" icon="sprites_json.task"/>
-  <e:BitmapLabel id="tfdTask" text="0/6" y="72" font="score_fnt" height="72" width="192" scaleX="0.375" scaleY="0.375" textAlign="center" x="82"/>
+  <e:Button id="btnTask" x="90" skinName="ButtonCircleSkin" icon="sprites_json.task"/>
+  <e:BitmapLabel id="tfdTask" text="0/6" y="72" font="score_fnt" height="72" width="192" scaleX="0.375" scaleY="0.375" textAlign="center" x="88"/>
 </e:Skin>

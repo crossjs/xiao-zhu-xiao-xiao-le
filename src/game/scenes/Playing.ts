@@ -41,7 +41,9 @@ namespace game {
       if (canCoin) {
         // 获得魔法数字
         yyw.on("MAGIC_GOT", () => {
-          yyw.director.toScene("award", true);
+          yyw.director.toScene("award", true, (scene: Award) => {
+            scene.setType("magic");
+          });
           yyw.analysis.onRunning("award", "magic");
         });
       }
@@ -75,7 +77,9 @@ namespace game {
 
       yyw.on("GAME_DATA", ({ data: { level, combo } }) => {
         if (level > lastLevel) {
-          yyw.director.toScene("award", true);
+          yyw.director.toScene("award", true, (scene: Award) => {
+            scene.setType("level");
+          });
           yyw.analysis.onRunning("award", "level");
         }
         lastLevel = level;
@@ -100,7 +104,9 @@ namespace game {
         // ...
         // 启用金币奖励
         if (canCoin && isAwesome(combo, level)) {
-          yyw.director.toScene("award", true);
+          yyw.director.toScene("award", true, (scene: Award) => {
+            scene.setType("combo");
+          });
           yyw.analysis.onRunning("award", "combo");
         }
       });
@@ -113,6 +119,7 @@ namespace game {
     protected destroy() {
       this.setSnapshot(this.isGameOver ? null : undefined);
       this.removeClosest();
+      super.destroy();
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {

@@ -2,7 +2,7 @@
 <e:Skin class="TaskSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*">
 	<e:Image id="bg" fillMode="scale" source="sprites_json.mask_bg" scale9Grid="10,10,10,10" touchEnabled="true" width="750" height="1334"/>
 	<e:Group id="body" width="750" touchEnabled="false" bottom="262" height="1072">
-		<e:Group id="main" width="660" horizontalCenter="0" verticalCenter="0" touchEnabled="false">
+		<e:Group id="main" width="660" horizontalCenter="0" verticalCenter="90" touchEnabled="false">
 			<e:Group id="modal" touchEnabled="false">
 				<e:Image width="660" height="570" source="sprites_json.round_white" scale9Grid="36,36,6,6"/>
 				<e:Group id="grp1" x="30" y="30">
