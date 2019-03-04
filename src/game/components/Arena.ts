@@ -201,7 +201,7 @@ namespace game {
           this.x2p(localX),
           this.y2p(localY),
         ];
-        const cell = this.getCellAt(fromPoint)
+        const cell = this.getCellAt(fromPoint);
         cell.zoomIn();
         yyw.setZIndex(cell);
       };
