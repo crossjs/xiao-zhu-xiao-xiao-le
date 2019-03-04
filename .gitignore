@@ -8,5 +8,7 @@ design/
 dist/
 libs/
 node_modules/
+scripts/
+template/
 fns/**/*.js
 info.json

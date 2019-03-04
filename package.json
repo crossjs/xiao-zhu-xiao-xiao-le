@@ -29,7 +29,7 @@
     "FNS_ROOT": "fns",
     "SUB_ROOT": "sub",
     "ALD_APP_KEY": "3e491ead3ac717eefc4add216ab06dd6",
-    "FDB_API_KEY": "1540734362ed95c5d0a00318ecf630f3d2bfac0c6a321012f946fb87c332af8a",
+    "FDB_API_KEY_": "1540734362ed95c5d0a00318ecf630f3d2bfac0c6a321012f946fb87c332af8a",
     "CLOUD_ENV": {
       "dev": "releas-529ffe",
       "release": "dev-529ffe"

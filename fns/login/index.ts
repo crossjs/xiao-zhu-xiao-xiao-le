@@ -62,7 +62,6 @@ export const main = async ({ fullUserInfo }, context) => {
   Object.assign(user, fullUserInfo);
 
   const { result: { now }} = await cloud.callFunction({
-    // 要调用的云函数名称
     name: "dateUtil",
   });
 

@@ -13,6 +13,10 @@ export const main = async ({ score, level, combo }, context) => {
 
   const { data } = await doc.get();
 
+  const { result: { now }} = await cloud.callFunction({
+    name: "dateUtil",
+  });
+
   return await doc.update({
     data: {
       score: Math.max(data.score, score),
@@ -20,6 +24,7 @@ export const main = async ({ score, level, combo }, context) => {
       combo: Math.max(data.combo, combo),
       scores: data.scores + score,
       played: data.played + 1,
+      updatedAt: now,
     },
   });
 };

@@ -21,10 +21,15 @@ export const main = async ({ coins = 0, points = 0 }, context) => {
     throw new Error("余额不足");
   }
 
+  const { result: { now }} = await cloud.callFunction({
+    name: "dateUtil",
+  });
+
   return await doc.update({
     data: {
       coins: toCoins,
       points: toPoints,
+      updatedAt: now,
     },
   });
 };

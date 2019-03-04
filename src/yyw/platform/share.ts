@@ -7,8 +7,12 @@ namespace yyw {
     imageUrl: `${QPIC_PREFIX}miaTQQZibgu6qTGib8DfpjicnROZ67scQH1v3fVEy1ibpgeW6iapgt5Py34ibPE96ictQm5Y/0`,
   }, {
     title: "快来看看我在玩什么",
-    imageUrlId: "6Jokdh4mTK--tWe0zAg5LA",
-    imageUrl: `${QPIC_PREFIX}miaTQQZibgu6qEyCFibjRMQ29ibaIRGSKHJMibibA3kuocoM66boU7aFMibF3LTgm6G3a48/0`,
+    imageUrlId: "OxWlpD4gSwyKeMT3a9N9ow",
+    imageUrl: `${QPIC_PREFIX}miaTQQZibgu6qodHOEEXfVGDpib1yrDVSxp7TtDAuLicUPMUDhyPQiapzGf2jtPYbLUV9/0`,
+  }, {
+    title: "喜从天降，挖到金矿",
+    imageUrlId: "F1j1PEDMTTqhSU2SIbTjJQ",
+    imageUrl: `${QPIC_PREFIX}miaTQQZibgu6ozyib8pQtXbRnTTNCwB6F2VGPcMoP5HPqSQPicCzfN0WPQe3GSvsSRyia/0`,
   }];
 
   let currentIndex = 0;
@@ -17,7 +21,7 @@ namespace yyw {
     wx.showShareMenu({
       withShareTicket: true,
     });
-    wx.aldOnShareAppMessage(() => SHARE_OPTIONS[currentIndex++ % 2]);
+    wx.aldOnShareAppMessage(() => SHARE_OPTIONS[currentIndex++ % SHARE_OPTIONS.length]);
   }
 
   export function share(options = {}): Promise<boolean> {
@@ -30,7 +34,7 @@ namespace yyw {
       };
       wx.onShow(onShow);
       wx.aldShareAppMessage({
-        ...SHARE_OPTIONS[currentIndex++ % 2],
+        ...SHARE_OPTIONS[currentIndex++ % SHARE_OPTIONS.length],
         ...options,
       });
     });

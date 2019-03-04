@@ -32,7 +32,7 @@ namespace yyw {
 
       // 功能关闭
       if (status === 0) {
-        showToast("当前不可用");
+        showToast("暂不可用");
         return;
       }
 
@@ -63,7 +63,7 @@ namespace yyw {
         })) {
           return "share";
         } else {
-          showToast("完成转发才能获得奖励");
+          showToast("完成转发才能获得奖励，试试转发到其他群");
           return false;
         }
       }
