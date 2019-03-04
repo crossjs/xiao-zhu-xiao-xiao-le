@@ -201,7 +201,9 @@ namespace game {
           this.x2p(localX),
           this.y2p(localY),
         ];
-        this.getCellAt(fromPoint).zoomIn();
+        const cell = this.getCellAt(fromPoint)
+        cell.zoomIn();
+        yyw.setZIndex(cell);
       };
 
       const handleDrag = async (e: egret.TouchEvent, cancel: any) => {
@@ -222,7 +224,6 @@ namespace game {
         cancel();
         const cell = this.getCellAt(fromPoint);
         cell.zoomOut();
-        yyw.setZIndex(cell);
         this.isRunning = true;
         // 普通交换
         SwapSound.play();

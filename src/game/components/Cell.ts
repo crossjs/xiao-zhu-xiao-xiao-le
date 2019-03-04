@@ -50,14 +50,12 @@ namespace game {
       await tween.to({
         y: 36,
         alpha: 0,
-        scaleX: 1.5,
-        scaleY: 1.5,
+        scale: 1.5,
       }, 200);
       this.tfdScore.visible = false;
       this.tfdScore.alpha = 1;
       this.tfdScore.y = 108;
-      this.tfdScore.scaleX = 1;
-      this.tfdScore.scaleY = 1;
+      this.tfdScore.scale = 1;
     }
 
     public async tweenUp(duration: number = 300): Promise<void> {
@@ -81,7 +79,10 @@ namespace game {
 
     public zoomIn(duration: number = 100) {
       yyw.removeTweens(this);
-      yyw.wave(this, 0.02);
+      yyw.wave(this, {
+        step: 0.02,
+        y: 1.6,
+      });
       return yyw.getTween(this)
       .to({
         scale: 1.2,
@@ -122,8 +123,7 @@ namespace game {
     public async fadeOut(duration: number = 300): Promise<void> {
       await yyw.getTween(this.numGroup)
       .to({
-        scaleX: 0,
-        scaleY: 0,
+        scale: 0,
         alpha: 0,
         rotation: 1080,
       }, duration);
@@ -132,8 +132,7 @@ namespace game {
     public async fadeIn(duration: number = 200): Promise<void> {
       await yyw.getTween(this.numGroup)
       .to({
-        scaleX: 1,
-        scaleY: 1,
+        scale: 1,
         alpha: 1,
         rotation: 0,
       }, duration);
@@ -141,14 +140,15 @@ namespace game {
 
     public reset() {
       yyw.removeTweens(this);
-      this.scaleX = this.scaleY = 1;
+      yyw.disWave(this);
+      this.scale = 1;
       yyw.removeTweens(this.tfdScore);
       yyw.removeTweens(this.numGroup);
       yyw.removeTweens(this.numImage);
       this.tfdScore.visible = false;
       this.tfdScore.alpha = 1;
       this.tfdScore.y = 36;
-      this.numGroup.scaleX = this.numGroup.scaleY = this.numGroup.alpha = 1;
+      this.numGroup.scale = this.numGroup.alpha = 1;
       this.numGroup.rotation = 0;
     }
 

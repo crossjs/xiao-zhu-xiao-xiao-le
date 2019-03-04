@@ -82,7 +82,7 @@ namespace game {
           let startY: number;
           let targetXY: object = null;
           // 向下偏移，方便拖放
-          const offsetY: number = 120;
+          const offsetY: number = -120;
           yyw.onDnd(this, (e: egret.TouchEvent, cancel: any) => {
             // 道具数量为 0，拖动无效
             if (!this.amount) {
