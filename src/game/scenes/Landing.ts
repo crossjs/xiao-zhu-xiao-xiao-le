@@ -3,18 +3,12 @@ namespace game {
     private tfdVersion: eui.Label;
     private tfdBestScore: eui.Label;
     private btnStart: eui.Button;
-    private btnSound: eui.ToggleButton;
-    private btnVibration: eui.ToggleButton;
-    private btnBoard: eui.Button;
-    private btnCheckin: eui.Button;
     private favorite: eui.Image;
     private pig: eui.Image;
     private numbers: eui.Image;
     private boxAll: box.All;
     private userInfoButton: wx.UserInfoButton;
     private duration: number = 500;
-    private offLight: () => void;
-    private offWave: () => void;
 
     public async exiting() {
       yyw.getTween(this.pig).to(
@@ -56,12 +50,9 @@ namespace game {
       if (this.userInfoButton) {
         this.userInfoButton.destroy();
       }
-      if (this.offLight) {
-        this.offLight();
-      }
-      if (this.offWave) {
-        this.offWave();
-      }
+
+      yyw.disLight(this.bg);
+      yyw.disWave(this.pig);
       yyw.removeElement(this.boxAll);
       super.destroy();
     }
@@ -102,8 +93,8 @@ namespace game {
         }
       }
 
-      this.offLight = yyw.light(this.bg);
-      this.offWave = yyw.wave(this.pig);
+      yyw.light(this.bg);
+      yyw.wave(this.pig);
 
       // 初始化全局配置
       const { score = 0 } = await yyw.pbl.me();

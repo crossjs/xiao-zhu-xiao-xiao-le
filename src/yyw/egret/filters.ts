@@ -63,6 +63,10 @@ void main(){
   gl_FragColor = texture2D(uSampler, texCoord);
 }`;
 
+  const wmLight = new WeakMap();
+
+  const wmWave = new WeakMap();
+
   export function light(target: egret.DisplayObject): () => void {
     const lightFilter = new egret.CustomFilter(vertexSrc, fragmentSrcLight, {
       customUniform: 0,
@@ -83,7 +87,7 @@ void main(){
       null,
     );
 
-    return () => {
+    const off = () => {
       target.filters = null;
       target.removeEventListener(
         egret.Event.ENTER_FRAME,
@@ -91,9 +95,19 @@ void main(){
         null,
       );
     };
+    wmLight.set(target, off);
+    return off;
   }
 
-  export function wave(target: egret.DisplayObject): () => void {
+  export function disLight(target: egret.DisplayObject): void {
+    const off = wmLight.get(target);
+    if (off) {
+      off();
+      wmLight.delete(target);
+    }
+  }
+
+  export function wave(target: egret.DisplayObject, step: number = 0.005): () => void {
     const waveFilter = new egret.CustomFilter(vertexSrc, fragmentSrcWave, {
       center: { x: 0.5, y: 0.5 },
       params: { x: 10, y: 0.2, z: 0.1 },
@@ -103,7 +117,7 @@ void main(){
     target.filters = [waveFilter];
 
     const enterFrame = () => {
-      waveFilter.uniforms.time += 0.005;
+      waveFilter.uniforms.time += step;
       if (waveFilter.uniforms.time > 1) {
         waveFilter.uniforms.time = 0.0;
       }
@@ -115,7 +129,7 @@ void main(){
       null,
     );
 
-    return () => {
+    const off = () => {
       target.filters = null;
       target.removeEventListener(
         egret.Event.ENTER_FRAME,
@@ -123,5 +137,15 @@ void main(){
         null,
       );
     };
+    wmWave.set(target, off);
+    return off;
+  }
+
+  export function disWave(target: egret.DisplayObject): void {
+    const off = wmWave.get(target);
+    if (off) {
+      off();
+      wmWave.delete(target);
+    }
   }
 }

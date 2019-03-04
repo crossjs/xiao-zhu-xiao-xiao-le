@@ -72,6 +72,7 @@ namespace game {
 
     public zoomOut(duration: number = 100) {
       yyw.removeTweens(this);
+      yyw.disWave(this);
       return yyw.getTween(this)
       .to({
         scale: 1,
@@ -80,6 +81,7 @@ namespace game {
 
     public zoomIn(duration: number = 100) {
       yyw.removeTweens(this);
+      yyw.wave(this, 0.02);
       return yyw.getTween(this)
       .to({
         scale: 1.2,

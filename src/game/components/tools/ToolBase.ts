@@ -81,23 +81,27 @@ namespace game {
           let startX: number;
           let startY: number;
           let targetXY: object = null;
+          // 向下偏移，方便拖放
+          const offsetY: number = 120;
           yyw.onDnd(this, (e: egret.TouchEvent, cancel: any) => {
+            // 道具数量为 0，拖动无效
             if (!this.amount) {
               cancel();
               return;
             }
             startX = e.stageX;
             startY = e.stageY;
+            this.y = y + offsetY;
             yyw.setZIndex(this);
             this.zoomIn();
           }, (e: egret.TouchEvent, cancel: any) => {
             const { stageX, stageY } = e;
             this.x = x + (stageX - startX);
-            this.y = y + (stageY - startY);
-            if (this.rect.contains(stageX, stageY)) {
+            this.y = y + (stageY - startY) + offsetY;
+            if (this.rect.contains(stageX, stageY + offsetY)) {
               targetXY = {
                 targetX: stageX - this.rect.x,
-                targetY: stageY - this.rect.y,
+                targetY: stageY - this.rect.y + offsetY,
               };
               yyw.emit("TOOL_USING", {
                 type: this.type,
@@ -106,6 +110,10 @@ namespace game {
               });
             } else {
               targetXY = null;
+              yyw.emit("TOOL_USING", {
+                type: this.type,
+                cancel: yyw.noop,
+              });
             }
           }, async () => {
             const reset = async () => {
@@ -130,7 +138,7 @@ namespace game {
               yyw.showToast("请拖放到棋盘中");
               await reset();
             }
-          });
+          }, this.stage);
         }
       }
     }
