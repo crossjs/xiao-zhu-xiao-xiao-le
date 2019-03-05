@@ -16,9 +16,9 @@ namespace yyw {
     },
 
     async save(id: string): Promise<any> {
+      const { now, end } = getNowEnd("day");
+      const expiresIn = end - now;
       const myTasks = await getMyTasks();
-      const { now, end } = getNowDayEnd();
-      const expiresIn = end.getTime() - now.getTime();
       yyw.db.set(TASK_KEY, myTasks.concat(id), expiresIn);
     },
   };

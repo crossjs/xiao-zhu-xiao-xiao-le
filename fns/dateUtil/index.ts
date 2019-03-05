@@ -8,7 +8,7 @@ const oneDay = offset * 3;
 export const main = async (event, context) => {
   const now = Date.now() + offset;
   const begin = now - now % oneDay - offset;
-  const end = now + oneDay;
+  const end = begin + oneDay;
 
   return {
     begin,

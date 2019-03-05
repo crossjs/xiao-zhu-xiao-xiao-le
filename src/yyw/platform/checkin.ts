@@ -8,7 +8,7 @@ namespace yyw {
   export const checkin = {
     async get(): Promise<any> {
       const myCheckins = await getMyCheckins();
-      const { day } = getNowDayEnd();
+      const day = new Date().getDay() || 7;
       const days = [];
       for (let index = 0; index < 7; index++) {
         days[index] = {
@@ -20,8 +20,8 @@ namespace yyw {
     },
 
     async save(index: number): Promise<any> {
-      const { now, end } = getNowDayEnd();
-      const expiresIn = end.getTime() - now.getTime();
+      const { now, end } = getNowEnd("week");
+      const expiresIn = end - now;
       const myCheckins = await getMyCheckins();
       yyw.db.set(CHECKIN_KEY, myCheckins.concat(index), expiresIn);
     },

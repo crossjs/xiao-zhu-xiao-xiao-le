@@ -1,15 +1,13 @@
 namespace yyw {
-  export function getNowDayEnd() {
-    const now = new Date();
-    const day = now.getDay() || 7;
-    const end = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate() + 7 - day,
-      23,
-      59,
-      59,
-    );
-    return { now, day, end };
+
+  const oneDay = 24 * 60 * 60 * 1000;
+
+  export function getNowEnd(mode: string = "day") {
+    const date = new Date();
+    const days = mode === "week" ? (8 - (date.getDay() || 7)) : 1;
+    const now = date.getTime();
+    const begin = now - now % oneDay;
+    const end = begin + oneDay * days;
+    return { now, end };
   }
 }
