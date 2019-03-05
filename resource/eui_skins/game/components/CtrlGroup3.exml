@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="CtrlGroup3Skin" xmlns:e="http://ns.egret.com/eui">
   <e:ToggleButton id="btnSound" skinName="ButtonToggleSkin" icon="sprites_json.sound"/>
-  <e:ToggleButton id="btnVibration" skinName="ButtonToggleSkin" icon="sprites_json.vibration" x="90"/>
+  <e:ToggleButton id="btnVibration" skinName="ButtonToggleSkin" icon="sprites_json.vibration" x="100"/>
 </e:Skin>

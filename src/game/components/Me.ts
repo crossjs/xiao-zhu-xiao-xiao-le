@@ -1,33 +1,22 @@
 namespace game {
   export class Me extends yyw.Base {
-    private bmpMe: egret.Bitmap;
-
-    protected destroy() {
-      yyw.removeElement(this.bmpMe);
-      this.bmpMe = null;
-      yyw.disLight(this.bmpMe);
-      super.destroy();
-    }
+    private avatar: eui.Image;
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       super.createView(fromChildrenCreated);
 
       if (fromChildrenCreated) {
-        yyw.onTap(this.main, () => {
+        yyw.onTap(this, () => {
           yyw.director.toScene("pbl", true);
         });
       }
 
-      try {
-        this.bmpMe = await yyw.loadImage(yyw.USER.avatarUrl);
-        this.bmpMe.width = 48;
-        this.bmpMe.height = 48;
-        this.bmpMe.x = 42;
-        this.bmpMe.y = 12;
-        this.addChildAt(this.bmpMe, 1);
-        yyw.light(this.bmpMe);
-      } catch (error) {
-        egret.error(error);
+      if (yyw.USER.avatarUrl) {
+        try {
+          this.avatar.source = await yyw.loadImage(yyw.USER.avatarUrl, true);
+        } catch (error) {
+          egret.error(error);
+        }
       }
     }
   }

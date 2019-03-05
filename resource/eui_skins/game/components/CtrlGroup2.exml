@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="CtrlGroup2Skin" xmlns:e="http://ns.egret.com/eui">
   <e:Button id="btnCheckin" skinName="ButtonCircleSkin" icon="sprites_json.checkin"/>
-  <e:Button id="btnBoard" x="90" skinName="ButtonCircleSkin" icon="sprites_json.board"/>
+  <e:Button id="btnBoard" x="100" skinName="ButtonCircleSkin" icon="sprites_json.board"/>
 </e:Skin>

@@ -1,7 +1,6 @@
 // eslint-disable-next-line
 import * as regeneratorRuntime from "./utils/runtime";
 import { Ranking } from "./ranking";
-import { Closest } from "./closest";
 import { Top3 } from "./top3";
 
 export const Proxy = {
@@ -42,39 +41,6 @@ export const Proxy = {
         // fail,
       });
     }
-  },
-
-  initClosest(data) {
-    Closest.init(data);
-  },
-
-  async openClosest({ score, openid, width, height }) {
-    const rankingData = await Proxy.getRankingData();
-    let closest;
-    for (let i = 0; i < rankingData.length; i++) {
-      const item = rankingData[i];
-      if (item.score > score) {
-        // 过滤掉自己
-        if (openid !== item.openid) {
-          closest = item;
-        }
-      } else {
-        break;
-      }
-    }
-    if (closest) {
-      Closest.create({
-        ...closest,
-        width,
-        height,
-      });
-    } else {
-      console.log("你已经是朋友圈兰博旺了");
-    }
-  },
-
-  closeClosest() {
-    Closest.destroy();
   },
 
   async openTop3(data) {

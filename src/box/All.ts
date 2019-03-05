@@ -30,11 +30,11 @@ namespace box {
             icon.width = 120;
             icon.height = 120;
             // 圆角遮罩
-            const rect: eui.Rect = new eui.Rect(120, 120);
-            rect.x = 24;
-            rect.y = 12;
-            rect.ellipseWidth = 20;
-            rect.ellipseHeight = 20;
+            const round: eui.Rect = new eui.Rect(120, 120);
+            round.x = 24;
+            round.y = 12;
+            round.ellipseWidth = 20;
+            round.ellipseHeight = 20;
             // 叹号
             const textureAlert: egret.Texture = await RES.getResAsync("sprites_json.important");
             const important: egret.Bitmap = new egret.Bitmap(textureAlert);
@@ -48,10 +48,10 @@ namespace box {
             label.size = 24;
             label.textColor = 0x000000;
             group.addChild(icon);
-            group.addChild(rect);
+            group.addChild(round);
             group.addChild(important);
             group.addChild(label);
-            icon.mask = rect;
+            icon.mask = round;
             this.container.addChild(group);
           });
         });

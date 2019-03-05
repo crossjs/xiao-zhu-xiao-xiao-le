@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="GuideSkin"
- xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+ xmlns:e="http://ns.egret.com/eui">
 	<e:Rect id="bg" touchEnabled="true" width="750" height="1334" fillColor="0x000000" fillAlpha="0.75"/>
 	<e:Group id="body" touchEnabled="false" width="750" touchChildren="false" bottom="262" height="1072">
-		<e:Group id="main" width="750" height="750" bottom="205">
-			<e:Group x="292" y="40">
+		<e:Group id="main" width="750" height="750" bottom="225">
+			<e:Group x="221" y="40">
 				<e:Image source="sprites_json.round_white" width="72" height="72" y="0" x="0"/>
 				<e:Image x="12" source="sprites_json.tool_valueup" y="14"/>
 			</e:Group>
-			<e:Group x="400" y="40">
+			<e:Group x="339" y="40">
 				<e:Image source="sprites_json.round_white" width="72" height="72"/>
 				<e:Image x="7" source="sprites_json.tool_shuffle" y="12"/>
 			</e:Group>
-			<e:Group x="508" y="40">
+			<e:Group x="457" y="40">
 				<e:Image source="sprites_json.round_white" width="72" height="72"/>
 				<e:Image x="8" source="sprites_json.tool_breaker" y="7"/>
 			</e:Group>
-			<e:Image x="609" y="66" source="sprites_json.tool_livesup"/>
-			<e:Label x="220" y="0" text="指定格子数字+1" fontFamily="sans-serif"/>
-			<e:Label x="606" y="208" text="体力值+1" fontFamily="sans-serif"/>
-			<e:Label x="346" y="124" text="重新随机排列" fontFamily="sans-serif"/>
+			<e:Image y="66" source="sprites_json.tool_livesup" height="110" width="100" x="623"/>
+			<e:Label x="149" y="0" text="指定格子数字+1" fontFamily="sans-serif"/>
+			<e:Label x="610" y="188" text="体力值+1" fontFamily="sans-serif"/>
+			<e:Label x="285" y="124" text="重新随机排列" fontFamily="sans-serif"/>
 			<e:Label x="300" y="537" text="相同数字相连即可消除并得分" fontFamily="sans-serif"/>
 			<e:Label y="579" text="五个连成直线可获得特殊奖励" fontFamily="sans-serif" x="300"/>
-			<e:Label x="454" y="0" text="移除指定格子" fontFamily="sans-serif"/>
+			<e:Label x="403" y="0" text="移除指定格子" fontFamily="sans-serif"/>
 			<e:Image id="numTo" source="numbers_json.4" x="102" y="474"/>
 			<e:Image id="numFrom" source="numbers_json.3" x="102" y="330"/>
 			<e:Image source="numbers_json.3" x="246" y="618"/>

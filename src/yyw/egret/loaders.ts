@@ -1,5 +1,5 @@
 namespace yyw {
-  export function loadImage(url: string): Promise<egret.Bitmap> {
+  export function loadImage(url: string, textureOnly: boolean = false): Promise<any> {
     return new Promise(async (resolve, reject) => {
       const imageLoader: egret.ImageLoader = new egret.ImageLoader();
       imageLoader.once(
@@ -9,8 +9,12 @@ namespace yyw {
           // 创建纹理对象
           const texture = new egret.Texture();
           texture.bitmapData = bmd;
-          const bm: egret.Bitmap = new egret.Bitmap(texture);
-          resolve(bm);
+          if (textureOnly) {
+            resolve(texture);
+          } else {
+            const bm: egret.Bitmap = new egret.Bitmap(texture);
+            resolve(bm);
+          }
         },
         null,
       );

@@ -37,8 +37,6 @@ namespace game {
             yyw.analysis.onRunning("revive", type);
           } else {
             yyw.showToast("复活失败");
-            await yyw.director.escape();
-            yyw.director.toScene("ending", true);
           }
         });
 

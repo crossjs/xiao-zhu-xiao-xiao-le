@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="PlayingSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*" xmlns:w="http://ns.egret.com/wing">
+<e:Skin class="PlayingSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*">
 	<e:Rect id="bg" height="1334" width="750" fillColor="0x101C24"/>
 	<e:Group id="body" width="750" bottom="262" height="1072">
+		<e:Rect height="322" width="750" y="0" fillColor="6798572"/>
 		<game:Arena id="arena" y="322"/>
-		<game:Me id="me" y="21"/>
-		<game:CtrlGroup1 id="ctrlGroup1" x="147" y="21"/>
-		<game:CtrlGroup2 id="ctrlGroup2" x="327" y="21"/>
-		<game:CtrlGroup3 id="ctrlGroup3" y="21" right="15" visible="false"/>
-		<game:CtrlShop id="ctrlShop" x="144" y="150" visible="false"/>
-		<game:Tools id="tools" y="159"/>
+		<game:CtrlGroup1 id="ctrlGroup1" x="114" y="30" scaleX="0.75" scaleY="0.75"/>
+		<game:CtrlShop id="ctrlShop" x="357" y="39" visible="true"/>
+		<game:Tools id="tools" y="139"/>
+		<game:Me x="21" y="21"/>
 	</e:Group>
 </e:Skin>

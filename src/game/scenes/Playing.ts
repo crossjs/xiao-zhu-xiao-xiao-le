@@ -4,13 +4,11 @@ namespace game {
   export class Playing extends yyw.Base {
     private isGameOver: boolean = false;
     private ctrlShop: game.CtrlShop;
-    private ctrlGroup3: game.CtrlGroup3;
     private boxAll: box.All;
-    /** 单局最大连击数 */
+    // 单局最大连击数
     private maxCombo: number = 0;
     private arena: Arena;
     private tools: Tools;
-    private closest: Closest;
 
     public async exiting() {
       // no animation
@@ -118,7 +116,6 @@ namespace game {
 
     protected destroy() {
       this.setSnapshot(this.isGameOver ? null : undefined);
-      this.removeClosest();
       super.destroy();
     }
 
@@ -134,7 +131,6 @@ namespace game {
         }
       }
 
-      this.createClosest();
       await this.arena.startGame(useSnapshot);
       await this.tools.startTool(useSnapshot);
       this.isGameOver = false;
@@ -142,45 +138,15 @@ namespace game {
       if (fromChildrenCreated) {
         yyw.director.toScene(yyw.USER.score ? "task" : "guide", true);
 
-        const { width, height } = this.bg;
-        const grad = new eui.Image("grad");
-        grad.width = width;
-        // 1334-322=1012
-        grad.height = height - 1012;
-        this.addChildAt(grad, 1);
-
-        // iPhone 上无法渐变
-        // const { graphics, width, height } = this.bg;
-
-        // const matrix = new egret.Matrix();
-        // // 1334-322=1012
-        // matrix.createGradientBox(width, height - 1012, Math.PI / 2);
-        // graphics.beginGradientFill(
-        //   egret.GradientType.LINEAR,
-        //   [
-        //     0x67BCEC,
-        //     0x101C24,
-        //   ],
-        //   [ 1, 1 ],
-        //   [ 0, 255 ],
-        //   matrix,
-        // );
-
-        // graphics.drawRect(0, 0, width, height - 1012);
-        // graphics.endFill();
-
         yyw.on("GAME_OVER", this.onGameOver, this);
         yyw.on("GAME_DATA", this.onGameData, this);
 
         this.initToolsTarget();
 
-        if (this.stage.stageHeight <= 1334) {
-          this.ctrlGroup3.y = 108;
-          this.ctrlGroup3.scale = 0.75;
-        }
-        this.ctrlGroup3.visible = true;
-
         if (yyw.CONFIG.shopStatus) {
+          if (this.stage.stageHeight > 1334) {
+            this.ctrlShop.x = 729 - this.ctrlShop.width;
+          }
           this.ctrlShop.visible = true;
         }
 
@@ -198,7 +164,6 @@ namespace game {
 
     private startGame() {
       this.arena.startGame();
-      this.createClosest();
     }
 
     private async getSnapshot() {
@@ -214,18 +179,6 @@ namespace game {
           maxCombo,
         });
       }
-    }
-
-    private createClosest() {
-      this.closest = new Closest();
-      this.closest.x = 15;
-      this.closest.y = 126;
-      this.body.addChild(this.closest);
-    }
-
-    private removeClosest() {
-      yyw.removeElement(this.closest);
-      this.closest = null;
     }
 
     private async onGameData({ data: {
