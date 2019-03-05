@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="LoadingSkin" xmlns:e="http://ns.egret.com/eui">
-	<e:Image id="bg" fillMode="clip" source="bg" scale9Grid="0,0,750,12" height="1334"/>
+	<e:Rect id="bg" height="1334" width="750" fillColor="0x101C24"/>
 	<e:Group id="main" horizontalCenter="0" bottom="262">
 		<e:Image source="loading_json.progressbar_bg" width="660" y="30" scale9Grid="15,0,30,30"/>
 		<e:Image id="bar" source="loading_json.progressbar" x="3" y="33" scale9Grid="12,0,30,24"/>
-		<e:Label id="percent" width="180" size="30" height="30" verticalAlign="middle" textAlign="center" horizontalCenter="0" fontFamily="sans-serif" textColor="5934907"/>
+		<e:Label id="percent" width="180" size="30" height="30" verticalAlign="middle" textAlign="center" horizontalCenter="0" fontFamily="sans-serif"/>
 		<e:Label id="tip" width="660" size="36" height="60" verticalAlign="middle" y="60" textAlign="center" horizontalCenter="0" fontFamily="sans-serif"/>
 	</e:Group>
 </e:Skin>

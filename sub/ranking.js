@@ -8,7 +8,7 @@ context.globalCompositeOperation = "source-over";
 
 export const Ranking = {
   isReady: false,
-  destroyed: false,
+  detached: false,
 
   async preload() {
     if (!this.isReady) {
@@ -40,14 +40,14 @@ export const Ranking = {
       this.cleanScreen();
       this.initProps();
       this.drawRanking();
-      this.destroyed = false;
+      this.detached = false;
     } else {
       console.error("创建开放数据域失败，请检查是否加载开放数据域资源");
     }
   },
 
   destroy() {
-    this.destroyed = true;
+    this.detached = true;
     this.cleanScreen();
   },
 
@@ -139,12 +139,12 @@ export const Ranking = {
         56,
         53
       );
-    } else {
-      this.drawText(key, xArr[1], y, indexWidth, barHeight, {
-        align: "center",
-        fontSize: 24,
-      });
     }
+    this.drawText(key, xArr[1], key < 4 ? y + 8 : y, indexWidth, barHeight, {
+      align: "center",
+      color: "#101C24",
+      fontSize: 24,
+    });
     // 绘制头像
     this.drawImage(
       avatarUrl,
@@ -156,12 +156,12 @@ export const Ranking = {
     // 绘制名称
     this.drawText(nickName || nickname, xArr[3], y, nameWidth, barHeight, {
       align: "left",
-      color: "#27361F"
+      color: "#101C24"
     });
     // 绘制分数
     this.drawText(score, xArr[4], y, scoreWidth, barHeight, {
       align: "right",
-      color: "#C34959"
+      color: "#E95954"
     });
   },
 
@@ -171,7 +171,7 @@ export const Ranking = {
     let startId;
 
     const start = e => {
-      if (this.destroyed) {
+      if (this.detached) {
         return;
       }
       const [ point ] = e.changedTouches;
@@ -181,7 +181,7 @@ export const Ranking = {
     };
 
     const end = e => {
-      if (this.destroyed) {
+      if (this.detached) {
         return;
       }
       const [ point ] = e.changedTouches;

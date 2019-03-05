@@ -13,14 +13,11 @@ namespace game {
       if (data) {
         const { key, avatarUrl, nickName, score } = data;
         if (key < 4) {
-          this.labelKey.visible = false;
           this.imageKey.source = `sprites_json.top${key}`;
-          this.imageKey.visible = true;
-        } else {
-          this.imageKey.visible = false;
-          this.labelKey.text = `${key}`;
-          this.labelKey.visible = true;
         }
+        this.imageKey.visible = key < 4;
+        this.labelKey.text = `${key}`;
+        this.labelKey.y = key < 4 ? 16 : 8;
         const avatar: egret.Bitmap = await yyw.loadImage(avatarUrl);
         this.imageAvatar.source = avatar.texture;
         this.labelNickname.text = yyw.sliceString(nickName);

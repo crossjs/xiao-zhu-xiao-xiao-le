@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="EndingSkin"
  xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
-	<e:Image id="bg" source="sprites_json.mask_bg" fillMode="scale" touchEnabled="true" scale9Grid="10,10,10,10" width="750" height="1334"/>
+	<e:Rect id="bg" touchEnabled="true" width="750" height="1334" fillColor="0x000000" fillAlpha="0.75"/>
 	<e:Group id="body" width="750" touchEnabled="false" bottom="262" height="1072">
 		<e:Group id="main" horizontalCenter="0" verticalCenter="0" height="320">
 			<e:Image y="-90" source="sprites_json.yxjs" horizontalCenter="0"/>

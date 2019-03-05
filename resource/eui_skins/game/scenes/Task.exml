@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="TaskSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*">
-	<e:Image id="bg" fillMode="scale" source="sprites_json.mask_bg" scale9Grid="10,10,10,10" touchEnabled="true" width="750" height="1334"/>
+	<e:Rect id="bg" touchEnabled="true" width="750" height="1334" fillColor="0x000000" fillAlpha="0.75"/>
 	<e:Group id="body" width="750" touchEnabled="false" bottom="262" height="1072">
 		<e:Group id="main" width="660" horizontalCenter="0" verticalCenter="90" touchEnabled="false">
 			<e:Group id="modal" touchEnabled="false">
-				<e:Image width="660" height="570" source="sprites_json.round_white" scale9Grid="36,36,6,6"/>
-				<e:Group id="grp1" x="30" y="30">
-					<e:Image source="sprites_json.round_grass" scale9Grid="36,36,6,6" height="150" width="600"/>
-					<e:Image source="sprites_json.games" x="30" y="30"/>
-					<game:TaskItem id="task0" x="138" y="30"/>
-					<game:TaskItem id="task1" x="138" y="80"/>
+				<e:Image width="660" height="510" source="sprites_json.round_white" scale9Grid="36,36,6,6"/>
+				<e:Group id="grp1" x="30" y="60">
+					<e:Image source="sprites_json.games" x="30"/>
+					<game:TaskItem id="task0" x="138"/>
+					<game:TaskItem id="task1" x="138" y="50"/>
 				</e:Group>
 				<e:Group id="grp2" x="30" y="210">
-					<e:Image source="sprites_json.round_grass" scale9Grid="36,36,6,6" height="150" width="600"/>
-					<e:Image source="sprites_json.score" x="30" y="30"/>
-					<game:TaskItem id="task2" x="138" y="30"/>
-					<game:TaskItem id="task3" x="138" y="80"/>
+					<e:Image source="sprites_json.score" x="30"/>
+					<game:TaskItem id="task2" x="138"/>
+					<game:TaskItem id="task3" x="138" y="50"/>
 				</e:Group>
-				<e:Group id="grp3" x="30" y="390">
-					<e:Image source="sprites_json.round_grass" scale9Grid="36,36,6,6" height="150" width="600"/>
-					<e:Image source="sprites_json.magic" x="30" y="30"/>
-					<game:TaskItem id="task4" x="138" y="30"/>
-					<game:TaskItem id="task5" x="138" y="80"/>
+				<e:Group id="grp3" x="30" y="360">
+					<e:Image source="sprites_json.magic" x="30"/>
+					<game:TaskItem id="task4" x="138"/>
+					<game:TaskItem id="task5" x="138" y="50"/>
 				</e:Group>
 			</e:Group>
 		<e:Image y="-90" x="235" source="sprites_json.mrrw"/>

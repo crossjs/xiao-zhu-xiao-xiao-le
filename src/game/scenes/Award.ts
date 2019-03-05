@@ -7,9 +7,13 @@ namespace game {
     private tfdCoins: eui.BitmapLabel;
     private coins: number;
     private type: string;
+    private showing: boolean = false;
 
     public setType(type: string) {
-      this.type = type;
+      if (!this.showing) {
+        this.type = type;
+        this.showModal();
+      }
     }
 
     protected destroy() {
@@ -21,6 +25,7 @@ namespace game {
       this.tfdTip.visible = false;
       this.btnOK.visible = false;
       this.btnEscape.visible = false;
+      this.showing = false;
       super.destroy();
     }
 
@@ -59,13 +64,12 @@ namespace game {
         });
       }
 
-      // 防止多次调用
-      if (!this.bg.visible) {
-        this.showModal();
-      }
+      // 在 setType 里调用
+      // this.showModal();
     }
 
     private async showModal() {
+      this.showing = true;
       yyw.fadeIn(this.bg);
       await yyw.twirlIn(this.modal);
       this.hdr.visible = true;

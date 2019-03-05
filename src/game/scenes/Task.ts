@@ -26,13 +26,24 @@ namespace game {
       super.createView(fromChildrenCreated);
 
       if (fromChildrenCreated) {
+        this.fillValues();
+      }
+
+      if (!this.tasks || !this.tasks.length) {
+        this.tasks = await yyw.task.get();
+        this.fillValues();
+      }
+
+      yyw.analysis.addEvent("7进入场景", { s: "每日任务" });
+    }
+
+    private fillValues() {
+      if (this.tasks) {
         this.tasks.forEach((task: any) => {
           const item: TaskItem = this[`task${task.order}`];
           item.setData(task);
         });
       }
-
-      yyw.analysis.addEvent("7进入场景", { s: "每日任务" });
     }
 
     private checkTasks() {

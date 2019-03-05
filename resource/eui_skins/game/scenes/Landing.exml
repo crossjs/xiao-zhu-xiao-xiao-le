@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="LandingSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*">
-	<e:Image id="bg" fillMode="clip" source="bg" scale9Grid="0,0,750,12" height="1334"/>
+	<e:Rect id="bg" height="1334" width="750" fillColor="0x101C24"/>
 	<e:Label id="tfdVersion" textAlign="center" verticalAlign="middle" alpha="0.5" left="0" right="0" size="24"/>
 	<e:Group id="body" width="750" height="1072" bottom="262">
 		<e:Image id="favorite" source="sprites_json.favorite" x="438" y="90" visible="false"/>
@@ -8,7 +8,10 @@
 			<e:Image id="numbers" source="sprites2_json.numbers" x="-48" touchEnabled="false"/>
 			<e:Image id="pig" source="sprites2_json.pig" y="72" x="144" touchEnabled="false"/>
 		</e:Group>
-		<e:Label id="tfdBestScore" width="600" textAlign="center" touchEnabled="false" horizontalCenter="0" size="36" height="48" y="730" x="75"/>
+		<e:Group y="730" horizontalCenter="0">
+			<e:Label touchEnabled="false" size="33" height="48" text="历史最高分数：" left="0" verticalAlign="middle" width="240"/>
+			<e:Label id="tfdBestScore" touchEnabled="false" size="36" height="48" y="0" x="234" text="" verticalAlign="middle" width="108"/>
+		</e:Group>
 		<e:Button id="btnStart" skinName="ButtonDefaultSkin" width="432" height="144" icon="sprites_json.start" y="780" x="159"/>
 		<e:Group y="944" horizontalCenter="0" x="171">
 			<game:CtrlGroup3 id="ctrlGroup3"/>

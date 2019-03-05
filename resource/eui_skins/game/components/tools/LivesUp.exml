@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="LivesUpSkin" xmlns:e="http://ns.egret.com/eui" width="126" height="138">
 	<e:Group id="main">
-		<e:Button skinName="ButtonLivesUpSkin"/>
-		<e:Image source="sprites_json.circle_red" x="84" y="96"/>
-		<e:Label id="tfd" width="27" height="27" touchEnabled="false" x="92" y="105" textAlign="center" size="24"/>
-		<e:Image id="img" source="sprites_json.circle_add" touchEnabled="false" x="84" y="96" visible="false"/>
+		<e:Button skinName="ButtonLivesUpSkin" x="0" y="0"/>
+		<e:Rect x="95" y="102" width="30" height="30" fillColor="16777215" ellipseHeight="30" ellipseWidth="30"/>
+		<e:Label id="tfd" width="30" height="30" touchEnabled="false" x="95" y="102" textAlign="center" size="24" textColor="0xE95954" verticalAlign="middle"/>
+		<e:Image id="img" source="sprites_json.circle_add" touchEnabled="false" x="95" y="102" visible="false"/>
 	</e:Group>
 </e:Skin>

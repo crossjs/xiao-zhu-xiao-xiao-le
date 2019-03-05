@@ -23,6 +23,7 @@ namespace game {
             this.btnVibration.currentState = selected ? "selected" : "up";
             yyw.CONFIG.vibrationEnabled = selected;
           });
+          this.btnVibration.selected = true;
         } else {
           this.btnVibration.currentState = "disabled";
           yyw.CONFIG.vibrationEnabled = false;

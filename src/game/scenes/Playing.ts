@@ -142,6 +142,33 @@ namespace game {
       if (fromChildrenCreated) {
         yyw.director.toScene(yyw.USER.score ? "task" : "guide", true);
 
+        const { width, height } = this.bg;
+        const grad = new eui.Image("grad");
+        grad.width = width;
+        // 1334-322=1012
+        grad.height = height - 1012;
+        this.addChildAt(grad, 1);
+
+        // iPhone 上无法渐变
+        // const { graphics, width, height } = this.bg;
+
+        // const matrix = new egret.Matrix();
+        // // 1334-322=1012
+        // matrix.createGradientBox(width, height - 1012, Math.PI / 2);
+        // graphics.beginGradientFill(
+        //   egret.GradientType.LINEAR,
+        //   [
+        //     0x67BCEC,
+        //     0x101C24,
+        //   ],
+        //   [ 1, 1 ],
+        //   [ 0, 255 ],
+        //   matrix,
+        // );
+
+        // graphics.drawRect(0, 0, width, height - 1012);
+        // graphics.endFill();
+
         yyw.on("GAME_OVER", this.onGameOver, this);
         yyw.on("GAME_DATA", this.onGameData, this);
 
@@ -192,7 +219,7 @@ namespace game {
     private createClosest() {
       this.closest = new Closest();
       this.closest.x = 15;
-      this.closest.y = 132;
+      this.closest.y = 126;
       this.body.addChild(this.closest);
     }
 

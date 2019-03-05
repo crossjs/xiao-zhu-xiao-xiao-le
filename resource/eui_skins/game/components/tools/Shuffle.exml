@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="ShuffleSkin" xmlns:e="http://ns.egret.com/eui">
 	<e:Group id="main" touchChildren="false" x="36" y="36" anchorOffsetX="36" anchorOffsetY="36" width="72" height="72">
-		<e:Image source="sprites_json.round_white" scale9Grid="36,36,6,6" width="72" height="72"/>
+		<e:Image source="sprites_json.round_white" scale9Grid="36,36,6,6" width="72" height="72" y="0" x="0"/>
 		<e:Image touchEnabled="false" source="sprites_json.tool_shuffle" y="14" x="10" scaleX="0.9" scaleY="0.9"/>
-		<e:Image source="sprites_json.circle_red" x="51" y="-12" width="30" height="30"/>
-		<e:Label id="tfd" width="27" height="27" touchEnabled="false" x="53" y="-9" textAlign="center" size="24" text=""/>
-		<e:Image id="img" source="sprites_json.circle_add" touchEnabled="false" x="51" y="-12" visible="false" width="30" height="30"/>
+		<e:Rect x="54" width="30" height="30" fillColor="16777215" ellipseHeight="30" ellipseWidth="30" y="-12"/>
+		<e:Label id="tfd" width="30" height="30" touchEnabled="false" x="54" textAlign="center" size="18" textColor="0xE95954" verticalAlign="middle" y="-12"/>
+		<e:Image id="img" source="sprites_json.circle_add" touchEnabled="false" x="54" y="-12" visible="false" width="30" height="30"/>
 	</e:Group>
 </e:Skin>

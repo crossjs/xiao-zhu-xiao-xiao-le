@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="CheckinSkin" xmlns:e="http://ns.egret.com/eui">
-	<e:Image id="bg" fillMode="scale" source="sprites_json.mask_bg" touchEnabled="true" scale9Grid="10,10,10,10" width="750" height="1334"/>
+	<e:Rect id="bg" touchEnabled="true" width="750" height="1334" fillColor="0x000000" fillAlpha="0.75"/>
 	<e:Group id="body" width="750" touchEnabled="false" bottom="262" height="1072">
 		<e:Group id="main" width="660" horizontalCenter="0" verticalCenter="90" touchEnabled="false">
 			<e:Group id="modal" touchEnabled="false">
@@ -33,10 +33,7 @@
 						<e:BitmapLabel y="90" text="1000" scaleX="0.375" scaleY="0.375" font="score_fnt" textAlign="center" width="384"/>
 						<e:BitmapLabel x="149" y="63" text="+" scaleX="0.375" scaleY="0.375" font="score_fnt" textAlign="center" width="120"/>
 						<e:Label x="144" y="150" text="星期四" size="18" textColor="2569759"/>
-						<e:Group y="36" x="234">
-							<e:Image source="sprites_json.round_grass" width="72" height="72" scale9Grid="36,36,6,6"/>
-							<e:Image source="sprites_json.tool_breaker" x="11" y="9" scaleX="0.9" scaleY="0.9"/>
-						</e:Group>
+						<e:Image source="sprites_json.tool_breaker" x="245" y="45" scaleX="0.9" scaleY="0.9"/>
 						<e:Image x="300" y="-10" visible="false" source="sprites_json.checked"/>
 					</e:Group>
 					<e:Group x="396" y="185">
@@ -59,10 +56,7 @@
 						<e:Image source="sprites_json.coin" x="50" y="35" scaleX="0.5" scaleY="0.5"/>
 						<e:BitmapLabel y="90" text="1000" scaleX="0.375" scaleY="0.375" font="score_fnt" textAlign="center" width="384"/>
 						<e:Label x="144" y="150" text="星期日" size="18" textColor="2569759"/>
-						<e:Group x="234" y="36">
-							<e:Image source="sprites_json.round_grass" width="72" height="72" scale9Grid="36,36,6,6"/>
-							<e:Image source="sprites_json.tool_shuffle" x="10" y="14" scaleX="0.9" scaleY="0.9"/>
-						</e:Group>
+						<e:Image source="sprites_json.tool_shuffle" x="244" y="50" scaleX="0.9" scaleY="0.9"/>
 						<e:Image x="300" y="-10" visible="false" source="sprites_json.checked"/>
 					</e:Group>
 				</e:Group>

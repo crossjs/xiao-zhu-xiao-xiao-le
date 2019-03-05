@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="RankingSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*">
-	<e:Image id="bg" fillMode="scale" source="sprites_json.mask_bg" scale9Grid="10,10,10,10" touchEnabled="true" width="750" height="1334"/>
+	<e:Rect id="bg" touchEnabled="true" width="750" height="1334" fillColor="0x000000" fillAlpha="0.75"/>
 	<e:Group id="body" width="750" touchEnabled="false" bottom="262" height="1072">
 		<e:Group id="main" width="660" horizontalCenter="0" verticalCenter="0" touchEnabled="false" height="468">
 			<e:Group id="modal" touchEnabled="false">
 				<e:Image width="660" height="468" source="sprites_json.round_white" scale9Grid="36,36,6,6"/>
 				<e:Group x="30" y="30" width="600" touchEnabled="false" touchChildren="false">
-					<e:Image height="72" left="0" right="0" source="sprites_json.round_grass" scale9Grid="36,36,6,6"/>
-					<e:Image height="72" left="0" right="0" source="sprites_json.round_grass" scale9Grid="36,36,6,6" y="84"/>
-					<e:Image height="72" left="0" right="0" source="sprites_json.round_grass" scale9Grid="36,36,6,6" y="168"/>
-					<e:Image height="72" left="0" right="0" source="sprites_json.round_grass" scale9Grid="36,36,6,6" y="252"/>
-					<e:Image height="72" left="0" right="0" source="sprites_json.round_grass" scale9Grid="36,36,6,6" y="336"/>
-					<e:Image height="72" left="0" right="0" scale9Grid="36,36,6,6" y="450" source="sprites_json.round_white"/>
-					<e:Image height="72" left="0" right="0" source="sprites_json.round_grass" scale9Grid="36,36,6,6" y="450"/>
+					<e:Rect height="72" left="0" right="0" fillColor="0xB4DDF5" ellipseHeight="72" ellipseWidth="72"/>
+					<e:Rect height="72" left="0" right="0" y="84" fillColor="0xB4DDF5" ellipseHeight="72" ellipseWidth="72"/>
+					<e:Rect height="72" left="0" right="0" y="168" fillColor="0xB4DDF5" ellipseHeight="72" ellipseWidth="72"/>
+					<e:Rect height="72" left="0" right="0" y="252" fillColor="0xB4DDF5" ellipseHeight="72" ellipseWidth="72"/>
+					<e:Rect height="72" left="0" right="0" y="336" fillColor="0xB4DDF5" ellipseHeight="72" ellipseWidth="72"/>
+					<e:Rect height="72" left="0" right="0" y="450" fillColor="0xB4DDF5" ellipseHeight="72" ellipseWidth="72"/>
 				</e:Group>
 				<e:Group id="groupFriend" width="572" y="30" height="522" x="44"/>
 				<e:Group id="groupWorld" y="30" visible="false" x="44">
