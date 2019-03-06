@@ -272,9 +272,9 @@ namespace game {
               yyw.emit("LIVES_EMPTY");
             }
           }
+          this.notify();
         }
         this.isRunning = false;
-        this.notify();
       };
 
       const handleEnd = () => {

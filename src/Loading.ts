@@ -9,19 +9,16 @@ class Loading extends yyw.Base {
     "合成「🍭」得「💰」奖励",
   ];
   private index: number = yyw.random(4);
-  private baseMap: any;
 
-  constructor(baseMap: any) {
+  constructor(private baseMap: any) {
     super();
-
-    this.baseMap = baseMap;
   }
 
   public setProgress(type: string, current: number, total: number): void {
     if (this.initialized) {
       const base = this.baseMap[type];
       const percent = (current / total) * (1 - base) + base;
-      this.percent.text = `${type}: ${Math.ceil(percent * 100)}%`;
+      this.percent.text = `${type}`;
       this.bar.width = Math.ceil(654 * percent);
     }
     // egret.log(type, current, total);

@@ -96,9 +96,7 @@ namespace game {
       yyw.light(this.bg);
       yyw.wave(this.pig);
 
-      // 初始化全局配置
-      const { score = 0 } = await yyw.pbl.me();
-      this.tfdBestScore.text = `历史最高分数：${score}`;
+      this.tfdBestScore.text = `历史最高分数：${yyw.USER.score || 0}`;
 
       // 每次进入，都刷新广告
       if (!await yyw.showBannerAd()) {

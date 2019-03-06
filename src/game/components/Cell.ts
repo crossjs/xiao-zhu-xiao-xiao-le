@@ -58,14 +58,15 @@ namespace game {
       this.tfdScore.scale = 1;
     }
 
-    public async tweenUp(duration: number = 300): Promise<void> {
-      const { numImage } = this;
+    public async tweenUp(): Promise<void> {
       // 淡出当前
-      await yyw.fadeOut(numImage, duration);
+      await this.fadeOut();
 
-      numImage.source = `numbers_json.${this.num === BIGGEST_NUMBER ? MAGIC_NUMBER : this.num + 1}`;
+      // 修改图片
+      this.numImage.source = `numbers_json.${this.num === BIGGEST_NUMBER ? MAGIC_NUMBER : this.num + 1}`;
+
       // 淡入下张
-      await yyw.fadeIn(numImage, duration);
+      await this.fadeIn();
     }
 
     public zoomOut(duration: number = 100) {

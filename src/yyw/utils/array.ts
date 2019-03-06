@@ -1,11 +1,9 @@
 namespace yyw {
   export class Stack {
     private stack: any[];
-    private unique: boolean = false;
 
-    constructor(unique: boolean = false) {
+    constructor(private unique: boolean = false) {
       this.stack = [];
-      this.unique = unique;
     }
 
     public add(value: any): void {

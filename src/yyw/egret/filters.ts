@@ -17,18 +17,7 @@ namespace yyw {
     target.filters = [grayFilter];
   }
 
-  const vertexSrc = `attribute vec2 aVertexPosition;
-attribute vec2 aTextureCoord;
-attribute vec2 aColor;
-uniform vec2 projectionVector;
-varying vec2 vTextureCoord;
-varying vec4 vColor;
-const vec2 center = vec2(-1.0, 1.0);
-void main(void) {
-  gl_Position = vec4((aVertexPosition / projectionVector) + center, 0.0, 1.0);
-  vTextureCoord = aTextureCoord;
-  vColor = vec4(aColor.x, aColor.x, aColor.x, aColor.x);
-}`;
+  // const egret.wxgame.EgretShaderLib.default_vert;
 
   const fragmentSrcLight = `precision lowp float;
 varying vec2 vTextureCoord;
@@ -93,10 +82,13 @@ void main(){
     noise?: number;
     seed?: number;
   } = {}) {
-    const noiseFilter = new egret.CustomFilter(vertexSrc, fragmentSrcNoise, {
-      uNoise: noise,
-      uSeed: seed,
-    });
+    const noiseFilter = new egret.CustomFilter(
+      egret.wxgame.EgretShaderLib.default_vert,
+      fragmentSrcNoise, {
+        uNoise: noise,
+        uSeed: seed,
+      },
+    );
     target.filters = [noiseFilter];
   }
 
@@ -107,9 +99,12 @@ void main(){
     if (wmLight.get(target)) {
       return;
     }
-    const lightFilter = new egret.CustomFilter(vertexSrc, fragmentSrcLight, {
-      customUniform: 0,
-    });
+    const lightFilter = new egret.CustomFilter(
+      egret.wxgame.EgretShaderLib.default_vert,
+      fragmentSrcLight, {
+        customUniform: 0,
+      },
+    );
 
     target.filters = [lightFilter];
 
@@ -158,11 +153,14 @@ void main(){
     if (wmWave.get(target)) {
       return;
     }
-    const waveFilter = new egret.CustomFilter(vertexSrc, fragmentSrcWave, {
-      center: { x: 0.5, y: 0.5 },
-      params: { x, y, z },
-      time: 0,
-    });
+    const waveFilter = new egret.CustomFilter(
+      egret.wxgame.EgretShaderLib.default_vert,
+      fragmentSrcWave, {
+        center: { x: 0.5, y: 0.5 },
+        params: { x, y, z },
+        time: 0,
+      },
+    );
 
     target.filters = [waveFilter];
 

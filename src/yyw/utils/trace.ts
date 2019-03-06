@@ -1,6 +1,4 @@
 namespace yyw {
-  const origin = "https://log.minipx.cn";
-
   export function trace() {
     const { channel, weixinadinfo, gdt_vid: traceId } = yyw.CONFIG.launchOptions.query;
     // 以 yyw 或 YYW 为开头

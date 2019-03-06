@@ -72,15 +72,15 @@ class Main extends eui.UILayer {
       await RES.loadGroup("loading", 0);
 
       this.loadingView = new Loading({
-        素材资源: 0,
-        全局配置: 0.5,
-        用户信息: 0.6,
-        每日任务: 0.8,
+        加载素材资源: 0,
+        加载游戏配置: 0.5,
+        加载用户信息: 0.6,
+        加载每日任务: 0.8,
       });
       this.stage.addChild(this.loadingView);
       await RES.loadGroup("preload", 0, {
         onProgress: (current, total) => {
-          this.loadingView.setProgress("素材资源", current, total);
+          this.loadingView.setProgress("加载素材资源", current, total);
         },
       });
     } catch (error) {
@@ -94,19 +94,19 @@ class Main extends eui.UILayer {
     // 可能网络请求失败，比如断网
     try {
       // 初始化全局配置
-      this.loadingView.setProgress("全局配置", 0, 1);
+      this.loadingView.setProgress("加载游戏配置", 0.2, 1);
       await yyw.initConfig();
-      this.loadingView.setProgress("全局配置", 1, 1);
+      this.loadingView.setProgress("加载游戏配置", 1, 1);
 
       // 先自动登录
-      this.loadingView.setProgress("用户信息", 0, 1);
+      this.loadingView.setProgress("加载用户信息", 0.2, 1);
       await yyw.getLogin();
-      this.loadingView.setProgress("用户信息", 1, 1);
+      this.loadingView.setProgress("加载用户信息", 1, 1);
 
       // 获取每日任务
-      this.loadingView.setProgress("每日任务", 0, 1);
+      this.loadingView.setProgress("加载每日任务", 0.2, 1);
       await yyw.task.get();
-      this.loadingView.setProgress("每日任务", 1, 1);
+      this.loadingView.setProgress("加载每日任务", 1, 1);
     } catch (error) {
       egret.error(error);
     }
