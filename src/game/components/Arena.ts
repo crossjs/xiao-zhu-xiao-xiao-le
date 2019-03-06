@@ -74,6 +74,7 @@ namespace game {
 
     private onToolUsing({ data: {
       type,
+      amount = 1,
       targetX,
       targetY,
       confirm,
@@ -99,7 +100,7 @@ namespace game {
             }
             return yyw.showToast("体力已满");
           }
-          return this.doLivesUp(confirm);
+          return this.doLivesUp(confirm, amount);
         default:
           return;
       }
@@ -656,11 +657,11 @@ namespace game {
     /**
      * 增加体力
      */
-    private doLivesUp(confirm: any): void {
+    private doLivesUp(confirm: any, amount: number): void {
       // 确定消费
       confirm();
       // 开始工作
-      this.increaseLives(1);
+      this.increaseLives(amount);
     }
   }
 }

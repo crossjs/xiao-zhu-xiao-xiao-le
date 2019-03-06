@@ -9,6 +9,7 @@ namespace game {
     protected afterGet(amount: number) {
       yyw.emit("TOOL_USING", {
         type: this.type,
+        amount,
         confirm: () => {
           this.increaseAmount(-amount);
         },
