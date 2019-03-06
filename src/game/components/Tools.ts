@@ -1,5 +1,5 @@
 namespace game {
-  const SNAPSHOT_KEY = "YYW_G4_TOOLS";
+  const SNAPSHOT_KEY = "TOOLS";
 
   export class Tools extends yyw.Base {
     private toolValueUp: ToolBase;
@@ -18,9 +18,9 @@ namespace game {
       });
     }
 
-    public async startTool(useSnapshot?: boolean) {
+    public async startup(useSnapshot?: boolean) {
       if (useSnapshot) {
-        const snapshot = await yyw.storage.get(SNAPSHOT_KEY);
+        const snapshot = await yyw.db.get(SNAPSHOT_KEY);
         if (snapshot) {
           Object.assign(this, snapshot);
         }
@@ -35,7 +35,7 @@ namespace game {
       this.tools.forEach((tool: ToolBase) => {
         this[tool.type] = tool.getAmount();
       });
-      yyw.storage.set(SNAPSHOT_KEY, {
+      yyw.db.set(SNAPSHOT_KEY, {
         valueUp: this.valueUp,
         shuffle: this.shuffle,
         breaker: this.breaker,
@@ -57,10 +57,6 @@ namespace game {
 
         yyw.on("ARENA_RUN", ({ data: running }: egret.Event) => {
           this.enabled = !running;
-        });
-
-        yyw.on("RANDOM_TOOL", () => {
-          (yyw.randomChild(this.main) as ToolBase).increaseAmount(1);
         });
       }
     }

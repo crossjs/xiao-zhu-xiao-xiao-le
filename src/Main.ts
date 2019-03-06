@@ -1,6 +1,6 @@
 class Main extends eui.UILayer {
   private created: boolean = false;
-  private loadingView: LoadingUI;
+  private loadingView: Loading;
 
   // debug 模式，使用图形绘制
   // private isDebug: boolean = true;
@@ -57,24 +57,60 @@ class Main extends eui.UILayer {
     );
     yyw.analysis.addEvent("1开始加载");
     await this.loadResource();
+    await this.loadGameConfig();
     loaded = true;
-    yyw.analysis.addEvent("2加载完成");
+    yyw.analysis.addEvent("2完成加载");
     await this.createGameScene();
   }
 
   private async loadResource() {
+    yyw.analysis.addEvent("1.1开始资源加载");
     try {
       await RES.loadConfig("resource/default.res.json", "resource/");
       await this.loadTheme();
 
       await RES.loadGroup("loading", 0);
 
-      this.loadingView = new LoadingUI();
+      this.loadingView = new Loading({
+        素材资源: 0,
+        全局配置: 0.5,
+        用户信息: 0.6,
+        每日任务: 0.8,
+      });
       this.stage.addChild(this.loadingView);
-      await RES.loadGroup("preload", 0, this.loadingView);
+      await RES.loadGroup("preload", 0, {
+        onProgress: (current, total) => {
+          this.loadingView.setProgress("素材资源", current, total);
+        },
+      });
     } catch (error) {
       egret.error(error);
     }
+    yyw.analysis.addEvent("2.1完成资源加载");
+  }
+
+  private async loadGameConfig() {
+    yyw.analysis.addEvent("1.2开始配置加载");
+    // 可能网络请求失败，比如断网
+    try {
+      // 初始化全局配置
+      this.loadingView.setProgress("全局配置", 0, 1);
+      await yyw.initConfig();
+      this.loadingView.setProgress("全局配置", 1, 1);
+
+      // 先自动登录
+      this.loadingView.setProgress("用户信息", 0, 1);
+      await yyw.getLogin();
+      this.loadingView.setProgress("用户信息", 1, 1);
+
+      // 获取每日任务
+      this.loadingView.setProgress("每日任务", 0, 1);
+      await yyw.task.get();
+      this.loadingView.setProgress("每日任务", 1, 1);
+    } catch (error) {
+      egret.error(error);
+    }
+    yyw.analysis.addEvent("2.2完成配置加载");
   }
 
   private loadTheme(): Promise<any> {
@@ -94,18 +130,6 @@ class Main extends eui.UILayer {
     }
 
     this.created = true;
-
-    yyw.analysis.addEvent("3加载配置");
-    // 可能网络请求失败，比如断网
-    try {
-      // 初始化全局配置
-      await yyw.initConfig();
-
-      // 先自动登录
-      await yyw.getLogin();
-    } catch (error) {
-      egret.error(error);
-    }
 
     yyw.director.setStage(this);
 
@@ -177,13 +201,16 @@ class Main extends eui.UILayer {
   private initSounds() {
     wx.cloud.getTempFileURL({
       fileList: [
+        "alarm",
         "amazing",
         "click",
         "coins",
         "excellent",
         "good",
         "great",
+        "heal",
         "magic",
+        "oops",
         "point",
         "swap",
       ].map((fileID) => `${CLOUD_DIR}/${fileID}.m4a`),

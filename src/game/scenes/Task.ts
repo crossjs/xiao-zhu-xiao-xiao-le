@@ -1,5 +1,6 @@
 namespace game {
   export class Task extends yyw.Base {
+    private grpItems: eui.Group;
     private magicCount: number = 0;
     private gamesCount: number = 0;
     private scoreReach: number = 0;
@@ -11,39 +12,34 @@ namespace game {
         this.checkTasks();
       });
 
-      yyw.on("GAME_OVER", ({ data: {
-        score,
-      } }: egret.Event) => {
+      yyw.on("GAME_OVER", () => {
         this.gamesCount++;
-        this.scoreReach = Math.max(this.scoreReach, score);
         this.checkTasks();
       });
 
-      this.tasks = await yyw.task.get();
+      yyw.on("GAME_DATA", ({ data: {
+        score,
+      } }: egret.Event) => {
+        this.scoreReach = Math.max(this.scoreReach, score);
+        this.checkTasks();
+      });
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       super.createView(fromChildrenCreated);
 
       if (fromChildrenCreated) {
-        this.fillValues();
-      }
-
-      if (!this.tasks || !this.tasks.length) {
-        this.tasks = await yyw.task.get();
-        this.fillValues();
-      }
-
-      yyw.analysis.addEvent("7进入场景", { s: "每日任务" });
-    }
-
-    private fillValues() {
-      if (this.tasks) {
+        yyw.showToast("加载中……");
+        this.tasks = await yyw.task.get() || [];
+        yyw.hideToast();
         this.tasks.forEach((task: any) => {
           const item: TaskItem = this[`task${task.order}`];
           item.setData(task);
         });
+        this.grpItems.visible = true;
       }
+
+      yyw.analysis.addEvent("7进入场景", { s: "每日任务" });
     }
 
     private checkTasks() {

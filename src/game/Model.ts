@@ -5,11 +5,11 @@ namespace game {
   export const MAGIC_NUMBER = 99;
   export const BIGGEST_NUMBER = 20;
 
-  const SNAPSHOT_KEY = "YYW_G4_MODEL";
+  const SNAPSHOT_KEY = "MODEL";
 
   export class Model {
     public static async fromSnapshot(): Promise<Model> {
-      const { cols, rows, maxNumber, level, matrix, numbers } = await yyw.storage.get(SNAPSHOT_KEY);
+      const { cols, rows, maxNumber, level, matrix, numbers } = await yyw.db.get(SNAPSHOT_KEY);
       return new Model(cols, rows, maxNumber, level, matrix, numbers);
     }
 
@@ -46,10 +46,10 @@ namespace game {
 
     public setSnapshot(value?: any) {
       if (value === null) {
-        yyw.storage.set(SNAPSHOT_KEY, null);
+        yyw.db.remove(SNAPSHOT_KEY);
       } else {
         const { cols, rows, maxNumber, level, matrix, numbers } = this;
-        yyw.storage.set(SNAPSHOT_KEY, {
+        yyw.db.set(SNAPSHOT_KEY, {
           cols, rows, maxNumber, level, matrix, numbers,
         });
       }

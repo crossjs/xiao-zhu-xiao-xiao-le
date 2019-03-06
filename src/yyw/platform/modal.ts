@@ -17,10 +17,15 @@ namespace yyw {
       });
     });
   }
+
   export function showToast(title: string): void {
     wx.showToast({
       title,
       icon: "none",
     });
+  }
+
+  export function hideToast(): void {
+    wx.hideToast();
   }
 }

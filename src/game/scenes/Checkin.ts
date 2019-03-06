@@ -2,7 +2,7 @@ namespace game {
   const bonus: any[] = [[1500], [1000], [1000], [1000, "breaker"], [1000], [1000], [1000, "shuffle"]];
 
   export class Checkin extends yyw.Base {
-    private groupDays: eui.Group;
+    private grpDays: eui.Group;
 
     /**
      * 准备榜单
@@ -11,16 +11,19 @@ namespace game {
       super.createView(fromChildrenCreated);
 
       if (fromChildrenCreated) {
+        yyw.showToast("加载中……");
         const days = await yyw.checkin.get();
+        yyw.hideToast();
 
         const canCheckin = yyw.reward.can("checkin");
 
-        yyw.eachChild(this.groupDays, (child: eui.Group, index: number) => {
+        yyw.eachChild(this.grpDays, (child: eui.Group, index: number) => {
           const day = days[index];
           if (day.offset > 0) {
             // 未来
-            child.alpha = 0.5;
+            // child.alpha = 0.5;
           } else if (day.checked) {
+            child.alpha = 1;
             // 已签到，显示勾
             child.getChildAt(child.numChildren - 1).visible = true;
           } else {
@@ -59,6 +62,8 @@ namespace game {
             }
           }
         });
+
+        this.grpDays.visible = true;
       }
 
       yyw.analysis.addEvent("7进入场景", { s: "每日签到" });

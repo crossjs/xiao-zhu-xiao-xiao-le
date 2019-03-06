@@ -65,14 +65,20 @@ namespace game {
       this.hdrWorld.visible = true;
       this.btnFriend.visible = true;
       try {
-        this.rankingData = await yyw.pbl.all();
-        this.myRankingData = this.rankingData.find(({ openid }) => yyw.USER.openid === openid);
-        this.pageTotal = Math.ceil(this.rankingData.length / this.pageSize);
+        if (!this.rankingData) {
+          yyw.showToast("加载中……");
+          this.rankingData = await yyw.pbl.all();
+          yyw.hideToast();
+          this.myRankingData = this.rankingData.find(({ openid }) => yyw.USER.openid === openid);
+          this.pageTotal = Math.ceil(this.rankingData.length / this.pageSize);
+        }
+        // 重置当前页
+        this.pageIndex = 0;
         this.groupWorld.visible = true;
         this.drawRanking();
+        this.initScroll();
         // 渲染自己
         this.drawRankingItem(this.myRankingData, this.pageSize);
-        this.initScroll();
       } catch (error) {
         yyw.showToast("当前无数据");
       }

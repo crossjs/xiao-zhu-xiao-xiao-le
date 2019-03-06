@@ -5,29 +5,29 @@
 		<e:Group id="main" width="660" horizontalCenter="0" verticalCenter="90" touchEnabled="false">
 			<e:Group id="modal" touchEnabled="false">
 				<e:Image width="660" height="660" source="sprites_json.round_white" scale9Grid="36,36,6,6"/>
-				<e:Group id="groupDays" x="60" y="60" touchEnabled="false">
-					<e:Group>
+				<e:Group id="grpDays" visible="false" x="60" y="60" touchEnabled="false">
+					<e:Group alpha="0.5">
 						<e:Image width="144" height="144" scale9Grid="36,36,6,6" source="sprites_json.round_white" x="0"/>
 						<e:Image source="sprites_json.coin" x="50" y="35" scaleX="0.5" scaleY="0.5"/>
 						<e:BitmapLabel y="90" text="1500" scaleX="0.375" scaleY="0.375" font="score_fnt" textAlign="center" width="384"/>
 						<e:Label x="45" y="150" text="星期一" size="18" textColor="2569759"/>
 						<e:Image x="102" y="-10" visible="false" source="sprites_json.checked"/>
 					</e:Group>
-					<e:Group x="198">
+					<e:Group alpha="0.5" x="198">
 						<e:Image source="sprites_json.round_white" width="144" height="144" scale9Grid="36,36,6,6"/>
 						<e:Image source="sprites_json.coin" x="50" y="35" scaleX="0.5" scaleY="0.5"/>
 						<e:BitmapLabel y="90" text="1000" scaleX="0.375" scaleY="0.375" font="score_fnt" textAlign="center" width="384"/>
 						<e:Label x="45" y="150" text="星期二" size="18" textColor="2569759"/>
 						<e:Image x="102" y="-10" visible="false" source="sprites_json.checked"/>
 					</e:Group>
-					<e:Group x="396">
+					<e:Group alpha="0.5" x="396">
 						<e:Image source="sprites_json.round_white" width="144" height="144" scale9Grid="36,36,6,6"/>
 						<e:Image source="sprites_json.coin" x="50" y="35" scaleX="0.5" scaleY="0.5"/>
 						<e:BitmapLabel y="90" text="1000" scaleX="0.375" scaleY="0.375" font="score_fnt" textAlign="center" width="384"/>
 						<e:Label x="45" y="150" text="星期三" size="18" textColor="2569759"/>
 						<e:Image x="102" y="-10" visible="false" source="sprites_json.checked"/>
 					</e:Group>
-					<e:Group y="185">
+					<e:Group alpha="0.5" y="185">
 						<e:Image width="342" height="144" scale9Grid="36,36,6,6" source="sprites_json.round_white"/>
 						<e:Image source="sprites_json.coin" x="50" y="35" scaleX="0.5" scaleY="0.5"/>
 						<e:BitmapLabel y="90" text="1000" scaleX="0.375" scaleY="0.375" font="score_fnt" textAlign="center" width="384"/>
@@ -36,21 +36,21 @@
 						<e:Image source="sprites_json.tool_breaker" x="245" y="45" scaleX="0.9" scaleY="0.9"/>
 						<e:Image x="300" y="-10" visible="false" source="sprites_json.checked"/>
 					</e:Group>
-					<e:Group x="396" y="185">
+					<e:Group alpha="0.5" x="396" y="185">
 						<e:Image source="sprites_json.round_white" width="144" height="144" scale9Grid="36,36,6,6"/>
 						<e:Image source="sprites_json.coin" x="50" y="35" scaleX="0.5" scaleY="0.5"/>
 						<e:BitmapLabel y="90" text="1000" scaleX="0.375" scaleY="0.375" font="score_fnt" textAlign="center" width="384"/>
 						<e:Label x="45" y="150" text="星期五" size="18" textColor="2569759"/>
 						<e:Image x="102" y="-10" visible="false" source="sprites_json.checked"/>
 					</e:Group>
-					<e:Group y="370">
+					<e:Group alpha="0.5" y="370">
 						<e:Image source="sprites_json.round_white" width="144" height="144" scale9Grid="36,36,6,6"/>
 						<e:Image source="sprites_json.coin" x="50" y="35" scaleX="0.5" scaleY="0.5"/>
 						<e:BitmapLabel y="90" text="1000" scaleX="0.375" scaleY="0.375" font="score_fnt" textAlign="center" width="384"/>
 						<e:Label x="45" y="150" text="星期六" size="18" textColor="2569759"/>
 						<e:Image x="102" y="-10" visible="false" source="sprites_json.checked"/>
 					</e:Group>
-					<e:Group x="198" y="370">
+					<e:Group alpha="0.5" x="198" y="370">
 						<e:Image source="sprites_json.round_white" width="342" height="144" scale9Grid="36,36,6,6"/>
 						<e:BitmapLabel text="+" scaleX="0.375" scaleY="0.375" font="score_fnt" textAlign="center" width="120" x="149" y="63"/>
 						<e:Image source="sprites_json.coin" x="50" y="35" scaleX="0.5" scaleY="0.5"/>

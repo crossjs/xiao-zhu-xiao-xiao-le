@@ -4,16 +4,13 @@
 	<e:Group id="body" width="750" touchEnabled="false" bottom="262" height="1072">
 		<e:Group id="main" touchEnabled="false" touchChildren="true" height="540" horizontalCenter="0" verticalCenter="0" x="75" y="75">
 			<e:Image id="hdr" y="-90" x="205" visible="false" source="sprites_json.tlbz"/>
-			<e:Group id="modal" x="300" y="330" anchorOffsetX="300" anchorOffsetY="330" visible="false" touchEnabled="false" touchChildren="false">
+			<e:Group id="modal" x="300" y="330" anchorOffsetX="300" anchorOffsetY="330" visible="true" touchEnabled="false" touchChildren="false">
 			<e:Image source="sprites_json.round_white" width="600" height="540" scale9Grid="36,36,6,6"/>
 			<e:Image source="sprites2_json.fu" y="210" horizontalCenter="0"/>
 			<e:Group id="images" y="72" scaleX="1.25" scaleY="1.25" horizontalCenter="0">
-				<e:Image width="90" height="90" source="sprites_json.round_white"/>
-				<e:Image x="110" width="90" height="90" source="sprites_json.round_white"/>
-				<e:Image x="220" width="90" height="90" source="sprites_json.round_white"/>
-				<e:Image x="21" source="sprites_json.tool_valueup" y="23"/>
-				<e:Image x="126" source="sprites_json.tool_shuffle" y="21"/>
-				<e:Image x="237" source="sprites_json.tool_breaker" y="16"/>
+				<e:Image source="sprites_json.round_white" scale9Grid="36,36,6,6" width="180" height="90" y="0" x="0"/>
+				<e:Image source="sprites_json.heart" x="36" y="28"/>
+				<e:Image source="sprites_json.heart" x="103" y="28"/>
 			</e:Group>
 			</e:Group>
 			<e:Label id="tfdTip" y="570" textAlign="center" height="30" left="0" right="0" visible="false"/>

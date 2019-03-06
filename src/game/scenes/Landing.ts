@@ -73,8 +73,6 @@ namespace game {
           },
         });
 
-        this.tfdVersion.text = VERSION;
-
         // 开始游戏
         yyw.onTap(this.btnStart, () => {
           yyw.director.toScene("playing");
@@ -91,6 +89,8 @@ namespace game {
             this.favorite.visible = true;
           }
         }
+
+        this.tfdVersion.text = VERSION;
       }
 
       yyw.light(this.bg);

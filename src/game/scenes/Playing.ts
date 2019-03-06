@@ -1,5 +1,5 @@
 namespace game {
-  const SNAPSHOT_KEY = "YYW_G4_PLAYING";
+  const SNAPSHOT_KEY = "PLAYING";
 
   export class Playing extends yyw.Base {
     private isGameOver: boolean = false;
@@ -125,15 +125,18 @@ namespace game {
       let snapshot: any;
       let useSnapshot: boolean;
       if (!this.isGameOver) {
+        yyw.showToast("加载存档……");
         snapshot = await this.getSnapshot();
+        yyw.hideToast();
         if (snapshot) {
           useSnapshot = await yyw.showModal("继续上一次的进度？");
         }
       }
 
-      await this.arena.startGame(useSnapshot);
-      await this.tools.startTool(useSnapshot);
+      await this.arena.startup(useSnapshot);
+      await this.tools.startup(useSnapshot);
       this.isGameOver = false;
+      // egret.log("P", this.isGameOver);
 
       if (fromChildrenCreated) {
         yyw.director.toScene(yyw.USER.score ? "task" : "guide", true);
@@ -163,19 +166,21 @@ namespace game {
     }
 
     private startGame() {
-      this.arena.startGame();
+      this.isGameOver = false;
+      // egret.log("P", this.isGameOver);
+      this.arena.startup();
     }
 
     private async getSnapshot() {
-      return yyw.storage.get(SNAPSHOT_KEY);
+      return yyw.db.get(SNAPSHOT_KEY);
     }
 
     private setSnapshot(value?: any) {
       if (value === null) {
-        yyw.storage.set(SNAPSHOT_KEY, null);
+        yyw.db.remove(SNAPSHOT_KEY);
       } else {
         const { maxCombo } = this;
-        yyw.storage.set(SNAPSHOT_KEY, {
+        yyw.db.set(SNAPSHOT_KEY, {
           maxCombo,
         });
       }
@@ -193,6 +198,7 @@ namespace game {
       score,
     } }: egret.Event) {
       this.isGameOver = true;
+      // egret.log("P", this.isGameOver);
       this.setSnapshot(null);
       yyw.pbl.save({
         score,

@@ -29,6 +29,7 @@ namespace game {
         yyw.onTap(this.btnOK, async () => {
           const type = await yyw.reward.apply("revive");
           if (type) {
+            HealSound.play();
             await yyw.director.escape();
             yyw.emit("TOOL_GOT", {
               type: "livesUp",

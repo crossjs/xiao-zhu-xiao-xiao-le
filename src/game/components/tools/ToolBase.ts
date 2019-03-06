@@ -24,7 +24,8 @@ namespace game {
 
     public increaseAmount(amount: number): void {
       this.amount += amount;
-      if (amount > 0) {
+      // 如果数量为负，说明使用道具
+      if (amount < 0) {
         yyw.emit("TOOL_USED", {
           type: this.type,
           amount,

@@ -9,7 +9,7 @@
 					<e:Image source="sprites_json.round_white" scale9Grid="36,36,6,6" height="90" left="0" right="0"/>
 					<e:Image y="23" source="sprites_json.tool_valueup" horizontalCenter="0"/>
 					<e:Group y="132" touchEnabled="false" horizontalCenter="0">
-					<e:Button id="btn0" height="48" skinName="ButtonDefaultSkin" width="144"/>
+						<e:Button id="btn0" enabled="false" height="48" skinName="ButtonDefaultSkin" width="144"/>
 						<e:Group id="grp0" touchEnabled="false" touchChildren="false" y="10" horizontalCenter="0.5">
 							<e:Image source="sprites_json.coin" scaleX="0.3" scaleY="0.3" touchEnabled="false"/>
 							<e:BitmapLabel x="27" y="1" text="1000" font="score_fnt" scaleX="0.375" scaleY="0.375" touchEnabled="false"/>
@@ -21,7 +21,7 @@
 					<e:Image source="sprites_json.round_white" scale9Grid="36,36,6,6" height="90" left="0" right="0"/>
 					<e:Image y="21" source="sprites_json.tool_shuffle" horizontalCenter="0"/>
 					<e:Group y="132" touchEnabled="false" horizontalCenter="0">
-					<e:Button id="btn1" height="48" skinName="ButtonDefaultSkin" width="144"/>
+						<e:Button id="btn1" enabled="false" height="48" skinName="ButtonDefaultSkin" width="144"/>
 						<e:Group id="grp1" y="10" touchEnabled="false" touchChildren="false" horizontalCenter="0">
 							<e:Image source="sprites_json.coin" scaleX="0.3" scaleY="0.3" touchEnabled="false"/>
 							<e:BitmapLabel x="27" y="1" text="2000" font="score_fnt" scaleX="0.375" scaleY="0.375" touchEnabled="false"/>
@@ -33,7 +33,7 @@
 					<e:Image source="sprites_json.round_white" scale9Grid="36,36,6,6" height="90" left="0" right="0"/>
 					<e:Image y="16" source="sprites_json.tool_breaker" horizontalCenter="0"/>
 					<e:Group y="132" touchEnabled="false" horizontalCenter="0">
-					<e:Button id="btn2" skinName="ButtonDefaultSkin" height="48" width="144"/>
+						<e:Button id="btn2" enabled="false" skinName="ButtonDefaultSkin" height="48" width="144"/>
 						<e:Group id="grp2" y="10" touchEnabled="false" touchChildren="false" horizontalCenter="0.5">
 							<e:Image source="sprites_json.coin" scaleX="0.3" scaleY="0.3" touchEnabled="false"/>
 							<e:BitmapLabel x="27" y="1" text="1500" font="score_fnt" scaleX="0.375" scaleY="0.375" touchEnabled="false"/>

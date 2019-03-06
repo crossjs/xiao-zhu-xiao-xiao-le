@@ -15,6 +15,7 @@ namespace game {
         for (let i = 0; i < this.goods.length; i++) {
           ((index) => {
             yyw.onTap(this[`btn${index}`], async () => {
+              this.enabled = false;
               // 消费
               const type = this.goods[index];
               const coins = this.prices[index];
@@ -36,6 +37,7 @@ namespace game {
               } catch (error) {
                 yyw.showToast("余额不足");
               }
+              this.enabled = true;
             });
           })(i);
         }
@@ -55,7 +57,7 @@ namespace game {
           const grp: eui.Group = this[`grp${i}`];
           btn.enabled = enabled;
           if (enabled) {
-            grp.filters = null;
+            yyw.nude(grp);
           } else {
             yyw.gray(grp);
           }

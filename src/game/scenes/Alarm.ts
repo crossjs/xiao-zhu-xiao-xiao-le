@@ -29,10 +29,13 @@ namespace game {
 
       if (fromChildrenCreated) {
         const canVideo = yyw.reward.can("tool", "video");
-        this.tfdTip.text = `${ canVideo ? "观看视频" : "转发到群" }获得道具`;
+        this.tfdTip.text = `${ canVideo ? "观看视频" : "转发到群" }获得两点体力`;
         yyw.onTap(this.btnOK, async () => {
           if (await yyw.reward.apply("tool")) {
-            yyw.emit("RANDOM_TOOL");
+            yyw.emit("TOOL_GOT", {
+              type: "livesUp",
+              amount: 2,
+            });
             yyw.director.escape();
           }
         });
@@ -42,6 +45,7 @@ namespace game {
     }
 
     private async showModal() {
+      AlarmSound.play();
       yyw.fadeIn(this.bg);
       await yyw.twirlIn(this.modal);
       this.hdr.visible = true;

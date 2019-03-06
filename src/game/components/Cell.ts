@@ -70,7 +70,6 @@ namespace game {
 
     public zoomOut(duration: number = 100) {
       yyw.removeTweens(this);
-      yyw.disWave(this);
       return yyw.getTween(this)
       .to({
         scale: 1,
@@ -79,10 +78,6 @@ namespace game {
 
     public zoomIn(duration: number = 100) {
       yyw.removeTweens(this);
-      yyw.wave(this, {
-        step: 0.02,
-        y: 1.6,
-      });
       return yyw.getTween(this)
       .to({
         scale: 1.2,
@@ -93,6 +88,10 @@ namespace game {
       const { numGroup } = this;
       const { x: oX, y: oY, rotation: oRotation, alpha: oAlpha } = numGroup;
       const tween = yyw.getTween(numGroup);
+      yyw.wave(this, {
+        step: 0.02,
+        y: 1.6,
+      });
       duration /= increases.length;
       let tX = oX;
       let tY = oY;
@@ -114,10 +113,12 @@ namespace game {
       if (typeof onResolve === "function") {
         await onResolve();
       }
+
       numGroup.x = oX;
       numGroup.y = oY;
       numGroup.rotation = oRotation;
       numGroup.alpha = oAlpha;
+      yyw.disWave(this);
     }
 
     public async fadeOut(duration: number = 300): Promise<void> {

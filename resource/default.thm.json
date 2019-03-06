@@ -28,7 +28,7 @@
 		"game.TaskItem": "resource/eui_skins/game/components/TaskItem.exml",
 		"game.Tools": "resource/eui_skins/game/components/Tools.exml",
 		"game.ValueUp": "resource/eui_skins/game/components/tools/ValueUp.exml",
-		"LoadingUI": "resource/eui_skins/game/Loading.exml"
+		"Loading": "resource/eui_skins/game/Loading.exml"
 	},
 	"autoGenerateExmlsList": false,
 	"exmls": [

@@ -1,8 +1,9 @@
 namespace game {
-  const SNAPSHOT_KEY = "YYW_G4_ARENA";
+  const SNAPSHOT_KEY = "ARENA";
 
   export class Arena extends yyw.Base {
     private isGameOver: boolean = false;
+    private b1: eui.Image;
     private tfdScore: eui.BitmapLabel;
     private cellWidth: number = 144;
     private cellHeight: number = 144;
@@ -28,14 +29,16 @@ namespace game {
       yyw.emit("ARENA_RUN", running);
     }
 
-    public async startGame(useSnapshot?: boolean) {
+    public async startup(useSnapshot?: boolean) {
+      this.isGameOver = false;
+      // egret.log("A", this.isGameOver);
       await this.createModel(useSnapshot);
       const { model } = this;
       yyw.matrixEach(this.cells, (cell: Cell, col: number, row: number) => {
         cell.setNumber(model.getNumberAt([col, row]));
       });
       if (useSnapshot) {
-        const { lives, score, combo } = await yyw.storage.get(SNAPSHOT_KEY);
+        const { lives, score, combo } = await yyw.db.get(SNAPSHOT_KEY);
         this.ensureData({ lives, score, combo });
       } else {
         this.ensureData();
@@ -45,6 +48,7 @@ namespace game {
 
     public onGameOver() {
       this.isGameOver = true;
+      // egret.log("A", this.isGameOver);
       this.setSnapshot(null);
     }
 
@@ -65,6 +69,7 @@ namespace game {
       }
 
       this.isGameOver = false;
+      // egret.log("A", this.isGameOver);
     }
 
     private onToolUsing({ data: {
@@ -116,7 +121,16 @@ namespace game {
       if (n < 0) {
         if (this.lives === 1) {
           yyw.emit("LIVES_LEAST");
+          this.blink();
         }
+      }
+    }
+
+    private async blink() {
+      await yyw.zoomOut(this.b1, 300);
+      await yyw.zoomIn(this.b1, 200);
+      if (this.lives === 1) {
+        this.blink();
       }
     }
 
@@ -146,10 +160,10 @@ namespace game {
     private setSnapshot(value?: any) {
       this.model.setSnapshot(value);
       if (value === null) {
-        yyw.storage.set(SNAPSHOT_KEY, null);
+        yyw.db.remove(SNAPSHOT_KEY);
       } else {
         const { lives, score, combo } = this;
-        yyw.storage.set(SNAPSHOT_KEY, {
+        yyw.db.set(SNAPSHOT_KEY, {
           lives, score, combo,
         });
       }
@@ -346,11 +360,11 @@ namespace game {
       this.setCellNumber(to, numFrom);
     }
 
-    private tweenFromTo(from: Point, to: Point, duration: number = 100, onResolve?: any): Promise<void> {
+    private tweenFromTo(from: Point, to: Point, duration: number = 100): Promise<void> {
       return this.getCellAt(from).tweenTo([{
         x: (to[0] - from[0]) * this.cellWidth,
         y: (to[1] - from[1]) * this.cellHeight,
-      }], duration, onResolve);
+      }], duration);
     }
 
     private resetCombo() {
