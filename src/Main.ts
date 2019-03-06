@@ -153,6 +153,9 @@ class Main extends eui.UILayer {
       command: "initRanking",
     });
 
+    // 渠道统计
+    yyw.trace();
+
     // 加个物理引擎玩一玩
     // this.createP2Scene();
 

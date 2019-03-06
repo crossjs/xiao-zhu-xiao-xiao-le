@@ -1,0 +1,9 @@
+{
+  "name": "saveTrace",
+  "version": "1.0.0",
+  "description": "保存渠道跟踪",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}
