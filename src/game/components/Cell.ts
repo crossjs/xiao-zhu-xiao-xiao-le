@@ -168,6 +168,7 @@ namespace game {
         this.numGroup.y
           = this.numGroup.anchorOffsetY
           = this.ay;
+        yyw.noise(this.numImage);
       }
 
       this.showCurrent();

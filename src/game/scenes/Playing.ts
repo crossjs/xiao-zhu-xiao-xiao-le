@@ -3,6 +3,7 @@ namespace game {
 
   export class Playing extends yyw.Base {
     private isGameOver: boolean = false;
+    private bgHead: eui.Rect;
     private ctrlShop: game.CtrlShop;
     private boxAll: box.All;
     // 单局最大连击数
@@ -160,6 +161,8 @@ namespace game {
           this.boxAll.bottom = 0;
           this.addChild(this.boxAll);
         }
+
+        yyw.noise(this.bgHead);
       }
 
       yyw.analysis.addEvent("7进入场景", { s: "游戏界面" });

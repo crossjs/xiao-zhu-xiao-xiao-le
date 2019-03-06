@@ -1,5 +1,5 @@
 namespace yyw {
-  const colorMatrix = [
+  const grayColorMatrix = [
     0.33, 0.33, 0.33, 0, 0,
     0.33, 0.33, 0.33, 0, 0,
     0.33, 0.33, 0.33, 0, 0,
@@ -7,7 +7,7 @@ namespace yyw {
   ];
 
   // 给 EXML 用
-  export const grayFilter = new egret.ColorMatrixFilter(colorMatrix);
+  export const grayFilter = new egret.ColorMatrixFilter(grayColorMatrix);
 
   export function nude(target: egret.DisplayObject) {
     target.filters = null;
@@ -62,6 +62,43 @@ void main() {
   }
   gl_FragColor = texture2D(uSampler, texCoord);
 }`;
+
+  const fragmentSrcNoise = `precision highp float;
+varying vec2 vTextureCoord;
+varying vec4 vColor;
+uniform float uNoise;
+uniform float uSeed;
+uniform sampler2D uSampler;
+float rand(vec2 co){
+  return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);
+}
+void main(){
+  vec4 color = texture2D(uSampler, vTextureCoord);
+  float randomValue = rand(gl_FragCoord.xy * uSeed);
+  float diff = (randomValue - 0.5) * uNoise;
+  if (color.a > 0.0) {
+    color.rgb /= color.a;
+  }
+  color.r += diff;
+  color.g += diff;
+  color.b += diff;
+  color.rgb *= color.a;
+  gl_FragColor = color;
+}`;
+
+  export function noise(target: egret.DisplayObject, {
+    noise = 0.05,
+    seed = 0.5,
+  }: {
+    noise?: number;
+    seed?: number;
+  } = {}) {
+    const noiseFilter = new egret.CustomFilter(vertexSrc, fragmentSrcNoise, {
+      uNoise: noise,
+      uSeed: seed,
+    });
+    target.filters = [noiseFilter];
+  }
 
   const wmLight = new WeakMap();
   const wmWave = new WeakMap();
