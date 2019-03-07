@@ -12,6 +12,30 @@ namespace yyw {
     level?: number;
     points?: number;
     score?: number;
+    /**
+     * 是否已完成“新手引导”
+     */
+    guided?: boolean;
+    /**
+     * 是否已添加到“我的小程序”
+     */
+    sticked?: boolean;
+    arena?: {
+      breaker?: number;
+      cols?: number;
+      combo?: number;
+      level?: number;
+      lives?: number;
+      livesUp?: number;
+      matrix?: number[][];
+      maxCombo?: number;
+      maxNumber?: number;
+      numbers?: number[];
+      rows?: number;
+      score?: number;
+      shuffle?: number;
+      valueUp?: number;
+    };
   }
 
   const USER_KEY = "USER";
@@ -72,6 +96,15 @@ namespace yyw {
     return USER;
   }
 
+  export async function update(state: { [key: string]: any }): Promise<any> {
+    // 合入到全局
+    Object.assign(USER, state);
+    await storage.set(USER_KEY, USER);
+    return cloud.call("saveMyState", {
+      state,
+    });
+  }
+
   export async function logout(): Promise<any> {
     for (const key in USER) {
       if (USER.hasOwnProperty(key)) {
@@ -99,7 +132,11 @@ namespace yyw {
    * 创建一个的获取用户信息的隐形按钮
    */
   export async function createUserInfoButton({
-    left, top, width, height, onTap,
+    left,
+    top,
+    width,
+    height,
+    onTap,
   }: any): Promise<wx.UserInfoButton> {
     const authorized: boolean = await isScopeAuthorized("userInfo");
 
@@ -107,7 +144,7 @@ namespace yyw {
       return;
     }
 
-    const scale = 750 / CONFIG.systemInfo.windowWidth; // 因为是 fixedWidth
+    const scale = 750 / CONFIG.windowWidth; // 因为是 fixedWidth
     const button = wx.createUserInfoButton({
       type: "text",
       style: {

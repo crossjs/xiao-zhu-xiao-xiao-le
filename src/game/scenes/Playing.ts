@@ -1,15 +1,33 @@
 namespace game {
-  const SNAPSHOT_KEY = "PLAYING";
+  function isAwesome(combo: number, level: number): boolean {
+    switch (level) {
+      case 1:
+        return combo >= 5;
+      case 2:
+      case 3:
+      case 4:
+        return combo >= 4;
+      case 5:
+      case 6:
+      case 7:
+        return combo >= 3;
+      default:
+        return combo >= 2;
+    }
+  }
 
   export class Playing extends yyw.Base {
-    private isGameOver: boolean = false;
     private bgHead: eui.Rect;
-    private ctrlShop: game.CtrlShop;
     private boxAll: box.All;
-    // 单局最大连击数
-    private maxCombo: number = 0;
+    private ctrlShop: CtrlShop;
     private arena: Arena;
     private tools: Tools;
+    // 单局最大连击数
+    private level: number = 1;
+    private combo: number = 0;
+    private score: number = 0;
+    private isPlaying: boolean = false;
+    private snapshot: any = {};
 
     public async exiting() {
       // no animation
@@ -36,6 +54,7 @@ namespace game {
       });
 
       const canCoin = yyw.reward.can("coin");
+
       // 启用金币奖励
       if (canCoin) {
         // 获得魔法数字
@@ -45,105 +64,87 @@ namespace game {
           });
           yyw.analysis.onRunning("award", "magic");
         });
+
+        yyw.on("GAME_DATA", ({ data: { level, combo } }) => {
+          if (isAwesome(combo, level)) {
+            yyw.director.toScene("award", true, (scene: Award) => {
+              scene.setType("combo");
+            });
+            yyw.analysis.onRunning("award", "combo");
+          } else {
+            if (level > this.level) {
+              yyw.director.toScene("award", true, (scene: Award) => {
+                scene.setType("level");
+              });
+              yyw.analysis.onRunning("award", "level");
+            }
+            this.level = level;
+          }
+        });
       }
 
-      const sounds: Array<typeof yyw.Sound> = [
+      const sounds = [
         GoodSound,
         GreatSound,
         AmazingSound,
         ExcellentSound,
       ];
 
-      const threshold = 2;
-      let lastLevel = 1;
-
-      function isAwesome(combo: number, level: number): boolean {
-        switch (level) {
-          case 1:
-            return combo >= 5;
-          case 2:
-          case 3:
-          case 4:
-            return combo >= 4;
-          case 5:
-          case 6:
-          case 7:
-            return combo >= 3;
-          default:
-            return combo >= 2;
+      yyw.on("GAME_DATA", ({ data: { level, combo, score } }) => {
+        if (combo > 2) {
+          // 3 -> 0; 4,5 -> 1; 6,7 -> 2; 8,9,10,... -> 3
+          sounds[Math.min(3, Math.floor((combo - 2) / 2))].play();
         }
-      }
-
-      yyw.on("GAME_DATA", ({ data: { level, combo } }) => {
-        if (level > lastLevel) {
-          yyw.director.toScene("award", true, (scene: Award) => {
-            scene.setType("level");
-          });
-          yyw.analysis.onRunning("award", "level");
-        }
-        lastLevel = level;
-
-        if (combo > threshold) {
-          // 3 -> 0
-          // 4,5 -> 1
-          // 6,7 -> 2
-          // 8,9,10,... -> 3
-          sounds[Math.min(3, Math.floor((combo - threshold) / threshold))].play();
-        }
-
-        // score -> level
-        // 0-1999 -> 1
-        // 2000-3999 -> 2
-        // 4000-5999 -> 3
-        // 6000-7999 -> 4
-        // 8000-9999 -> 5
-        // 10000-11999 -> 6
-        // 12000-13999 -> 7
-        // 14000-15999 -> 8
-        // ...
-        // 启用金币奖励
-        if (canCoin && isAwesome(combo, level)) {
-          yyw.director.toScene("award", true, (scene: Award) => {
-            scene.setType("combo");
-          });
-          yyw.analysis.onRunning("award", "combo");
-        }
+        this.level = level;
+        this.combo = Math.max(combo, this.combo);
+        this.score = score;
       });
 
       yyw.on("GAME_OVER", () => {
-        lastLevel = 1;
+        this.isPlaying = false;
+        // 清空快照
+        yyw.update({ arena: null });
+        // 保存数据
+        const { level, combo, score } = this;
+        yyw.pbl.save({
+          level,
+          combo,
+          score,
+        });
+        // 重设数据
+        this.level = 1;
+        this.combo = 0;
+        this.score = 0;
       });
     }
 
-    protected destroy() {
-      this.setSnapshot(this.isGameOver ? null : undefined);
+    protected async destroy(): Promise<void> {
+      if (this.isPlaying) {
+        const { level, combo, score } = this;
+        yyw.update({
+          arena: {
+            level, combo, score,
+            ...this.arena.getSnapshot(),
+            ...this.tools.getSnapshot(),
+          },
+        });
+      }
+
       super.destroy();
     }
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       super.createView(fromChildrenCreated);
 
-      let snapshot: any;
-      let useSnapshot: boolean;
-      if (!this.isGameOver) {
-        yyw.showToast("加载存档……");
-        snapshot = await this.getSnapshot();
-        yyw.hideToast();
-        if (snapshot) {
-          useSnapshot = await yyw.showModal("继续上一次的进度？");
-        }
-      }
+      const useSnapshot = yyw.USER.arena && await yyw.showModal("继续上一次的进度？");
 
       await this.arena.startup(useSnapshot);
       await this.tools.startup(useSnapshot);
-      this.isGameOver = false;
-      // egret.log("P", this.isGameOver);
+
+      this.isPlaying = true;
 
       if (fromChildrenCreated) {
-        yyw.director.toScene(yyw.USER.score ? "task" : "guide", true);
-
-        yyw.on("GAME_OVER", this.onGameOver, this);
-        yyw.on("GAME_DATA", this.onGameData, this);
+        yyw.director.toScene(yyw.USER.guided ? "task" : "guide", true);
 
         this.initToolsTarget();
 
@@ -162,6 +163,7 @@ namespace game {
           this.addChild(this.boxAll);
         }
 
+        // 头部背景色
         yyw.noise(this.bgHead);
       }
 
@@ -169,45 +171,18 @@ namespace game {
     }
 
     private startGame() {
-      this.isGameOver = false;
-      // egret.log("P", this.isGameOver);
       this.arena.startup();
+      this.isPlaying = true;
     }
 
-    private async getSnapshot() {
-      return yyw.db.get(SNAPSHOT_KEY);
-    }
-
-    private setSnapshot(value?: any) {
-      if (value === null) {
-        yyw.db.remove(SNAPSHOT_KEY);
+    @yyw.debounce()
+    private async setSnapshot(data?: any) {
+      if (data) {
+        Object.assign(this.snapshot, data);
       } else {
-        const { maxCombo } = this;
-        yyw.db.set(SNAPSHOT_KEY, {
-          maxCombo,
-        });
+        this.snapshot = null;
       }
-    }
-
-    private async onGameData({ data: {
-      combo,
-    } }: egret.Event) {
-      this.maxCombo = Math.max(combo, this.maxCombo);
-    }
-
-    private onGameOver({ data: {
-      level,
-      combo,
-      score,
-    } }: egret.Event) {
-      this.isGameOver = true;
-      // egret.log("P", this.isGameOver);
-      this.setSnapshot(null);
-      yyw.pbl.save({
-        score,
-        level,
-        combo: Math.max(combo, this.maxCombo),
-      });
+      await yyw.update({ arena: this.snapshot });
     }
 
     private initToolsTarget() {

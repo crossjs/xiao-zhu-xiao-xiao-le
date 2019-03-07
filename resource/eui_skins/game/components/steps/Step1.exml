@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="Step1Skin"
+ xmlns:e="http://ns.egret.com/eui">
+	<e:Group id="body" width="750" height="1072" bottom="262">
+		<e:Label text="相同数字相连即可消除并得分" fontFamily="sans-serif" horizontalCenter="0" y="738"/>
+		<e:Group horizontalCenter="0" y="257">
+			<e:Image id="numTo" source="numbers_json.4" x="0" y="144"/>
+			<e:Image id="numFrom" source="numbers_json.3" x="0" y="0"/>
+			<e:Image source="numbers_json.3" x="144" y="288"/>
+			<e:Image source="numbers_json.3" x="0" y="288"/>
+			<e:Image id="finger" source="sprites_json.finger" x="78" y="30"/>
+		</e:Group>
+	</e:Group>
+</e:Skin>

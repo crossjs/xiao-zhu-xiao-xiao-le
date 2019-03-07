@@ -6,8 +6,7 @@ namespace yyw {
    * 游戏动画速率
    * 数字越大，游戏节奏越慢
    */
-  const speedRatio: number = 1.5;
-
+  let speedRatio: number = 1.5;
   // 金币奖励获取方式
   let coinReward: number = 0;
   let shopStatus: number = 0;
@@ -25,16 +24,15 @@ namespace yyw {
   let vibrationEnabled: boolean = true;
 
   export const CONFIG = {
-    get systemInfo(): wx.systemInfo {
-      return systemInfo;
-    },
-
-    get launchOptions(): wx.launchOptions {
-      return launchOptions;
-    },
+    ...systemInfo,
+    ...launchOptions,
 
     get speedRatio(): number {
       return speedRatio;
+    },
+
+    set speedRatio(value: number) {
+      speedRatio = value;
     },
 
     get coinReward(): number {
@@ -129,6 +127,7 @@ namespace yyw {
   export async function initConfig() {
     try {
       const {
+        speedRatio = 1.5,
         coinReward = 0,
         shopStatus = 0,
         toolAmount = 3,
@@ -141,6 +140,7 @@ namespace yyw {
       } = await cloud.call("getConfig");
 
       Object.assign(CONFIG, {
+        speedRatio,
         coinReward,
         shopStatus,
         toolAmount,

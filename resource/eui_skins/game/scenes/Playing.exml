@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="PlayingSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*">
+<e:Skin class="PlayingSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*" xmlns:w="http://ns.egret.com/wing">
 	<e:Rect id="bg" height="1334" width="750" fillColor="0x101C24"/>
 	<e:Group id="body" width="750" bottom="262" height="1072">
 		<e:Rect id="bgHead" height="322" width="750" y="0" fillColor="6798572"/>
@@ -7,6 +7,6 @@
 		<game:CtrlGroup1 id="ctrlGroup1" x="114" y="30" scaleX="0.75" scaleY="0.75"/>
 		<game:CtrlShop id="ctrlShop" x="357" y="39" visible="true"/>
 		<game:Tools id="tools" y="139"/>
-		<game:Me x="21" y="21"/>
+		<game:Me id="me" x="21" y="21"/>
 	</e:Group>
 </e:Skin>

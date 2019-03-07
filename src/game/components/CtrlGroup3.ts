@@ -15,7 +15,7 @@ namespace game {
         });
         this.btnSound.selected = true;
 
-        const canVibrate = !/^iPhone (?:4|5|6)/i.test(yyw.CONFIG.systemInfo.model);
+        const canVibrate = !/^iPhone (?:4|5|6)/i.test(yyw.CONFIG.model);
         if (canVibrate) {
           // 振动
           yyw.onTap(this.btnVibration, () => {

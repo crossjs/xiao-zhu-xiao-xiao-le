@@ -16,6 +16,6 @@
 			<e:Label id="tfdTip" y="400" textAlign="center" height="30" left="0" right="0"/>
 			<e:Button id="btnOK" y="436" skinName="ButtonDefaultSkin" width="300" height="102" horizontalCenter="0" icon="sprites_json.mffh"/>
 		</e:Group>
-		<e:Image id="btnEscape" source="sprites_json.dismiss" fillMode="scale" horizontalCenter="0" bottom="0"/>
+		<e:Image id="btnEscape" source="sprites_json.dismiss" horizontalCenter="0" bottom="0" visible="false" alpha="0.5"/>
 	</e:Group>
 </e:Skin>

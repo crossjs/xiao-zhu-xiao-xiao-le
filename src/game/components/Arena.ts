@@ -1,24 +1,25 @@
 namespace game {
-  const SNAPSHOT_KEY = "ARENA";
-
   export class Arena extends yyw.Base {
-    private isGameOver: boolean = false;
     private b1: eui.Image;
     private tfdScore: eui.BitmapLabel;
     private cellWidth: number = 144;
     private cellHeight: number = 144;
-    private cols: number = 5;
-    private rows: number = 5;
-    private maxNum: number = 5;
     private model: Model;
     private cells: Cell[][];
-    /** 可用的剩余步数 */
-    private lives: number = 5;
-    private score: number = 0;
     /** 连击数 */
     private combo: number = 0;
+    private score: number = 0;
+    /** 可用的剩余步数 */
+    private lives: number = 5;
     /** 是否正在执行（动画等） */
     private running: boolean = false;
+
+    constructor(
+      private cols: number = 5,
+      private rows: number = 5,
+    ) {
+      super();
+    }
 
     public get isRunning() {
       return this.running;
@@ -30,30 +31,28 @@ namespace game {
     }
 
     public async startup(useSnapshot?: boolean) {
-      this.isGameOver = false;
-      // egret.log("A", this.isGameOver);
-      await this.createModel(useSnapshot);
-      const { model } = this;
+      this.model = Model.create(useSnapshot);
       yyw.matrixEach(this.cells, (cell: Cell, col: number, row: number) => {
-        cell.setNumber(model.getNumberAt([col, row]));
+        cell.setNumber(this.model.getNumberAt([col, row]));
       });
       if (useSnapshot) {
-        const { lives, score, combo } = await yyw.db.get(SNAPSHOT_KEY);
-        this.ensureData({ lives, score, combo });
+        const { score, combo, lives } = yyw.USER.arena;
+        this.ensureData({ score, combo, lives });
       } else {
         this.ensureData();
       }
       yyw.analysis.onStart();
     }
 
-    public onGameOver() {
-      this.isGameOver = true;
-      // egret.log("A", this.isGameOver);
-      this.setSnapshot(null);
+    public getSnapshot() {
+      const { lives, score, combo } = this;
+      return {
+        lives, score, combo,
+        ...this.model.getSnapshot(),
+      };
     }
 
     protected destroy() {
-      this.setSnapshot(this.isGameOver ? null : undefined);
       this.resetCells();
       super.destroy();
     }
@@ -63,13 +62,9 @@ namespace game {
 
       if (fromChildrenCreated) {
         yyw.on("TOOL_USING", this.onToolUsing, this);
-        yyw.on("GAME_OVER", this.onGameOver, this);
         this.createCells();
         this.initDnd();
       }
-
-      this.isGameOver = false;
-      // egret.log("A", this.isGameOver);
     }
 
     private onToolUsing({ data: {
@@ -136,13 +131,15 @@ namespace game {
     }
 
     private ensureData({
-      lives = 5, score = 0, combo = 0,
+      score = this.score,
+      combo = this.combo,
+      lives = this.lives,
     }: any = {}) {
-      this.lives = lives;
-      this.increaseLives(0);
       this.score = score;
       this.increaseScore(0);
       this.combo = combo;
+      this.lives = lives;
+      this.increaseLives(0);
       this.notify();
     }
 
@@ -156,24 +153,6 @@ namespace game {
       yyw.matrixEach(this.cells, (cell: Cell) => {
         cell.zoomOut();
       });
-    }
-
-    private setSnapshot(value?: any) {
-      this.model.setSnapshot(value);
-      if (value === null) {
-        yyw.db.remove(SNAPSHOT_KEY);
-      } else {
-        const { lives, score, combo } = this;
-        yyw.db.set(SNAPSHOT_KEY, {
-          lives, score, combo,
-        });
-      }
-    }
-
-    private async createModel(useSnapshot?: boolean): Promise<void> {
-      this.model = useSnapshot
-        ? await Model.fromSnapshot()
-        : new Model(this.cols, this.rows, this.maxNum);
     }
 
     private createCells(): void {
@@ -324,14 +303,6 @@ namespace game {
      */
     private increaseScore(n: number) {
       this.score += n;
-      // 0 -> 1
-      // 2000 -> 2
-      // 4000 -> 3
-      // 6000 -> 4
-      // ...
-      // 10000 -> 6
-      // ...
-      // 20000 -> 11
       this.model.setLevel(Math.floor(this.score / 2000) + 1);
       this.flashScore();
     }
@@ -347,9 +318,10 @@ namespace game {
     @yyw.debounce()
     private notify() {
       yyw.emit("GAME_DATA", {
-        score: this.score,
         level: this.model.getLevel(),
         combo: this.combo,
+        score: this.score,
+        lives: this.lives,
       });
     }
 

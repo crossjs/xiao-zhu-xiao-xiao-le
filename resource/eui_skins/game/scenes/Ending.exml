@@ -15,7 +15,7 @@
 				<e:BitmapLabel id="tfdCombo" textAlign="right" x="300" y="200" width="300" height="60" font="score_fnt"/>
 			</e:Group>
 			<e:Button id="btnOK" y="368" skinName="ButtonDefaultSkin" width="420" height="102" icon="sprites_json.share" horizontalCenter="0"/>
-			<e:Image id="btnEscape" fillMode="scale" horizontalCenter="0" source="sprites_json.zlyc" y="510"/>
+			<e:Image id="btnEscape" horizontalCenter="0" source="sprites_json.zlyc" y="510" visible="false" alpha="0.5"/>
 		</e:Group>
 	</e:Group>
 </e:Skin>

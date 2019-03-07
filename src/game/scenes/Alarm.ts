@@ -51,6 +51,7 @@ namespace game {
       this.hdr.visible = true;
       this.tfdTip.visible = true;
       this.btnOK.visible = true;
+      await yyw.sleep();
       this.btnEscape.visible = true;
     }
   }

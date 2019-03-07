@@ -17,6 +17,6 @@
 			<e:Label id="tfdTip" y="570" textAlign="center" height="30" left="0" right="0" visible="false"/>
 			<e:Button id="btnOK" y="608" skinName="ButtonDefaultSkin" width="420" height="102" visible="false" icon="sprites_json.video" x="90"/>
 		</e:Group>
-		<e:Image id="btnEscape" visible="false" source="sprites_json.dismiss" fillMode="scale" horizontalCenter="0" bottom="0"/>
+		<e:Image id="btnEscape" visible="false" source="sprites_json.dismiss" horizontalCenter="0" bottom="0" alpha="0.5"/>
 	</e:Group>
 </e:Skin>

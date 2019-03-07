@@ -54,7 +54,7 @@ namespace game {
             x,
             y,
             alpha: 0.5,
-          }, 500);
+          }, yyw.random(500) + 500);
           yyw.removeElement(coin);
         }),
       );

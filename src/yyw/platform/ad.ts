@@ -5,11 +5,15 @@ namespace yyw {
 
   const onBannerAdResize = ({ width, height }) => {
     // 居中
-    bannerAd.style.left = (CONFIG.systemInfo.windowWidth - width) / 2;
+    bannerAd.style.left = (CONFIG.windowWidth - width) / 2;
     // 贴底
-    bannerAd.style.top = CONFIG.systemInfo.windowHeight - height;
+    bannerAd.style.top = CONFIG.windowHeight - height;
   };
 
+  /**
+   * 显示底部 Banner 广告
+   * @param adUnitId Banner 广告单元 ID
+   */
   export async function showBannerAd(
     adUnitId: string = CONFIG.bannerAd,
   ): Promise<boolean> {
@@ -26,8 +30,8 @@ namespace yyw {
       adUnitId,
       style: {
         left: 0,
-        top: CONFIG.systemInfo.windowHeight - BANNER_HEIGHT / 2,
-        width: CONFIG.systemInfo.windowWidth,
+        top: CONFIG.windowHeight - BANNER_HEIGHT / 2,
+        width: CONFIG.windowWidth,
         height: BANNER_HEIGHT / 2,
       },
     });
@@ -50,7 +54,10 @@ namespace yyw {
     return promised;
   }
 
-  export async function hideBannerAd(): Promise<any> {
+  /**
+   * 隐藏 Banner 广告
+   */
+  export function hideBannerAd(): void {
     if (!bannerAd) {
       return;
     }
@@ -63,6 +70,11 @@ namespace yyw {
    * true: 播放完成
    * false: 用户取消
    * undefined: 调起失败
+   */
+  /**
+   * 调起激励视频广告
+   * @param adUnitId 视频广告单元 ID
+   * @returns 返回 true 代表播放完成，否则 false 代表用户取消，返回 undefined 代表无可用广告。
    */
   export async function showVideoAd(
     adUnitId: string = CONFIG.rewardAd,
@@ -84,7 +96,7 @@ namespace yyw {
       return;
     }
     return new Promise((resolve, reject) => {
-      const callback = ({ isEnded = false }: any = {}) => {
+      const callback = ({ isEnded = false }) => {
         videoAd.offClose(callback);
         resolve(isEnded);
       };

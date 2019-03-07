@@ -36,7 +36,7 @@ namespace game {
         const canVideo = yyw.reward.can("coin", "video");
         this.tfdTip.text = `${ canVideo ? "观看视频" : "转发到群" }获得 10 倍奖励`;
         yyw.onTap(this.btnOK, async () => {
-          const { windowWidth, windowHeight } = yyw.CONFIG.systemInfo;
+          const { windowWidth, windowHeight } = yyw.CONFIG;
           const { width, height } = this.main;
           const { x, y } = this.main.localToGlobal();
           const scaleX = windowWidth / 375;
@@ -72,12 +72,13 @@ namespace game {
       this.showing = true;
       yyw.fadeIn(this.bg);
       await yyw.twirlIn(this.modal);
+      this.coins = yyw.random(100) + 200;
+      this.tfdCoins.text = `${this.coins}`;
       this.hdr.visible = true;
       this.tfdTip.visible = true;
       this.btnOK.visible = true;
+      await yyw.sleep();
       this.btnEscape.visible = true;
-      this.coins = yyw.random(100) + 200;
-      this.tfdCoins.text = `${this.coins}`;
     }
 
     private async saveCoins(multiple: number = 1) {

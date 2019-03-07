@@ -1,63 +1,38 @@
 namespace game {
   export class Guide extends yyw.Base {
-    private finger: eui.Image;
-    private numFrom: eui.Image;
-    private numTo: eui.Image;
-
-    protected destroy() {
-      yyw.removeTweens(this.finger);
-      yyw.removeTweens(this.numFrom);
-      yyw.removeTweens(this.numTo);
-      super.destroy();
-    }
+    private btnNext: eui.Button;
+    private currentIndex: number = -1;
+    private currentStep: Step1 | Step2 | Step3;
+    private stepClasses = [Step1, Step2, Step3];
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       super.createView(fromChildrenCreated);
 
       if (fromChildrenCreated) {
-        yyw.onTap(this.bg, () => {
-          yyw.director.escape();
+        yyw.onTap(this.btnNext, async () => {
+          await this.nextStep();
+          if (this.currentIndex === this.stepClasses.length - 1) {
+            this.btnNext.icon = "sprites_json.done";
+          }
         });
       }
 
-      this.animate();
+      this.nextStep();
     }
 
-    private animate() {
-      const tweenFinger = yyw.getTween(this.finger);
-      const tweenNumFrom = yyw.getTween(this.numFrom);
-      const tweenNumTo = yyw.getTween(this.numTo);
-      const y1 = this.numFrom.y;
-      const y2 = this.numTo.y;
-      const fy1 = this.finger.y;
-      const fy2 = fy1 + y2 - y1;
-      const tween = async () => {
-        tweenNumFrom.to({
-          y: y2,
-        }, 500);
-        tweenNumTo.to({
-          y: y1,
-        }, 500);
-        await tweenFinger.to({
-          y: fy2,
-        }, 500);
-        tweenNumFrom.to({
-          y: y1,
-        }, 500);
-        tweenNumTo.to({
-          y: y2,
-        }, 500);
-        await tweenFinger.to({
-          y: fy1,
-        }, 500);
-        egret.setTimeout(() => {
-          if (this.parent) {
-            tween();
-          }
-        }, null, 3000);
-      };
-      if (this.parent) {
-        tween();
+    private async nextStep() {
+      if (this.currentStep) {
+        await yyw.fadeOut(this.currentStep);
+        yyw.removeElement(this.currentStep);
+      }
+      this.currentIndex++;
+      if (this.currentIndex < this.stepClasses.length) {
+        const Step = this.stepClasses[this.currentIndex];
+        this.currentStep = new Step();
+        this.body.addChildAt(this.currentStep, 0);
+      } else {
+        yyw.director.escape();
+        yyw.update({ guided: true });
       }
     }
   }

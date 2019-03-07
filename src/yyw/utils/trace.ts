@@ -1,6 +1,6 @@
 namespace yyw {
   export function trace() {
-    const { channel, weixinadinfo, gdt_vid: traceId } = yyw.CONFIG.launchOptions.query;
+    const { channel, weixinadinfo, gdt_vid: traceId } = yyw.CONFIG.query;
     // 以 yyw 或 YYW 为开头
     if (channel && channel.substring(0, 3).toLowerCase() === "yyw") {
       const aId = weixinadinfo ? weixinadinfo.split(".")[0] : 0;

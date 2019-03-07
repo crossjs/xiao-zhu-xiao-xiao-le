@@ -8,34 +8,30 @@ namespace game {
   const SNAPSHOT_KEY = "MODEL";
 
   export class Model {
-    public static async fromSnapshot(): Promise<Model> {
-      const { cols, rows, maxNumber, level, matrix, numbers } = await yyw.db.get(SNAPSHOT_KEY);
-      return new Model(cols, rows, maxNumber, level, matrix, numbers);
+    public static create(useSnapshot: boolean = false): Model {
+      if (useSnapshot) {
+        const { cols, rows, maxNumber, level, matrix, numbers } = yyw.USER.arena;
+        return new Model(cols, rows, maxNumber, level, matrix, numbers);
+      }
+      return new Model();
     }
 
-    private cols: number;
-    private rows: number;
-    /** 最大数值 */
-    private maxNumber: number;
     /** 最小数值 */
     private minNumber: number;
-    /** 难度系数 */
-    private level: number;
     private matrix: Matrix;
     private numbers: number[];
 
     constructor(
-      cols: number = 5,
-      rows: number = 5,
-      maxNumber: number = 5,
-      level: number = 1,
+      private cols: number = 5,
+      private rows: number = 5,
+      /** 最大数值 */
+      private maxNumber: number = 5,
+      /** 难度系数 */
+      private level: number = 1,
       matrix?: Matrix,
       numbers?: number[],
     ) {
-      this.cols = cols;
-      this.rows = rows;
-      this.maxNumber = maxNumber;
-      this.setLevel(level);
+      this.minNumber = Math.max(1, this.maxNumber - 5 - this.level);
       if (!(matrix && numbers)) {
         this.createNumbers();
       } else {
@@ -44,15 +40,9 @@ namespace game {
       }
     }
 
-    public setSnapshot(value?: any) {
-      if (value === null) {
-        yyw.db.remove(SNAPSHOT_KEY);
-      } else {
-        const { cols, rows, maxNumber, level, matrix, numbers } = this;
-        yyw.db.set(SNAPSHOT_KEY, {
-          cols, rows, maxNumber, level, matrix, numbers,
-        });
-      }
+    public getSnapshot() {
+      const { cols, rows, maxNumber, level, matrix, numbers } = this;
+      return { cols, rows, maxNumber, level, matrix, numbers };
     }
 
     public setLevel(level: number) {
@@ -251,6 +241,7 @@ namespace game {
       this.numbers[point[1] * this.cols + point[0]] = num;
     }
   }
+
   export function isNeighbor(point1: Point, point2: Point): boolean {
     return Math.abs(point1[0] - point2[0]) + Math.abs(point1[1] - point2[1]) === 1;
   }
@@ -331,6 +322,11 @@ namespace game {
     );
   }
 
+  /**
+   * A、B 两点连线的斜率
+   * @param point1 点 A
+   * @param point2 点 B
+   */
   export function getSlope(point1: Point, point2: Point): number {
     const dx = Math.abs(point1[0] - point2[0]);
     const dy = Math.abs(point1[1] - point2[1]);

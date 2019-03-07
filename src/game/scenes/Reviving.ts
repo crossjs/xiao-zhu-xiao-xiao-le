@@ -49,6 +49,10 @@ namespace game {
 
       this.tfdScore.text = `本局得分：${this.score}`;
       this.createTop3();
+
+      this.btnEscape.visible = false;
+      await yyw.sleep();
+      this.btnEscape.visible = true;
     }
 
     private createTop3() {

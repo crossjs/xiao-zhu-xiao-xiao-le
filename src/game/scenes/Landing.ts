@@ -1,9 +1,9 @@
 namespace game {
   export class Landing extends yyw.Base {
     private tfdVersion: eui.Label;
+    private imgFavorite: eui.Image;
     private tfdBestScore: eui.Label;
     private btnStart: eui.Button;
-    private favorite: eui.Image;
     private pig: eui.Image;
     private numbers: eui.Image;
     private boxAll: box.All;
@@ -78,15 +78,19 @@ namespace game {
           yyw.director.toScene("playing");
         });
 
-        const STICKY_KEY = "STICKY_ENTRY";
-        if (!(await yyw.db.get(STICKY_KEY))) {
+        if (!yyw.USER.sticked) {
           // 微信聊天主界面下拉，「我的小程序」栏（基础库2.2.4版本起废弃）
-          if (yyw.CONFIG.launchOptions.scene === 1104) {
-            yyw.db.set(STICKY_KEY, true);
+          if (yyw.CONFIG.scene === 1104) {
+            yyw.update({ sticked: true });
             yyw.award.save({ coins: 2000 });
             yyw.showToast("获得奖励：2000 金币！");
+            yyw.removeElement(this.imgFavorite);
           } else {
-            this.favorite.visible = true;
+            const { platform, statusBarHeight } = yyw.CONFIG;
+            const top = platform.indexOf("android") !== -1
+              && statusBarHeight < 20 ? 64 : statusBarHeight * 2;
+            this.imgFavorite.y = top + 64;
+            this.imgFavorite.visible = true;
           }
         }
 

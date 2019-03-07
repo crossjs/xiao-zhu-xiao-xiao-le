@@ -40,6 +40,9 @@ export const main = async ({ fullUserInfo }, context) => {
       played,
       nickName,
       avatarUrl,
+      arena,
+      sticked,
+      guided,
     } } = await doc.get();
 
     Object.assign(user, {
@@ -52,6 +55,9 @@ export const main = async ({ fullUserInfo }, context) => {
       played,
       nickName,
       avatarUrl,
+      arena,
+      sticked,
+      guided,
     });
 
     isNew = false;

@@ -1,5 +1,8 @@
 namespace yyw {
   export const award = {
+    /**
+     * 保存用户积分与金币
+     */
     async save({
       coins = 0,
       points = 0,

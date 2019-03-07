@@ -1,7 +1,7 @@
 {
-  "name": "saveMyPbl",
+  "name": "saveMyState",
   "version": "1.0.0",
-  "description": "保存我的排行数据",
+  "description": "设置玩家状态",
   "main": "index.js",
   "dependencies": {
     "wx-server-sdk": "latest"

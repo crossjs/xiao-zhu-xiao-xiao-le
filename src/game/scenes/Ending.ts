@@ -27,7 +27,7 @@ namespace game {
 
       if (fromChildrenCreated) {
         yyw.onTap(this.btnOK, async () => {
-          const { windowWidth, windowHeight } = yyw.CONFIG.systemInfo;
+          const { windowWidth, windowHeight } = yyw.CONFIG;
           const { score, combo } = this.gameData;
           const { width, height } = this.main;
           const { x, y } = this.main.localToGlobal();
@@ -59,7 +59,11 @@ namespace game {
         }
       });
 
-      yyw.emit("GAME_OVER", this.gameData);
+      this.btnEscape.visible = false;
+      await yyw.sleep();
+      this.btnEscape.visible = true;
+
+      yyw.emit("GAME_OVER");
       yyw.analysis.onEnd();
     }
   }
