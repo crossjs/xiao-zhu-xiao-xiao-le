@@ -5,14 +5,6 @@ class Main extends eui.UILayer {
   // debug 模式，使用图形绘制
   // private isDebug: boolean = true;
 
-  /**
-   * 埋点
-   * 1、开始资源加载
-   * 2、资源加载完成
-   * 3、开始游戏（授权）
-   * 4、进入游戏（确认授权）
-   */
-
   protected createChildren(): void {
     super.createChildren();
 
@@ -32,9 +24,12 @@ class Main extends eui.UILayer {
     egret.registerImplementation("eui.IThemeAdapter", new ThemeAdapter());
 
     try {
+      yyw.analysis.addEvent("0准备就绪");
       this.runGame();
     } catch (error) {
+      yyw.analysis.addEvent("0错误发生");
       egret.error(error);
+      this.runGame();
     }
   }
 
@@ -48,7 +43,7 @@ class Main extends eui.UILayer {
     egret.setTimeout(
       () => {
         if (!loaded) {
-          yyw.analysis.addEvent("2加载超时");
+          yyw.analysis.addEvent("6加载超时");
           this.createGameScene();
         }
       },
@@ -59,12 +54,12 @@ class Main extends eui.UILayer {
     await this.loadResource();
     await this.loadGameConfig();
     loaded = true;
-    yyw.analysis.addEvent("2完成加载");
+    yyw.analysis.addEvent("6完成加载");
     await this.createGameScene();
   }
 
   private async loadResource() {
-    yyw.analysis.addEvent("1.1开始资源加载");
+    yyw.analysis.addEvent("2加载资源");
     try {
       await RES.loadConfig("resource/default.res.json", "resource/");
       await this.loadTheme();
@@ -86,11 +81,11 @@ class Main extends eui.UILayer {
     } catch (error) {
       egret.error(error);
     }
-    yyw.analysis.addEvent("2.1完成资源加载");
+    yyw.analysis.addEvent("3完成资源加载");
   }
 
   private async loadGameConfig() {
-    yyw.analysis.addEvent("1.2开始配置加载");
+    yyw.analysis.addEvent("4加载配置");
     // 可能网络请求失败，比如断网
     try {
       // 初始化全局配置
@@ -110,7 +105,7 @@ class Main extends eui.UILayer {
     } catch (error) {
       egret.error(error);
     }
-    yyw.analysis.addEvent("2.2完成配置加载");
+    yyw.analysis.addEvent("5完成配置加载");
   }
 
   private loadTheme(): Promise<any> {
@@ -135,6 +130,8 @@ class Main extends eui.UILayer {
 
     // 初始化场景
     this.initScenes();
+
+    yyw.analysis.addEvent("7进入主页");
 
     // 跳转到着陆页
     yyw.director.toScene("landing");

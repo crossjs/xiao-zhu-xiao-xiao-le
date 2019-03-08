@@ -39,7 +39,7 @@ namespace game {
         this.grpItems.visible = true;
       }
 
-      yyw.analysis.addEvent("7进入场景", { s: "每日任务" });
+      yyw.analysis.addEvent("9进入每日任务");
     }
 
     private checkTasks() {

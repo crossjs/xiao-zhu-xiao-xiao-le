@@ -64,7 +64,7 @@ namespace game {
         });
       }
 
-      yyw.analysis.addEvent("7进入场景", { s: "每日签到" });
+      yyw.analysis.addEvent("9进入每日签到");
     }
   }
 }

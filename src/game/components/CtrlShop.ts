@@ -17,24 +17,16 @@ namespace game {
         yyw.on("COINS_USED", ({ data: { amount } }) => {
           this.updateCoins(-amount);
         });
-
-        this.updateCoins();
       }
+
+      this.coins = yyw.USER.coins;
+      this.tfdCoins.text = `${this.coins}`;
     }
 
     private async updateCoins(mutation?: number) {
-      if (mutation) {
-        this.coins += mutation;
-        if (mutation > 0) {
-          await this.animateCoins();
-        }
-      } else {
-        try {
-          const { coins } = await yyw.pbl.me();
-          this.coins = coins;
-        } catch (error) {
-          egret.error(error);
-        }
+      this.coins += mutation;
+      if (mutation > 0) {
+        await this.animateCoins();
       }
       this.tfdCoins.text = `${this.coins}`;
     }
@@ -48,13 +40,16 @@ namespace game {
           coin.x = x * 2 - yyw.random(x * 4);
           coin.y = y * 2 - yyw.random(y * 4);
           this.stage.addChild(coin);
-          const tween = yyw.getTween(coin);
-          await tween.to({
+          const duration = yyw.random(500) + 500;
+
+          yyw.bezierTo(coin, {
+            x, y,
+          }, duration);
+
+          await yyw.getTween(coin).to({
             scale,
-            x,
-            y,
             alpha: 0.5,
-          }, yyw.random(500) + 500);
+          }, duration);
           yyw.removeElement(coin);
         }),
       );

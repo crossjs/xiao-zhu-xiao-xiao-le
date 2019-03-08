@@ -87,7 +87,7 @@ namespace yyw {
 
     // 合入到全局
     Object.assign(USER, currentUser);
-    await storage.set(USER_KEY, USER);
+    await cacheUser();
 
     // 如果之前是未登录状态，则通知登录
     if (!isLoggedIn) {
@@ -96,10 +96,14 @@ namespace yyw {
     return USER;
   }
 
+  export async function cacheUser() {
+    await storage.set(USER_KEY, USER);
+  }
+
   export async function update(state: { [key: string]: any }): Promise<any> {
     // 合入到全局
     Object.assign(USER, state);
-    await storage.set(USER_KEY, USER);
+    await cacheUser();
     return cloud.call("saveMyState", {
       state,
     });

@@ -2,9 +2,11 @@ namespace yyw {
   class PromisedTween {
     private tween: egret.Tween;
 
-    constructor(target: egret.DisplayObject, loop: boolean = false) {
+    constructor(target: egret.DisplayObject, loop: boolean = false, onChange?: any) {
       this.tween = egret.Tween.get(target, {
         loop,
+        onChange,
+        onChangeObj: this,
       });
     }
 
@@ -40,8 +42,8 @@ namespace yyw {
     egret.Tween.removeTweens(target);
   }
 
-  export function getTween(target: egret.DisplayObject, loop: boolean = false): PromisedTween {
-    return new PromisedTween(target, loop);
+  export function getTween(target: egret.DisplayObject, loop: boolean = false, onChange?: any): PromisedTween {
+    return new PromisedTween(target, loop, onChange);
   }
 
   export async function fadeIn(
@@ -129,5 +131,43 @@ namespace yyw {
     target.alpha = 1;
     target.scale = 1;
     target.rotation = 0;
+  }
+
+  export async function tweenTo(
+    target: egret.DisplayObject,
+    props: any,
+    duration?: number,
+    ease?: any,
+  ): Promise<any> {
+    return new PromisedTween(target).to(props, duration, ease);
+  }
+
+  export async function bezierTo(
+    target: egret.DisplayObject,
+    props: any,
+    duration?: number,
+    ease?: any,
+  ): Promise<any> {
+    const tween = new PromisedTween(target, false, () => {
+      const { factor } = target;
+      target.x = Math.pow(1 - factor, 2) * p0.x
+        + 2 * factor * (1 - factor) * p1.x
+        + Math.pow(factor, 2) * p2.x;
+      target.y = Math.pow(1 - factor, 2) * p0.y
+        + 2 * factor * (1 - factor) * p1.y
+        + Math.pow(factor, 2) * p2.y;
+    });
+
+    const p0 = new egret.Point(target.x, target.y);
+    const p2: egret.Point = new egret.Point(props.x, props.y);
+    const p1 = egret.Point.interpolate(p0, p2, (yyw.random(4) + 3) / 10);
+    const p20 = p2.subtract(p0);
+    const radians = Math.atan2(p20.y, p20.x);
+    const distance = yyw.random(p20.length);
+    p1.offset(distance * Math.sin(radians), distance * Math.cos(radians));
+
+    return tween.to({
+      factor: 1,
+    }, duration, ease);
   }
 }

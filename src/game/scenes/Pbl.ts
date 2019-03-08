@@ -31,7 +31,7 @@ namespace game {
         });
       }
 
-      yyw.analysis.addEvent("7进入场景", { s: "数据统计" });
+      yyw.analysis.addEvent("9进入数据统计");
     }
   }
 }

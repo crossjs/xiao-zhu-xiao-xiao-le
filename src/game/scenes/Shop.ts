@@ -1,9 +1,6 @@
 namespace game {
   export class Shop extends yyw.Base {
-    // private btn0: eui.Button;
-    // private btn1: eui.Button;
-    // private btn2: eui.Button;
-    // private items: eui.Group;
+    private modal: eui.Group;
     private prices: number[] = [1000, 2000, 1500];
     private goods: string[] = ["valueUp", "shuffle", "breaker"];
 
@@ -15,7 +12,6 @@ namespace game {
         for (let i = 0; i < this.goods.length; i++) {
           ((index) => {
             yyw.onTap(this[`btn${index}`], async () => {
-              this.enabled = false;
               // 消费
               const type = this.goods[index];
               const coins = this.prices[index];
@@ -32,25 +28,25 @@ namespace game {
                   type,
                   amount: 1,
                 });
-                // 刷新
-                await this.update();
               } catch (error) {
                 yyw.showToast("余额不足");
+              } finally {
+                // 刷新
+                this.update();
               }
-              this.enabled = true;
             });
           })(i);
         }
       }
 
-      await this.update();
+      this.update();
 
-      yyw.analysis.addEvent("7进入场景", { s: "道具兑换" });
+      yyw.analysis.addEvent("9进入道具兑换");
     }
 
-    private async update() {
+    private update() {
       try {
-        const { coins } = await yyw.pbl.me();
+        const { coins } = yyw.USER;
         for (let i = 0; i < this.goods.length; i++) {
           const enabled = coins >= this.prices[i];
           const btn: eui.Button = this[`btn${i}`];

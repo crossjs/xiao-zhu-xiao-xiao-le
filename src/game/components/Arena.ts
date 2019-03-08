@@ -39,7 +39,7 @@ namespace game {
         const { score, combo, lives } = yyw.USER.arena;
         this.ensureData({ score, combo, lives });
       } else {
-        this.ensureData();
+        this.ensureData({ score: 0, combo: 0, lives: 5 });
       }
       yyw.analysis.onStart();
     }
@@ -131,9 +131,9 @@ namespace game {
     }
 
     private ensureData({
-      score = this.score,
-      combo = this.combo,
-      lives = this.lives,
+      score,
+      combo,
+      lives,
     }: any = {}) {
       this.score = score;
       this.increaseScore(0);

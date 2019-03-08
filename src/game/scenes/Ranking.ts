@@ -58,7 +58,7 @@ namespace game {
         pageSize: this.pageSize,
       });
 
-      yyw.analysis.addEvent("7进入场景", { s: "好友排行" });
+      yyw.analysis.addEvent("9进入好友排行");
     }
 
     private async showWorld() {
@@ -83,7 +83,7 @@ namespace game {
         yyw.showToast("当前无数据");
       }
 
-      yyw.analysis.addEvent("7进入场景", { s: "世界排行" });
+      yyw.analysis.addEvent("9进入世界排行");
     }
 
     /**

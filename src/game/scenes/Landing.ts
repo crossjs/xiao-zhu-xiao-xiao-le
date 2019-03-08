@@ -95,6 +95,8 @@ namespace game {
         }
 
         this.tfdVersion.text = VERSION;
+      } else {
+        yyw.analysis.addEvent("8回到主页");
       }
 
       yyw.light(this.bg);
@@ -109,8 +111,6 @@ namespace game {
         this.boxAll.bottom = 0;
         this.addChild(this.boxAll);
       }
-
-      yyw.analysis.addEvent("7进入场景", { s: "主界面" });
     }
   }
 }

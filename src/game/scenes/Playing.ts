@@ -167,22 +167,14 @@ namespace game {
         yyw.noise(this.bgHead);
       }
 
-      yyw.analysis.addEvent("7进入场景", { s: "游戏界面" });
+      yyw.analysis.addEvent("9进入游戏界面");
     }
 
     private startGame() {
+      // 清空快照
+      yyw.update({ arena: null });
       this.arena.startup();
       this.isPlaying = true;
-    }
-
-    @yyw.debounce()
-    private async setSnapshot(data?: any) {
-      if (data) {
-        Object.assign(this.snapshot, data);
-      } else {
-        this.snapshot = null;
-      }
-      await yyw.update({ arena: this.snapshot });
     }
 
     private initToolsTarget() {
