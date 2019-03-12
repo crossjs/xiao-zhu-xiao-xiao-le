@@ -1,25 +1,19 @@
 namespace game {
-  export class Arena extends yyw.Base {
-    private b1: eui.Image;
-    private tfdScore: eui.BitmapLabel;
-    private cellWidth: number = 144;
-    private cellHeight: number = 144;
-    private model: Model;
-    private cells: Cell[][];
-    /** 连击数 */
-    private combo: number = 0;
-    private score: number = 0;
-    /** 可用的剩余步数 */
-    private lives: number = 5;
+  export abstract class ArenaBase extends yyw.Base {
+    protected abstract mode: string = "";
+    protected tfdScore: eui.BitmapLabel;
     /** 是否正在执行（动画等） */
-    private running: boolean = false;
-
-    constructor(
-      private cols: number = 5,
-      private rows: number = 5,
-    ) {
-      super();
-    }
+    protected running: boolean = false;
+    /** 连击数 */
+    protected score: number = 0;
+    protected combo: number = 0;
+    protected maxCombo: number = 0;
+    protected cellWidth: number = 144;
+    protected cellHeight: number = 144;
+    protected model: Model;
+    protected cells: Cell[][];
+    protected cols: number = 5;
+    protected rows: number = 5;
 
     public get isRunning() {
       return this.running;
@@ -30,29 +24,29 @@ namespace game {
       yyw.emit("ARENA_RUN", running);
     }
 
-    public async startup(useSnapshot?: boolean) {
+    public async startup(useSnapshot: boolean = false) {
       this.model = Model.create(useSnapshot);
-      yyw.matrixEach(this.cells, (cell: Cell, col: number, row: number) => {
+      if (!this.cells) {
+        await this.createCells();
+      }
+      yyw.traverseMatrix(this.cells, (cell: Cell, col: number, row: number) => {
         cell.setNumber(this.model.getNumberAt([col, row]));
       });
-      if (useSnapshot) {
-        const { score, combo, lives } = yyw.USER.arena;
-        this.ensureData({ score, combo, lives });
-      } else {
-        this.ensureData({ score: 0, combo: 0, lives: 5 });
-      }
-      yyw.analysis.onStart();
+      this.ensureData(useSnapshot);
     }
 
     public getSnapshot() {
-      const { lives, score, combo } = this;
+      const { score, combo, maxCombo } = this;
       return {
-        lives, score, combo,
+        score, combo, maxCombo,
         ...this.model.getSnapshot(),
       };
     }
 
+    protected abstract onSwap(hasChain: boolean): void;
+
     protected destroy() {
+      this.removeListeners();
       this.resetCells();
       super.destroy();
     }
@@ -62,14 +56,22 @@ namespace game {
 
       if (fromChildrenCreated) {
         yyw.on("TOOL_USING", this.onToolUsing, this);
-        this.createCells();
         this.initDnd();
       }
+
+      this.addListeners();
     }
 
-    private onToolUsing({ data: {
+    protected addListeners() {
+      //
+    }
+
+    protected removeListeners() {
+      //
+    }
+
+    protected onToolUsing({ data: {
       type,
-      amount = 1,
       targetX,
       targetY,
       confirm,
@@ -88,69 +90,43 @@ namespace game {
             return this.preBreaker(targetX, targetY, cancel);
           }
           return this.doBreaker(targetX, targetY, confirm);
-        case "livesUp":
-          if (this.lives >= 5) {
-            if (cancel) {
-              return cancel();
-            }
-            return yyw.showToast("体力已满");
-          }
-          return this.doLivesUp(confirm, amount);
         default:
           return;
       }
     }
 
-    /**
-     * 更新剩余步骤及其显示
-     */
-    private increaseLives(n: number) {
-      this.lives = Math.max(0, Math.min(5, this.lives + n));
-      for (let step = 1; step <= 5; step++) {
-        const b: eui.Image = this[`b${step}`];
-        if (step <= this.lives) {
-          yyw.nude(b);
-        } else {
-          yyw.gray(b);
-        }
-      }
-      if (n < 0) {
-        if (this.lives === 1) {
-          yyw.emit("LIVES_LEAST");
-          this.blink();
-        }
-      }
-    }
-
-    private async blink() {
-      await yyw.zoomOut(this.b1, 300);
-      await yyw.zoomIn(this.b1, 200);
-      if (this.lives === 1) {
-        this.blink();
-      }
-    }
-
-    private ensureData({
-      score,
-      combo,
-      lives,
-    }: any = {}) {
-      this.score = score;
+    protected ensureData(useSnapshot: boolean) {
+      this.score = useSnapshot && yyw.USER.arena![this.mode]!.score || 0;
       this.increaseScore(0);
-      this.combo = combo;
-      this.lives = lives;
-      this.increaseLives(0);
-      this.notify();
+      this.combo = useSnapshot && yyw.USER.arena![this.mode]!.combo || 0;
+      this.maxCombo = useSnapshot && yyw.USER.arena![this.mode]!.maxCombo || 0;
+      this.handleChange(true);
+    }
+
+    protected getGameData() {
+      return {
+        score: this.score,
+        combo: this.combo,
+        maxCombo: this.maxCombo,
+      };
+    }
+
+    /**
+     * 更新分数
+     */
+    protected increaseScore(n: number) {
+      this.score += n;
+      this.flashScore();
     }
 
     private resetCells() {
-      yyw.matrixEach(this.cells, (cell: Cell) => {
+      yyw.traverseMatrix(this.cells, (cell: Cell) => {
         cell.reset();
       });
     }
 
     private resetCellsZoom() {
-      yyw.matrixEach(this.cells, (cell: Cell) => {
+      yyw.traverseMatrix(this.cells, (cell: Cell) => {
         cell.zoomOut();
       });
     }
@@ -206,7 +182,7 @@ namespace game {
           this.x2p(localX),
           this.y2p(localY),
         ];
-        // 角度太模棱两可的，不处理
+        // 非邻居，不处理
         if (!isNeighbor(fromPoint, toPoint)) {
           return;
         }
@@ -245,14 +221,8 @@ namespace game {
           }
           this.resetCombo();
           const hasChain = await this.mergeChains(toPoint, fromPoint);
-          if (!hasChain) {
-            this.increaseLives(-1);
-            if (this.lives === 0) {
-              // 体力耗尽
-              yyw.emit("LIVES_EMPTY");
-            }
-          }
-          this.notify();
+          this.onSwap(hasChain);
+          this.handleChange(hasChain);
         }
         this.isRunning = false;
       };
@@ -267,6 +237,27 @@ namespace game {
       yyw.onDnd(main, handleBegin, handleDrag, handleEnd, main.stage);
     }
 
+    @yyw.debounce()
+    private async flashScore() {
+      const tween = yyw.getTween(this.tfdScore);
+      await tween.to({ scale: 1.5 });
+      this.tfdScore.text = yyw.zeroPadding(`${this.score}`, 5);
+      await tween.to({ scale: 1 });
+    }
+
+    private handleChange(hasMutations: boolean) {
+      if (hasMutations) {
+        const gameData = this.getGameData();
+        // 发声
+        if (gameData.combo > 2) {
+          // 3 -> 0; 4,5 -> 1; 6,7 -> 2; 8,9,10,... -> 3
+          const Sounds = [GoodSound, GreatSound, AmazingSound, ExcellentSound];
+          Sounds[Math.min(3, Math.floor((gameData.combo - 2) / 2))].play();
+        }
+        yyw.emit("GAME_DATA", gameData);
+      }
+    }
+
     private async growUpCellsOf(num: number) {
       const points: Point[] = this.getPointsOf(num++);
       if (num > BIGGEST_NUMBER) {
@@ -278,10 +269,6 @@ namespace game {
           return this.setCellNumber(point, num);
         }),
       );
-      // 棒棒糖
-      if (num === MAGIC_NUMBER) {
-        yyw.emit("MAGIC_GOT");
-      }
     }
 
     private getPointsOf(num: number): Point[] {
@@ -296,33 +283,6 @@ namespace game {
         }
       }
       return matchedPoints;
-    }
-
-    /**
-     * 更新分数
-     */
-    private increaseScore(n: number) {
-      this.score += n;
-      this.model.setLevel(Math.floor(this.score / 2000) + 1);
-      this.flashScore();
-    }
-
-    @yyw.debounce()
-    private async flashScore() {
-      const tween = yyw.getTween(this.tfdScore);
-      await tween.to({ scale: 1.5 });
-      this.tfdScore.text = yyw.zeroPadding(`${this.score}`, 5);
-      await tween.to({ scale: 1 });
-    }
-
-    @yyw.debounce()
-    private notify() {
-      yyw.emit("GAME_DATA", {
-        level: this.model.getLevel(),
-        combo: this.combo,
-        score: this.score,
-        lives: this.lives,
-      });
     }
 
     private switchNumbers(from: Point, to: Point): void {
@@ -342,10 +302,12 @@ namespace game {
 
     private resetCombo() {
       this.combo = 0;
+      this.maxCombo = 0;
     }
 
     private increaseCombo() {
       this.combo++;
+      this.maxCombo = Math.max(this.combo, this.maxCombo);
     }
 
     /** 寻找可合并的数字链 */
@@ -355,10 +317,9 @@ namespace game {
     ): Promise<boolean> {
       const { model } = this;
       const firstNumber = triggerPoint ? model.getNumberAt(triggerPoint) : 0;
-      const [ num, points ] = model.getMergeChain(firstNumber === MAGIC_NUMBER ? 0 : firstNumber);
+      const [ num, points ] = model.getChain(firstNumber === MAGIC_NUMBER ? 0 : firstNumber);
       // 找到
       if (num) {
-        this.increaseCombo();
         const isSF = isStraightFive(points);
         let triggerPointNext: Point;
         if (!triggerPoint) {
@@ -392,22 +353,24 @@ namespace game {
         }
         // 播放得分音效
         PointSound.play();
+        const toNum = (isSF || num >= BIGGEST_NUMBER) ? MAGIC_NUMBER : (+num + 1);
         // 同步合并
         await Promise.all(
-          [...points.map((point) => {
-            const lives = getSteps(
-              point,
-              triggerPoint,
-              points.filter((p) => !isEqual(p, point)),
-            );
-            return this.collapseCellBySteps(point, lives);
-          }), this.growUpCellAt(triggerPoint, isSF ? MAGIC_NUMBER : +num + 1)],
+          [
+            ...points.map((point) => {
+              const steps = getSteps(
+                point,
+                triggerPoint,
+                points.filter((p) => !isEqual(p, point)),
+              );
+              return this.collapseCellBySteps(point, steps);
+            }),
+            this.growUpCellAt(triggerPoint, toNum),
+          ],
         );
+        yyw.emit("NUM_MERGED", { num: toNum });
         await this.dropCellsDown();
-        // 如果连击，则增加剩余步骤数
-        if (!triggerPoint2) {
-          this.increaseLives(1);
-        }
+        this.increaseCombo();
         // 继续找，优先消除交换点
         await this.mergeChains(triggerPointNext);
       }
@@ -424,7 +387,7 @@ namespace game {
           const num = model.getNumberAt(point);
           if (num === 0) {
             if (row === 0) {
-              this.setCellNumber(point, model.getRandomNumber());
+              this.setCellNumber(point);
             } else {
               let rowAbove = row;
               let numAbove: number;
@@ -435,7 +398,7 @@ namespace game {
               }
               if (!numAbove) {
                 pointAbove = [col, 0];
-                this.setCellNumber(pointAbove, model.getRandomNumber());
+                this.setCellNumber(pointAbove);
               }
               await this.tweenFromTo(pointAbove, point, 50);
               this.switchNumbers(pointAbove, point);
@@ -447,30 +410,27 @@ namespace game {
 
     private async growUpCellAt(point: Point, num?: number) {
       const cell = this.getCellAt(point);
+      // 从 +1 道具来
       if (num === undefined) {
         num = cell.getNumber() + 1;
+        if (num > BIGGEST_NUMBER) {
+          num = MAGIC_NUMBER;
+        }
       }
       await cell.fadeOut();
-      if (num > BIGGEST_NUMBER) {
-        num = MAGIC_NUMBER;
-      }
       this.setCellNumber(point, num);
-      // 棒棒糖
-      if (num === MAGIC_NUMBER) {
-        yyw.emit("MAGIC_GOT");
-      }
       await cell.fadeIn();
     }
 
     private async collapseCellBySteps(
       from: Point,
-      lives: Point[],
+      steps: Point[],
     ) {
       let current = from;
       const increases = [];
-      const length = lives.length;
+      const length = steps.length;
       for (let i = 0; i < length; i++) {
-        const step = lives[i];
+        const step = steps[i];
         // 位移
         increases.push({
           x: (step[0] - current[0]) * this.cellWidth,
@@ -495,21 +455,14 @@ namespace game {
       return this.cells[point[1]][point[0]];
     }
 
-    private setCellNumber(point: Point, num: number) {
+    private setCellNumber(point: Point, num?: number) {
       // 先更新模型
       this.model.setNumberAt(point, num);
+      if (num === undefined) {
+        num = this.model.getNumberAt(point);
+      }
       // 再设置 UI
       this.getCellAt(point).setNumber(num);
-    }
-
-    private updateView(): void {
-      const { cols, rows, model } = this;
-      for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols; col++) {
-          const point: Point = [col, row];
-          this.setCellNumber(point, model.getNumberAt(point));
-        }
-      }
     }
 
     /**
@@ -552,9 +505,9 @@ namespace game {
       this.getCellAt(point).zoomOut();
 
       this.resetCombo();
-      await this.mergeChains(point);
+      const hasChain = await this.mergeChains(point);
       this.isRunning = false;
-      this.notify();
+      this.handleChange(hasChain);
     }
 
     /**
@@ -567,15 +520,21 @@ namespace game {
       this.isRunning = true;
       await yyw.twirlOut(this.main, 300);
 
-      this.model.doShuffle();
-      this.updateView();
+      const matrix = this.model.getMatrix();
+      // 先取得一个拍平的
+      const flattenedMatrix = yyw.flattenMatrix(matrix);
+      // 再遍历重新设置
+      yyw.traverseMatrix(matrix, (num: number, col: number, row: number) => {
+        const index = yyw.random(flattenedMatrix.length);
+        this.setCellNumber([col, row], flattenedMatrix.splice(index, 1)[0]);
+      });
 
       await yyw.twirlIn(this.main, 200);
 
       this.resetCombo();
-      await this.mergeChains();
+      const hasChain = await this.mergeChains();
       this.isRunning = false;
-      this.notify();
+      this.handleChange(hasChain);
     }
 
     /**
@@ -621,19 +580,38 @@ namespace game {
       cell.fadeIn();
 
       this.resetCombo();
-      await this.mergeChains(point);
+      const hasChain = await this.mergeChains(point);
       this.isRunning = false;
-      this.notify();
+      this.handleChange(hasChain);
     }
+  }
 
-    /**
-     * 增加体力
-     */
-    private doLivesUp(confirm: any, amount: number): void {
-      // 确定消费
-      confirm();
-      // 开始工作
-      this.increaseLives(amount);
+  /**
+   * A、B 两点连线的斜率
+   * @param point1 点 A
+   * @param point2 点 B
+   */
+  function getSlope(point1: Point, point2: Point): number {
+    const dx = Math.abs(point1[0] - point2[0]);
+    const dy = Math.abs(point1[1] - point2[1]);
+    return dx === 0 ? Number.MAX_SAFE_INTEGER : dy / dx;
+  }
+
+  /** 是否存在 5 个在一条线上 */
+  function isStraightFive(points: Point[]): boolean {
+    const map = {};
+    for (const [x, y] of points) {
+      const keyX = `x${x}`;
+      const keyY = `y${y}`;
+      if (!map[keyX]) {
+        map[keyX] = 0;
+      }
+      map[keyX] += 1;
+      if (!map[keyY]) {
+        map[keyY] = 0;
+      }
+      map[keyY] += 1;
     }
+    return Object.values(map).some((v) => v >= 5);
   }
 }

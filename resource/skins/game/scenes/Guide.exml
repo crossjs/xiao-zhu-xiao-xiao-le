@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="GuideSkin"
- xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+ xmlns:e="http://ns.egret.com/eui">
 	<e:Rect id="bg" touchEnabled="true" width="750" height="1334" fillColor="0x000000" fillAlpha="0.75"/>
 	<e:Group id="body" touchEnabled="false" width="750" bottom="262" height="1072">
 		<e:Button id="btnNext" icon="sprites_json.next" skinName="ButtonNormalSkin" bottom="21" right="21"/>

@@ -7,12 +7,15 @@ namespace game {
     private tasks: any[] = [];
 
     protected async initialize(): Promise<void> {
-      yyw.on("MAGIC_GOT", () => {
-        this.magicCount++;
-        this.checkTasks();
+      yyw.on("NUM_MERGED", ({ data: { num }}) => {
+        // 获得魔法数字
+        if (num === MAGIC_NUMBER) {
+          this.magicCount++;
+          this.checkTasks();
+        }
       });
 
-      yyw.on("GAME_OVER", () => {
+      yyw.on("GAME_PLAYED", () => {
         this.gamesCount++;
         this.checkTasks();
       });

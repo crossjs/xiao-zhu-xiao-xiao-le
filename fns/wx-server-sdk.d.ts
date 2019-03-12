@@ -18,6 +18,14 @@ declare module "wx-server-sdk" {
     or(...commands: any[]): any;
   }
 
+  interface CloudInitOptions {
+    env?: string | {
+      database?: string;
+      storage?: string;
+      functions?: string;
+    };
+  }
+
   interface DatabaseInitOptions {
     env?: string;
   }
@@ -62,7 +70,7 @@ declare module "wx-server-sdk" {
     field(definition: object): Document;
   }
 
-  function init(): void;
+  function init(options?: CloudInitOptions): void;
   function database(options?: DatabaseInitOptions): Database;
   function getWXContext(): WXContext;
   function callFunction(options: {

@@ -20,20 +20,26 @@ namespace yyw {
 
     async save({
       score,
-      level,
       combo,
+      level,
     }: {
-      score: number,
-      level: number,
-      combo: number,
+      score?: number,
+      combo?: number,
+      level?: number,
     }): Promise<IPbl> {
       if (score) {
         yyw.sub.postMessage({
           command: "saveScore",
           score,
+          level,
         });
       }
-      return cloud.call("saveMyPbl", { score, level, combo });
+      assign({
+        score: Math.max(USER.score, score),
+        level: Math.max(USER.level, level),
+        combo: Math.max(USER.combo, combo),
+      });
+      return cloud.call("saveMyPbl", { score, combo, level });
     },
   };
 }

@@ -34,13 +34,14 @@ namespace game {
     private async animateCoins() {
       const { source, scale } = this.coin;
       const { x, y } = this.coin.localToGlobal();
+      const top = this.stage.stageHeight - 1012;
       return Promise.all(
-        new Array(10).fill(0).map(async (_, index) => {
+        new Array(10).fill(0).map(async () => {
           const coin = new eui.Image(source);
-          coin.x = x * 2 - yyw.random(x * 4);
-          coin.y = y * 2 - yyw.random(y * 4);
+          coin.x = yyw.random(15, 721);
+          coin.y = yyw.random(top + 15, top + 721);
           this.stage.addChild(coin);
-          const duration = yyw.random(500) + 500;
+          const duration = yyw.random(500, 1000);
 
           yyw.bezierTo(coin, {
             x, y,

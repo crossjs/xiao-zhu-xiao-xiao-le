@@ -32,7 +32,7 @@ namespace game {
             HealSound.play();
             await yyw.director.escape();
             yyw.emit("TOOL_GOT", {
-              type: "livesUp",
+              type: yyw.CONFIG.mode === "level" ? "stepsDown" : "stepsUp",
               amount: 1,
             });
             yyw.analysis.onRunning("revive", type);
@@ -66,6 +66,7 @@ namespace game {
           command: "openTop3",
           width,
           height,
+          mode: yyw.CONFIG.mode,
         });
       }
     }

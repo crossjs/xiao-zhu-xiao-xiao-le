@@ -5,56 +5,34 @@ namespace game {
   export const MAGIC_NUMBER = 99;
   export const BIGGEST_NUMBER = 20;
 
-  const SNAPSHOT_KEY = "MODEL";
-
   export class Model {
     public static create(useSnapshot: boolean = false): Model {
       if (useSnapshot) {
-        const { cols, rows, maxNumber, level, matrix, numbers } = yyw.USER.arena;
-        return new Model(cols, rows, maxNumber, level, matrix, numbers);
+        const { maxNum, matrix } = yyw.USER.arena[yyw.CONFIG.mode];
+        return new Model(maxNum, matrix);
       }
       return new Model();
     }
 
-    /** 最小数值 */
-    private minNumber: number;
-    private matrix: Matrix;
-    private numbers: number[];
+    private cols: number = 5;
+    private rows: number = 5;
 
     constructor(
-      private cols: number = 5,
-      private rows: number = 5,
       /** 最大数值 */
-      private maxNumber: number = 5,
-      /** 难度系数 */
-      private level: number = 1,
-      matrix?: Matrix,
-      numbers?: number[],
+      private maxNum: number = 5,
+      private matrix?: Matrix,
     ) {
-      this.minNumber = Math.max(1, this.maxNumber - 5 - this.level);
-      if (!(matrix && numbers)) {
-        this.createNumbers();
-      } else {
-        this.matrix = matrix;
-        this.numbers = numbers;
+      if (!this.matrix) {
+        this.createMatrix();
       }
     }
 
     public getSnapshot() {
-      const { cols, rows, maxNumber, level, matrix, numbers } = this;
-      return { cols, rows, maxNumber, level, matrix, numbers };
+      const { cols, rows, maxNum, matrix } = this;
+      return { cols, rows, maxNum, matrix };
     }
 
-    public setLevel(level: number) {
-      this.level = level;
-      this.minNumber = Math.max(1, this.maxNumber - 5 - level);
-    }
-
-    public getLevel(): number {
-      return this.level;
-    }
-
-    public geNumbers(): Matrix {
+    public getMatrix(): Matrix {
       return this.matrix;
     }
 
@@ -62,53 +40,27 @@ namespace game {
       return this.matrix[point[1]][point[0]];
     }
 
-    public setNumberAt(point: Point, num: number) {
+    public setNumberAt(point: Point, num: number = this.getRandomNumber()) {
       if (num !== MAGIC_NUMBER) {
-        this.maxNumber = Math.max(Math.min(20, num), this.maxNumber);
-        // 通过刷新难度系数设置最小值
-        this.setLevel(this.level);
-        // TODO 寻找矩阵内的最小值
-        // this.minNumber = Math.min(this.getMinNumberInNumbers(), this.minNumber);
+        this.maxNum = Math.max(Math.min(20, num), this.maxNum);
       }
       this.saveNumberAt(point, num);
-    }
-
-    /**
-     * 对矩阵进行随机排列
-     */
-    public doShuffle() {
-      const { numbers, cols, rows} = this;
-      const slicedNumbers = numbers.slice(0);
-      let row = rows;
-      while (row--) {
-        let col = cols;
-        while (col--) {
-          const index = yyw.random(slicedNumbers.length);
-          this.saveNumberAt([col, row], slicedNumbers.splice(index, 1)[0]);
-        }
-      }
     }
 
     /**
      * 寻找可合并的数字链
      * @param firstNumber 优先合并的数字
      */
-    public getMergeChain(firstNumber: number): [number, Point[]] {
+    public getChain(firstNumber: number): [number, Point[]] {
       const numMap: { [num: string]: Point[] } = {};
-      const { matrix, cols, rows} = this;
-      let row = rows;
-      while (row--) {
-        let col = cols;
-        while (col--) {
-          const num  = matrix[row][col];
-          if (num !== MAGIC_NUMBER) {
-            if (!numMap[`${num}`]) {
-              numMap[`${num}`] = [];
-            }
-            numMap[`${num}`].push([col, row]);
+      yyw.traverseMatrix(this.matrix, (num: number, col: number, row: number) => {
+        if (num !== MAGIC_NUMBER) {
+          if (!numMap[`${num}`]) {
+            numMap[`${num}`] = [];
           }
+          numMap[`${num}`].push([col, row]);
         }
-      }
+      });
       const entries = Object.entries(numMap);
       if (firstNumber) {
         // 指定的数字先检查
@@ -145,8 +97,8 @@ namespace game {
      * @param exceptList 排除的数字列表
      * @todo 高阶数字出现概率应低于低阶数字
      */
-    public getRandomNumber(exceptList?: number[]): number {
-      const num = yyw.random((this.maxNumber - this.minNumber + 1)) + this.minNumber;
+    private getRandomNumber(exceptList?: number[]): number {
+      const num = yyw.random(this.maxNum - 4, this.maxNum + 1);
       if (exceptList) {
         if (exceptList.indexOf(num) !== -1) {
           return this.getRandomNumber(exceptList);
@@ -155,9 +107,8 @@ namespace game {
       return num;
     }
 
-    private createNumbers() {
+    private createMatrix() {
       this.matrix = [];
-      this.numbers = [];
       // if (DEBUG) {
       //   this.matrix = [
       //     [4, 3, 3, 4, 3],
@@ -165,13 +116,6 @@ namespace game {
       //     [3, 3, 99, 3, 3],
       //     [4, 4, 3, 4, 4],
       //     [3, 2, 4, 2, 3],
-      //   ];
-      //   this.numbers = [
-      //     4, 6, 2, 4, 4,
-      //     3, 1, 4, 7, 4,
-      //     3, 6, 99, 2, 2,
-      //     4, 4, 3, 4, 4,
-      //     4, 2, 6, 1, 6,
       //   ];
       //   return;
       // }
@@ -238,7 +182,6 @@ namespace game {
 
     private saveNumberAt(point: Point, num: number) {
       this.matrix[point[1]][point[0]] = num;
-      this.numbers[point[1] * this.cols + point[0]] = num;
     }
   }
 
@@ -250,24 +193,6 @@ namespace game {
     return point1[0] === point2[0] && point1[1] === point2[1];
   }
 
-  /** 是否存在 5 个在一条线上 */
-  export function isStraightFive(points: Point[]): boolean {
-    const map = {};
-    for (const [x, y] of points) {
-      const keyX = `x${x}`;
-      const keyY = `y${y}`;
-      if (!map[keyX]) {
-        map[keyX] = 0;
-      }
-      map[keyX] += 1;
-      if (!map[keyY]) {
-        map[keyY] = 0;
-      }
-      map[keyY] += 1;
-    }
-    return Object.values(map).some((v) => v >= 5);
-  }
-
   export function getIndexOf(points: Point[], point: Point): number {
     for (let i = 0; i < points.length; i++) {
       const p = points[i];
@@ -276,14 +201,6 @@ namespace game {
       }
     }
     return -1;
-  }
-
-  export function getNeighborOf(point: Point, points: Point[]): Point {
-    for (const p of points) {
-      if (isNeighbor(p, point)) {
-        return p;
-      }
-    }
   }
 
   /**
@@ -322,14 +239,11 @@ namespace game {
     );
   }
 
-  /**
-   * A、B 两点连线的斜率
-   * @param point1 点 A
-   * @param point2 点 B
-   */
-  export function getSlope(point1: Point, point2: Point): number {
-    const dx = Math.abs(point1[0] - point2[0]);
-    const dy = Math.abs(point1[1] - point2[1]);
-    return dx === 0 ? Number.MAX_SAFE_INTEGER : dy / dx;
+  function getNeighborOf(point: Point, points: Point[]): Point {
+    for (const p of points) {
+      if (isNeighbor(p, point)) {
+        return p;
+      }
+    }
   }
 }

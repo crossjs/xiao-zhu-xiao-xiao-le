@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="Step3Skin"
+ xmlns:e="http://ns.egret.com/eui">
+	<e:Group id="body" touchEnabled="false" width="750" bottom="262" height="1072">
+		<e:Group y="139" horizontalCenter="0">
+			<e:Image source="sprites_json.round_white" width="72" height="72" horizontalCenter="0"/>
+			<e:Image source="sprites_json.tool_valueup" y="14" horizontalCenter="0"/>
+			<e:Label y="84" text="指定格子的数字+1" fontFamily="sans-serif"/>
+		</e:Group>
+		<e:Group y="319" horizontalCenter="0">
+			<e:Image source="sprites_json.round_white" width="72" height="72" horizontalCenter="0"/>
+			<e:Image source="sprites_json.tool_shuffle" y="12" horizontalCenter="0"/>
+			<e:Label y="84" text="所有数字重新随机排列" fontFamily="sans-serif"/>
+		</e:Group>
+		<e:Group y="499" x="285">
+			<e:Image source="sprites_json.round_white" width="72" height="72" horizontalCenter="0"/>
+			<e:Image source="sprites_json.tool_breaker" y="7" horizontalCenter="0"/>
+			<e:Label y="84" text="移除指定格子" fontFamily="sans-serif"/>
+		</e:Group>
+		<e:Group y="679" horizontalCenter="0">
+			<e:Image source="sprites_json.tool_stepsup" height="110" width="100" horizontalCenter="0"/>
+			<e:Label id="tfdPig" y="122" text="剩余步数+1" fontFamily="sans-serif"/>
+		</e:Group>
+	</e:Group>
+</e:Skin>

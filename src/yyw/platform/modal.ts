@@ -1,9 +1,10 @@
 namespace yyw {
-  export function showModal(content: string): Promise<boolean> {
+  export function showModal(content: string, showCancel: boolean = true): Promise<boolean> {
     return new Promise((resolve, reject) => {
       wx.showModal({
         title: "",
         content,
+        showCancel,
         success: ({ confirm, cancel }) =>  {
           if (confirm) {
             resolve(true);

@@ -2,8 +2,10 @@ namespace game {
   export class Landing extends yyw.Base {
     private tfdVersion: eui.Label;
     private imgFavorite: eui.Image;
-    private tfdBestScore: eui.Label;
+    private tfdScore: eui.Label;
+    private tfdLevel: eui.Label;
     private btnStart: eui.Button;
+    private btnStart2: eui.Button;
     private pig: eui.Image;
     private numbers: eui.Image;
     private boxAll: box.All;
@@ -68,14 +70,22 @@ namespace game {
           width,
           height,
           onTap: (authorized: boolean) => {
-            yyw.analysis.addEvent(authorized ? "5确认授权" : "5取消授权");
+            yyw.analysis.addEvent(authorized ? "10确认授权" : "10取消授权");
             yyw.director.toScene("playing");
           },
         });
 
         // 开始游戏
-        yyw.onTap(this.btnStart, () => {
-          yyw.director.toScene("playing");
+        yyw.onTap(this.btnStart, async () => {
+          yyw.CONFIG.mode = "score";
+          await yyw.director.toScene("playing");
+          yyw.emit("GAME_START");
+        });
+
+        yyw.onTap(this.btnStart2, async () => {
+          yyw.CONFIG.mode = "level";
+          await yyw.director.toScene("playing");
+          yyw.emit("GAME_START");
         });
 
         if (!yyw.USER.sticked) {
@@ -95,6 +105,23 @@ namespace game {
         }
 
         this.tfdVersion.text = VERSION;
+        // const shape = new egret.Shape();
+        // shape.graphics.beginFill(0x0000ff);
+        // shape.graphics.drawCircle(0, 0, 50);
+        // shape.graphics.endFill();
+        // this.stage.addChild(shape);
+        // yyw.onTap(this.tfdVersion, () => {
+        //   shape.x = yyw.random(25, 726);
+        //   shape.y = yyw.random(25, 1048);
+        //   yyw.bezierTo(
+        //     shape,
+        //     {
+        //       x: yyw.random(25, 726),
+        //       y: yyw.random(25, 1048),
+        //     },
+        //     10000,
+        //   );
+        // });
       } else {
         yyw.analysis.addEvent("8回到主页");
       }
@@ -102,7 +129,8 @@ namespace game {
       yyw.light(this.bg);
       yyw.wave(this.pig);
 
-      this.tfdBestScore.text = `历史最高分数：${yyw.USER.score || 0}`;
+      this.tfdScore.text = `最高分数：${yyw.USER.score || 0}`;
+      this.tfdLevel.text = `最高关卡：${yyw.USER.level || 0}`;
 
       // 每次进入，都刷新广告
       if (!await yyw.showBannerAd()) {

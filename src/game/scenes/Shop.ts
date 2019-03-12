@@ -1,6 +1,5 @@
 namespace game {
   export class Shop extends yyw.Base {
-    private modal: eui.Group;
     private prices: number[] = [1000, 2000, 1500];
     private goods: string[] = ["valueUp", "shuffle", "breaker"];
 

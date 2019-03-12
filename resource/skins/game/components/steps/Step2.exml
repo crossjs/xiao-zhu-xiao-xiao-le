@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="Step2Skin"
- xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+ xmlns:e="http://ns.egret.com/eui">
 	<e:Group id="body" width="750" height="1072" bottom="262">
 		<e:Label y="717" text="五个连成直线可获得特殊奖励" fontFamily="sans-serif" horizontalCenter="0"/>
 		<e:Group horizontalCenter="0" y="352">

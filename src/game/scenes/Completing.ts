@@ -1,22 +1,19 @@
 namespace game {
-  export class Ending extends yyw.Base {
-    private tfdScore: eui.BitmapLabel;
-    private tfdCombo: eui.BitmapLabel;
+  export class Completing extends yyw.Base {
+    private tfdLevel: eui.BitmapLabel;
+    private tfdSteps: eui.BitmapLabel;
     private btnOK: eui.Button;
     private gameData: {
-      combo?: number,
-      score?: number,
+      steps?: number,
     } = {
-      combo: 0,
-      score: 0,
+      steps: 0,
     };
 
     protected async initialize(): Promise<void> {
       // 放在这里注册，确保优先级
-      yyw.on("GAME_DATA", ({ data: { score, maxCombo: combo } }: egret.Event) => {
+      yyw.on("GAME_DATA", ({ data: { steps } }: egret.Event) => {
         this.gameData = {
-          score,
-          combo,
+          steps,
         };
       });
     }
@@ -27,13 +24,13 @@ namespace game {
       if (fromChildrenCreated) {
         yyw.onTap(this.btnOK, async () => {
           const { windowWidth, windowHeight } = yyw.CONFIG;
-          const { score, combo } = this.gameData;
+          const { steps } = this.gameData;
           const { width, height } = this.main;
           const { x, y } = this.main.localToGlobal();
           const scaleX = windowWidth / 375;
           const scaleY = scaleX * windowHeight / 667;
           yyw.share({
-            title: `噢耶！我得到了 ${score} 分与 ${combo} 次连击`,
+            title: `噢耶！我 ${steps} 步就通过了关卡 ${yyw.CONFIG.level}`,
             imageUrl: canvas.toTempFilePathSync({
               x,
               y,
@@ -51,10 +48,14 @@ namespace game {
         });
       }
 
-      const { score, combo } = this.gameData;
+      const { steps } = this.gameData;
 
-      this.tfdScore.text = `${score}`;
-      this.tfdCombo.text = `${combo}`;
+      const { levels, level } = yyw.CONFIG;
+
+      this.tfdLevel.text = `${level}`;
+      this.tfdSteps.text = `${levels[level].limit.steps - steps}`;
+
+      yyw.CONFIG.level++;
 
       this.btnEscape.visible = false;
       await yyw.sleep();

@@ -5,6 +5,7 @@ namespace yyw {
     protected bg: eui.Rect;
     protected body: eui.Group;
     protected main: eui.Group;
+    protected modal: eui.Group;
     protected btnEscape: eui.Image;
 
     public constructor() {

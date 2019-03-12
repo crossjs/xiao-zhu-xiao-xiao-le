@@ -12,7 +12,13 @@ namespace game {
     private numImage: eui.Image;
     private sugar: eui.Image;
 
-    constructor(col: number, row: number, width: number, height: number, num: number = 0) {
+    constructor(
+      col: number,
+      row: number,
+      width: number,
+      height: number,
+      num: number = 0,
+    ) {
       super();
       this.num = num;
       this.ax = width / 2;

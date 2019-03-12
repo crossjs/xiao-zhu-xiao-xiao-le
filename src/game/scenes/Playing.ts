@@ -1,134 +1,112 @@
 namespace game {
-  function isAwesome(combo: number, level: number): boolean {
-    switch (level) {
-      case 1:
-        return combo >= 5;
-      case 2:
-      case 3:
-      case 4:
-        return combo >= 4;
-      case 5:
-      case 6:
-      case 7:
-        return combo >= 3;
-      default:
-        return combo >= 2;
-    }
-  }
-
   export class Playing extends yyw.Base {
     private bgHead: eui.Rect;
     private boxAll: box.All;
     private ctrlShop: CtrlShop;
-    private arena: Arena;
+    private arena: ArenaBase;
     private tools: Tools;
-    // 单局最大连击数
-    private level: number = 1;
-    private combo: number = 0;
-    private score: number = 0;
     private isPlaying: boolean = false;
-    private snapshot: any = {};
+
+    public async startGame() {
+      const useSnapshot = yyw.USER.arena![yyw.CONFIG.mode]
+        && (await yyw.showModal("继续上一次的进度？"));
+
+      const Arena = yyw.CONFIG.mode === "score" ? ArenaScore : ArenaLevel;
+      if (!(this.arena instanceof Arena)) {
+        if (this.arena) {
+          yyw.removeElement(this.arena);
+        }
+        this.arena = new Arena();
+        this.body.addChildAt(this.arena, 1);
+      }
+
+      await this.arena.startup(useSnapshot);
+      await this.tools.startup(useSnapshot);
+
+      if (yyw.USER.arena && yyw.USER.arena[yyw.CONFIG.mode]) {
+        // 清空快照
+        await yyw.update({
+          arena: {
+            ...yyw.USER.arena,
+            // 只清当前模式
+            [yyw.CONFIG.mode]: null,
+          },
+        });
+      }
+
+      this.isPlaying = true;
+      yyw.analysis.onStart();
+    }
 
     public async exiting() {
       // no animation
     }
 
     protected initialize() {
-      yyw.on("RESTART", () => {
+      yyw.on("GAME_START", () => {
         this.startGame();
       });
 
       const canTool = yyw.reward.can("tool");
       // 启用道具奖励
       if (canTool) {
-        // 体力过低
-        yyw.on("LIVES_LEAST", () => {
-          yyw.director.toScene("alarm", true);
+        // 剩余步数过低
+        yyw.on("LEAST", () => {
+          if (this.isPlaying) {
+            yyw.director.toScene("alarm", true);
+          }
         });
       }
 
       const canRevive = yyw.reward.can("revive");
-      // 体力耗尽
-      yyw.on("LIVES_EMPTY", () => {
-        yyw.director.toScene(canRevive ? "reviving" : "ending", true);
+      // 剩余步数耗尽
+      yyw.on("EMPTY", () => {
+        if (this.isPlaying) {
+          if (canRevive) {
+            yyw.director.toScene("reviving", true);
+          } else {
+            this.gameLost();
+          }
+        }
       });
 
       const canCoin = yyw.reward.can("coin");
 
       // 启用金币奖励
       if (canCoin) {
-        // 获得魔法数字
-        yyw.on("MAGIC_GOT", () => {
-          yyw.director.toScene("award", true, (scene: Award) => {
-            scene.setType("magic");
-          });
-          yyw.analysis.onRunning("award", "magic");
-        });
-
-        yyw.on("GAME_DATA", ({ data: { level, combo } }) => {
-          if (isAwesome(combo, level)) {
-            yyw.director.toScene("award", true, (scene: Award) => {
-              scene.setType("combo");
-            });
-            yyw.analysis.onRunning("award", "combo");
-          } else {
-            if (level > this.level) {
+        yyw.on("NUM_MERGED", ({ data: { num }}) => {
+          if (this.isPlaying) {
+            // 获得魔法数字
+            if (num === MAGIC_NUMBER) {
               yyw.director.toScene("award", true, (scene: Award) => {
-                scene.setType("level");
+                scene.setType("magic");
               });
-              yyw.analysis.onRunning("award", "level");
+              yyw.analysis.onRunning("award", "magic");
             }
-            this.level = level;
           }
         });
       }
 
-      const sounds = [
-        GoodSound,
-        GreatSound,
-        AmazingSound,
-        ExcellentSound,
-      ];
-
-      yyw.on("GAME_DATA", ({ data: { level, combo, score } }) => {
-        if (combo > 2) {
-          // 3 -> 0; 4,5 -> 1; 6,7 -> 2; 8,9,10,... -> 3
-          sounds[Math.min(3, Math.floor((combo - 2) / 2))].play();
-        }
-        this.level = level;
-        this.combo = Math.max(combo, this.combo);
-        this.score = score;
-      });
-
-      yyw.on("GAME_OVER", () => {
-        this.isPlaying = false;
-        // 清空快照
-        yyw.update({ arena: null });
-        // 保存数据
-        const { level, combo, score } = this;
-        yyw.pbl.save({
-          level,
-          combo,
-          score,
-        });
-        // 重设数据
-        this.level = 1;
-        this.combo = 0;
-        this.score = 0;
+      yyw.on("LEVEL_COMPLETE", () => {
+        this.gameWon();
       });
     }
 
     protected async destroy(): Promise<void> {
       if (this.isPlaying) {
-        const { level, combo, score } = this;
         yyw.update({
           arena: {
-            level, combo, score,
-            ...this.arena.getSnapshot(),
-            ...this.tools.getSnapshot(),
+            ...yyw.USER.arena,
+            [yyw.CONFIG.mode]: {
+              ...this.arena.getSnapshot(),
+              ...this.tools.getSnapshot(),
+            },
           },
         });
       }
+
+      yyw.removeElement(this.arena);
+      this.arena = null;
 
       super.destroy();
     }
@@ -136,15 +114,14 @@ namespace game {
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       super.createView(fromChildrenCreated);
 
-      const useSnapshot = yyw.USER.arena && await yyw.showModal("继续上一次的进度？");
-
-      await this.arena.startup(useSnapshot);
-      await this.tools.startup(useSnapshot);
-
-      this.isPlaying = true;
-
       if (fromChildrenCreated) {
-        yyw.director.toScene(yyw.USER.guided ? "task" : "guide", true);
+        if (yyw.USER.guided) {
+          if (yyw.CONFIG.mode === "score") {
+            yyw.director.toScene("task", true);
+          }
+        } else {
+          yyw.director.toScene("guide", true);
+        }
 
         this.initToolsTarget();
 
@@ -156,7 +133,7 @@ namespace game {
         }
 
         // 初次进入，刷新广告
-        if (!await yyw.showBannerAd()) {
+        if (!(await yyw.showBannerAd())) {
           // 没有广告，显示交叉营销
           this.boxAll = new box.All();
           this.boxAll.bottom = 0;
@@ -170,20 +147,68 @@ namespace game {
       yyw.analysis.addEvent("9进入游戏界面");
     }
 
-    private startGame() {
-      // 清空快照
-      yyw.update({ arena: null });
-      this.arena.startup();
-      this.isPlaying = true;
+    /**
+     * 完成关卡
+     */
+    private gameWon() {
+      this.isPlaying = false;
+      const {
+        score,
+        maxCombo: combo,
+      } = this.arena.getSnapshot();
+      // 保存数据
+      yyw.pbl.save({
+        score,
+        combo,
+        level: yyw.CONFIG.level,
+      });
+      yyw.emit("GAME_PLAYED");
+      yyw.director.toScene("completing", true);
+      yyw.analysis.onEnd();
     }
 
+    /**
+     * 失败
+     */
+    private gameLost() {
+      this.isPlaying = false;
+      const {
+        score,
+        maxCombo: combo,
+      } = this.arena.getSnapshot();
+      yyw.pbl.save({
+        combo,
+        score,
+      });
+      if (yyw.USER.arena && yyw.USER.arena[yyw.CONFIG.mode]) {
+        // 清空快照
+        yyw.update({
+          arena: {
+            ...yyw.USER.arena,
+            // 只清当前模式
+            [yyw.CONFIG.mode]: null,
+          },
+        });
+      }
+      yyw.emit("GAME_PLAYED");
+      yyw.director.toScene("ending", true);
+      yyw.analysis.onEnd();
+    }
+
+    /**
+     * 工具拖放区域
+     */
     private initToolsTarget() {
-      const { x, y, width, height } = this.arena;
+      // const { x: left, y: top, width, height } = this.arena;
+      const left = 0;
+      const top = 322;
+      const width = 720;
+      const height = 720;
       const padding = 15;
       const rect = new egret.Rectangle(
-        x + padding,
+        left + padding,
         // 因为 body 限制了高度 1072，且距离底部 262，所以是 1334，也就是界面的设计高度
-        y + padding + this.stage.stageHeight - 1334,
+        top + padding + this.stage.stageHeight - 1334,
         width - padding * 2,
         height - padding * 2,
       );

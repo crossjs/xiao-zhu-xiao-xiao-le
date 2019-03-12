@@ -2,6 +2,21 @@ namespace yyw {
   const systemInfo: wx.systemInfo = wx.getSystemInfoSync();
   const launchOptions: wx.launchOptions = wx.getLaunchOptionsSync();
 
+  interface Level {
+    level: number;
+    limit: {
+      steps?: number;
+      // 固定，只可消除，不可移动
+      fixed?: number[];
+      // 黑洞，无棋子
+      black?: number[];
+    };
+    goals: {
+      score?: number;
+      merge?: [number, number];
+    };
+  }
+
   /**
    * 游戏动画速率
    * 数字越大，游戏节奏越慢
@@ -22,10 +37,21 @@ namespace yyw {
   let rewardAd: string = "";
   let soundEnabled: boolean = true;
   let vibrationEnabled: boolean = true;
+  let mode: "score" | "level" = "score";
+  let level: number = 0;
+  let levels: Level[] = [];
 
   export const CONFIG = {
     ...systemInfo,
     ...launchOptions,
+
+    get level(): number {
+      return level || (USER && USER.level || 0) || 1;
+    },
+
+    set level(value: number) {
+      level = value;
+    },
 
     get speedRatio(): number {
       return speedRatio;
@@ -122,6 +148,22 @@ namespace yyw {
     set vibrationEnabled(value: boolean) {
       vibrationEnabled = value;
     },
+
+    get mode(): "score" | "level" {
+      return mode;
+    },
+
+    set mode(value: "score" | "level") {
+      mode = value;
+    },
+
+    get levels(): Level[] {
+      return levels;
+    },
+
+    set levels(value: Level[]) {
+      levels = value;
+    },
   };
 
   export async function initConfig() {
@@ -137,6 +179,7 @@ namespace yyw {
         boxEnabled = true,
         bannerAd = "",
         rewardAd = "",
+        levels = [],
       } = await cloud.call("getConfig");
 
       Object.assign(CONFIG, {
@@ -150,6 +193,7 @@ namespace yyw {
         boxEnabled,
         bannerAd,
         rewardAd,
+        levels,
       });
     } catch (error) {
       egret.error(error);

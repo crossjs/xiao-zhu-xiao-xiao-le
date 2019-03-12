@@ -3,7 +3,6 @@ namespace game {
     valueUp: number;
     shuffle: number;
     breaker: number;
-    livesUp: number;
   }
 
   export class Tools extends yyw.Base {
@@ -11,7 +10,6 @@ namespace game {
       valueUp: yyw.CONFIG.toolAmount,
       shuffle: yyw.CONFIG.toolAmount,
       breaker: yyw.CONFIG.toolAmount,
-      livesUp: yyw.CONFIG.toolAmount,
     };
 
     public set targetRect(targetRect: egret.Rectangle) {
@@ -20,14 +18,14 @@ namespace game {
       });
     }
 
-    public async startup(useSnapshot?: boolean) {
+    public async startup(useSnapshot: boolean = false) {
       if (useSnapshot) {
-        const { valueUp, shuffle, breaker, livesUp } = yyw.USER.arena;
-        Object.assign(this.toolAmounts, { valueUp, shuffle, breaker, livesUp });
+        const { valueUp, shuffle, breaker } = yyw.USER.arena[yyw.CONFIG.mode];
+        Object.assign(this.toolAmounts, { valueUp, shuffle, breaker });
       }
 
       yyw.eachChild(this.main, (tool: ToolBase) => {
-        tool.setAmount(this.toolAmounts[tool.type]);
+        tool.setAmount(this.toolAmounts[tool.type] || 0);
       });
     }
 
@@ -35,7 +33,8 @@ namespace game {
       yyw.eachChild(this.main, (tool: ToolBase) => {
         this.toolAmounts[tool.type] = tool.getAmount();
       });
-      return this.toolAmounts;
+      const { valueUp, shuffle, breaker } = this.toolAmounts;
+      return { valueUp, shuffle, breaker };
     }
 
     protected initialize() {

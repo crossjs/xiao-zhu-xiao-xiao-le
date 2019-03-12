@@ -54,6 +54,9 @@ namespace game {
         command: "openRanking",
         width,
         height,
+        // 先只有分数排行
+        // yyw.CONFIG.mode,
+        mode: "score",
         openid: yyw.USER.openid || 0,
         pageSize: this.pageSize,
       });

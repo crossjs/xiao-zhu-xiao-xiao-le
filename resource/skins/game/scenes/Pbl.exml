@@ -7,7 +7,7 @@
 				<e:Image width="660" height="460" source="sprites_json.round_white" scale9Grid="36,36,6,6"/>
 				<e:Image source="sprites_json.zgfs" x="60" y="60"/>
 				<e:BitmapLabel textAlign="right" id="tfdScore" x="300" y="60" width="300" height="60" font="score_fnt"/>
-				<e:Image source="sprites_json.zgnd" x="60" y="130"/>
+				<e:Image source="sprites_json.zggq" x="60" y="130"/>
 				<e:BitmapLabel textAlign="right" id="tfdLevel" x="300" y="130" width="300" height="60" font="score_fnt"/>
 				<e:Image source="sprites_json.zglj" x="60" y="200"/>
 				<e:BitmapLabel textAlign="right" id="tfdCombo" x="300" y="200" width="300" height="60" font="score_fnt"/>

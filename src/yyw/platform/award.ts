@@ -8,23 +8,25 @@ namespace yyw {
       points = 0,
     }: { coins?: number, points?: number }): Promise<any> {
       if (coins || points) {
-        let shouldPut = false;
+        const payload = {};
         if (coins) {
           const toCoins = USER.coins + coins;
           if (toCoins >= 0) {
-            USER.coins = toCoins;
-            shouldPut = true;
+            Object.assign(payload, {
+              coins: toCoins,
+            });
           }
         }
         if (points) {
           const toPoints = USER.points + points;
           if (toPoints >= 0) {
-            USER.points = toPoints;
-            shouldPut = true;
+            Object.assign(payload, {
+              points: toPoints,
+            });
           }
         }
-        if (shouldPut) {
-          await cacheUser();
+        if (Object.keys(payload).length) {
+          await assign(payload);
           return cloud.call("saveAward", { coins, points });
         }
       }

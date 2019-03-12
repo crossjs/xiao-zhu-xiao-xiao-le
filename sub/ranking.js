@@ -24,14 +24,19 @@ export const Ranking = {
    * 绘制屏幕
    * 这个函数会在加载完所有资源之后被调用
    */
-  async create({ width, height, rankingData, pageSize = 5, openid = 0 }) {
+  async create({ width, height, mode, rankingData, pageSize = 5, openid = 0 }) {
     if (sharedCanvas.width && sharedCanvas.height) {
       // 确保就绪
       await this.preload();
       this.assets = await AssetsManager.getAssets();
       this.width = width;
       this.height = height;
-      this.rankingData = rankingData;
+      this.mode = mode;
+      this.rankingData = rankingData.slice(0).sort((a, b) => {
+        return a[mode] > b[mode] ? -1 : 1;
+      }).map((v, index) => Object.assign(v, {
+        key: index + 1,
+      }));
       this.myRankingData = rankingData.find((item) => item.openid === openid);
       this.pageSize = pageSize;
       this.scaleX = sharedCanvas.width / width;

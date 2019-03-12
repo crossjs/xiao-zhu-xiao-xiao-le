@@ -9,9 +9,10 @@ namespace yyw {
     city?: string;
     country?: string;
     coins?: number;
-    level?: number;
     points?: number;
     score?: number;
+    combo?: number;
+    level?: number;
     /**
      * 是否已完成“新手引导”
      */
@@ -21,26 +22,47 @@ namespace yyw {
      */
     sticked?: boolean;
     arena?: {
-      breaker?: number;
-      cols?: number;
-      combo?: number;
-      level?: number;
-      lives?: number;
-      livesUp?: number;
-      matrix?: number[][];
-      maxCombo?: number;
-      maxNumber?: number;
-      numbers?: number[];
-      rows?: number;
-      score?: number;
-      shuffle?: number;
-      valueUp?: number;
+      level?: {
+        // from playing
+        // from arena
+        score?: number;
+        combo?: number;
+        maxCombo?: number;
+        steps?: number;
+        // from tools
+        valueUp?: number;
+        shuffle?: number;
+        breaker?: number;
+        // from model
+        matrix?: number[][];
+        maxNum?: number;
+      };
+      score?: {
+        // from playing
+        // from arena
+        score?: number;
+        combo?: number;
+        maxCombo?: number;
+        steps?: number;
+        // from tools
+        valueUp?: number;
+        shuffle?: number;
+        breaker?: number;
+        // from model
+        matrix?: number[][];
+        maxNum?: number;
+      };
     };
   }
 
   const USER_KEY = "USER";
 
-  export const USER: IUser = {};
+  export const USER: IUser = {
+    arena: {
+      level: null,
+      score: null,
+    },
+  };
 
   function getUserInfo(): Promise<object> {
     return new Promise((resolve) => {
@@ -86,8 +108,7 @@ namespace yyw {
     const currentUser = await cloud.call("login", { fullUserInfo });
 
     // 合入到全局
-    Object.assign(USER, currentUser);
-    await cacheUser();
+    await assign(currentUser);
 
     // 如果之前是未登录状态，则通知登录
     if (!isLoggedIn) {
@@ -96,14 +117,14 @@ namespace yyw {
     return USER;
   }
 
-  export async function cacheUser() {
+  export async function assign(data: any) {
+    Object.assign(USER, data);
     await storage.set(USER_KEY, USER);
   }
 
   export async function update(state: { [key: string]: any }): Promise<any> {
     // 合入到全局
-    Object.assign(USER, state);
-    await cacheUser();
+    await assign(state);
     return cloud.call("saveMyState", {
       state,
     });

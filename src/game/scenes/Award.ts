@@ -1,6 +1,5 @@
 namespace game {
   export class Award extends yyw.Base {
-    private modal: eui.Group;
     private hdr: eui.Image;
     private tfdTip: eui.Label;
     private btnOK: eui.Button;
@@ -72,7 +71,7 @@ namespace game {
       this.showing = true;
       yyw.fadeIn(this.bg);
       await yyw.twirlIn(this.modal);
-      this.coins = yyw.random(100) + 200;
+      this.coins = yyw.random(200, 300);
       this.tfdCoins.text = `${this.coins}`;
       this.hdr.visible = true;
       this.tfdTip.visible = true;

@@ -1,16 +1,8 @@
 namespace game {
   export class Alarm extends yyw.Base {
-    private modal: eui.Group;
     private hdr: eui.Image;
     private tfdTip: eui.Label;
     private btnOK: eui.Button;
-
-    // public async hideModal() {
-    //   this.btnOK.visible = false;
-    //   this.btnKO.visible = false;
-    //   yyw.fadeOut(this.bg);
-    //   await yyw.twirlOut(this.modal);
-    // }
 
     protected destroy() {
       yyw.removeTweens(this.bg);
@@ -29,11 +21,11 @@ namespace game {
 
       if (fromChildrenCreated) {
         const canVideo = yyw.reward.can("tool", "video");
-        this.tfdTip.text = `${ canVideo ? "观看视频" : "转发到群" }获得两点体力`;
+        this.tfdTip.text = `${ canVideo ? "观看视频" : "转发到群" }获得剩余步数+2`;
         yyw.onTap(this.btnOK, async () => {
           if (await yyw.reward.apply("tool")) {
             yyw.emit("TOOL_GOT", {
-              type: "livesUp",
+              type: "stepsUp",
               amount: 2,
             });
             yyw.director.escape();

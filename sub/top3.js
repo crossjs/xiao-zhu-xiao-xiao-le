@@ -20,14 +20,19 @@ export const Top3 = {
    * 绘制屏幕
    * 这个函数会在加载完所有资源之后被调用
    */
-  async create({ width, height, rankingData }) {
+  async create({ width, height, mode, rankingData }) {
     if (sharedCanvas.width && sharedCanvas.height) {
       // 确保就绪
       await this.preload();
       this.assets = await AssetsManager.getAssets();
       this.width = width;
       this.height = height;
-      this.rankingData = rankingData;
+      this.mode = mode;
+      this.rankingData = rankingData.slice(0).sort((a, b) => {
+        return a[mode] > b[mode] ? -1 : 1;
+      }).slice(0, 3).map((v, index) => Object.assign(v, {
+        key: index + 1,
+      }));
       this.scaleX = sharedCanvas.width / width;
       this.scaleY = sharedCanvas.height / height;
       context.setTransform(this.scaleX, 0, 0, this.scaleY, 0, 0);
@@ -74,7 +79,7 @@ export const Top3 = {
     const iconWidth = 72;
     const fontSize = 24;
     const x = (i === 0 ? 1 : i === 1 ? 0 : 2) * colWidth;
-    const { key, avatarUrl, nickName, nickname, score } = data;
+    const { key, avatarUrl, nickName, nickname } = data;
     let y = i === 0 ? 0 : 30;
     // 绘制序号
     this.drawImage(
@@ -108,7 +113,7 @@ export const Top3 = {
     y += fontSize + gutterHeight;
     // 绘制分数
     this.drawText(
-      score,
+      data[this.mode],
       x,
       y,
       colWidth,

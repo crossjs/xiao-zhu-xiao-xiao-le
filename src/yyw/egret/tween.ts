@@ -150,24 +150,55 @@ namespace yyw {
   ): Promise<any> {
     const tween = new PromisedTween(target, false, () => {
       const { factor } = target;
-      target.x = Math.pow(1 - factor, 2) * p0.x
-        + 2 * factor * (1 - factor) * p1.x
-        + Math.pow(factor, 2) * p2.x;
-      target.y = Math.pow(1 - factor, 2) * p0.y
-        + 2 * factor * (1 - factor) * p1.y
-        + Math.pow(factor, 2) * p2.y;
+      target.x = Math.pow(1 - factor, 3) * pointFrom.x
+        + 3 * factor * Math.pow(1 - factor, 2) * pointControl1.x
+        + 3 * Math.pow(factor, 2) * (1 - factor) * pointControl2.x
+        + Math.pow(factor, 3) * pointTo.x;
+      target.y = Math.pow(1 - factor, 3) * pointFrom.y
+        + 3 * factor * Math.pow(1 - factor, 2) * pointControl1.y
+        + 3 * Math.pow(factor, 2) * (1 - factor) * pointControl2.y
+        + Math.pow(factor, 3) * pointTo.y;
     });
 
-    const p0 = new egret.Point(target.x, target.y);
-    const p2: egret.Point = new egret.Point(props.x, props.y);
-    const p1 = egret.Point.interpolate(p0, p2, (yyw.random(4) + 3) / 10);
-    const p20 = p2.subtract(p0);
-    const radians = Math.atan2(p20.y, p20.x);
-    const distance = yyw.random(p20.length);
-    p1.offset(distance * Math.sin(radians), distance * Math.cos(radians));
+    // 起点
+    const pointFrom = new egret.Point(target.x, target.y);
+    // 终点
+    const pointTo: egret.Point = new egret.Point(props.x, props.y);
+    const dirX: number = pointTo.x - pointFrom.x ? 1 : -1;
+    const dirY: number = pointTo.y - pointFrom.y ? 1 : -1;
+    // 控制点，取中间
+    const pointControl1 = egret.Point.interpolate(pointFrom, pointTo, 0.75);
+    const pointControl2 = egret.Point.interpolate(pointFrom, pointTo, 0.25);
+    const pointAngle = pointTo.subtract(pointFrom);
+    const radius = Math.atan2(pointAngle.y, pointAngle.x);
+    // 起点到终点的距离内，取 1/4 长度
+    const offsetLength = pointAngle.length / 4;
+    const offsetX = offsetLength * Math.sin(radius);
+    const offsetY = offsetLength * Math.cos(radius);
+    pointControl1.offset(dirX * offsetX, -dirY * offsetY);
+    pointControl2.offset(dirX * offsetX, -dirY * offsetY);
 
+    // const p0 = drawPoint(pointFrom, 0xff0000);
+    // const p1 = drawPoint(pointControl1, 0xffff00);
+    // const p2 = drawPoint(pointControl2, 0x00ffff);
+    // const p3 = drawPoint(pointTo, 0x00ff00);
+
+    // target.stage.addChild(p0);
+    // target.stage.addChild(p1);
+    // target.stage.addChild(p2);
+    // target.stage.addChild(p3);
+
+    target.factor = 0;
     return tween.to({
       factor: 1,
     }, duration, ease);
   }
+
+  // function drawPoint(point: egret.Point, color = 0xff0000) {
+  //   const pf = new egret.Shape();
+  //   pf.graphics.beginFill(color);
+  //   pf.graphics.drawCircle(point.x, point.y, 30);
+  //   pf.graphics.endFill();
+  //   return pf;
+  // }
 }

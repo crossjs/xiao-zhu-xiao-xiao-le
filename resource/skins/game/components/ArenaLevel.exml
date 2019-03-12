@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="ArenaLevelSkin" xmlns:e="http://ns.egret.com/eui">
+	<e:Rect width="750" height="750" fillColor="0x101C24" y="322"/>
+	<e:Group id="main" width="720" height="720" touchChildren="false" x="375" y="697" anchorOffsetX="360" anchorOffsetY="360"/>
+	<e:BitmapLabel id="tfdScore" text="00000" y="292" font="score_fnt" height="72" width="240" textAlign="center" anchorOffsetX="120" anchorOffsetY="36" x="132"/>
+	<e:Group x="15" y="119">
+		<e:Label text="当前关卡" y="6" fontFamily="sans-serif" size="24"/>
+		<e:BitmapLabel id="tfdLevel" font="score_fnt" height="72" width="144" x="117" scaleX="0.5" scaleY="0.5"/>
+	</e:Group>
+	<e:Group x="15" y="168">
+		<e:Label text="通关条件" y="6" fontFamily="sans-serif" size="24"/>
+		<e:Label id="tfdGoals" width="240" x="0" fontFamily="sans-serif" size="24" y="30" height="48" multiline="true"/>
+	</e:Group>
+	<e:Group x="325" y="276">
+		<e:Image id="b1" source="sprites_json.heart"/>
+		<e:Label text="剩余步数" y="7" textAlign="center" x="48" fontFamily="sans-serif" size="24"/>
+		<e:BitmapLabel id="tfdSteps" font="score_fnt" height="72" width="144" textAlign="center" x="150" scaleX="0.5" scaleY="0.5"/>
+	</e:Group>
+</e:Skin>

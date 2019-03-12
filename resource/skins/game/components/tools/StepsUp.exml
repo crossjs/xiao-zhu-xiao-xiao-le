@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="LivesUpSkin" xmlns:e="http://ns.egret.com/eui">
+<e:Skin class="StepsUpSkin" xmlns:e="http://ns.egret.com/eui">
 	<e:Group id="main">
-		<e:Button skinName="ButtonLivesUpSkin"/>
+		<e:Button skinName="ButtonStepsUpSkin"/>
 		<e:Rect x="82" y="82" width="30" height="30" fillColor="16777215" ellipseHeight="30" ellipseWidth="30"/>
 		<e:Label id="tfd" width="30" height="30" touchEnabled="false" x="82" y="82" textAlign="center" size="24" textColor="0xE95954" verticalAlign="middle"/>
 		<e:Image id="img" source="sprites_json.circle_add" touchEnabled="false" x="82" y="82" visible="false"/>
