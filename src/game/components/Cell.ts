@@ -1,4 +1,13 @@
 namespace game {
+  const cellWidth = 144;
+  const cellHeight = 144;
+
+  export const CELL_TYPES = {
+    NORMAL: 0,
+    FIXED: 1,
+    BLACK: 2,
+  };
+
   export class Cell extends yyw.Base {
     /**
      * 99 魔法数，可以触发其它数 + 1
@@ -11,22 +20,43 @@ namespace game {
     private numGroup: eui.Group;
     private numImage: eui.Image;
     private sugar: eui.Image;
+    private fixed: eui.Image;
+    private black: eui.Image;
 
     constructor(
-      col: number,
-      row: number,
-      width: number,
-      height: number,
-      num: number = 0,
+      public col: number,
+      public row: number,
+      private type: number = CELL_TYPES.NORMAL,
     ) {
       super();
-      this.num = num;
-      this.ax = width / 2;
-      this.ay = height / 2;
-      this.x = col * width + this.ax;
-      this.y = row * height + this.ay;
+      this.ax = cellWidth / 2;
+      this.ay = cellHeight / 2;
+      this.x = this.col * cellWidth + this.ax;
+      this.y = this.row * cellHeight + this.ay;
       this.anchorOffsetX = this.ax;
       this.anchorOffsetY = this.ay;
+    }
+
+    public getIndex(): number {
+      return COLS * this.row + this.col;
+    }
+
+    public getType() {
+      return this.type;
+    }
+
+    public setType(type: number) {
+      this.type = type;
+      this.fixed.visible = type === CELL_TYPES.FIXED;
+      this.black.visible = type === CELL_TYPES.BLACK;
+    }
+
+    public canDrag(): boolean {
+      return this.type === CELL_TYPES.NORMAL;
+    }
+
+    public canDrop(): boolean {
+      return this.type === CELL_TYPES.NORMAL;
     }
 
     public setNumber(num: number): void {
@@ -75,6 +105,19 @@ namespace game {
       await this.fadeIn();
     }
 
+    public async growUp(num?: number) {
+      // 从 +1 道具来
+      if (num === undefined) {
+        num = this.getNumber() + 1;
+        if (num > BIGGEST_NUMBER) {
+          num = MAGIC_NUMBER;
+        }
+      }
+      await this.fadeOut();
+      this.setNumber(num);
+      await this.fadeIn();
+    }
+
     public zoomOut(duration: number = 100) {
       yyw.removeTweens(this);
       return yyw.getTween(this)
@@ -105,8 +148,8 @@ namespace game {
       let tRotation = oRotation;
       let tAlpha = oAlpha;
       for (const { x = 0, y = 0, rotation = 0, alpha = 0 } of increases) {
-        tX += x;
-        tY += y;
+        tX += x * this.width;
+        tY += y * this.height;
         tRotation += rotation;
         tAlpha += alpha;
         await tween.to({
@@ -182,7 +225,7 @@ namespace game {
     }
 
     private showCurrent(): void {
-      if (this.num) {
+      if (this.num > 0) {
         this.numImage.source = `numbers_json.${this.num}`;
         this.numImage.visible = true;
       }

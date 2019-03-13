@@ -57,12 +57,7 @@ namespace yyw {
 
   const USER_KEY = "USER";
 
-  export const USER: IUser = {
-    arena: {
-      level: null,
-      score: null,
-    },
-  };
+  export const USER: IUser = {};
 
   function getUserInfo(): Promise<object> {
     return new Promise((resolve) => {

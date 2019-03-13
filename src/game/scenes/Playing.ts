@@ -8,7 +8,8 @@ namespace game {
     private isPlaying: boolean = false;
 
     public async startGame() {
-      const useSnapshot = yyw.USER.arena![yyw.CONFIG.mode]
+      const useSnapshot = yyw.USER.arena
+        && yyw.USER.arena[yyw.CONFIG.mode]
         && (await yyw.showModal("继续上一次的进度？"));
 
       const Arena = yyw.CONFIG.mode === "score" ? ArenaScore : ArenaLevel;

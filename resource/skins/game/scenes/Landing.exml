@@ -7,11 +7,11 @@
 			<e:Image id="pig" source="sprites2_json.pig" y="72" x="144" touchEnabled="false"/>
 		</e:Group>
 		<e:Button id="btnStart" skinName="ButtonDefaultSkin" width="432" height="144" icon="sprites_json.start" y="648" horizontalCenter="0"/>
-    <e:Label id="tfdScore" textAlign="center" size="36" height="48" y="798" width="600" horizontalCenter="0"/>
+    <e:Label id="tfdScore" textAlign="center" size="36" height="48" y="798" width="540" horizontalCenter="0"/>
 		<e:Button id="btnStart2" skinName="ButtonDefaultSkin" width="432" height="144" icon="sprites_json.start2" y="858" horizontalCenter="0"/>
-		<e:Label id="tfdLevel" textAlign="center" size="36" height="48" y="1008" width="600" horizontalCenter="0"/>
-		<game:CtrlGroup3 id="ctrlGroup3" x="30" y="90"/>
-		<game:CtrlGroup2 id="ctrlGroup2" y="428" x="648"/>
+		<e:Label id="tfdLevel" textAlign="center" size="36" height="48" y="1008" width="540" horizontalCenter="0"/>
+		<game:CtrlGroup3 id="ctrlGroup3" x="30" y="739"/>
+		<game:CtrlGroup2 id="ctrlGroup2" y="739" x="648"/>
 	</e:Group>
 	<e:Label id="tfdVersion" textAlign="center" verticalAlign="middle" alpha="0.5" left="0" right="0" size="24"/>
 	<e:Image id="imgFavorite" source="sprites_json.favorite" visible="false" right="50" y="104"/>

@@ -4,7 +4,7 @@ namespace game {
     private b1: eui.Image;
     /** 剩余步数值 */
     private steps: number = 5;
-    private offNumMerged: () => void;
+    private offGameData: () => void;
 
     public getSnapshot() {
       const { steps } = this;
@@ -40,7 +40,7 @@ namespace game {
     }
 
     protected ensureData(useSnapshot: boolean) {
-      this.steps = useSnapshot && yyw.USER.arena!.score!.steps || this.steps;
+      this.steps = useSnapshot && yyw.USER.arena.score.steps || this.steps;
       this.increaseSteps(0);
       super.ensureData(useSnapshot);
     }
@@ -50,6 +50,27 @@ namespace game {
         steps: this.steps,
         ...super.getGameData(),
       };
+    }
+
+    protected addListeners() {
+      if (!this.offGameData) {
+        this.offGameData = yyw.on("GAME_DATA", () => {
+          // 第一次的直接略过
+          this.offGameData();
+          this.offGameData = yyw.on("GAME_DATA", ({ data: { combo } }) => {
+            if (combo > 1) {
+              this.increaseSteps(1);
+            }
+          });
+        });
+      }
+    }
+
+    protected removeListeners() {
+      if (this.offGameData) {
+        this.offGameData();
+        this.offGameData = null;
+      }
     }
 
     /**

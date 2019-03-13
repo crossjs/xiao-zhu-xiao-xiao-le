@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="ArenaScoreSkin" xmlns:e="http://ns.egret.com/eui">
+<e:Skin class="ArenaScoreSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*">
 	<e:Rect width="750" height="750" fillColor="0x101C24" y="322"/>
-	<e:Group id="main" width="720" height="720" touchChildren="false" x="375" y="697" anchorOffsetX="360" anchorOffsetY="360"/>
+	<e:Group id="main" width="720" height="720" touchChildren="false" x="375" y="697" anchorOffsetX="360" anchorOffsetY="360">
+		<game:Cells id="cells"/>
+	</e:Group>
   <e:Group id="blood" width="468" height="54" x="261" y="262" touchChildren="false" touchEnabled="false">
 		<e:Image source="sprites_json.lives_bg" width="100%" height="100%" scale9Grid="12,12,12,12"/>
 		<e:Image id="b1" x="45.5" y="27.5" source="sprites_json.heart" anchorOffsetY="17.5" anchorOffsetX="20.5"/>

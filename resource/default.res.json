@@ -14,7 +14,7 @@
 			"url": "assets/numbers.json",
 			"type": "sheet",
 			"name": "numbers_json",
-			"subkeys": "1,10,11,12,13,14,15,16,17,18,19,2,20,3,4,5,6,7,8,9,99,sugar"
+			"subkeys": "1,10,11,12,13,14,15,16,17,18,19,2,20,3,4,5,6,7,8,9,99,black,fixed,sugar"
 		},
 		{
 			"url": "assets/score.fnt",

@@ -1,9 +1,12 @@
 namespace game {
-  export type Point = [number, number];
+  export type Point = yyw.Point;
   export type Matrix = number[][];
 
   export const MAGIC_NUMBER = 99;
   export const BIGGEST_NUMBER = 20;
+
+  export const COLS = 5;
+  export const ROWS = 5;
 
   export class Model {
     public static create(useSnapshot: boolean = false): Model {
@@ -14,9 +17,6 @@ namespace game {
       return new Model();
     }
 
-    private cols: number = 5;
-    private rows: number = 5;
-
     constructor(
       /** 最大数值 */
       private maxNum: number = 5,
@@ -25,26 +25,55 @@ namespace game {
       if (!this.matrix) {
         this.createMatrix();
       }
+      if (yyw.CONFIG.mode === "level") {
+        const { limit: { black = [] } } = yyw.CONFIG.levels[yyw.CONFIG.level - 1];
+
+        black.forEach((point: number | Point) => {
+          if (typeof point === "number") {
+            point = index2point(point);
+          }
+          this.setNumberAt(point, -1);
+        });
+      }
     }
 
     public getSnapshot() {
-      const { cols, rows, maxNum, matrix } = this;
-      return { cols, rows, maxNum, matrix };
+      const { maxNum, matrix } = this;
+      return { maxNum, matrix };
     }
 
     public getMatrix(): Matrix {
       return this.matrix;
     }
 
-    public getNumberAt(point: Point): number {
-      return this.matrix[point[1]][point[0]];
+    public getItemAt(): Matrix {
+      return this.matrix;
     }
 
-    public setNumberAt(point: Point, num: number = this.getRandomNumber()) {
+    public getNumberAt([ col, row ]: Point): number {
+      return this.matrix[row][col];
+    }
+
+    public setNumberAt(point: Point, num: number) {
       if (num !== MAGIC_NUMBER) {
         this.maxNum = Math.max(Math.min(20, num), this.maxNum);
       }
       this.saveNumberAt(point, num);
+    }
+
+    /**
+     * 在最大最小值之间取一个随机值
+     * @param exceptList 排除的数字列表
+     * @todo 高阶数字出现概率应低于低阶数字
+     */
+    public getRandomNumber(exceptList?: number[]): number {
+      const num = yyw.random(this.maxNum - 4, this.maxNum + 1);
+      if (exceptList) {
+        if (exceptList.indexOf(num) !== -1) {
+          return this.getRandomNumber(exceptList);
+        }
+      }
+      return num;
     }
 
     /**
@@ -53,12 +82,12 @@ namespace game {
      */
     public getChain(firstNumber: number): [number, Point[]] {
       const numMap: { [num: string]: Point[] } = {};
-      yyw.traverseMatrix(this.matrix, (num: number, col: number, row: number) => {
+      yyw.traverseMatrix(this.matrix, (num: number, point) => {
         if (num !== MAGIC_NUMBER) {
           if (!numMap[`${num}`]) {
             numMap[`${num}`] = [];
           }
-          numMap[`${num}`].push([col, row]);
+          numMap[`${num}`].push(point);
         }
       });
       const entries = Object.entries(numMap);
@@ -78,7 +107,7 @@ namespace game {
           for (let k = 0; k < filteredPoints.length - 1; k++) {
             for (let j = 0; j < filteredPoints.length; j++) {
               if (i !== j && neighbors.indexOf(filteredPoints[j]) === -1) {
-                if (neighbors.some((n) => isNeighbor(filteredPoints[j], n))) {
+                if (neighbors.some((n) => isNeighborPoints(filteredPoints[j], n))) {
                   neighbors.push(filteredPoints[j]);
                 }
               }
@@ -90,21 +119,6 @@ namespace game {
         }
       }
       return [0, []];
-    }
-
-    /**
-     * 在最大最小值之间取一个随机值
-     * @param exceptList 排除的数字列表
-     * @todo 高阶数字出现概率应低于低阶数字
-     */
-    private getRandomNumber(exceptList?: number[]): number {
-      const num = yyw.random(this.maxNum - 4, this.maxNum + 1);
-      if (exceptList) {
-        if (exceptList.indexOf(num) !== -1) {
-          return this.getRandomNumber(exceptList);
-        }
-      }
-      return num;
     }
 
     private createMatrix() {
@@ -119,11 +133,10 @@ namespace game {
       //   ];
       //   return;
       // }
-      const { cols, rows } = this;
-      for (let row = 0; row < rows; row++) {
+      for (let row = 0; row < ROWS; row++) {
         this.matrix[row] = [];
         let num: number;
-        for (let col = 0; col < cols; col++) {
+        for (let col = 0; col < COLS; col++) {
           // 将上一个值加入排除列表，以避免连续数字过多导致难度太低
           const exceptList = [num];
           if (col > 0) {
@@ -160,7 +173,7 @@ namespace game {
           return num;
         }
       }
-      if (row < this.rows - 1) {
+      if (row < ROWS - 1) {
         const r = this.matrix[row + 1];
         // 可能还没初始化
         if (r && r[col] === num) {
@@ -172,7 +185,7 @@ namespace game {
           return num;
         }
       }
-      if (col < this.cols - 1) {
+      if (col < COLS - 1) {
         if (this.matrix[row][col + 1] === num) {
           return num;
         }
@@ -180,68 +193,22 @@ namespace game {
       return 0;
     }
 
-    private saveNumberAt(point: Point, num: number) {
-      this.matrix[point[1]][point[0]] = num;
+    private saveNumberAt([ col, row ]: Point, num: number) {
+      this.matrix[row][col] = num;
     }
   }
 
-  export function isNeighbor(point1: Point, point2: Point): boolean {
+  export function index2point(index: number): Point {
+    return [index % COLS, Math.floor(index / COLS)];
+  }
+
+  export function isNeighborPoints(point1: Point, point2: Point): boolean {
     return Math.abs(point1[0] - point2[0]) + Math.abs(point1[1] - point2[1]) === 1;
-  }
-
-  export function isEqual(point1: Point, point2: Point): boolean {
-    return point1[0] === point2[0] && point1[1] === point2[1];
-  }
-
-  export function getIndexOf(points: Point[], point: Point): number {
-    for (let i = 0; i < points.length; i++) {
-      const p = points[i];
-      if (isEqual(p, point)) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
-  /**
-   * 获取路径
-   * @param from 起点
-   * @param to 重点
-   * @param stops 可能的中途点
-   */
-  export function getSteps(from: Point, to: Point, stops: Point[]) {
-    // 如果是邻居，直接返回
-    if (isNeighbor(from, to)) {
-      return [to];
-    }
-    const steps = [];
-    const clonedStops = stops.slice(0);
-    let current = from;
-    let stop: Point;
-    while ((stop = getNeighborOf(current, clonedStops))) {
-      steps.push(stop);
-      // 移除已匹配到的，避免回环
-      const index = clonedStops.indexOf(stop);
-      clonedStops.splice(index, 1);
-      current = stop;
-      if (isNeighbor(current, to)) {
-        steps.push(to);
-        return steps;
-      }
-    }
-    // 没找到，换个方向
-    return getSteps(
-      from,
-      to,
-      stops.filter((p) => {
-        return steps.length === 0 || !isEqual(p, steps[steps.length - 1]);
-      }),
-    );
   }
 
   function getNeighborOf(point: Point, points: Point[]): Point {
     for (const p of points) {
-      if (isNeighbor(p, point)) {
+      if (isNeighborPoints(p, point)) {
         return p;
       }
     }
