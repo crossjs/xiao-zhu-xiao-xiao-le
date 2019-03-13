@@ -1,8 +1,7 @@
-/**
- * 带过期时间的缓存库
- */
-
 namespace yyw {
+  /**
+   * 带过期时间的缓存库
+   */
   export const storage = {
     /**
      * 清除指定键的值

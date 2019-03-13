@@ -107,7 +107,6 @@ namespace game {
           }
         });
       }
-
       if (!this.offNumMerged) {
         this.offNumMerged = yyw.on("NUM_MERGED", ({ data: { num }}) => {
           if (this.goals.merge && this.goals.merge[0] === num) {
@@ -117,6 +116,7 @@ namespace game {
           }
         });
       }
+      super.addListeners();
     }
 
     protected removeListeners() {
@@ -128,6 +128,7 @@ namespace game {
         this.offNumMerged();
         this.offNumMerged = null;
       }
+      super.removeListeners();
     }
 
     /**

@@ -5,7 +5,7 @@
 			"name": "loading"
 		},
 		{
-			"keys": "numbers_json,sprites_json,sprites2_json,score_fnt",
+			"keys": "numbers_json,sprites_json,sprites2_json,score_fnt,boom_json,boom_png",
 			"name": "preload"
 		}
 	],
@@ -38,6 +38,16 @@
 			"type": "sheet",
 			"name": "sprites2_json",
 			"subkeys": "fu,numbers,pig"
+		},
+		{
+			"name": "boom_json",
+			"type": "json",
+			"url": "assets/boom.json"
+		},
+		{
+			"name": "boom_png",
+			"type": "image",
+			"url": "assets/boom.png"
 		}
 	]
 }

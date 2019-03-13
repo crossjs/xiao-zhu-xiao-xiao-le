@@ -64,6 +64,7 @@ namespace game {
           });
         });
       }
+      super.addListeners();
     }
 
     protected removeListeners() {
@@ -71,6 +72,7 @@ namespace game {
         this.offGameData();
         this.offGameData = null;
       }
+      super.removeListeners();
     }
 
     /**

@@ -113,7 +113,23 @@ namespace game {
           num = MAGIC_NUMBER;
         }
       }
+      yyw.setZIndex(this);
       await this.fadeOut();
+      await new Promise((resolve) => {
+        const data = RES.getRes("boom_json");
+        const texture = RES.getRes("boom_png");
+        const mcFactory: egret.MovieClipDataFactory = new egret.MovieClipDataFactory(data, texture);
+        const mc1: egret.MovieClip = new egret.MovieClip(mcFactory.generateMovieClipData("run"));
+        mc1.x = this.width / 2;
+        mc1.y = this.height / 2;
+        this.addChild(mc1);
+        mc1.once(egret.Event.COMPLETE, async (e: egret.Event) => {
+          await yyw.fadeOut(mc1);
+          yyw.removeElement(mc1);
+          resolve();
+        }, this);
+        mc1.gotoAndPlay(`boom${yyw.random(1, 3)}`);
+      });
       this.setNumber(num);
       await this.fadeIn();
     }

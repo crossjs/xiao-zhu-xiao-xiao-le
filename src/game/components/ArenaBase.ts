@@ -9,6 +9,8 @@ namespace game {
     protected score: number = 0;
     protected combo: number = 0;
     protected maxCombo: number = 0;
+    private offToolUsing: () => void;
+    private offDnd: () => void;
 
     public get isRunning() {
       return this.running;
@@ -27,7 +29,9 @@ namespace game {
     public getSnapshot() {
       const { score, combo, maxCombo } = this;
       return {
-        score, combo, maxCombo,
+        score,
+        combo,
+        maxCombo,
         ...this.cells.getSnapshot(),
       };
     }
@@ -43,29 +47,120 @@ namespace game {
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       super.createView(fromChildrenCreated);
 
-      if (fromChildrenCreated) {
-        yyw.on("TOOL_USING", this.onToolUsing, this);
-        this.initDnd();
-      }
-
       this.addListeners();
     }
 
     protected addListeners() {
-      //
+      if (!this.offToolUsing) {
+        this.offToolUsing = yyw.on("TOOL_USING", this.onToolUsing, this);
+      }
+
+      if (!this.offDnd) {
+        // 起始点
+        let fromXY: [number, number];
+        // 起始单元格
+        let fromCell: Cell;
+
+        const handleBegin = (e: egret.TouchEvent, cancel: any) => {
+          if (this.running) {
+            cancel();
+            return;
+          }
+          const { localX, localY } = e;
+          fromXY = [localX, localY];
+          fromCell = this.cells.getCellAt(this.xy2p(fromXY));
+          // 不能拖动
+          if (!fromCell.canDrag()) {
+            cancel();
+            return;
+          }
+          fromCell.zoomIn();
+          yyw.setZIndex(fromCell);
+        };
+
+        const handleDrag = async (e: egret.TouchEvent, cancel: any) => {
+          const { localX, localY } = e;
+          const toXY: [number, number] = [localX, localY];
+          const toCell = this.cells.getCellAt(this.xy2p(toXY));
+          // 不能拖入
+          if (!toCell.canDrop()) {
+            return;
+          }
+          // 非邻居，不处理
+          if (!Cells.isNeighborCells(fromCell, toCell)) {
+            return;
+          }
+          const slope = getSlope(toXY, fromXY);
+          if (slope < 2 && slope > 0.5) {
+            return;
+          }
+          // 开始交换
+          cancel();
+          fromCell.zoomOut();
+          this.isRunning = true;
+          // 普通交换
+          SwapSound.play();
+          this.tweenFromTo(fromCell, toCell, 300);
+          await this.tweenFromTo(toCell, fromCell, 300);
+          this.switchNumbers(fromCell, toCell);
+          const numFrom = fromCell.getNumber();
+          const numTo = toCell.getNumber();
+          if (numFrom !== numTo) {
+            let magicCell: Cell;
+            let numToGrowUp: number;
+            if (numFrom === MAGIC_NUMBER) {
+              magicCell = fromCell;
+              numToGrowUp = numTo;
+            } else if (numTo === MAGIC_NUMBER) {
+              magicCell = toCell;
+              numToGrowUp = numFrom;
+            }
+            if (magicCell) {
+              // 魔法效果
+              MagicSound.play();
+              await this.growUpCellsOf(numToGrowUp);
+              this.cells.setNumberAt(magicCell, 0);
+              await this.dropCellsDown();
+            }
+            this.resetCombo();
+            const hasChain = await this.mergeChains(toCell, fromCell);
+            this.onSwap(hasChain);
+            this.handleChange(hasChain);
+          }
+          this.isRunning = false;
+        };
+
+        const handleEnd = () => {
+          if (this.running) {
+            return;
+          }
+          fromCell.zoomOut();
+        };
+
+        this.offDnd = yyw.onDnd(
+          this.main,
+          handleBegin,
+          handleDrag,
+          handleEnd,
+          this.main.stage,
+        );
+      }
     }
 
     protected removeListeners() {
-      //
+      if (this.offToolUsing) {
+        this.offToolUsing();
+        this.offToolUsing = null;
+      }
+      if (this.offDnd) {
+        this.offDnd();
+        this.offDnd = null;
+      }
     }
 
-    protected onToolUsing({ data: {
-      type,
-      targetX,
-      targetY,
-      confirm,
-      cancel,
-    }}: egret.Event) {
+    protected onToolUsing({
+      data: { type, targetX, targetY, confirm, cancel },
+    }: egret.Event) {
       switch (type) {
         case "valueUp":
           if (cancel) {
@@ -85,10 +180,10 @@ namespace game {
     }
 
     protected ensureData(useSnapshot: boolean) {
-      this.score = useSnapshot && yyw.USER.arena[this.mode].score || 0;
+      this.score = (useSnapshot && yyw.USER.arena[this.mode].score) || 0;
       this.increaseScore(0);
-      this.combo = useSnapshot && yyw.USER.arena[this.mode].combo || 0;
-      this.maxCombo = useSnapshot && yyw.USER.arena[this.mode].maxCombo || 0;
+      this.combo = (useSnapshot && yyw.USER.arena[this.mode].combo) || 0;
+      this.maxCombo = (useSnapshot && yyw.USER.arena[this.mode].maxCombo) || 0;
       this.handleChange(true);
     }
 
@@ -120,98 +215,17 @@ namespace game {
       });
     }
 
-    private xy2p([ x, y ]: number[]): Point {
+    private xy2p([x, y]: number[]): Point {
       return [
-        Math.max(0, Math.min(COLS - 1, Math.floor(x / this.main.width * COLS))),
-        Math.max(0, Math.min(ROWS - 1, Math.floor(y / this.main.height * ROWS))),
+        Math.max(
+          0,
+          Math.min(COLS - 1, Math.floor((x / this.main.width) * COLS)),
+        ),
+        Math.max(
+          0,
+          Math.min(ROWS - 1, Math.floor((y / this.main.height) * ROWS)),
+        ),
       ];
-    }
-
-    private initDnd() {
-      const { main } = this;
-
-      // 起始点
-      let fromXY: [number, number];
-      // 起始单元格
-      let fromCell: Cell;
-
-      const handleBegin = (e: egret.TouchEvent, cancel: any) => {
-        if (this.running) {
-          cancel();
-          return;
-        }
-        const { localX, localY } = e;
-        fromXY = [localX, localY];
-        fromCell = this.cells.getCellAt(this.xy2p(fromXY));
-        // 不能拖动
-        if (!fromCell.canDrag()) {
-          cancel();
-          return;
-        }
-        fromCell.zoomIn();
-        yyw.setZIndex(fromCell);
-      };
-
-      const handleDrag = async (e: egret.TouchEvent, cancel: any) => {
-        const { localX, localY } = e;
-        const toXY: [number, number] = [localX, localY];
-        const toCell = this.cells.getCellAt(this.xy2p(toXY));
-        // 不能拖入
-        if (!toCell.canDrop()) {
-          return;
-        }
-        // 非邻居，不处理
-        if (!Cells.isNeighborCells(fromCell, toCell)) {
-          return;
-        }
-        const slope = getSlope(toXY, fromXY);
-        if (slope < 2 && slope > 0.5) {
-          return;
-        }
-        // 开始交换
-        cancel();
-        fromCell.zoomOut();
-        this.isRunning = true;
-        // 普通交换
-        SwapSound.play();
-        this.tweenFromTo(fromCell, toCell, 300);
-        await this.tweenFromTo(toCell, fromCell, 300);
-        this.switchNumbers(fromCell, toCell);
-        const numFrom = fromCell.getNumber();
-        const numTo = toCell.getNumber();
-        if (numFrom !== numTo) {
-          let magicCell: Cell;
-          let numToGrowUp: number;
-          if (numFrom === MAGIC_NUMBER) {
-            magicCell = fromCell;
-            numToGrowUp = numTo;
-          } else if (numTo === MAGIC_NUMBER) {
-            magicCell = toCell;
-            numToGrowUp = numFrom;
-          }
-          if (magicCell) {
-            // 魔法效果
-            MagicSound.play();
-            await this.growUpCellsOf(numToGrowUp);
-            this.cells.setNumberAt(magicCell, 0);
-            await this.dropCellsDown();
-          }
-          this.resetCombo();
-          const hasChain = await this.mergeChains(toCell, fromCell);
-          this.onSwap(hasChain);
-          this.handleChange(hasChain);
-        }
-        this.isRunning = false;
-      };
-
-      const handleEnd = () => {
-        if (this.running) {
-          return;
-        }
-        fromCell.zoomOut();
-      };
-
-      yyw.onDnd(main, handleBegin, handleDrag, handleEnd, main.stage);
     }
 
     @yyw.debounce()
@@ -265,11 +279,20 @@ namespace game {
       this.cells.setNumberAt(to, numFrom);
     }
 
-    private tweenFromTo(from: Cell, to: Cell, duration: number = 100): Promise<void> {
-      return from.tweenTo([{
-        x: to.col - from.col,
-        y: to.row - from.row,
-      }], duration);
+    private tweenFromTo(
+      from: Cell,
+      to: Cell,
+      duration: number = 100,
+    ): Promise<void> {
+      return from.tweenTo(
+        [
+          {
+            x: to.col - from.col,
+            y: to.row - from.row,
+          },
+        ],
+        duration,
+      );
     }
 
     private resetCombo() {
@@ -288,7 +311,9 @@ namespace game {
       triggerCell2?: Cell,
     ): Promise<boolean> {
       const firstNumber = triggerCell ? triggerCell.getNumber() : 0;
-      const [ num, cells ] = this.cells.getChain(firstNumber === MAGIC_NUMBER ? 0 : firstNumber);
+      const [num, cells] = this.cells.getChain(
+        firstNumber === MAGIC_NUMBER ? 0 : firstNumber,
+      );
       // 找到
       if (num) {
         const isSF = Cells.isStraightFive(cells);
@@ -324,21 +349,19 @@ namespace game {
         }
         // 播放得分音效
         PointSound.play();
-        const toNum = (isSF || num >= BIGGEST_NUMBER) ? MAGIC_NUMBER : (+num + 1);
+        const toNum = isSF || num >= BIGGEST_NUMBER ? MAGIC_NUMBER : +num + 1;
         // 同步合并
-        await Promise.all(
-          [
-            ...cells.map((cell) => {
-              const steps = Cells.getSteps(
-                cell,
-                triggerCell,
-                cells.filter((c) => !Cells.isEqual(c, cell)),
-              );
-              return this.collapseCellBySteps(cell, steps);
-            }),
-            triggerCell.growUp(toNum),
-          ],
-        );
+        await Promise.all([
+          ...cells.map((cell) => {
+            const steps = Cells.getSteps(
+              cell,
+              triggerCell,
+              cells.filter((c) => !Cells.isEqual(c, cell)),
+            );
+            return this.collapseCellBySteps(cell, steps);
+          }),
+          triggerCell.growUp(toNum),
+        ]);
         yyw.emit("NUM_MERGED", { num: toNum });
         await this.dropCellsDown();
         this.increaseCombo();
@@ -385,10 +408,7 @@ namespace game {
       }
     }
 
-    private async collapseCellBySteps(
-      from: Cell,
-      steps: Cell[],
-    ) {
+    private async collapseCellBySteps(from: Cell, steps: Cell[]) {
       let current = from;
       const increases = [];
       const length = steps.length;
