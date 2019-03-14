@@ -21,16 +21,19 @@ namespace game {
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       super.createView(fromChildrenCreated);
 
+      const { windowWidth, windowHeight, levels, level } = yyw.CONFIG;
+
+      this.tfdLevel.text = `${level}`;
+      this.tfdSteps.text = `${levels[level - 1].limit.steps - this.gameData.steps}`;
+
       if (fromChildrenCreated) {
         yyw.onTap(this.btnOK, async () => {
-          const { windowWidth, windowHeight } = yyw.CONFIG;
-          const { steps } = this.gameData;
           const { width, height } = this.main;
           const { x, y } = this.main.localToGlobal();
           const scaleX = windowWidth / 375;
           const scaleY = scaleX * windowHeight / 667;
           yyw.share({
-            title: `噢耶！我 ${steps} 步就通过了关卡 ${yyw.CONFIG.level}`,
+            title: `噢耶！我 ${levels[level - 1].limit.steps - this.gameData.steps} 步就通过了关卡 ${level}`,
             imageUrl: canvas.toTempFilePathSync({
               x,
               y,
@@ -47,13 +50,6 @@ namespace game {
           yyw.emit("GAME_START");
         });
       }
-
-      const { steps } = this.gameData;
-
-      const { levels, level } = yyw.CONFIG;
-
-      this.tfdLevel.text = `${level}`;
-      this.tfdSteps.text = `${levels[level].limit.steps - steps}`;
 
       yyw.CONFIG.level++;
 

@@ -91,6 +91,9 @@ namespace game {
       yyw.on("LEVEL_COMPLETE", () => {
         this.gameWon();
       });
+
+      // 预处理龙骨动画
+      Boom.init();
     }
 
     protected async destroy(): Promise<void> {

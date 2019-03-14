@@ -29,6 +29,10 @@ namespace yyw {
         combo?: number;
         maxCombo?: number;
         steps?: number;
+        combos?: number;
+        merged?: {
+          [num: string]: number;
+        };
         // from tools
         valueUp?: number;
         shuffle?: number;

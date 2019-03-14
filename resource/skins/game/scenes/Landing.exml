@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="LandingSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*">
+<e:Skin class="LandingSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*" xmlns:w="http://ns.egret.com/wing">
 	<e:Rect id="bg" height="1334" width="750" fillColor="0x101C24"/>
 	<e:Group id="body" width="750" height="1072" bottom="262">
 		<e:Group horizontalCenter="0" verticalCenter="-180">
 			<e:Image id="numbers" source="sprites2_json.numbers" x="-48" touchEnabled="false"/>
 			<e:Image id="pig" source="sprites2_json.pig" y="72" x="144" touchEnabled="false"/>
 		</e:Group>
-		<e:Button id="btnStart" skinName="ButtonDefaultSkin" width="432" height="144" icon="sprites_json.start" y="648" horizontalCenter="0"/>
-    <e:Label id="tfdScore" textAlign="center" size="36" height="48" y="798" width="540" horizontalCenter="0"/>
-		<e:Button id="btnStart2" skinName="ButtonDefaultSkin" width="432" height="144" icon="sprites_json.start2" y="858" horizontalCenter="0"/>
-		<e:Label id="tfdLevel" textAlign="center" size="36" height="48" y="1008" width="540" horizontalCenter="0"/>
+		<e:Group id="grpButtons" y="648" width="432" x="159">
+			<e:Button id="btnStart" skinName="ButtonDefaultSkin" height="144" icon="sprites_json.start" y="0" left="0" right="0"/>
+			<e:Label id="tfdScore" textAlign="center" size="36" height="48" y="150" left="0" right="0"/>
+			<e:Button id="btnStart2" skinName="ButtonDefaultSkin" height="144" icon="sprites_json.start2" y="210" left="0" right="0"/>
+			<e:Label id="tfdLevel" textAlign="center" size="36" height="48" y="360" left="0" right="0"/>
+		</e:Group>
 		<game:CtrlGroup3 id="ctrlGroup3" x="30" y="739"/>
 		<game:CtrlGroup2 id="ctrlGroup2" y="739" x="648"/>
 	</e:Group>

@@ -6,12 +6,12 @@ namespace game {
     private tfdGoals: eui.BitmapLabel;
     /** 剩余步数值 */
     private steps: number = 0;
-    private level: number;
     private limit: any;
     private goals: any;
     private merged: {
       [num: string]: number;
     } = {};
+    private combos: number = 0;
     private timeoutHandle: number = null;
     private offGameData: () => void;
     private offNumMerged: () => void;
@@ -19,6 +19,8 @@ namespace game {
     public getSnapshot() {
       return {
         steps: this.steps,
+        combos: this.combos,
+        merged: this.merged,
         ...super.getSnapshot(),
       };
     }
@@ -50,34 +52,34 @@ namespace game {
       Object.assign(this, yyw.CONFIG.levels[yyw.CONFIG.level - 1]);
 
       this.steps = useSnapshot && yyw.USER.arena.level.steps || this.limit.steps;
+      this.combos = useSnapshot && yyw.USER.arena.level.combos || 0;
+      this.merged = useSnapshot && yyw.USER.arena.level.merged || {};
 
-      const { score, merge } = this.goals;
+      const { score, combo, merge } = this.goals;
 
-      if (yyw.USER.guided) {
-        const strArr = [`${this.limit.steps} 步内`];
-        if (score) {
-          strArr.push(`获得 ${this.goals.score} 分`);
-        }
-        if (merge && merge.length) {
-          strArr.push(`合成 ${this.goals.merge[1]} 次 ${this.goals.merge[0]}`);
-        }
-        yyw.showModal(
-          strArr.join("，"),
-          false,
-        );
+      const strArr = [];
+      if (score) {
+        strArr.push(`获得：${score} 分`);
+      }
+      if (combo && combo.length) {
+        strArr.push(`${combo[0]} 连击：${combo[1]} 次`);
+      }
+      if (merge && merge.length) {
+        strArr.push(`合成 ${merge[0]}：${merge[1]} 次`);
       }
 
-      {
-        this.tfdLevel.text = `${this.level}`;
-        this.tfdSteps.text = `${this.steps}`;
-        const strArr = [];
-        if (score) {
-          strArr.push(`得 ${this.goals.score} 分`);
-        }
-        if (merge && merge.length) {
-          strArr.push(`合 ${this.goals.merge[1]} 次 ${this.goals.merge[0]}`);
-        }
-        this.tfdGoals.text = strArr.join(" 且 ");
+      this.tfdLevel.text = `${yyw.CONFIG.level}`;
+      this.tfdSteps.text = `${this.steps}`;
+      this.tfdGoals.text = strArr.join("\n");
+
+      if (yyw.USER.guided) {
+        yyw.showModal(
+          [
+            `${this.limit.steps} 步内`,
+            ...strArr,
+          ].join("，"),
+          false,
+        );
       }
 
       this.increaseSteps(0);
@@ -93,12 +95,23 @@ namespace game {
 
     protected addListeners() {
       if (!this.offGameData) {
-        this.offGameData = yyw.on("GAME_DATA", ({ data: { score } }) => {
+        this.offGameData = yyw.on("GAME_DATA", ({ data: { score, combo } }) => {
+          if (this.goals.combo) {
+            if (combo >= this.goals.combo[0]) {
+              this.combos++;
+            }
+          }
+
           const isScoreSatisfied = !this.goals.score
             || score >= this.goals.score;
+
+          const isComboSatisfied = !this.goals.combo
+            || this.combos >= this.goals.combo[1];
+
           const isMergeSatisfied = !this.goals.merge
             || this.merged[this.goals.merge[0]] >= this.goals.merge[1];
-          if (isScoreSatisfied && isMergeSatisfied) {
+
+          if (isScoreSatisfied && isComboSatisfied && isMergeSatisfied) {
             if (this.timeoutHandle) {
               egret.clearTimeout(this.timeoutHandle);
               this.timeoutHandle = null;
@@ -112,7 +125,7 @@ namespace game {
           if (this.goals.merge && this.goals.merge[0] === num) {
             const key = `${num}`;
             const times = this.merged[key] || 0;
-            this.merged[key] = times;
+            this.merged[key] = times + 1;
           }
         });
       }

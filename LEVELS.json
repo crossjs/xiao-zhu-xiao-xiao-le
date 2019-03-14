@@ -1,0 +1,34 @@
+[
+  { "goals": { "score": 1000 }, "limit": { "steps": 5 } },
+  { "goals": { "combo": [3, 2] }, "limit": { "steps": 5 } },
+  { "goals": { "merge": [3, 2] }, "limit": { "steps": 5 } },
+  { "goals": { "score": 2000 }, "limit": { "steps": 10 } },
+  { "goals": { "combo": [3, 3] }, "limit": { "steps": 10 } },
+  { "goals": { "merge": [3, 3] }, "limit": { "steps": 10 } },
+
+  { "goals": { "score": 3000 }, "limit": { "steps": 20 } },
+
+  { "goals": { "score": 1000 }, "limit": { "steps": 6, "fixed": [12] } },
+  { "goals": { "combo": [3, 2] }, "limit": { "steps": 6, "fixed": [12] } },
+  { "goals": { "merge": [3, 2] }, "limit": { "steps": 6, "fixed": [12] } },
+
+  { "goals": { "score": 2000 }, "limit": { "steps": 20, "fixed": [7, 12, 17] } },
+
+  { "goals": { "score": 2000 }, "limit": { "steps": 12, "black": [12] } },
+  { "goals": { "combo": [3, 3] }, "limit": { "steps": 12, "black": [12] } },
+  { "goals": { "merge": [3, 3] }, "limit": { "steps": 12, "black": [12] } },
+
+  { "goals": { "score": 2000 }, "limit": { "steps": 20, "black": [11, 12, 13] } },
+
+  { "goals": { "score": 1000 }, "limit": { "steps": 12, "fixed": [6, 8, 16, 18] } },
+  { "goals": { "combo": [3, 2] }, "limit": { "steps": 12, "fixed": [6, 8, 16, 18] } },
+  { "goals": { "merge": [3, 2] }, "limit": { "steps": 12, "fixed": [6, 8, 16, 18] } },
+
+  { "goals": { "score": 1500 }, "limit": { "steps": 20, "fixed": [7, 11, 12, 13, 17] } },
+
+  { "goals": { "score": 2000 }, "limit": { "steps": 18, "black": [6, 8, 16, 18] } },
+  { "goals": { "combo": [3, 3] }, "limit": { "steps": 18, "black": [6, 8, 16, 18] } },
+  { "goals": { "merge": [3, 3] }, "limit": { "steps": 18, "black": [6, 8, 16, 18] } },
+
+  { "goals": { "score": 1500 }, "limit": { "steps": 20, "black": [7, 11, 12, 13, 17] } },
+]

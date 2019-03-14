@@ -2,6 +2,7 @@ namespace game {
   export class Landing extends yyw.Base {
     private tfdVersion: eui.Label;
     private imgFavorite: eui.Image;
+    private grpButtons: eui.Group;
     private tfdScore: eui.Label;
     private tfdLevel: eui.Label;
     private btnStart: eui.Button;
@@ -63,10 +64,10 @@ namespace game {
       super.createView(fromChildrenCreated);
 
       if (fromChildrenCreated) {
-        const { x: left, y: top, width, height } = this.btnStart;
+        const { x: left, y: top, width, height } = this.grpButtons;
         this.userInfoButton = await yyw.createUserInfoButton({
           left,
-          top: this.stage.stageHeight - 1334 + top,
+          top: top + (this.stage.stageHeight - 1334),
           width,
           height,
           onTap: (authorized: boolean) => {
@@ -83,9 +84,13 @@ namespace game {
         });
 
         yyw.onTap(this.btnStart2, async () => {
-          yyw.CONFIG.mode = "level";
-          await yyw.director.toScene("playing");
-          yyw.emit("GAME_START");
+          if (yyw.USER.score < 20000) {
+            yyw.showModal("无尽模式达到 20000 分后开启", false);
+          } else {
+            yyw.CONFIG.mode = "level";
+            await yyw.director.toScene("playing");
+            yyw.emit("GAME_START");
+          }
         });
 
         if (!yyw.USER.sticked) {
