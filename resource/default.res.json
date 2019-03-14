@@ -5,7 +5,7 @@
 			"name": "loading"
 		},
 		{
-			"keys": "numbers_json,sprites_json,sprites2_json,score_fnt,boom_json,boom_png",
+			"keys": "numbers_json,sprites_json,sprites2_json,score_fnt,boom_tex_json,boom_ske_dbbin,boom_tex_png",
 			"name": "preload"
 		}
 	],
@@ -40,14 +40,19 @@
 			"subkeys": "fu,numbers,pig"
 		},
 		{
-			"name": "boom_json",
-			"type": "json",
-			"url": "assets/boom.json"
+			"name": "boom_ske_dbbin",
+			"type": "bin",
+			"url": "assets/boom_ske.dbbin"
 		},
 		{
-			"name": "boom_png",
+			"name": "boom_tex_json",
+			"type": "json",
+			"url": "assets/boom_tex.json"
+		},
+		{
+			"name": "boom_tex_png",
 			"type": "image",
-			"url": "assets/boom.png"
+			"url": "assets/boom_tex.png"
 		}
 	]
 }
