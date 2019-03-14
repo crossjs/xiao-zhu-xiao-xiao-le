@@ -26,14 +26,17 @@ namespace game {
         this.createMatrix();
       }
       if (yyw.CONFIG.mode === "level") {
-        const { limit: { black = [] } } = yyw.CONFIG.levels[yyw.CONFIG.level - 1];
+        const currentLevel = Levels.current();
+        if (currentLevel) {
+          const { limit: { black = [] } } = currentLevel;
 
-        black.forEach((point: number | Point) => {
-          if (typeof point === "number") {
-            point = index2point(point);
-          }
-          this.setNumberAt(point, -1);
-        });
+          black.forEach((point: number | Point) => {
+            if (typeof point === "number") {
+              point = index2point(point);
+            }
+            this.setNumberAt(point, -1);
+          });
+        }
       }
     }
 

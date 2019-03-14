@@ -1,6 +1,6 @@
 import * as cloud from "wx-server-sdk";
 
-cloud.init({ env: "releas-529ffe" });
+cloud.init({ env: "dev-529ffe" });
 
 const db = cloud.database();
 
@@ -20,7 +20,8 @@ export const main = async ({ score, level, combo }, context) => {
   return await doc.update({
     data: {
       score: Math.max(data.score, score),
-      level: Math.max(data.level, level),
+      level: 0,
+      // level: Math.max(data.level, level),
       combo: Math.max(data.combo, combo),
       scores: data.scores + score,
       played: data.played + 1,

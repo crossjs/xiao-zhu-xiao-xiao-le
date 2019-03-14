@@ -85,7 +85,7 @@ namespace game {
 
     public async startup(useSnapshot: boolean = false) {
       this.model = Model.create(useSnapshot);
-      const { limit: { fixed = [], black = [] } } = yyw.CONFIG.levels[yyw.CONFIG.level - 1];
+      const { limit: { fixed = [], black = [] } } = Levels.current();
       yyw.traverseMatrix(this.cellMatrix, (cell: Cell, point) => {
         cell.setNumber(this.model.getNumberAt(point));
         if (yyw.CONFIG.mode === "level") {

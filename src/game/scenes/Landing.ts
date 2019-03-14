@@ -87,9 +87,13 @@ namespace game {
           if (yyw.USER.score < 20000) {
             yyw.showModal("无尽模式达到 20000 分后开启", false);
           } else {
-            yyw.CONFIG.mode = "level";
-            await yyw.director.toScene("playing");
-            yyw.emit("GAME_START");
+            if (Levels.current()) {
+              yyw.CONFIG.mode = "level";
+              await yyw.director.toScene("playing");
+              yyw.emit("GAME_START");
+            } else {
+              yyw.showModal("暂无可用关卡，敬请期待！", false);
+            }
           }
         });
 

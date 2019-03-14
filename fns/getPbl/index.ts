@@ -1,6 +1,6 @@
 import * as cloud from "wx-server-sdk";
 
-cloud.init({ env: "releas-529ffe" });
+cloud.init({ env: "dev-529ffe" });
 
 const db = cloud.database();
 const _ = db.command;

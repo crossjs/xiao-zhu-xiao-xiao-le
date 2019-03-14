@@ -30,5 +30,5 @@
   { "goals": { "combo": [3, 3] }, "limit": { "steps": 18, "black": [6, 8, 16, 18] } },
   { "goals": { "merge": [3, 3] }, "limit": { "steps": 18, "black": [6, 8, 16, 18] } },
 
-  { "goals": { "score": 1500 }, "limit": { "steps": 20, "black": [7, 11, 12, 13, 17] } },
+  { "goals": { "score": 1500 }, "limit": { "steps": 20, "black": [7, 11, 12, 13, 17] } }
 ]

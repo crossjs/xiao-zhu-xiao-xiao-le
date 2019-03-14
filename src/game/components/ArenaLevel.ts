@@ -49,7 +49,7 @@ namespace game {
     }
 
     protected ensureData(useSnapshot: boolean) {
-      Object.assign(this, yyw.CONFIG.levels[yyw.CONFIG.level - 1]);
+      Object.assign(this, Levels.current());
 
       this.steps = useSnapshot && yyw.USER.arena.level.steps || this.limit.steps;
       this.combos = useSnapshot && yyw.USER.arena.level.combos || 0;
