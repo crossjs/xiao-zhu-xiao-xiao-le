@@ -20,8 +20,7 @@ export const main = async ({ score, level, combo }, context) => {
   return await doc.update({
     data: {
       score: Math.max(data.score, score),
-      level: 0,
-      // level: Math.max(data.level, level),
+      level: Math.max(data.level, level),
       combo: Math.max(data.combo, combo),
       scores: data.scores + score,
       played: data.played + 1,

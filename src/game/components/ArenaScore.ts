@@ -40,7 +40,7 @@ namespace game {
     }
 
     protected ensureData(useSnapshot: boolean) {
-      this.steps = useSnapshot && yyw.USER.arena.score.steps || this.steps;
+      this.steps = useSnapshot && yyw.USER.arena.score.steps || 5;
       this.increaseSteps(0);
       super.ensureData(useSnapshot);
     }

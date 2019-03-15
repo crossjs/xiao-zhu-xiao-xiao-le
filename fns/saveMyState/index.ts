@@ -15,10 +15,6 @@ export const main = async ({ state }, context) => {
     name: "dateUtil",
   });
 
-  if (state.arena) {
-    delete state.arena;
-  }
-
   return await doc.update({
     data: {
       ...state,

@@ -482,15 +482,15 @@ namespace game {
       await yyw.twirlOut(this.main, 300);
 
       // 先取得一个拍平的
-      const flattenedCells = this.cells.flatten().filter((cell: Cell) => {
-        return cell.getType() !== CELL_TYPES.BLACK;
-      });
+      const numbers = this.cells.flatten()
+        .filter((cell: Cell) => cell.getType() !== CELL_TYPES.BLACK)
+        .map((cell: Cell) => cell.getNumber());
       // 再遍历重新设置
       this.cells.traverse((cell: Cell, point) => {
         if (cell.getType() !== CELL_TYPES.BLACK) {
-          const index = yyw.random(flattenedCells.length);
-          const toCell = flattenedCells.splice(index, 1)[0];
-          this.cells.setNumberAt(cell, toCell.getNumber());
+          const index = yyw.random(numbers.length);
+          const [ num ] = numbers.splice(index, 1);
+          this.cells.setNumberAt(cell, num);
         }
       });
 
