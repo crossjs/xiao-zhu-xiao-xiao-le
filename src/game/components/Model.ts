@@ -3,10 +3,12 @@ namespace game {
   export type Matrix = number[][];
 
   export const MAGIC_NUMBER = 99;
+  export const BOMB_NUMBER = 98;
+  export const NIL_NUMBER = -1;
   export const BIGGEST_NUMBER = 20;
 
-  export const COLS = 5;
-  export const ROWS = 5;
+  export const COLS = 8;
+  export const ROWS = 8;
 
   export class Model {
     public static create(useSnapshot: boolean = false): Model {
@@ -19,7 +21,7 @@ namespace game {
 
     constructor(
       /** 最大数值 */
-      private maxNum: number = 5,
+      private maxNum: number = 7,
       private matrix?: Matrix,
     ) {
       if (!this.matrix) {
@@ -28,13 +30,13 @@ namespace game {
       if (yyw.CONFIG.mode === "level") {
         const currentLevel = Levels.current();
         if (currentLevel) {
-          const { limit: { black = [] } } = currentLevel;
+          const { limit: { nil = [] } } = currentLevel;
 
-          black.forEach((point: number | Point) => {
+          nil.forEach((point: number | Point) => {
             if (typeof point === "number") {
               point = index2point(point);
             }
-            this.setNumberAt(point, -1);
+            this.setNumberAt(point, NIL_NUMBER);
           });
         }
       }
@@ -45,36 +47,22 @@ namespace game {
       return { maxNum, matrix };
     }
 
-    public getMatrix(): Matrix {
-      return this.matrix;
-    }
-
-    public getItemAt(): Matrix {
-      return this.matrix;
-    }
-
     public getNumberAt([ col, row ]: Point): number {
       return this.matrix[row][col];
     }
 
-    public setNumberAt(point: Point, num: number) {
-      if (num !== MAGIC_NUMBER) {
-        this.maxNum = Math.max(Math.min(20, num), this.maxNum);
-      }
-      this.saveNumberAt(point, num);
+    public setNumberAt([ col, row ]: Point, num: number) {
+      this.matrix[row][col] = num;
     }
 
     /**
      * 在最大最小值之间取一个随机值
      * @param exceptList 排除的数字列表
-     * @todo 高阶数字出现概率应低于低阶数字
      */
     public getRandomNumber(exceptList?: number[]): number {
-      const num = yyw.random(this.maxNum - 4, this.maxNum + 1);
-      if (exceptList) {
-        if (exceptList.indexOf(num) !== -1) {
-          return this.getRandomNumber(exceptList);
-        }
+      const num = yyw.random(1, this.maxNum + 1);
+      if (exceptList && exceptList.indexOf(num) !== -1) {
+        return this.getRandomNumber(exceptList);
       }
       return num;
     }
@@ -109,7 +97,7 @@ namespace game {
             }
           }
           num = this.getRandomNumber(exceptList);
-          this.saveNumberAt([col, row], num);
+          this.setNumberAt([col, row], num);
         }
       }
     }
@@ -139,10 +127,6 @@ namespace game {
         }
       }
       return 0;
-    }
-
-    private saveNumberAt([ col, row ]: Point, num: number) {
-      this.matrix[row][col] = num;
     }
   }
 

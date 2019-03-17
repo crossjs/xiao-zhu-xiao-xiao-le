@@ -1,11 +1,14 @@
 namespace game {
-  const cellWidth = 144;
-  const cellHeight = 144;
+  const cellWidth = 90;
+  const cellHeight = 90;
 
   export const CELL_TYPES = {
-    NORMAL: 0,
-    FIXED: 1,
-    BLACK: 2,
+    DEF: 1,
+    MAGIC: 2,
+    BOMB: 4,
+    ICE: 8,
+    FIX: 16,
+    NIL: 32,
   };
 
   export class Cell extends yyw.Base {
@@ -16,19 +19,20 @@ namespace game {
     private ax: number = 0;
     private ay: number = 0;
     private num: number = 0;
-    private tfdScore: eui.BitmapLabel;
     private numGroup: eui.Group;
     private numImage: eui.Image;
-    private sugar: eui.Image;
-    private fixed: eui.Image;
-    private black: eui.Image;
+    private imgIce: eui.Image;
+    private imgFix: eui.Image;
+    private imgNil: eui.Image;
 
     constructor(
       public col: number,
       public row: number,
-      private type: number = CELL_TYPES.NORMAL,
+      private type: number = CELL_TYPES.DEF,
     ) {
       super();
+      this.width = cellWidth;
+      this.height = cellHeight;
       this.ax = cellWidth / 2;
       this.ay = cellHeight / 2;
       this.x = this.col * cellWidth + this.ax;
@@ -47,16 +51,25 @@ namespace game {
 
     public setType(type: number) {
       this.type = type;
-      this.fixed.visible = type === CELL_TYPES.FIXED;
-      this.black.visible = type === CELL_TYPES.BLACK;
+      this.imgIce.visible = type === CELL_TYPES.ICE;
+      this.imgFix.visible = type === CELL_TYPES.FIX;
+      this.imgNil.visible = type === CELL_TYPES.NIL;
+    }
+
+    public isMagic(): boolean {
+      return this.type === CELL_TYPES.MAGIC;
+    }
+
+    public isBomb(): boolean {
+      return this.type === CELL_TYPES.BOMB;
     }
 
     public canDrag(): boolean {
-      return this.type === CELL_TYPES.NORMAL;
+      return (this.type & 7) !== 0;
     }
 
     public canDrop(): boolean {
-      return this.type === CELL_TYPES.NORMAL;
+      return (this.type & 7) !== 0;
     }
 
     public setNumber(num: number): void {
@@ -67,57 +80,21 @@ namespace game {
         this.numImage.visible = false;
       }
       this.num = num;
+      switch (this.num) {
+        case MAGIC_NUMBER:
+          this.setType(CELL_TYPES.MAGIC);
+          break;
+        case BOMB_NUMBER:
+          this.setType(CELL_TYPES.BOMB);
+          break;
+        default:
+          this.setType(CELL_TYPES.DEF);
+      }
       this.showCurrent();
     }
 
     public getNumber(): number {
       return this.num;
-    }
-
-    public async flashScore() {
-      this.tfdScore.text = `+${this.num * 10}`;
-      this.tfdScore.visible = true;
-      this.tfdScore.alpha = 0;
-      const tween = await yyw.getTween(this.tfdScore);
-      await tween.to({
-        y: 72,
-        alpha: 1,
-      }, 300);
-      await tween.to({
-        y: 36,
-        alpha: 0,
-        scale: 1.5,
-      }, 200);
-      this.tfdScore.visible = false;
-      this.tfdScore.alpha = 1;
-      this.tfdScore.y = 108;
-      this.tfdScore.scale = 1;
-    }
-
-    public async tweenUp(): Promise<void> {
-      // 淡出当前
-      await this.fadeOut();
-
-      // 修改图片
-      this.numImage.source = `numbers_json.${this.num === BIGGEST_NUMBER ? MAGIC_NUMBER : this.num + 1}`;
-
-      // 淡入下张
-      await this.fadeIn();
-    }
-
-    public async growUp(num?: number) {
-      // 从 +1 道具来
-      if (num === undefined) {
-        num = this.getNumber() + 1;
-        if (num > BIGGEST_NUMBER) {
-          num = MAGIC_NUMBER;
-        }
-      }
-      yyw.setZIndex(this);
-      await this.fadeOut();
-      await Boom.playAt(this);
-      this.setNumber(num);
-      await this.fadeIn();
     }
 
     public zoomOut(duration: number = 100) {
@@ -136,49 +113,12 @@ namespace game {
       }, duration);
     }
 
-    public async tweenTo(increases: any[], duration: number, onResolve?: any): Promise<void> {
-      const { numGroup } = this;
-      const { x: oX, y: oY, rotation: oRotation, alpha: oAlpha } = numGroup;
-      const tween = yyw.getTween(numGroup);
-      yyw.wave(this, {
-        step: 0.02,
-        y: 1.6,
-      });
-      duration /= increases.length;
-      let tX = oX;
-      let tY = oY;
-      let tRotation = oRotation;
-      let tAlpha = oAlpha;
-      for (const { x = 0, y = 0, rotation = 0, alpha = 0 } of increases) {
-        tX += x * this.width;
-        tY += y * this.height;
-        tRotation += rotation;
-        tAlpha += alpha;
-        await tween.to({
-          x: tX,
-          y: tY,
-          rotation: tRotation,
-          alpha: tAlpha,
-        }, duration);
-      }
-
-      if (typeof onResolve === "function") {
-        await onResolve();
-      }
-
-      numGroup.x = oX;
-      numGroup.y = oY;
-      numGroup.rotation = oRotation;
-      numGroup.alpha = oAlpha;
-      yyw.disWave(this);
-    }
-
     public async fadeOut(duration: number = 300): Promise<void> {
+      await Boom.playAt(this);
       await yyw.getTween(this.numGroup)
       .to({
-        scale: 0,
+        scale: 1.2,
         alpha: 0,
-        rotation: 1080,
       }, duration);
     }
 
@@ -187,20 +127,32 @@ namespace game {
       .to({
         scale: 1,
         alpha: 1,
-        rotation: 0,
       }, duration);
+    }
+
+    public async tweenTo(increaseX: number, increaseY: number, duration: number): Promise<void> {
+      const { numGroup } = this;
+      const { x: oX, y: oY } = numGroup;
+      const tween = yyw.getTween(numGroup);
+      yyw.wave(this, {
+        step: 0.02,
+        y: 1.6,
+      });
+      await tween.to({
+        x: oX + increaseX * this.width,
+        y: oY + increaseY * this.height,
+      }, duration);
+      numGroup.x = oX;
+      numGroup.y = oY;
+      yyw.disWave(this);
     }
 
     public reset() {
       yyw.removeTweens(this);
       yyw.disWave(this);
       this.scale = 1;
-      yyw.removeTweens(this.tfdScore);
       yyw.removeTweens(this.numGroup);
       yyw.removeTweens(this.numImage);
-      this.tfdScore.visible = false;
-      this.tfdScore.alpha = 1;
-      this.tfdScore.y = 36;
       this.numGroup.scale = this.numGroup.alpha = 1;
       this.numGroup.rotation = 0;
     }
@@ -226,21 +178,11 @@ namespace game {
       this.showCurrent();
     }
 
-    private showCurrent(): void {
+    private async showCurrent() {
       if (this.num > 0) {
-        this.numImage.source = `numbers_json.${this.num}`;
+        this.numImage.source = `fruits_json.${this.num}`;
         this.numImage.visible = true;
-      }
-      yyw.removeTweens(this.sugar);
-      if (MAGIC_NUMBER === this.num) {
-        this.sugar.rotation = 0;
-        yyw.getTween(this.sugar, true)
-        .to({
-          rotation: 360,
-        }, 1000, null);
-        this.sugar.visible = true;
-      } else {
-        this.sugar.visible = false;
+        await this.fadeIn();
       }
     }
   }

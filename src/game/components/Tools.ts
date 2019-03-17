@@ -1,15 +1,11 @@
 namespace game {
   interface ToolAmount {
-    valueUp: number;
     shuffle: number;
-    breaker: number;
   }
 
   export class Tools extends yyw.Base {
     private toolAmounts: ToolAmount = {
-      valueUp: yyw.CONFIG.toolAmount,
       shuffle: yyw.CONFIG.toolAmount,
-      breaker: yyw.CONFIG.toolAmount,
     };
 
     public set targetRect(targetRect: egret.Rectangle) {
@@ -33,8 +29,8 @@ namespace game {
       yyw.eachChild(this.main, (tool: ToolBase) => {
         this.toolAmounts[tool.type] = tool.getAmount();
       });
-      const { valueUp, shuffle, breaker } = this.toolAmounts;
-      return { valueUp, shuffle, breaker };
+      const { shuffle } = this.toolAmounts;
+      return { shuffle };
     }
 
     protected initialize() {

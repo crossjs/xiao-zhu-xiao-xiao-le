@@ -7,24 +7,20 @@ namespace game {
     private tasks: any[] = [];
 
     protected async initialize(): Promise<void> {
-      yyw.on("NUM_MERGED", ({ data: { num }}) => {
-        // 获得魔法数字
-        if (num === MAGIC_NUMBER) {
-          this.magicCount++;
-          this.checkTasks();
-        }
-      });
-
-      yyw.on("GAME_PLAYED", () => {
+      // 完成关卡
+      yyw.on("LEVEL_WON", () => {
         this.gamesCount++;
         this.checkTasks();
       });
 
-      yyw.on("GAME_DATA", ({ data: {
-        score,
-      } }: egret.Event) => {
-        this.scoreReach = Math.max(this.scoreReach, score);
-        this.checkTasks();
+      // 获得分数
+      yyw.on("GAME_DATA", ({ data: { score } }: egret.Event) => {
+        if (yyw.CONFIG.mode === "score") {
+          if (score > this.scoreReach) {
+            this.scoreReach = score;
+            this.checkTasks();
+          }
+        }
       });
     }
 

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e:Skin class="CellSkin" xmlns:e="http://ns.egret.com/eui" width="144" height="144">
-	<e:Group id="numGroup" width="144" height="144" touchEnabled="false" touchChildren="false">
-		<e:Image id="numImage" pixelHitTest="false" source="numbers_json.1" horizontalCenter="0" verticalCenter="0" visible="false"/>
-		<e:Image id="sugar" source="numbers_json.sugar" x="114" y="30" anchorOffsetX="30" anchorOffsetY="30" visible="false"/>
+<e:Skin class="CellSkin" xmlns:e="http://ns.egret.com/eui" width="90" height="90">
+	<e:Group id="numGroup" width="90" height="90" touchEnabled="false" touchChildren="false">
+		<e:Image id="numImage" pixelHitTest="false" horizontalCenter="0" verticalCenter="0" visible="false" source="fruits_json.1"/>
 	</e:Group>
-	<e:Image id="black" visible="false" source="numbers_json.black" horizontalCenter="0" verticalCenter="0"/>
-	<e:Image id="fixed" visible="false" source="numbers_json.fixed" horizontalCenter="0" verticalCenter="0"/>
-	<e:BitmapLabel id="tfdScore" height="72" touchEnabled="false" textAlign="center" anchorOffsetX="90" width="180" x="72" y="108" anchorOffsetY="36" font="score_fnt"/>
+	<e:Image id="imgNil" visible="false" source="fruits_json.nil" horizontalCenter="0" verticalCenter="0"/>
+	<e:Image id="imgFix" visible="false" source="fruits_json.fix" horizontalCenter="0" verticalCenter="0"/>
+	<e:Image id="imgIce" visible="false" source="fruits_json.ice" horizontalCenter="0" verticalCenter="0"/>
 </e:Skin>

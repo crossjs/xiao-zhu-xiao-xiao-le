@@ -204,6 +204,7 @@ class Main extends eui.UILayer {
       fileList: [
         "alarm",
         "amazing",
+        "bomb",
         "click",
         "coins",
         "excellent",

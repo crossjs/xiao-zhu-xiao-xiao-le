@@ -25,7 +25,7 @@ namespace game {
       };
     }
 
-    protected onSwap(hasChain: boolean) {
+    protected onSwap() {
       this.increaseSteps(-1);
     }
 
@@ -116,12 +116,12 @@ namespace game {
               egret.clearTimeout(this.timeoutHandle);
               this.timeoutHandle = null;
             }
-            yyw.emit("LEVEL_COMPLETE");
+            yyw.emit("LEVEL_WON");
           }
         });
       }
       if (!this.offNumMerged) {
-        this.offNumMerged = yyw.on("NUM_MERGED", ({ data: { num }}) => {
+        this.offNumMerged = yyw.on("NUM_COLLECTED", ({ data: { num }}) => {
           if (this.goals.merge && this.goals.merge[0] === num) {
             const key = `${num}`;
             const times = this.merged[key] || 0;

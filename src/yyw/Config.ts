@@ -6,10 +6,12 @@ namespace yyw {
     level: number;
     limit: {
       steps?: number;
+      // 冻住，消除后可移动
+      ice?: number[];
       // 固定，只可消除，不可移动
-      fixed?: number[];
+      fix?: number[];
       // 黑洞，无棋子
-      black?: number[];
+      nil?: number[];
     };
     goals: {
       score?: number;

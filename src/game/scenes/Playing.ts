@@ -71,24 +71,29 @@ namespace game {
         }
       });
 
-      const canCoin = yyw.reward.can("coin");
+      // const canCoin = yyw.reward.can("coin");
 
-      // 启用金币奖励
-      if (canCoin) {
-        yyw.on("NUM_MERGED", ({ data: { num }}) => {
-          if (this.isPlaying) {
-            // 获得魔法数字
-            if (num === MAGIC_NUMBER) {
-              yyw.director.toScene("award", true, (scene: Award) => {
-                scene.setType("magic");
-              });
-              yyw.analysis.onRunning("award", "magic");
-            }
-          }
-        });
-      }
+      // // 启用金币奖励
+      // if (canCoin) {
+      //   yyw.on("NUM_COLLECTED", ({ data: { num }}) => {
+      //     if (this.isPlaying) {
+      //       // 获得魔法数字
+      //       if (num === MAGIC_NUMBER) {
+      //         yyw.director.toScene("award", true, (scene: Award) => {
+      //           scene.setType("magic");
+      //         });
+      //         yyw.analysis.onRunning("award", "magic");
+      //       } else if (num === BOMB_NUMBER) {
+      //         yyw.director.toScene("award", true, (scene: Award) => {
+      //           scene.setType("bomb");
+      //         });
+      //         yyw.analysis.onRunning("award", "bomb");
+      //       }
+      //     }
+      //   });
+      // }
 
-      yyw.on("LEVEL_COMPLETE", () => {
+      yyw.on("LEVEL_WON", () => {
         this.gameWon();
       });
 
@@ -166,7 +171,7 @@ namespace game {
         combo,
         level: yyw.CONFIG.level,
       });
-      yyw.emit("GAME_PLAYED");
+      yyw.emit("LEVEL_WON");
       yyw.director.toScene("completing", true);
       yyw.analysis.onEnd();
     }
@@ -194,7 +199,6 @@ namespace game {
           },
         });
       }
-      yyw.emit("GAME_PLAYED");
       yyw.director.toScene("ending", true);
       yyw.analysis.onEnd();
     }

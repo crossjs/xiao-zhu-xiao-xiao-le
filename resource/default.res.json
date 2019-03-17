@@ -5,16 +5,16 @@
 			"name": "loading"
 		},
 		{
-			"keys": "numbers_json,sprites_json,sprites2_json,score_fnt,boom_tex_json,boom_ske_dbbin,boom_tex_png",
+			"keys": "fruits_json,sprites_json,sprites2_json,score_fnt,boom_tex_json,boom_ske_dbbin,boom_tex_png",
 			"name": "preload"
 		}
 	],
 	"resources": [
 		{
-			"url": "assets/numbers.json",
+			"url": "assets/fruits.json",
 			"type": "sheet",
-			"name": "numbers_json",
-			"subkeys": "1,10,11,12,13,14,15,16,17,18,19,2,20,3,4,5,6,7,8,9,99,black,fixed,sugar"
+			"name": "fruits_json",
+			"subkeys": "1,10,11,12,13,14,15,16,17,18,19,2,20,21,22,23,24,25,3,4,5,6,7,8,9,98,99,ice,fix,nil"
 		},
 		{
 			"url": "assets/score.fnt",

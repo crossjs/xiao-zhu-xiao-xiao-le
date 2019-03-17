@@ -4,24 +4,26 @@ namespace yyw {
 
   export type Point = [ col, row ];
 
-  export function traverseMatrix(matrix: any[][], handler: (value?: any, point?: Point) => any): void {
+  const identify = (value: any, point?: Point) => value;
+  const satisfy = (value: any, point?: Point) => true;
+
+  export function traverseMatrix(
+    matrix: any[][],
+    handler: (value?: any, point?: Point) => any = identify,
+    filter: (value: any, point?: Point) => boolean = satisfy,
+  ): any[] {
+    const arr = [];
     let row = matrix.length;
     while (row--) {
       const r = matrix[row];
       let col = r.length;
       while (col--) {
-        handler(r[col], [col, row]);
+        const v = handler(r[col], [col, row]);
+        if (filter(v)) {
+          arr.push(v);
+        }
       }
     }
-  }
-
-  export function flattenMatrix(matrix: any[][]): any[] {
-    const flattened = [];
-    traverseMatrix(matrix, (value: any) => {
-      // 因为使用的是反向广度优先遍历，
-      // 所以次数要用 unshift，以保证数组以自然顺序返回
-      flattened.unshift(value);
-    });
-    return flattened;
+    return arr;
   }
 }
