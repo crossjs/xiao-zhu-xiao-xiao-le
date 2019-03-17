@@ -21,7 +21,7 @@ namespace game {
 
     constructor(
       /** 最大数值 */
-      private maxNum: number = 7,
+      private maxNum: number = 6,
       private matrix?: Matrix,
     ) {
       if (!this.matrix) {
@@ -69,34 +69,40 @@ namespace game {
 
     private createMatrix() {
       this.matrix = [];
+      const { limit: { nil = [] } } = Levels.current();
       for (let row = 0; row < ROWS; row++) {
         this.matrix[row] = [];
         let num: number;
         for (let col = 0; col < COLS; col++) {
-          // 将上一个值加入排除列表，以避免连续数字过多导致难度太低
-          const exceptList = [num];
-          if (col > 0) {
-            const num1 = this.getTwinsNumber(col - 1, row);
-            // 前两格如果连续，则应加入当前的排除列表
-            if (num1) {
-              exceptList.push(num1);
-            }
-          }
-          if (row > 0) {
-            const num2 = this.getTwinsNumber(col, row - 1);
-            // 前两格如果连续，则应加入当前的排除列表
-            if (num2) {
-              exceptList.push(num2);
-            }
+          const index = row * COLS + col;
+          if (nil.indexOf(index) !== -1) {
+            num = -1;
+          } else {
+            // 将上一个值加入排除列表，以避免连续数字过多导致难度太低
+            const exceptList = [num];
             if (col > 0) {
-              const num3 = this.matrix[row - 1][col];
-              // 如果上面与左边的格子相等，那么自己不能跟他们相等
-              if (num3 === this.matrix[row][col - 1]) {
-                exceptList.push(num3);
+              const num1 = this.getTwinsNumber(col - 1, row);
+              // 前两格如果连续，则应加入当前的排除列表
+              if (num1) {
+                exceptList.push(num1);
               }
             }
+            if (row > 0) {
+              const num2 = this.getTwinsNumber(col, row - 1);
+              // 前两格如果连续，则应加入当前的排除列表
+              if (num2) {
+                exceptList.push(num2);
+              }
+              if (col > 0) {
+                const num3 = this.matrix[row - 1][col];
+                // 如果上面与左边的格子相等，那么自己不能跟他们相等
+                if (num3 === this.matrix[row][col - 1]) {
+                  exceptList.push(num3);
+                }
+              }
+            }
+            num = this.getRandomNumber(exceptList);
           }
-          num = this.getRandomNumber(exceptList);
           this.setNumberAt([col, row], num);
         }
       }

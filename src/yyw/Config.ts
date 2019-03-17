@@ -2,8 +2,8 @@ namespace yyw {
   const systemInfo: wx.systemInfo = wx.getSystemInfoSync();
   const launchOptions: wx.launchOptions = wx.getLaunchOptionsSync();
 
-  interface Level {
-    level: number;
+  export interface Level {
+    level?: number;
     limit: {
       steps?: number;
       // 冻住，消除后可移动
@@ -13,7 +13,7 @@ namespace yyw {
       // 黑洞，无棋子
       nil?: number[];
     };
-    goals: {
+    goals?: {
       score?: number;
       merge?: [number, number];
     };

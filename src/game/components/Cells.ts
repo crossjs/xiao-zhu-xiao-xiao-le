@@ -65,21 +65,17 @@ namespace game {
     private model: Model;
 
     public async startup(useSnapshot: boolean = false) {
+      const { limit: { ice = [], fix = [], nil = [] } } = Levels.current();
       this.model = Model.create(useSnapshot);
-      this.traverse((cell: Cell, point) => {
+      this.traverse((cell: Cell, point: Point) => {
         cell.setNumber(this.model.getNumberAt(point));
-        if ( yyw.CONFIG.mode === "level") {
-          const { limit: { ice = [], fix = [], nil = [] } } = Levels.current();
-          const index = cell.getIndex();
-          if (ice.indexOf(index) !== -1) {
-            cell.setType(CELL_TYPES.ICE);
-          } else if (fix.indexOf(index) !== -1) {
-            cell.setType(CELL_TYPES.FIX);
-          } else if (nil.indexOf(index) !== -1) {
-            cell.setType(CELL_TYPES.NIL);
-          } else {
-            cell.setType(CELL_TYPES.DEF);
-          }
+        const index = cell.getIndex();
+        if (ice.indexOf(index) !== -1) {
+          cell.setType(CELL_TYPES.ICE);
+        } else if (fix.indexOf(index) !== -1) {
+          cell.setType(CELL_TYPES.FIX);
+        } else if (nil.indexOf(index) !== -1) {
+          cell.setType(CELL_TYPES.NIL);
         } else {
           cell.setType(CELL_TYPES.DEF);
         }
@@ -125,11 +121,13 @@ namespace game {
       // 先按数字序列化，以便于将长度不足的先剔除
       this.traverse((cell: Cell) => {
         const num = cell.getNumber();
-        const key = `${num}`;
-        if (!numMap[key]) {
-          numMap[key] = [];
+        if (num !== NIL_NUMBER) {
+          const key = `${num}`;
+          if (!numMap[key]) {
+            numMap[key] = [];
+          }
+          numMap[key].push(cell);
         }
-        numMap[key].push(cell);
       });
       const entries = Object.entries(numMap);
       if (preferredNum) {
