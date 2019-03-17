@@ -23,6 +23,7 @@ namespace game {
       this.cells.startup(useSnapshot);
       this.ensureData(useSnapshot);
       this.handleChange();
+      this.isRunning = false;
     }
 
     public getSnapshot() {
