@@ -1,7 +1,8 @@
 namespace game {
   export class Goal extends yyw.Base {
-    private tfd: eui.Label;
     private img: eui.Image;
+    private rct: eui.Rect;
+    private tfd: eui.Label;
     private chk: eui.Image;
 
     constructor(
@@ -21,6 +22,8 @@ namespace game {
       this.tfd.text = `${this.amount}`;
       if ( this.amount === 0) {
         this.chk.visible = true;
+        this.rct.visible = false;
+        this.tfd.visible = false;
       }
     }
 

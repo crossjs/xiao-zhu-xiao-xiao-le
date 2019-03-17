@@ -25,6 +25,8 @@ namespace game {
       // 清除
       yyw.removeChildren(this.grpGoals);
 
+      this.insGoals = {};
+
       // 重建
       Object.entries(this.currentLevel.goals)
       .forEach(([ num, amount ]: [ string, number ], index: number) => {
@@ -41,11 +43,30 @@ namespace game {
 
     protected async collectCell(cell: Cell, num: number = 0) {
       const key = `${cell.getNumber()}`;
+      await super.collectCell(cell, num);
       if (this.insGoals.hasOwnProperty(key)) {
-        this.insGoals[key].increaseAmount(1);
+        const goal = this.insGoals[key];
+        await this.fly(cell, goal, key);
+        goal.increaseAmount(1);
         this.check();
       }
-      await super.collectCell(cell, num);
+    }
+
+    private async fly(cell: Cell, goal: Goal, num: string) {
+      const { x, y } = cell.localToGlobal();
+      // const top = this.stage.stageHeight - 1012;
+      const dup = new eui.Image(`fruits_json.${num}`);
+      dup.x = x;
+      dup.y = y;
+      this.stage.addChild(dup);
+
+      yyw.bezierTo(dup, goal.localToGlobal(), 500);
+
+      await yyw.getTween(dup).to({
+        alpha: 0.5,
+      }, 500);
+
+      yyw.removeElement(dup);
     }
 
     private check() {

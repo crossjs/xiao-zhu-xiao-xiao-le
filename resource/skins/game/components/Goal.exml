@@ -2,7 +2,7 @@
 <e:Skin class="GoalSkin" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" width="90" height="90">
 	<e:Group id="main" width="90" height="90" touchEnabled="false" touchChildren="false">
 		<e:Image id="img" pixelHitTest="false" horizontalCenter="0" verticalCenter="0" visible="true" source="fruits_json.1"/>
-		<e:Rect x="60" width="30" height="30" fillColor="0xFFFFFF" ellipseHeight="30" ellipseWidth="30"/>
+		<e:Rect id="rct" x="60" width="30" height="30" fillColor="0xFFFFFF" ellipseHeight="30" ellipseWidth="30"/>
 		<e:Label id="tfd" width="30" height="30" touchEnabled="false" x="60" textAlign="center" size="18" textColor="0xE95954" verticalAlign="middle" text=""/>
 		<e:Image id="chk" source="sprites_json.checked" x="21" y="21" visible="false"/>
 	</e:Group>

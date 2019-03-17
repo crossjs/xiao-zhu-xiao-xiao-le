@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="ArenaLevelSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*" xmlns:w="http://ns.egret.com/wing">
-	<e:Rect width="750" height="750" fillColor="0x101C24" y="322" visible="true"/>
-	<e:Group id="main" width="720" height="720" x="375" y="697" anchorOffsetX="360" anchorOffsetY="360">
+	<e:Rect width="750" height="750" fillColor="0x101C24" y="232" visible="true"/>
+	<e:Group id="main" width="720" height="720" x="375" y="607" anchorOffsetX="360" anchorOffsetY="360">
 		<game:Cells id="cells" touchChildren="false"/>
 	</e:Group>
 	<e:Label text="关卡" fontFamily="sans-serif" size="24" verticalAlign="middle" height="36" y="102" x="621"/>

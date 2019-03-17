@@ -26,8 +26,8 @@ namespace game {
     }
 
     protected async collectCell(cell: Cell, num: number = 0) {
-      this.increaseScore(10);
       await super.collectCell(cell, num);
+      this.increaseScore(10);
     }
 
     /**

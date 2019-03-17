@@ -141,6 +141,17 @@ namespace game {
       this.tfdScore.text = `最高分数：${yyw.USER.score || 0}`;
       this.tfdLevel.text = `最高关卡：${yyw.USER.level || 0}`;
 
+      yyw.onTap(this.tfdScore, () => {
+        yyw.USER.score = 20000;
+        this.tfdScore.text = `最高分数：${yyw.USER.score || 0}`;
+      });
+
+      yyw.onTap(this.tfdLevel, () => {
+        yyw.USER.level = 0;
+        yyw.CONFIG.level = 1;
+        this.tfdLevel.text = `最高关卡：${yyw.USER.level || 0}`;
+      });
+
       // 每次进入，都刷新广告
       if (!await yyw.showBannerAd()) {
         // 没有广告，显示交叉营销

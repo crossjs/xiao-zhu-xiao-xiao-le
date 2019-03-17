@@ -10,7 +10,6 @@
     ]
   },
   "include": [
-    "fns/**/*",
     "src/**/*",
     "node_modules/@minipx/cli/lib/templates/for-build/libs/**/*"
   ]
