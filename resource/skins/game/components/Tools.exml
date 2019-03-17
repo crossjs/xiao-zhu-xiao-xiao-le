@@ -2,6 +2,5 @@
 <e:Skin class="ToolsSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*">
 	<e:Group id="main" touchEnabled="false" width="750">
 		<game:Shuffle x="339"/>
-		<game:StepsUp y="66" x="623"/>
 	</e:Group>
 </e:Skin>

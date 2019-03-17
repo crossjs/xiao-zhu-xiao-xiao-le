@@ -163,9 +163,7 @@ class Main extends eui.UILayer {
     yyw.director.init({
       alarm: new game.Alarm(),
       award: new game.Award(),
-      checkin: new game.Checkin(),
       completing: new game.Completing(),
-      ending: new game.Ending(),
       guide: new game.Guide(),
       landing: new game.Landing(),
       pbl: new game.Pbl(),

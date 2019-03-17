@@ -21,10 +21,11 @@ namespace game {
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       super.createView(fromChildrenCreated);
 
-      const { windowWidth, windowHeight, level } = yyw.CONFIG;
+      const { windowWidth, windowHeight } = yyw.CONFIG;
+      const currentLevel = yyw.Levels.current();
 
-      this.tfdLevel.text = `${level}`;
-      this.tfdSteps.text = `${Levels.current().limit.steps - this.gameData.steps}`;
+      this.tfdLevel.text = `${currentLevel.level}`;
+      this.tfdSteps.text = `${currentLevel.limit.steps - this.gameData.steps}`;
 
       if (fromChildrenCreated) {
         yyw.onTap(this.btnOK, async () => {
@@ -33,7 +34,7 @@ namespace game {
           const scaleX = windowWidth / 375;
           const scaleY = scaleX * windowHeight / 667;
           yyw.share({
-            title: `噢耶！我 ${Levels.current().limit.steps - this.gameData.steps} 步就通过了关卡 ${level}`,
+            title: `噢耶！我 ${currentLevel.limit.steps - this.gameData.steps} 步就通过了关卡 ${currentLevel.level}`,
             imageUrl: canvas.toTempFilePathSync({
               x,
               y,
@@ -47,7 +48,7 @@ namespace game {
         });
 
         yyw.onTap(this.btnEscape, () => {
-          if (Levels.current()) {
+          if (yyw.Levels.current()) {
             yyw.emit("GAME_START");
           } else {
             yyw.showModal("暂无可用关卡，敬请期待！", false);

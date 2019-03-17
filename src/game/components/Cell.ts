@@ -1,14 +1,9 @@
 namespace game {
-  const cellWidth = 90;
-  const cellHeight = 90;
-
   export const CELL_TYPES = {
     DEF: 1,
-    MAGIC: 2,
-    BOMB: 4,
-    ICE: 8,
-    FIX: 16,
-    NIL: 32,
+    ICE: 2,
+    FIX: 4,
+    NIL: 8,
   };
 
   export class Cell extends yyw.Base {
@@ -31,18 +26,14 @@ namespace game {
       private type: number = CELL_TYPES.DEF,
     ) {
       super();
-      this.width = cellWidth;
-      this.height = cellHeight;
-      this.ax = cellWidth / 2;
-      this.ay = cellHeight / 2;
-      this.x = this.col * cellWidth + this.ax;
-      this.y = this.row * cellHeight + this.ay;
+      this.width = yyw.CELL_WIDTH;
+      this.height = yyw.CELL_HEIGHT;
+      this.ax = yyw.CELL_WIDTH / 2;
+      this.ay = yyw.CELL_HEIGHT / 2;
+      this.x = this.col * yyw.CELL_WIDTH + this.ax;
+      this.y = this.row * yyw.CELL_HEIGHT + this.ay;
       this.anchorOffsetX = this.ax;
       this.anchorOffsetY = this.ay;
-    }
-
-    public getIndex(): number {
-      return COLS * this.row + this.col;
     }
 
     public getType() {
@@ -57,19 +48,19 @@ namespace game {
     }
 
     public isMagic(): boolean {
-      return this.type === CELL_TYPES.MAGIC;
+      return this.num === yyw.MAGIC_NUMBER;
     }
 
     public isBomb(): boolean {
-      return this.type === CELL_TYPES.BOMB;
+      return this.num === yyw.BOMB_NUMBER;
     }
 
     public canDrag(): boolean {
-      return (this.type & 7) !== 0;
+      return this.type === 1;
     }
 
     public canDrop(): boolean {
-      return (this.type & 7) !== 0;
+      return this.type === 1;
     }
 
     public setNumber(num: number): void {
@@ -80,21 +71,17 @@ namespace game {
         this.numImage.visible = false;
       }
       this.num = num;
-      switch (this.num) {
-        case MAGIC_NUMBER:
-          this.setType(CELL_TYPES.MAGIC);
-          break;
-        case BOMB_NUMBER:
-          this.setType(CELL_TYPES.BOMB);
-          break;
-        default:
-          this.setType(CELL_TYPES.DEF);
-      }
       this.showCurrent();
     }
 
     public getNumber(): number {
       return this.num;
+    }
+
+    public unfreeze() {
+      if (this.type === CELL_TYPES.ICE) {
+        this.setType(CELL_TYPES.DEF);
+      }
     }
 
     public zoomOut(duration: number = 100) {
@@ -114,7 +101,7 @@ namespace game {
     }
 
     public async fadeOut(duration: number = 300): Promise<void> {
-      await Boom.playAt(this);
+      await yyw.Boom.playAt(this);
       await yyw.getTween(this.numGroup)
       .to({
         scale: 1.2,

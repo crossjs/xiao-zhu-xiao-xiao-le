@@ -25,19 +25,14 @@ namespace yyw {
       level?: {
         // from playing
         // from arena
-        score?: number;
-        combo?: number;
-        maxCombo?: number;
-        steps?: number;
-        combos?: number;
-        merged?: {
+        goals?: {
           [num: string]: number;
         };
         // from tools
-        valueUp?: number;
         shuffle?: number;
-        breaker?: number;
         // from model
+        cols?: number;
+        rows?: number;
         matrix?: number[][];
         maxNum?: number;
       };
@@ -45,14 +40,11 @@ namespace yyw {
         // from playing
         // from arena
         score?: number;
-        combo?: number;
-        maxCombo?: number;
-        steps?: number;
         // from tools
-        valueUp?: number;
         shuffle?: number;
-        breaker?: number;
         // from model
+        cols?: number;
+        rows?: number;
         matrix?: number[][];
         maxNum?: number;
       };

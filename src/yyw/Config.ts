@@ -5,6 +5,9 @@ namespace yyw {
   export interface Level {
     level?: number;
     limit: {
+      cols?: number;
+      rows?: number;
+      maxNum?: number;
       steps?: number;
       // 冻住，消除后可移动
       ice?: number[];

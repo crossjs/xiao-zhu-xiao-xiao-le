@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="ArenaLevelSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*">
 	<e:Rect width="750" height="750" fillColor="0x101C24" y="322" visible="true"/>
-	<e:Group id="main" width="720" height="720" touchChildren="false" x="375" y="697" anchorOffsetX="360" anchorOffsetY="360">
-		<game:Cells id="cells"/>
+	<e:Group id="main" width="720" height="720" x="375" y="697" anchorOffsetX="360" anchorOffsetY="360">
+		<game:Cells id="cells" touchChildren="false"/>
 	</e:Group>
-	<e:BitmapLabel id="tfdScore" text="00000" y="292" font="score_fnt" height="72" width="240" textAlign="center" anchorOffsetX="120" anchorOffsetY="36" x="135"/>
 	<e:Group x="21" y="102">
 		<e:Label text="当前关卡" fontFamily="sans-serif" size="24" verticalAlign="middle" height="36" y="0"/>
 		<e:Label id="tfdLevel" width="72" x="102" fontFamily="sans-serif" size="24" height="36" verticalAlign="middle"/>
-	</e:Group>
-	<e:Group x="21" y="144">
-		<e:Label text="通关条件" fontFamily="sans-serif" size="24" height="36" verticalAlign="middle"/>
-		<e:Label id="tfdGoals" width="240" fontFamily="sans-serif" size="24" y="36" height="72" multiline="true" text=""/>
-	</e:Group>
-	<e:Group x="325" y="256">
-		<e:Image id="b1" source="sprites_json.heart" y="19"/>
-		<e:Label text="剩余步数" y="18" textAlign="center" x="48" fontFamily="sans-serif" size="24" height="36" verticalAlign="middle"/>
-		<e:BitmapLabel id="tfdSteps" font="score_fnt" height="72" width="144" x="150" text="99" y="0"/>
 	</e:Group>
 </e:Skin>

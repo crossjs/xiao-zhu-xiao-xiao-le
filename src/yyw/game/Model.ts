@@ -1,5 +1,4 @@
-namespace game {
-  export type Point = yyw.Point;
+namespace yyw {
   export type Matrix = number[][];
 
   export const MAGIC_NUMBER = 99;
@@ -7,38 +6,30 @@ namespace game {
   export const NIL_NUMBER = -1;
   export const BIGGEST_NUMBER = 20;
 
-  export const COLS = 8;
-  export const ROWS = 8;
+  export const MAX_COLS = 8;
+  export const MAX_ROWS = 8;
 
   export class Model {
     public static create(useSnapshot: boolean = false): Model {
       if (useSnapshot) {
-        const { maxNum, matrix } = yyw.USER.arena[yyw.CONFIG.mode];
-        return new Model(maxNum, matrix);
+        const { cols, rows, maxNum, matrix } = USER.arena[CONFIG.mode];
+        return new Model(cols, rows, maxNum, matrix);
       }
-      return new Model();
+      const { limit: { cols, rows, maxNum } } = Levels.current();
+      return new Model(cols, rows, maxNum);
     }
 
     constructor(
-      /** 最大数值 */
-      private maxNum: number = 6,
+      private cols: number,
+      private rows: number,
+      private maxNum?: number,
       private matrix?: Matrix,
     ) {
+      if (!this.maxNum) {
+        this.maxNum = Math.min(this.cols, this.rows);
+      }
       if (!this.matrix) {
         this.createMatrix();
-      }
-      if (yyw.CONFIG.mode === "level") {
-        const currentLevel = Levels.current();
-        if (currentLevel) {
-          const { limit: { nil = [] } } = currentLevel;
-
-          nil.forEach((point: number | Point) => {
-            if (typeof point === "number") {
-              point = index2point(point);
-            }
-            this.setNumberAt(point, NIL_NUMBER);
-          });
-        }
       }
     }
 
@@ -60,7 +51,7 @@ namespace game {
      * @param exceptList 排除的数字列表
      */
     public getRandomNumber(exceptList?: number[]): number {
-      const num = yyw.random(1, this.maxNum + 1);
+      const num = random(1, this.maxNum + 1);
       if (exceptList && exceptList.indexOf(num) !== -1) {
         return this.getRandomNumber(exceptList);
       }
@@ -69,12 +60,12 @@ namespace game {
 
     private createMatrix() {
       this.matrix = [];
-      const { limit: { nil = [] } } = Levels.current();
-      for (let row = 0; row < ROWS; row++) {
+      const { limit: { nil = [], cols, rows } } = Levels.current();
+      for (let row = 0; row < rows; row++) {
         this.matrix[row] = [];
         let num: number;
-        for (let col = 0; col < COLS; col++) {
-          const index = row * COLS + col;
+        for (let col = 0; col < cols; col++) {
+          const index = row * cols + col;
           if (nil.indexOf(index) !== -1) {
             num = -1;
           } else {
@@ -115,7 +106,7 @@ namespace game {
           return num;
         }
       }
-      if (row < ROWS - 1) {
+      if (row < this.rows - 1) {
         const r = this.matrix[row + 1];
         // 可能还没初始化
         if (r && r[col] === num) {
@@ -127,20 +118,12 @@ namespace game {
           return num;
         }
       }
-      if (col < COLS - 1) {
+      if (col < this.cols - 1) {
         if (this.matrix[row][col + 1] === num) {
           return num;
         }
       }
       return 0;
     }
-  }
-
-  export function index2point(index: number): Point {
-    return [index % COLS, Math.floor(index / COLS)];
-  }
-
-  export function isNeighborPoints(point1: Point, point2: Point): boolean {
-    return Math.abs(point1[0] - point2[0]) + Math.abs(point1[1] - point2[1]) === 1;
   }
 }

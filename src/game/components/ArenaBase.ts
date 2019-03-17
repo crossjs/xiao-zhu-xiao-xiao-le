@@ -1,15 +1,13 @@
 namespace game {
   export abstract class ArenaBase extends yyw.Base {
     protected abstract mode: string = "";
-    protected tfdScore: eui.BitmapLabel;
     protected cells: Cells;
     /** 是否正在执行（动画等） */
     protected running: boolean = false;
-    /** 连击数 */
-    protected score: number = 0;
+    /** 连击 */
     protected combo: number = 0;
-    protected maxCombo: number = 0;
-    private offToolUsing: () => void;
+    protected currentLevel: yyw.Level;
+    private offTool: () => void;
     private offDnd: () => void;
 
     public get isRunning() {
@@ -18,25 +16,26 @@ namespace game {
 
     public set isRunning(running: boolean) {
       this.running = running;
-      yyw.emit("ARENA_RUN", running);
+      yyw.emit("RUN_CHANGE", running);
     }
 
     public async startup(useSnapshot: boolean = false) {
       this.cells.startup(useSnapshot);
       this.ensureData(useSnapshot);
+      this.handleChange();
     }
 
     public getSnapshot() {
-      const { score, combo, maxCombo } = this;
+      const { combo } = this;
       return {
-        score,
         combo,
-        maxCombo,
         ...this.cells.getSnapshot(),
       };
     }
 
-    protected abstract onSwap(): void;
+    protected onSwap() {
+      // empty
+    }
 
     protected destroy() {
       this.removeListeners();
@@ -51,8 +50,15 @@ namespace game {
     }
 
     protected addListeners() {
-      if (!this.offToolUsing) {
-        this.offToolUsing = yyw.on("TOOL_USING", this.onToolUsing, this);
+      if (!this.offTool) {
+        this.offTool = yyw.on("TOOL_USED", ({ data: { type } }: egret.Event) => {
+          switch (type) {
+            case "shuffle":
+              return this.doShuffle();
+            default:
+              return;
+          }
+        }, this);
       }
 
       if (!this.offDnd) {
@@ -91,10 +97,7 @@ namespace game {
           fromCell.zoomOut();
           this.isRunning = true;
           // 普通交换
-          SwapSound.play();
-          this.tweenFromTo(fromCell, toCell, 300);
-          await this.tweenFromTo(toCell, fromCell, 300);
-          this.switchNumbers(fromCell, toCell);
+          await this.swapCells(fromCell, toCell);
           let collect: () => Promise<boolean>;
           if (fromCell.isMagic()) {
             if (toCell.isMagic()) {
@@ -146,7 +149,7 @@ namespace game {
               this.onSwap();
               this.handleChange();
             } else {
-              this.switchNumbers(fromCell, toCell);
+              await this.swapCells(fromCell, toCell);
             }
           }
           this.isRunning = false;
@@ -160,19 +163,19 @@ namespace game {
         };
 
         this.offDnd = yyw.onDnd(
-          this.main,
+          this.cells,
           handleBegin,
           handleDrag,
           handleEnd,
-          this.main.stage,
+          // this.cells.stage,
         );
       }
     }
 
     protected removeListeners() {
-      if (this.offToolUsing) {
-        this.offToolUsing();
-        this.offToolUsing = null;
+      if (this.offTool) {
+        this.offTool();
+        this.offTool = null;
       }
       if (this.offDnd) {
         this.offDnd();
@@ -180,39 +183,43 @@ namespace game {
       }
     }
 
-    protected onToolUsing({
-      data: { type, targetX, targetY, confirm, cancel },
-    }: egret.Event) {
-      switch (type) {
-        case "shuffle":
-          return this.doShuffle(confirm);
-        default:
-          return;
-      }
-    }
-
     protected ensureData(useSnapshot: boolean) {
-      this.score = (useSnapshot && yyw.USER.arena[this.mode].score) || 0;
-      this.increaseScore(0);
+      this.currentLevel = yyw.Levels.current();
+      const { cols, rows } = this.currentLevel.limit;
+      const width = yyw.CELL_WIDTH * cols;
+      const height = yyw.CELL_HEIGHT * rows;
+      const anchorOffsetX = width >> 1;
+      const anchorOffsetY = height >> 1;
+      this.cells.width = width;
+      this.cells.height = height;
+      this.cells.anchorOffsetX = anchorOffsetX;
+      this.cells.anchorOffsetY = anchorOffsetY;
+      this.cells.x = (yyw.MAX_COLS * yyw.CELL_WIDTH) >> 1;
+      this.cells.y = (yyw.MAX_ROWS * yyw.CELL_HEIGHT) >> 1;
       this.combo = (useSnapshot && yyw.USER.arena[this.mode].combo) || 0;
-      this.maxCombo = (useSnapshot && yyw.USER.arena[this.mode].maxCombo) || 0;
-      this.handleChange();
     }
 
     protected getGameData() {
       return {
-        score: this.score,
         combo: this.combo,
-        maxCombo: this.maxCombo,
       };
     }
 
-    /**
-     * 更新分数
-     */
-    protected increaseScore(n: number) {
-      this.score += n;
-      this.flashScore();
+    protected async collectCell(cell: Cell, num: number = 0) {
+      await cell.fadeOut();
+      yyw.emit("NUM_COLLECTED", {
+        num: cell.getNumber(),
+        count: 1,
+      });
+      cell.unfreeze();
+      this.cells.setNumberAt(cell, num);
+    }
+
+    private async swapCells(fromCell: Cell, toCell: Cell) {
+      SwapSound.play();
+      this.tweenFromTo(fromCell, toCell, 300);
+      await this.tweenFromTo(toCell, fromCell, 300);
+      this.switchNumbers(fromCell, toCell);
     }
 
     private resetCells() {
@@ -221,25 +228,23 @@ namespace game {
       });
     }
 
-    private xy2p([x, y]: number[]): Point {
+    private xy2p([x, y]: yyw.Point): yyw.Point {
       return [
         Math.max(
           0,
-          Math.min(COLS - 1, Math.floor((x / this.main.width) * COLS)),
+          Math.min(
+            this.currentLevel.limit.cols - 1,
+            Math.floor((x / this.cells.width) * this.currentLevel.limit.cols),
+          ),
         ),
         Math.max(
           0,
-          Math.min(ROWS - 1, Math.floor((y / this.main.height) * ROWS)),
+          Math.min(
+            this.currentLevel.limit.rows - 1,
+            Math.floor((y / this.cells.height) * this.currentLevel.limit.rows),
+          ),
         ),
       ];
-    }
-
-    @yyw.debounce()
-    private async flashScore() {
-      const tween = yyw.getTween(this.tfdScore);
-      await tween.to({ scale: 1.5 });
-      this.tfdScore.text = yyw.zeroPadding(`${this.score}`, 5);
-      await tween.to({ scale: 1 });
     }
 
     private handleChange() {
@@ -273,12 +278,10 @@ namespace game {
 
     private resetCombo() {
       this.combo = 0;
-      this.maxCombo = 0;
     }
 
     private increaseCombo() {
       this.combo++;
-      this.maxCombo = Math.max(this.combo, this.maxCombo);
     }
 
     private async collectScreen(
@@ -297,7 +300,6 @@ namespace game {
       await Promise.all(
         cells.map((cell: Cell) => this.collectCell(cell)),
       );
-      this.increaseScore((cells.length - 2) * 10);
       await this.dropCellsDown();
       await this.collectChains();
       return true;
@@ -323,7 +325,6 @@ namespace game {
       await Promise.all(
         cells.map((cell: Cell) => this.collectCell(cell)),
       );
-      this.increaseScore((cells.length - 2) * 10);
       await this.dropCellsDown();
       await this.collectChains();
       return true;
@@ -346,7 +347,6 @@ namespace game {
         ...cells.map((cell: Cell) => this.collectCell(cell)),
         this.collectCell(fromCell),
       ]);
-      this.increaseScore((cells.length - 2) * 10);
       await this.dropCellsDown();
       await this.collectChains();
       return true;
@@ -361,9 +361,8 @@ namespace game {
       const [num, cells] = this.cells.getChain(preferredNum);
       // 找到
       if (num) {
-        const shape = Cells.shapeOf(cells);
+        const toNum = Cells.numOfShape(cells);
         const index = cells.indexOf(triggerCell);
-        const count = cells.length;
 
         let triggerCellNext: Cell;
         if (index !== -1) {
@@ -390,19 +389,13 @@ namespace game {
             triggerCell = cells.shift();
           }
         }
-        triggerCell.setType(shape);
         // 播放得分音效
         PointSound.play();
-        const toNum = shape === CELL_TYPES.MAGIC
-          ? MAGIC_NUMBER : shape === CELL_TYPES.BOMB
-          ? BOMB_NUMBER : 0;
         // 同步消除
         await Promise.all([
           ...cells.map((cell) => this.collectCell(cell, 0)),
           this.collectCell(triggerCell, toNum),
         ]);
-        this.increaseScore((count - 2) * 10);
-        yyw.emit("NUM_COLLECTED", { num, count });
         await this.dropCellsDown();
         this.increaseCombo();
         // 继续找，优先消除交换点
@@ -412,21 +405,12 @@ namespace game {
       return !!num;
     }
 
-    private async collectCell(cell: Cell, num: number = 0) {
-      await cell.fadeOut();
-      yyw.emit("NUM_COLLECTED", {
-        num: cell.getNumber(),
-        count: 1,
-      });
-      this.cells.setNumberAt(cell, num);
-    }
-
     private async dropCellsDown() {
       const { cells } = this;
-      for (let col = 0; col < COLS; col++) {
-        let row = ROWS;
+      for (let col = 0; col < this.currentLevel.limit.cols; col++) {
+        let row = this.currentLevel.limit.rows;
         while (row-- > 0) {
-          const point: Point = [col, row];
+          const point: yyw.Point = [col, row];
           const num = cells.getNumberAt(point);
           if (num === 0) {
             if (row === 0) {
@@ -434,13 +418,13 @@ namespace game {
             } else {
               let rowAbove = row;
               let numAbove: number;
-              let pointAbove: Point;
+              let pointAbove: yyw.Point;
               while (!numAbove && rowAbove--) {
                 pointAbove = [col, rowAbove];
                 numAbove = cells.getNumberAt(pointAbove);
               }
               // 不可用
-              if (numAbove === NIL_NUMBER) {
+              if (numAbove === yyw.NIL_NUMBER) {
                 cells.setNumberAt(point);
               } else {
                 if (!numAbove) {
@@ -461,12 +445,10 @@ namespace game {
     /**
      * 随机重排
      */
-    private async doShuffle(confirm: any): Promise<void> {
-      // 确定消费
-      confirm();
+    private async doShuffle(): Promise<void> {
       // 开始工作
       this.isRunning = true;
-      await yyw.twirlOut(this.main, 300);
+      await yyw.twirlOut(this.cells, 300);
 
       // 先取得一个拍平的
       // 因为 traverse 是反向广度优先遍历，所以此处需要反转
@@ -482,7 +464,7 @@ namespace game {
         this.cells.setNumberAt(cell, num);
       });
 
-      await yyw.twirlIn(this.main, 200);
+      await yyw.twirlIn(this.cells, 200);
 
       this.resetCombo();
       const collected = await this.collectChains();

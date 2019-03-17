@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="CellsSkin" xmlns:e="http://ns.egret.com/eui">
-	<e:Group id="main" touchEnabled="false" width="720" height="720"></e:Group>
+	<e:Group id="main" touchEnabled="false"></e:Group>
 </e:Skin>

@@ -8,16 +8,10 @@ namespace game {
       shuffle: yyw.CONFIG.toolAmount,
     };
 
-    public set targetRect(targetRect: egret.Rectangle) {
-      yyw.eachChild(this.main, (tool: ToolBase) => {
-        tool.targetRect = targetRect;
-      });
-    }
-
     public async startup(useSnapshot: boolean = false) {
       if (useSnapshot) {
-        const { valueUp, shuffle, breaker } = yyw.USER.arena[yyw.CONFIG.mode];
-        Object.assign(this.toolAmounts, { valueUp, shuffle, breaker });
+        const { shuffle } = yyw.USER.arena[yyw.CONFIG.mode];
+        Object.assign(this.toolAmounts, { shuffle });
       }
 
       yyw.eachChild(this.main, (tool: ToolBase) => {
@@ -34,7 +28,7 @@ namespace game {
     }
 
     protected initialize() {
-      yyw.on("ARENA_RUN", ({ data: running }: egret.Event) => {
+      yyw.on("RUN_CHANGE", ({ data: running }: egret.Event) => {
         this.enabled = !running;
       });
     }

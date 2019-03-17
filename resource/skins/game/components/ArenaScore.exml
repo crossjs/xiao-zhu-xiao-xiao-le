@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="ArenaScoreSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*">
 	<e:Rect width="750" height="750" fillColor="0x101C24" y="322"/>
-	<e:Group id="main" width="720" height="720" touchChildren="false" x="375" y="697" anchorOffsetX="360" anchorOffsetY="360">
-		<game:Cells id="cells"/>
+	<e:Group id="main" width="720" height="720" x="375" y="697" anchorOffsetX="360" anchorOffsetY="360">
+		<game:Cells id="cells" touchChildren="false"/>
 	</e:Group>
 	<e:BitmapLabel id="tfdScore" text="00000" y="292" font="score_fnt" height="72" width="240" textAlign="center" anchorOffsetX="120" anchorOffsetY="36" x="132"/>
 </e:Skin>

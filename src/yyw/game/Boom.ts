@@ -1,4 +1,4 @@
-namespace game {
+namespace yyw {
   export class Boom {
     public static booms: dragonBones.EgretArmatureDisplay[];
     public static init() {
@@ -9,7 +9,7 @@ namespace game {
       egretFactory.parseDragonBonesData(dragonbonesData);
       egretFactory.parseTextureAtlasData(textureData, texture);
       // 弄 64 个缓存起来
-      this.booms = Array(COLS * ROWS).fill(0).map(() => {
+      this.booms = Array(MAX_COLS * MAX_ROWS).fill(0).map(() => {
         return egretFactory.buildArmatureDisplay("boom1");
       });
     }
@@ -23,7 +23,7 @@ namespace game {
         boom.y = target.height / 2;
         target.addChild(boom);
         boom.once(dragonBones.MovieEvent.COMPLETE, (e: egret.Event) => {
-          yyw.removeElement(boom);
+          removeElement(boom);
           this.booms.unshift(boom);
           resolve();
         }, this);

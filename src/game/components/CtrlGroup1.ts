@@ -9,7 +9,7 @@ namespace game {
       super.createView(fromChildrenCreated);
 
       if (fromChildrenCreated) {
-        yyw.on("ARENA_RUN", ({ data: running }: egret.Event) => {
+        yyw.on("RUN_CHANGE", ({ data: running }: egret.Event) => {
           this.enabled = !running;
         });
 

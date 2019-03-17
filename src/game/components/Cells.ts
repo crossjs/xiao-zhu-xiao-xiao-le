@@ -2,7 +2,7 @@ namespace game {
   export type CellMatrix = Cell[][];
 
   export class Cells extends yyw.Base {
-    public static shapeOf(cells: Cell[]): number {
+    public static numOfShape(cells: Cell[]): number {
       const mapCol = {};
       const mapRow = {};
       for (const { col, row } of cells) {
@@ -20,16 +20,16 @@ namespace game {
       if (Object.values(mapCol).some((v) => v >= 5)
         || Object.values(mapRow).some((v) => v >= 5)) {
         // ooooo
-        return CELL_TYPES.MAGIC;
+        return yyw.MAGIC_NUMBER;
       }
       if (Object.values(mapCol).some((v) => v >= 3)
         && Object.values(mapRow).some((v) => v >= 3)) {
         //  o
         // ooo
         //  o
-        return CELL_TYPES.BOMB;
+        return yyw.BOMB_NUMBER;
       }
-      return CELL_TYPES.DEF;
+      return 0;
     }
 
     public static isSame(cell1: Cell, cell2: Cell): boolean {
@@ -61,47 +61,33 @@ namespace game {
       return Math.abs(cell1.col - cell2.col) <= distance && Math.abs(cell1.row - cell2.row) <= distance;
     }
 
+    private model: yyw.Model;
+    private currentLevel: yyw.Level;
     private cellMatrix: CellMatrix;
-    private model: Model;
 
     public async startup(useSnapshot: boolean = false) {
-      const { limit: { ice = [], fix = [], nil = [] } } = Levels.current();
-      this.model = Model.create(useSnapshot);
-      this.traverse((cell: Cell, point: Point) => {
-        cell.setNumber(this.model.getNumberAt(point));
-        const index = cell.getIndex();
-        if (ice.indexOf(index) !== -1) {
-          cell.setType(CELL_TYPES.ICE);
-        } else if (fix.indexOf(index) !== -1) {
-          cell.setType(CELL_TYPES.FIX);
-        } else if (nil.indexOf(index) !== -1) {
-          cell.setType(CELL_TYPES.NIL);
-        } else {
-          cell.setType(CELL_TYPES.DEF);
-        }
-      });
+      this.model = yyw.Model.create(useSnapshot);
+      this.currentLevel = yyw.Levels.current();
+      this.createCells();
     }
 
     public getSnapshot() {
       return this.model.getSnapshot();
     }
 
-    public getCellAt(point: number | Point | Cell): Cell {
+    public getCellAt(point: yyw.Point | Cell): Cell {
       if (point instanceof Cell) {
         return point;
-      }
-      if (typeof point === "number") {
-        point = index2point(point);
       }
       const [ col, row ] = point;
       return this.cellMatrix[row][col];
     }
 
-    public getNumberAt(point: Point | Cell): number {
+    public getNumberAt(point: yyw.Point | Cell): number {
       return this.getCellAt(point).getNumber();
     }
 
-    public setNumberAt(point: Point | Cell, num: number = this.model.getRandomNumber()) {
+    public setNumberAt(point: yyw.Point | Cell, num: number = this.model.getRandomNumber()) {
       const cell = this.getCellAt(point);
       // 同步 model
       this.model.setNumberAt([cell.col, cell.row], num);
@@ -121,7 +107,7 @@ namespace game {
       // 先按数字序列化，以便于将长度不足的先剔除
       this.traverse((cell: Cell) => {
         const num = cell.getNumber();
-        if (num !== NIL_NUMBER) {
+        if (num !== yyw.NIL_NUMBER) {
           const key = `${num}`;
           if (!numMap[key]) {
             numMap[key] = [];
@@ -171,18 +157,34 @@ namespace game {
       return [0, []];
     }
 
-    protected async createView(fromChildrenCreated?: boolean): Promise<void> {
-      super.createView(fromChildrenCreated);
-      if (fromChildrenCreated) {
-        const cm = this.cellMatrix = [];
-        for (let row = 0; row < ROWS; row++) {
-          const r = cm[row] = [];
-          for (let col = 0; col < COLS; col++) {
-            const c = r[col] = new Cell(col, row);
-            this.main.addChild(c);
-          }
+    private createCells() {
+      const { limit: { cols, rows, ice = [], fix = [], nil = [] } } = this.currentLevel;
+
+      // 清除
+      yyw.removeChildren(this.main);
+
+      // 重建
+      const cm = this.cellMatrix = [];
+      for (let row = 0; row < rows; row++) {
+        const r = cm[row] = [];
+        for (let col = 0; col < cols; col++) {
+          const c = r[col] = new Cell(col, row);
+          this.main.addChild(c);
         }
       }
+      this.traverse((cell: Cell, point: yyw.Point) => {
+        cell.setNumber(this.model.getNumberAt(point));
+        const index = point[1] * cols + point[0];
+        if (ice.indexOf(index) !== -1) {
+          cell.setType(CELL_TYPES.ICE);
+        } else if (fix.indexOf(index) !== -1) {
+          cell.setType(CELL_TYPES.FIX);
+        } else if (nil.indexOf(index) !== -1) {
+          cell.setType(CELL_TYPES.NIL);
+        } else {
+          cell.setType(CELL_TYPES.DEF);
+        }
+      });
     }
   }
 }
