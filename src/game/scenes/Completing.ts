@@ -48,7 +48,7 @@ namespace game {
         });
 
         yyw.onTap(this.btnEscape, () => {
-          if (yyw.Levels.current()) {
+          if (yyw.Levels.current().level > 0) {
             yyw.emit("GAME_START");
           } else {
             yyw.showModal("暂无可用关卡，敬请期待！", false);

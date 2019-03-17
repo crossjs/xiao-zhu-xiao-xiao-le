@@ -4,7 +4,7 @@ namespace yyw {
 
   export interface Level {
     level?: number;
-    limit: {
+    limit?: {
       cols?: number;
       rows?: number;
       maxNum?: number;

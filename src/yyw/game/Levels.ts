@@ -16,7 +16,9 @@ namespace yyw {
             ...restData,
           };
         }
-        return data;
+        return {
+          level: -1,
+        };
       }
       return {
         level: 0,

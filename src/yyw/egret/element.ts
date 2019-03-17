@@ -39,16 +39,18 @@ namespace yyw {
   export function eachChild(
     target: egret.DisplayObjectContainer,
     handler: (child: egret.DisplayObject, index: number) => any,
-  ) {
+  ): any[] {
+    const arr = [];
     if (target) {
       const { numChildren } = target;
       if (numChildren) {
         for (let index = 0; index < numChildren; index++) {
           const child = target.getChildAt(index);
-          handler(child, index);
+          arr.push(handler(child, index));
         }
       }
     }
+    return arr;
   }
 
   export function randomChild(target: egret.DisplayObjectContainer): any {

@@ -1,37 +1,36 @@
 namespace game {
-  interface Goals {
-    [num: string]: number;
+  interface InsGoals {
+    [num: string]: Goal;
   }
 
   export class ArenaLevel extends ArenaBase {
     protected mode: string = "level";
     private tfdLevel: eui.BitmapLabel;
-    private goals: Goals = {};
+    private grpGoals: eui.Group;
+    private insGoals: InsGoals = {};
 
     public getSnapshot() {
       return {
-        goals: this.goals,
+        goals: yyw.eachChild(this.grpGoals, (goal: Goal) => goal.getAmount()),
         ...super.getSnapshot(),
       };
     }
 
     protected ensureData(useSnapshot: boolean) {
       super.ensureData(useSnapshot);
-      this.goals = useSnapshot && yyw.USER.arena.level.goals || {};
+      const goals = useSnapshot && yyw.USER.arena.level.goals || [];
+
       this.tfdLevel.text = `${this.currentLevel.level}`;
 
-      // TODO 提示目标
-      // TODO 显示目标
-      // if (yyw.USER.guided) {
-        // yyw.showModal(
-        //   [
-        //     `${this.limit.steps} 步内`,
-        //     ...strArr,
-        //   ].join("，"),
-        //   false,
-        // );
-      // }
+      // 清除
+      yyw.removeChildren(this.grpGoals);
 
+      // 重建
+      Object.entries(this.currentLevel.goals)
+      .forEach(([ num, amount ]: [ string, number ], index: number) => {
+        const goal = this.insGoals[num] = new Goal(num, goals[index] || amount);
+        this.grpGoals.addChild(goal);
+      });
     }
 
     protected getGameData() {
@@ -42,23 +41,20 @@ namespace game {
 
     protected async collectCell(cell: Cell, num: number = 0) {
       const key = `${cell.getNumber()}`;
-      if (this.currentLevel.goals.hasOwnProperty(key)) {
-        const times = this.goals[key] || 0;
-        this.goals[key] = times + 1;
-        // TODO 显示目标完成情况
-        if (this.isGoalsSatisfied()) {
-          yyw.emit("LEVEL_WON");
-        }
+      if (this.insGoals.hasOwnProperty(key)) {
+        this.insGoals[key].increaseAmount(1);
+        this.check();
       }
       await super.collectCell(cell, num);
     }
 
-    private isGoalsSatisfied(): boolean {
-      const { goals } = this;
-      return Object.entries(this.currentLevel.goals)
-      .every(([ num, count ]: [ string, number ]) => {
-        return goals[num] && goals[num] >= count;
-      });
+    private check() {
+      const satisfied = yyw.eachChild(this.grpGoals, (goal: Goal) => {
+        return goal.isComplete();
+      }).every((completed: boolean) => completed);
+      if (satisfied) {
+        yyw.emit("LEVEL_WON");
+      }
     }
   }
 }

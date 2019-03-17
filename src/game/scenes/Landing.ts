@@ -87,7 +87,7 @@ namespace game {
           if (yyw.USER.score < 20000) {
             yyw.showModal("无尽模式达到 20000 分后开启", false);
           } else {
-            if (yyw.Levels.current("level").level) {
+            if (yyw.Levels.current("level").level > 0) {
               yyw.CONFIG.mode = "level";
               await yyw.director.toScene("playing");
               yyw.emit("GAME_START");
