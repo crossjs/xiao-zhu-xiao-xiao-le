@@ -5,5 +5,5 @@
 		<game:Cells id="cells" touchChildren="false"/>
 	</e:Group>
 	<e:Label text="得分" fontFamily="sans-serif" size="24" verticalAlign="middle" height="36" y="36" horizontalCenter="0"/>
-	<e:BitmapLabel id="tfdScore" text="00000" font="score_fnt" height="72" width="240" textAlign="center" anchorOffsetX="120" anchorOffsetY="36" x="375" y="117"/>
+	<e:BitmapLabel id="tfdScore" text="00000" font="score_fnt" height="72" width="240" textAlign="center" anchorOffsetX="120" anchorOffsetY="36" x="375" y="137"/>
 </e:Skin>

@@ -3,6 +3,7 @@ namespace yyw {
 
   export const MAGIC_NUMBER = 99;
   export const BOMB_NUMBER = 98;
+  export const PENDING_NUMBER = 0;
   export const NIL_NUMBER = -1;
   export const BIGGEST_NUMBER = 20;
 
@@ -67,7 +68,7 @@ namespace yyw {
         for (let col = 0; col < cols; col++) {
           const index = row * cols + col;
           if (nil.indexOf(index) !== -1) {
-            num = -1;
+            num = NIL_NUMBER;
           } else {
             // 将上一个值加入排除列表，以避免连续数字过多导致难度太低
             const exceptList = [num];

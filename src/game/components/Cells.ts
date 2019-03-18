@@ -87,11 +87,15 @@ namespace game {
       return this.getCellAt(point).getNumber();
     }
 
-    public setNumberAt(point: yyw.Point | Cell, num: number = this.model.getRandomNumber()) {
+    public setNumberAt(point: yyw.Point | Cell, num: number = this.getRandomNumber()) {
       const cell = this.getCellAt(point);
       // 同步 model
       this.model.setNumberAt([cell.col, cell.row], num);
       return cell.setNumber(num);
+    }
+
+    public getRandomNumber(): number {
+      return this.model.getRandomNumber();
     }
 
     public traverse(handler?: any, filter?: any) {

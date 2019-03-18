@@ -54,6 +54,10 @@ namespace game {
       if (!this.offTool) {
         this.offTool = yyw.on("TOOL_USED", ({ data: { type } }: egret.Event) => {
           switch (type) {
+            case "randomKind":
+              return this.doRandomKind();
+            case "randomLine":
+              return this.doRandomLine();
             case "shuffle":
               return this.doShuffle();
             default:
@@ -291,9 +295,7 @@ namespace game {
     ): Promise<boolean> {
       // 播放得分音效
       PointSound.play();
-      const toNum = 0;
       // 同步消除
-      // TODO 如果是冰冻，应该先消冰
       const cells = this.cells.traverse(
         undefined,
         (cell: Cell) => cell.getType() !== CELL_TYPES.NIL,
@@ -314,7 +316,6 @@ namespace game {
       // 播放得分音效
       PointSound.play();
       // 同步消除
-      // TODO 如果是冰冻，应该先消冰
       const cells = this.cells.traverse(
         undefined,
         (cell: Cell) =>
@@ -446,8 +447,62 @@ namespace game {
     /**
      * 随机重排
      */
+    private async doRandomKind(): Promise<void> {
+      this.isRunning = true;
+
+      // 播放得分音效
+      PointSound.play();
+      // 同步消除
+      const num = this.cells.getRandomNumber();
+      const cells = this.cells.traverse(
+        undefined,
+        (cell: Cell) => cell.getNumber() === num,
+      );
+      await Promise.all(
+        cells.map((cell: Cell) => this.collectCell(cell)),
+      );
+      this.resetCombo();
+
+      await this.dropCellsDown();
+      await this.collectChains();
+
+      this.handleChange();
+
+      this.isRunning = false;
+    }
+
+    /**
+     * 随机重排
+     */
+    private async doRandomLine(): Promise<void> {
+      this.isRunning = true;
+
+      // 播放得分音效
+      PointSound.play();
+      // 同步消除
+      const isRow = yyw.random(2) === 1;
+      const index = yyw.random(this.currentLevel.limit[isRow ? "rows" : "cols"]);
+      const cells = this.cells.traverse(
+        undefined,
+        (cell: Cell) => cell[isRow ? "row" : "col"] === index,
+      );
+      await Promise.all(
+        cells.map((cell: Cell) => this.collectCell(cell)),
+      );
+      this.resetCombo();
+
+      await this.dropCellsDown();
+      await this.collectChains();
+
+      this.handleChange();
+
+      this.isRunning = false;
+    }
+
+    /**
+     * 随机重排
+     */
     private async doShuffle(): Promise<void> {
-      // 开始工作
       this.isRunning = true;
       await yyw.twirlOut(this.cells, 300);
 

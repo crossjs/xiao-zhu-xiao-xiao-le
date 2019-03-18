@@ -22,14 +22,16 @@ namespace yyw {
      */
     sticked?: boolean;
     arena?: {
+      // from tools
+      randomKind?: number;
+      randomLine?: number;
+      shuffle?: number;
       level?: {
         // from playing
         // from arena
         goals?: {
           [num: string]: number;
         };
-        // from tools
-        shuffle?: number;
         // from model
         cols?: number;
         rows?: number;
@@ -40,8 +42,6 @@ namespace yyw {
         // from playing
         // from arena
         score?: number;
-        // from tools
-        shuffle?: number;
         // from model
         cols?: number;
         rows?: number;
