@@ -31,13 +31,18 @@ export const Ranking = {
       this.assets = await AssetsManager.getAssets();
       this.width = width;
       this.height = height;
-      this.mode = mode;
-      this.rankingData = rankingData.slice(0).sort((a, b) => {
-        return a[mode] > b[mode] ? -1 : 1;
-      }).map((v, index) => Object.assign(v, {
-        key: index + 1,
-      }));
-      this.myRankingData = rankingData.find((item) => item.openid === openid);
+      this.key = mode;
+      this.rankingData = rankingData
+        .slice(0)
+        .sort((a, b) => {
+          return a[this.key] > b[this.key] ? -1 : 1;
+        })
+        .map((v, index) =>
+          Object.assign(v, {
+            key: index + 1
+          })
+        );
+      this.myRankingData = rankingData.find(item => item.openid === openid);
       this.pageSize = pageSize;
       this.scaleX = sharedCanvas.width / width;
       this.scaleY = sharedCanvas.height / height;
@@ -133,8 +138,11 @@ export const Ranking = {
       height,
       assets
     } = this;
-    const { key, avatarUrl, nickName, nickname, score } = data;
-    const y = (i === this.pageSize) ? height - myBarHeight : i * (barHeight + gutterHeight);
+    const { key, avatarUrl, nickName, nickname, [this.key]: score } = data;
+    const y =
+      i === this.pageSize
+        ? height - myBarHeight
+        : i * (barHeight + gutterHeight);
     // 绘制序号
     if (key < 4) {
       this.drawImage(
@@ -148,7 +156,7 @@ export const Ranking = {
     this.drawText(key, xArr[1], key < 4 ? y + 8 : y, indexWidth, barHeight, {
       align: "center",
       color: "#101C24",
-      fontSize: 24,
+      fontSize: 24
     });
     // 绘制头像
     this.drawImage(
@@ -179,7 +187,7 @@ export const Ranking = {
       if (this.detached) {
         return;
       }
-      const [ point ] = e.changedTouches;
+      const [point] = e.changedTouches;
       x0 = point.clientX;
       y0 = point.clientY;
       startId = point.identifier;
@@ -189,7 +197,7 @@ export const Ranking = {
       if (this.detached) {
         return;
       }
-      const [ point ] = e.changedTouches;
+      const [point] = e.changedTouches;
       const x1 = point.clientX;
       const y1 = point.clientY;
       const endId = point.identifier;
@@ -229,13 +237,6 @@ export const Ranking = {
     }
     this.cleanScreen();
     this.drawRanking();
-    // this.renderDirty = true;
-    // setTimeout(() => {
-    //   // 重新渲染必须标脏
-    //   // this.renderDirty = true;
-    //   this.cleanScreen();
-    //   this.drawRanking();
-    // }, 100);
   },
 
   /**
@@ -280,21 +281,5 @@ export const Ranking = {
     context.font = `${fontSize}px sans-serif`;
     context.fillStyle = color;
     context.fillText(String(text), x, y, width);
-  },
-
-  /**
-   * 循环函数
-   * 每帧判断一下是否需要渲染
-   * 如果被标脏，则重新渲染
-   */
-  // onEnterFrame() {
-  //   if (this.renderDirty) {
-  //     this.cleanScreen();
-  //     this.drawRanking();
-  //     this.renderDirty = false;
-  //   }
-  //   this.rafId = requestAnimationFrame(() => {
-  //     this.onEnterFrame();
-  //   });
-  // }
+  }
 };

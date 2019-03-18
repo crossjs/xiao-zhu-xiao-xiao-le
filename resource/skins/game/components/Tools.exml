@@ -5,7 +5,7 @@
         <game:RandomLine verticalCenter="0"/>
         <game:Shuffle verticalCenter="0"/>
 		<e:layout>
-			<e:HorizontalLayout gap="24" horizontalAlign="center" verticalAlign="middle"/>
+			<e:HorizontalLayout gap="60" horizontalAlign="center" verticalAlign="middle"/>
 		</e:layout>
 	</e:Group>
 </e:Skin>

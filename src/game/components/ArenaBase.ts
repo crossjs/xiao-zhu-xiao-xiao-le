@@ -26,10 +26,9 @@ namespace game {
       this.isRunning = false;
     }
 
-    public getSnapshot() {
-      const { combo } = this;
+    public getSnapshot(): any {
       return {
-        combo,
+        combo: this.combo,
         ...this.cells.getSnapshot(),
       };
     }
@@ -40,7 +39,6 @@ namespace game {
 
     protected destroy() {
       this.removeListeners();
-      this.resetCells();
       super.destroy();
     }
 
@@ -204,12 +202,6 @@ namespace game {
       this.combo = (useSnapshot && yyw.USER.arena[this.mode].combo) || 0;
     }
 
-    protected getGameData() {
-      return {
-        combo: this.combo,
-      };
-    }
-
     protected async collectCell(cell: Cell, num: number = 0) {
       await cell.fadeOut();
       yyw.emit("NUM_COLLECTED", {
@@ -227,39 +219,34 @@ namespace game {
       this.switchNumbers(fromCell, toCell);
     }
 
-    private resetCells() {
-      this.cells.traverse((cell: Cell) => {
-        cell.reset();
-      });
-    }
-
     private xy2p([x, y]: yyw.Point): yyw.Point {
+      const { cols, rows } = this.currentLevel.limit;
       return [
         Math.max(
           0,
           Math.min(
-            this.currentLevel.limit.cols - 1,
-            Math.floor((x / this.cells.width) * this.currentLevel.limit.cols),
+            cols - 1,
+            Math.floor((x / this.cells.width) * cols),
           ),
         ),
         Math.max(
           0,
           Math.min(
-            this.currentLevel.limit.rows - 1,
-            Math.floor((y / this.cells.height) * this.currentLevel.limit.rows),
+            rows - 1,
+            Math.floor((y / this.cells.height) * rows),
           ),
         ),
       ];
     }
 
     private handleChange() {
-      const gameData = this.getGameData();
+      const snapshot = this.getSnapshot();
       // 发声
-      if (gameData.combo >= 2) {
+      if (snapshot.combo >= 2) {
         const Sounds = [GoodSound, GreatSound, AmazingSound, ExcellentSound];
-        Sounds[Math.min(3, gameData.combo - 2)].play();
+        Sounds[Math.min(3, snapshot.combo - 2)].play();
       }
-      yyw.emit("GAME_DATA", gameData);
+      yyw.emit("SNAPSHOT", snapshot);
     }
 
     private switchNumbers(from: Cell, to: Cell): void {
@@ -408,33 +395,43 @@ namespace game {
     }
 
     private async dropCellsDown() {
-      const { cells } = this;
-      for (let col = 0; col < this.currentLevel.limit.cols; col++) {
-        let row = this.currentLevel.limit.rows;
+      const { cells, currentLevel: { limit } } = this;
+      let col = limit.cols;
+      while (col-- > 0) {
+        let row = limit.rows;
         while (row-- > 0) {
           const point: yyw.Point = [col, row];
-          const num = cells.getNumberAt(point);
+          const cell = this.cells.getCellAt(point);
+          const num = cell.getNumber();
+          // 0，说明需要填补，从上往下填补
           if (num === 0) {
+            // 第一行，无可填补，直接设置随机值
             if (row === 0) {
-              cells.setNumberAt(point);
+              // TODO 向下的动画
+              cells.setNumberAt(cell);
+              await cell.tweenDown(50);
             } else {
               let rowAbove = row;
-              let numAbove: number;
+              let numAbove: number = yyw.PENDING_NUMBER;
               let pointAbove: yyw.Point;
-              while (!numAbove && rowAbove--) {
+              // 往上找
+              while (numAbove === yyw.PENDING_NUMBER && rowAbove--) {
                 pointAbove = [col, rowAbove];
                 numAbove = cells.getNumberAt(pointAbove);
               }
-              // 不可用
+              // 找完了
               if (numAbove === yyw.NIL_NUMBER) {
-                cells.setNumberAt(point);
-              } else {
-                if (!numAbove) {
-                  pointAbove = [col, 0];
-                  cells.setNumberAt(pointAbove);
-                }
-                const cellAbove = this.cells.getCellAt(pointAbove);
-                const cell = this.cells.getCellAt(point);
+                // 往上找碰壁了（黑洞、墙），则在墙下第一个填入随机值
+                pointAbove = [col, rowAbove + 1];
+                cells.setNumberAt(pointAbove);
+              } else if (numAbove === yyw.PENDING_NUMBER) {
+                // 往上没有找到可用数字（连墙都没有），则在第一个填入随机值
+                pointAbove = [col, 0];
+                cells.setNumberAt(pointAbove);
+              }
+              // 接着，往下传
+              const cellAbove = this.cells.getCellAt(pointAbove);
+              if (cellAbove !== cell) {
                 await this.tweenFromTo(cellAbove, cell, 50);
                 this.switchNumbers(cellAbove, cell);
               }

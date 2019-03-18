@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="TaskItemSkin" xmlns:e="http://ns.egret.com/eui">
 	<e:Label id="tfdDesc" size="30" verticalCenter="1.5" width="240" textColor="2569759" height="30" fontFamily="sans-serif"/>
-	<e:Image source="sprites_json.coin" x="264" verticalCenter="0.5" width="36" height="36"/>
-	<e:Label id="tfdCoins" x="304" size="30" width="90" textColor="0xE95954" height="30" verticalCenter="1.5" fontFamily="sans-serif" text=""/>
+	<e:Image source="sprites_json.coin" x="252" verticalCenter="0.5" width="36" height="36"/>
+	<e:Label id="tfdCoins" x="292" size="30" width="90" textColor="0xE95954" height="30" verticalCenter="1.5" fontFamily="sans-serif" text=""/>
 	<e:Button id="btnChecked" x="398" skinName="ButtonNormalSkin" icon="sprites_json.checked" width="48" height="48" scaleX="0.75" scaleY="0.75" verticalCenter="0.5"/>
 </e:Skin>

@@ -13,10 +13,10 @@ wx.onMessage(({ command, ...data }) => {
     return Proxy.closeRanking(data);
   case "saveScore":
     return Proxy.saveScore(data);
-  case "openTop3":
-    return Proxy.openTop3(data);
-  case "closeTop3":
-    return Proxy.closeTop3(data);
+  case "openNeighbor":
+    return Proxy.openNeighbor(data);
+  case "closeNeighbor":
+    return Proxy.closeNeighbor(data);
   default:
     break;
   }

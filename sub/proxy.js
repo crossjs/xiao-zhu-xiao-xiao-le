@@ -1,7 +1,7 @@
 // eslint-disable-next-line
 import * as regeneratorRuntime from "./utils/runtime";
 import { Ranking } from "./ranking";
-import { Top3 } from "./top3";
+import { Neighbor } from "./neighbor";
 
 export const Proxy = {
   initRanking(data) {
@@ -20,9 +20,10 @@ export const Proxy = {
     Ranking.destroy();
   },
 
-  async saveScore({ score = 0, level = 0 }) {
+  async saveScore({ score = 0, level = 0, duration }) {
     await Proxy.getUserData();
     const KVDataList = [];
+    const now = Math.floor(Date.now() / 1000);
     if (score > this.cachedScore) {
       this.cachedScore = score;
       KVDataList.push({
@@ -30,7 +31,7 @@ export const Proxy = {
         value: JSON.stringify({
           wxgame: {
             score,
-            update_time: Math.floor(Date.now() / 1000),
+            update_time: now,
           },
         }),
       });
@@ -42,10 +43,21 @@ export const Proxy = {
         value: JSON.stringify({
           wxgame: {
             score: level,
-            update_time: Math.floor(Date.now() / 1000),
+            update_time: now,
           },
         }),
       });
+      if (duration) {
+        KVDataList.push({
+          key: `level${level}`,
+          value: JSON.stringify({
+            wxgame: {
+              score: duration,
+              update_time: now,
+            },
+          }),
+        });
+      }
     }
     if (KVDataList.length) {
       // 保存到微信
@@ -55,16 +67,18 @@ export const Proxy = {
     }
   },
 
-  async openTop3(data) {
+  async openNeighbor(data) {
     const rankingData = await Proxy.getRankingData();
-    Top3.create({
+    const { mode = "score", level = "" } = data;
+    const key = `${mode}${level}`;
+    Neighbor.create({
       ...data,
-      rankingData,
+      rankingData: rankingData.filter((item) => item.hasOwnProperty(key)),
     });
   },
 
-  closeTop3() {
-    Top3.destroy();
+  closeNeighbor() {
+    Neighbor.destroy();
   },
 
   cachedScore: 0,

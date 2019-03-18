@@ -4,22 +4,19 @@
 	<e:Group id="body" width="750" touchEnabled="false" bottom="262" height="1072">
 		<e:Group id="main" width="660" horizontalCenter="0" verticalCenter="90" touchEnabled="false">
 			<e:Group id="modal" touchEnabled="false">
-				<e:Image width="660" height="510" source="sprites_json.round_white" scale9Grid="36,36,6,6"/>
-				<e:Group id="grpItems" visible="false" x="60" y="60">
+				<e:Image width="660" height="457" source="sprites_json.round_white" scale9Grid="36,36,6,6"/>
+				<e:Group id="grpItems" visible="true" horizontalCenter="0" verticalCenter="0">
 					<e:Group>
-						<e:Image source="sprites_json.games"/>
+						<e:Image source="sprites_json.icon_level" verticalCenter="0"/>
 						<game:TaskItem id="task0" x="108"/>
 						<game:TaskItem id="task1" x="108" y="50"/>
+						<game:TaskItem id="task2" x="108" y="100"/>
 					</e:Group>
-					<e:Group y="150">
-						<e:Image source="sprites_json.score"/>
-						<game:TaskItem id="task2" x="108"/>
-						<game:TaskItem id="task3" x="108" y="50"/>
-					</e:Group>
-					<e:Group y="300">
-						<e:Image source="sprites_json.magic"/>
-						<game:TaskItem id="task4" x="108"/>
-						<game:TaskItem id="task5" x="108" y="50"/>
+					<e:Group y="200">
+						<e:Image source="sprites_json.icon_score" verticalCenter="0"/>
+						<game:TaskItem id="task3" x="108"/>
+						<game:TaskItem id="task4" x="108" y="50"/>
+						<game:TaskItem id="task5" x="108" y="100"/>
 					</e:Group>
 				</e:Group>
 			</e:Group>

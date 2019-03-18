@@ -18,13 +18,6 @@ namespace game {
       this.increaseScore(0);
     }
 
-    protected getGameData() {
-      return {
-        score: this.score,
-        ...super.getGameData(),
-      };
-    }
-
     protected async collectCell(cell: Cell, num: number = 0) {
       await super.collectCell(cell, num);
       this.increaseScore(10);

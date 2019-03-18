@@ -8,18 +8,22 @@ namespace game {
     private tfdLevel: eui.BitmapLabel;
     private grpGoals: eui.Group;
     private insGoals: InsGoals = {};
+    // 毫秒数
+    private startTime: number = 0;
 
     public getSnapshot() {
       return {
         goals: yyw.eachChild(this.grpGoals, (goal: Goal) => goal.getAmount()),
+        duration: Date.now() - this.startTime,
         ...super.getSnapshot(),
       };
     }
 
     protected ensureData(useSnapshot: boolean) {
       super.ensureData(useSnapshot);
-      const goals = useSnapshot && yyw.USER.arena.level.goals || [];
-
+      const numGoals = useSnapshot && yyw.USER.arena.level.goals || {};
+      const duration = useSnapshot && yyw.USER.arena.level.duration || 0;
+      this.startTime = Date.now() - duration;
       this.tfdLevel.text = `${this.currentLevel.level}`;
 
       // 清除
@@ -30,15 +34,12 @@ namespace game {
       // 重建
       Object.entries(this.currentLevel.goals)
       .forEach(([ num, amount ]: [ string, number ], index: number) => {
-        const goal = this.insGoals[num] = new Goal(num, goals[index] || amount);
+        const key = `${index}`;
+        // 创建 Goal 实例
+        const goal = new Goal(num, numGoals[key] || amount);
         this.grpGoals.addChild(goal);
+        this.insGoals[num] = goal;
       });
-    }
-
-    protected getGameData() {
-      return {
-        ...super.getGameData(),
-      };
     }
 
     protected async collectCell(cell: Cell, num: number = 0) {
@@ -46,15 +47,14 @@ namespace game {
       await super.collectCell(cell, num);
       if (this.insGoals.hasOwnProperty(key)) {
         const goal = this.insGoals[key];
-        await this.fly(cell, goal, key);
+        await this.flyCellToGoal(cell, goal, key);
         goal.increaseAmount(1);
-        this.check();
+        this.checkGoals();
       }
     }
 
-    private async fly(cell: Cell, goal: Goal, num: string) {
+    private async flyCellToGoal(cell: Cell, goal: Goal, num: string) {
       const { x, y } = cell.localToGlobal();
-      // const top = this.stage.stageHeight - 1012;
       const dup = new eui.Image(`fruits_json.${num}`);
       dup.x = x;
       dup.y = y;
@@ -69,12 +69,11 @@ namespace game {
       yyw.removeElement(dup);
     }
 
-    private check() {
-      const satisfied = yyw.eachChild(this.grpGoals, (goal: Goal) => {
-        return goal.isComplete();
-      }).every((completed: boolean) => completed);
+    private checkGoals() {
+      const satisfied = Object.values(this.insGoals)
+      .every((goal: Goal) => goal.isCompleted());
       if (satisfied) {
-        yyw.emit("LEVEL_WON");
+        yyw.emit("LEVEL_PASS");
       }
     }
   }

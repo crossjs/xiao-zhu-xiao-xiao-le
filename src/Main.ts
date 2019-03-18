@@ -161,15 +161,12 @@ class Main extends eui.UILayer {
 
   private initScenes() {
     yyw.director.init({
-      alarm: new game.Alarm(),
       award: new game.Award(),
-      completing: new game.Completing(),
       guide: new game.Guide(),
       landing: new game.Landing(),
-      pbl: new game.Pbl(),
+      pass: new game.Pass(),
       playing: new game.Playing(),
       ranking: new game.Ranking(),
-      reviving: new game.Reviving(),
       shop: new game.Shop(),
       task: new game.Task(),
     });
@@ -197,42 +194,32 @@ class Main extends eui.UILayer {
     });
   }
 
-  private initSounds() {
-    wx.cloud.getTempFileURL({
-      fileList: [
-        "alarm",
-        "amazing",
-        "bomb",
-        "click",
-        "coins",
-        "excellent",
-        "good",
-        "great",
-        "heal",
-        "magic",
-        "oops",
-        "point",
-        "swap",
-      ].map((fileID) => `${CLOUD_DIR}/${fileID}.m4a`),
-      success: ({ fileList }) => {
-        fileList.forEach(({ status, fileID, tempFileURL }) => {
-          // cloud://dev-529ffe.6465-dev-529ffe/amazing.m4a
-          if (status === 0) {
-            const matched = fileID.match(/(\w)(\w+)(?=\.m4a)/);
-            if (matched) {
-              const SoundClass: typeof yyw.Sound = game[`${matched[1].toUpperCase()}${matched[2]}Sound`];
-              if (SoundClass) {
-                // tslint:disable
-                new SoundClass(tempFileURL);
-                // tslint:enable
-              }
-            }
-          }
-        });
-      },
-      fail: (error) => {
-        egret.error(error);
-      },
+  private async initSounds() {
+    const fileIDs = [
+      "alarm.m4a",
+      "amazing.m4a",
+      "bomb.m4a",
+      "click.m4a",
+      "coins.m4a",
+      "excellent.m4a",
+      "good.m4a",
+      "great.m4a",
+      "heal.m4a",
+      "magic.m4a",
+      "oops.m4a",
+      "point.m4a",
+      "swap.m4a",
+    ];
+    const fileURLs = await yyw.cloud.getTempFileURL(fileIDs);
+
+    fileURLs.forEach((fileURL: string, index: number) => {
+      const Name = yyw.ucFirst(fileIDs[index].replace(/\.m4a$/, ""));
+      const SoundClass: typeof yyw.Sound = game[`${Name}Sound`];
+      if (SoundClass) {
+        // tslint:disable
+        new SoundClass(fileURL);
+        // tslint:enable
+      }
     });
   }
 

@@ -172,7 +172,7 @@ namespace yyw {
     const pointAngle = pointTo.subtract(pointFrom);
     const radius = Math.atan2(pointAngle.y, pointAngle.x);
     // 起点到终点的距离内，取 1/4 长度
-    const offsetLength = pointAngle.length / 4;
+    const offsetLength = (pointAngle.length / (yyw.random(3, 5))) | 0;
     const offsetX = offsetLength * Math.sin(radius);
     const offsetY = offsetLength * Math.cos(radius);
     pointControl1.offset(dirX * offsetX, -dirY * offsetY);

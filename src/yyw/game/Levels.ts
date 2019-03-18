@@ -5,12 +5,13 @@ namespace yyw {
         const { level } = CONFIG;
         const data = CONFIG.levels[level - 1];
         if (data) {
-          const { limit: { cols = MAX_COLS, rows = MAX_ROWS, ...restLimit }, ...restData } = data;
+          const { limit: { cols = MAX_COLS, rows = MAX_ROWS, maxNum, ...restLimit }, ...restData } = data;
           return {
             level,
             limit: {
               cols,
               rows,
+              maxNum: maxNum || Math.min(cols, rows),
               ...restLimit,
             },
             ...restData,
@@ -25,16 +26,8 @@ namespace yyw {
         limit: {
           cols: 6,
           rows: 6,
-          // nil: [
-          //   0, 1, 2, 3, 4, 5, 6, 7,
-          //   8, 15,
-          //   16, 23,
-          //   24, 31,
-          //   32, 39,
-          //   40, 47,
-          //   48, 55,
-          //   56, 57, 58, 59, 60, 61, 62, 63,
-          // ],
+          maxNum: 6,
+          ice: [ 14, 15, 20, 21 ],
         },
       };
     }

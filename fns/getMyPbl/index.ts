@@ -18,8 +18,6 @@ export const main = async (event, context) => {
         combo: true,
         points: true,
         coins: true,
-        scores: true,
-        played: true,
       })
       .get();
     return data;

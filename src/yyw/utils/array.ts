@@ -25,4 +25,12 @@ namespace yyw {
       return this.stack.indexOf(value);
     }
   }
+
+  export function arr2obj(arr: any[], key: string) {
+    return arr.reduce((o, v) => {
+      return Object.assign(o, {
+        [v[key]]: v,
+      });
+    }, {});
+  }
 }

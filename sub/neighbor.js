@@ -6,7 +6,7 @@ import { AssetsManager } from "./assets";
 const context = sharedCanvas.getContext("2d");
 context.globalCompositeOperation = "source-over";
 
-export const Top3 = {
+export const Neighbor = {
   isReady: false,
 
   async preload() {
@@ -20,7 +20,10 @@ export const Top3 = {
    * 绘制屏幕
    * 这个函数会在加载完所有资源之后被调用
    */
-  async create({ width, height, mode, rankingData }) {
+  async create({
+    width, height, mode = "score", level = "", score, rankingData,
+    openid = 0, nickName = "", avatarUrl = "",
+  }) {
     if (sharedCanvas.width && sharedCanvas.height) {
       // 确保就绪
       await this.preload();
@@ -28,11 +31,47 @@ export const Top3 = {
       this.width = width;
       this.height = height;
       this.mode = mode;
-      this.rankingData = rankingData.slice(0).sort((a, b) => {
-        return a[mode] > b[mode] ? -1 : 1;
-      }).slice(0, 3).map((v, index) => Object.assign(v, {
-        key: index + 1,
-      }));
+      this.level = level;
+      this.key = `${mode}${level}`;
+      let prev;
+      let next;
+      let mine = {
+        openid,
+        nickName,
+        avatarUrl,
+        [this.key]: score,
+      };
+      rankingData.forEach((item, index) => {
+        item.key = index + 1;
+        if (item.openid === openid) {
+          mine = item;
+        } else {
+          const _score = item[this.key];
+          if (_score > score) {
+            if (!prev || prev[this.key] > _score) {
+              prev = item;
+            }
+          } else if (_score < score) {
+            if (!next || next[this.key] < _score) {
+              next = item;
+            }
+          }
+        }
+      });
+      if (!mine.key) {
+        if (prev) {
+          mine.key = prev.key + 1;
+          if (next) {
+            next.key = mine.key + 1;
+          }
+        } else if (next) {
+          mine.key = next.key;
+          next.key = mine.key + 1;
+        } else {
+          mine.key = 1;
+        }
+      }
+      this.rankingData = [prev, mine, next].filter((v) => !!v);
       this.scaleX = sharedCanvas.width / width;
       this.scaleY = sharedCanvas.height / height;
       context.setTransform(this.scaleX, 0, 0, this.scaleY, 0, 0);
@@ -79,7 +118,7 @@ export const Top3 = {
     const iconWidth = 72;
     const fontSize = 24;
     const x = (i === 0 ? 1 : i === 1 ? 0 : 2) * colWidth;
-    const { key, avatarUrl, nickName, nickname } = data;
+    const { key, avatarUrl, nickName, nickname, [this.key]: score } = data;
     let y = i === 0 ? 0 : 30;
     // 绘制序号
     this.drawImage(
@@ -113,7 +152,7 @@ export const Top3 = {
     y += fontSize + gutterHeight;
     // 绘制分数
     this.drawText(
-      data[this.mode],
+      this.transScore(score),
       x,
       y,
       colWidth,
@@ -122,6 +161,13 @@ export const Top3 = {
         fontSize,
       },
     );
+  },
+
+  transScore(score) {
+    if (this.level) {
+      return `${(score / 1000).toFixed(1)}s`;
+    }
+    return score;
   },
 
   /**

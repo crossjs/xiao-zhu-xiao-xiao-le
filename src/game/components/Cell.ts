@@ -134,6 +134,21 @@ namespace game {
       yyw.disWave(this);
     }
 
+    public async tweenDown(duration: number): Promise<void> {
+      const { numGroup } = this;
+      const { y: oY } = numGroup;
+      numGroup.y = oY - this.height;
+      const tween = yyw.getTween(numGroup);
+      yyw.wave(this, {
+        step: 0.02,
+        y: 1.6,
+      });
+      await tween.to({
+        y: oY,
+      }, duration);
+      yyw.disWave(this);
+    }
+
     public reset() {
       yyw.removeTweens(this);
       yyw.disWave(this);

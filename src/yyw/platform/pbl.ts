@@ -2,11 +2,8 @@ namespace yyw {
   interface IPbl {
     score?: number;
     level?: number;
-    combo?: number;
     points?: number;
     coins?: number;
-    scores?: number;
-    played?: number;
   }
 
   export const pbl = {
@@ -20,26 +17,26 @@ namespace yyw {
 
     async save({
       score,
-      combo,
       level,
+      duration,
     }: {
       score?: number,
-      combo?: number,
       level?: number,
+      duration?: number,
     }): Promise<IPbl> {
-      if (score) {
+      if (score || level) {
         yyw.sub.postMessage({
           command: "saveScore",
           score,
           level,
+          duration,
         });
       }
       assign({
         score: Math.max(USER.score, score),
         level: Math.max(USER.level, level),
-        combo: Math.max(USER.combo, combo),
       });
-      return cloud.call("saveMyPbl", { score, combo, level });
+      return cloud.call("saveMyPbl", { score, level });
     },
   };
 }

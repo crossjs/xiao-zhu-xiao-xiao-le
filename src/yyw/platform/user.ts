@@ -32,6 +32,7 @@ namespace yyw {
         goals?: {
           [num: string]: number;
         };
+        duration?: number;
         // from model
         cols?: number;
         rows?: number;

@@ -8,7 +8,6 @@ namespace yyw {
       cols?: number;
       rows?: number;
       maxNum?: number;
-      steps?: number;
       // 冻住，消除后可移动
       ice?: number[];
       // 固定，只可消除，不可移动
@@ -17,8 +16,7 @@ namespace yyw {
       nil?: number[];
     };
     goals?: {
-      score?: number;
-      merge?: [number, number];
+      [num: string]: number;
     };
   }
 
@@ -96,8 +94,9 @@ namespace yyw {
         boxEnabled = true,
         bannerAd = "",
         rewardAd = "",
-        levels = [],
       } = await cloud.call("getConfig");
+
+      const levels = await cloud.read("levels.json") || [];
 
       Object.assign(CONFIG, {
         speedRatio,

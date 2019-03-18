@@ -6,9 +6,9 @@
 	</e:Group>
 	<e:Label text="关卡" fontFamily="sans-serif" size="24" verticalAlign="middle" height="36" y="102" x="621"/>
 	<e:Label text="目标" fontFamily="sans-serif" size="24" verticalAlign="middle" height="36" y="36" horizontalCenter="0"/>
-	<e:Group id="grpGoals" y="96" horizontalCenter="0" width="300" height="90">
+	<e:Group id="grpGoals" y="96" horizontalCenter="0" width="360" height="90">
 		<e:layout>
-			<e:HorizontalLayout gap="12" horizontalAlign="center" verticalAlign="middle"/>
+			<e:HorizontalLayout gap="30" horizontalAlign="center" verticalAlign="middle"/>
 		</e:layout>
 	</e:Group>
 	<e:BitmapLabel id="tfdLevel" width="240" verticalAlign="middle" y="165" font="score_fnt" text="999" textAlign="center" x="645" height="72" anchorOffsetY="36" anchorOffsetX="120" scaleX="0.5" scaleY="0.5"/>

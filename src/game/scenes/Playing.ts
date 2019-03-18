@@ -12,31 +12,10 @@ namespace game {
         && yyw.USER.arena[yyw.CONFIG.mode]
         && (await yyw.showModal("继续上一次的进度？"));
 
-      const Arena = yyw.CONFIG.mode === "score" ? ArenaScore : ArenaLevel;
-      if (!(this.arena instanceof Arena)) {
-        if (this.arena) {
-          yyw.removeElement(this.arena);
-        }
-        this.arena = new Arena();
-        this.body.addChildAt(this.arena, 1);
-      }
-
-      await this.arena.startup(useSnapshot);
-      await this.tools.startup(useSnapshot);
-
-      if (yyw.USER.arena && yyw.USER.arena[yyw.CONFIG.mode]) {
-        // 清空快照
-        await yyw.update({
-          arena: {
-            ...yyw.USER.arena,
-            // 只清当前模式
-            [yyw.CONFIG.mode]: null,
-          },
-        });
-      }
+      await this.ensureArena(useSnapshot);
+      await this.ensureTools(useSnapshot);
 
       this.isPlaying = true;
-      yyw.analysis.onStart();
     }
 
     public async exiting() {
@@ -46,10 +25,13 @@ namespace game {
     protected initialize() {
       yyw.on("GAME_START", () => {
         this.startGame();
+        yyw.analysis.onStart();
       });
 
-      yyw.on("LEVEL_WON", () => {
-        this.gameWon();
+      yyw.on("LEVEL_PASS", () => {
+        this.isPlaying = false;
+        yyw.director.toScene("pass", true);
+        yyw.analysis.onEnd();
       });
 
       // 预处理龙骨动画
@@ -58,15 +40,7 @@ namespace game {
 
     protected async destroy(): Promise<void> {
       if (this.isPlaying) {
-        yyw.update({
-          arena: {
-            ...yyw.USER.arena,
-            [yyw.CONFIG.mode]: {
-              ...this.arena.getSnapshot(),
-              ...this.tools.getSnapshot(),
-            },
-          },
-        });
+        yyw.update(this.getSnapshot());
       }
 
       yyw.removeElement(this.arena);
@@ -109,17 +83,42 @@ namespace game {
       yyw.analysis.addEvent("9进入游戏界面");
     }
 
-    /**
-     * 完成关卡
-     */
-    private gameWon() {
-      this.isPlaying = false;
-      // 保存数据
-      yyw.pbl.save({
-        level: yyw.CONFIG.level,
-      });
-      yyw.director.toScene("completing", true);
-      yyw.analysis.onEnd();
+    private async ensureArena(useSnapshot: boolean) {
+      const Arena = yyw.CONFIG.mode === "score" ? ArenaScore : ArenaLevel;
+      if (!(this.arena instanceof Arena)) {
+        if (this.arena) {
+          yyw.removeElement(this.arena);
+        }
+        this.arena = new Arena();
+        this.body.addChildAt(this.arena, 1);
+      }
+
+      await this.arena.startup(useSnapshot);
+
+      if (yyw.USER.arena && yyw.USER.arena[yyw.CONFIG.mode]) {
+        // 清空快照
+        await yyw.update({
+          arena: {
+            ...yyw.USER.arena,
+            // 只清当前模式
+            [yyw.CONFIG.mode]: null,
+          },
+        });
+      }
+    }
+
+    private async ensureTools(useSnapshot: boolean) {
+      await this.tools.startup(useSnapshot);
+    }
+
+    private getSnapshot() {
+      return {
+        ...this.tools.getSnapshot(),
+        arena: {
+          ...yyw.USER.arena,
+          [yyw.CONFIG.mode]: this.arena.getSnapshot(),
+        },
+      };
     }
   }
 }

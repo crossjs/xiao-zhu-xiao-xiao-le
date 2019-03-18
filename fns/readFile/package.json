@@ -1,7 +1,7 @@
 {
-  "name": "getTasks",
+  "name": "readFile",
   "version": "1.0.0",
-  "description": "获取当日任务",
+  "description": "读取文件",
   "main": "index.js",
   "dependencies": {
     "wx-server-sdk": "latest"

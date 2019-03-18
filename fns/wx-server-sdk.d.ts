@@ -77,4 +77,14 @@ declare module "wx-server-sdk" {
     name: string;
     data?: any;
   }): Promise<{ result: any }>;
+
+  function downloadFile(options: {
+    fileID: string;
+  }): Promise<{
+    fileContent: any; // Buffer
+    statusCode: number;
+  } & {
+    errMsg: string;
+    errCode: number;
+  }>;
 }

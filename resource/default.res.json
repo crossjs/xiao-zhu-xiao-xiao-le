@@ -31,7 +31,7 @@
 			"url": "assets/sprites.json",
 			"type": "sheet",
 			"name": "sprites_json",
-			"subkeys": "avatar,board,bottom_bg,button_disabled,button_down,button_up,checked,checkin,cheng1,circle_add,close,coin,dismiss,done,favorite,finger,games,heart,home,important,lives_bg,magic,next,point,round_disabled,round_white,score,share,sound,start,start2,task,tool_breaker,tool_shuffle,tool_stepsup,tool_valueup,top1,top2,top3,vibration,video,zgfs,zggq,zglj,ljfs,ljjs,hyph,sjph,ckhyph,cksjph,djdh,sjtj,tlbz,wdjk,mffh,cxks,cxks,zlyc,ljhd,mrqd,mrrw,yxjs,xzgq,sltg,xyg,dqgq,sybs"
+			"subkeys": "avatar,board,bottom_bg,button_disabled,button_down,button_up,checked,circle_add,close,coin,dismiss,done,duration,favorite,finger,home,icon_level,icon_score,important,level,magic,next,next_level,point,round_disabled,round_white,score,share,sound,start,start2,task,tool_shuffle,top1,top2,top3,vibration,video,zgfs,zggq,hyph,sjph,ckhyph,cksjph,djdh,tlbz,wdjk,cxks,cxks,mrrw,gxtg"
 		},
 		{
 			"url": "assets/sprites2.json",

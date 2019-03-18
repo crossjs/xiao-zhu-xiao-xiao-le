@@ -23,12 +23,9 @@ namespace yyw {
     constructor(
       private cols: number,
       private rows: number,
-      private maxNum?: number,
+      private maxNum: number,
       private matrix?: Matrix,
     ) {
-      if (!this.maxNum) {
-        this.maxNum = Math.min(this.cols, this.rows);
-      }
       if (!this.matrix) {
         this.createMatrix();
       }

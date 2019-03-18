@@ -18,14 +18,16 @@ export const main = async (event: any, context: any) => {
       nickName: true,
       avatarUrl: true,
       score: true,
+      level: true,
     })
     .get();
 
-  return data.map(({ _id, nickName, avatarUrl, score }, index: number) => ({
+  return data.map(({ _id, nickName, avatarUrl, score, level }, index: number) => ({
     openid: _id,
     nickName,
     avatarUrl,
     score,
+    level,
     key: index + 1,
   }));
 };

@@ -27,7 +27,7 @@ namespace game {
       }
     }
 
-    public isComplete(): boolean {
+    public isCompleted(): boolean {
       return !this.amount;
     }
 

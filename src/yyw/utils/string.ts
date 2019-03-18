@@ -18,6 +18,10 @@ namespace yyw {
     return value.substring(0, size);
   }
 
+  export function ucFirst(str: string): string {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
   export function zeroPadding(str: string, size: number): string {
     const padding = "0000000000";
     return `${padding.slice(0, size - str.length)}${str}`;
