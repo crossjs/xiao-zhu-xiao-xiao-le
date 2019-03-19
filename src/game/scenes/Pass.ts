@@ -21,7 +21,7 @@ namespace game {
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       super.createView(fromChildrenCreated);
 
-      const { level } = yyw.Levels.current();
+      const { level } = yyw.LevelSys.current();
 
       if (fromChildrenCreated) {
         yyw.onTap(this.btnOK, () => {
@@ -32,7 +32,7 @@ namespace game {
         });
 
         yyw.onTap(this.btnEscape, () => {
-          if (yyw.Levels.current().level > 0) {
+          if (yyw.LevelSys.current().level > 0) {
             yyw.emit("GAME_START");
           } else {
             yyw.showModal("暂无可用关卡，敬请期待！", false);

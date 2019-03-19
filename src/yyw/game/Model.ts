@@ -16,7 +16,7 @@ namespace yyw {
         const { cols, rows, maxNum, matrix } = USER.arena[CONFIG.mode];
         return new Model(cols, rows, maxNum, matrix);
       }
-      const { limit: { cols, rows, maxNum } } = Levels.current();
+      const { limit: { cols, rows, maxNum } } = LevelSys.current();
       return new Model(cols, rows, maxNum);
     }
 
@@ -58,7 +58,7 @@ namespace yyw {
 
     private createMatrix() {
       this.matrix = [];
-      const { limit: { nil = [], cols, rows } } = Levels.current();
+      const { limit: { nil = [], cols, rows } } = LevelSys.current();
       for (let row = 0; row < rows; row++) {
         this.matrix[row] = [];
         let num: number;

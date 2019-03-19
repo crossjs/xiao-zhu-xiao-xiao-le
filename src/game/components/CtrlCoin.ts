@@ -1,5 +1,5 @@
 namespace game {
-  export class CtrlShop extends yyw.Base {
+  export class CtrlCoin extends yyw.Base {
     private coin: eui.Image;
     private tfdCoins: eui.BitmapLabel;
     private coins: number = 0;

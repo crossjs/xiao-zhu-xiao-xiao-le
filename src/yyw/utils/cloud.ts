@@ -25,7 +25,7 @@ namespace yyw {
       const { fileList } = await wx.cloud.getTempFileURL({
         fileList: fileIDs.map((fileID: string) => `${CLOUD_DIR}/${fileID}`),
       });
-      const fileMap = arr2obj(fileList, "fileID");
+      const fileMap = arr2obj(fileList, "fileID", (key: string) => key.replace(`${CLOUD_DIR}/`, ""));
       return fileIDs.map((fileID) => {
         const file = fileMap[fileID];
         return file && file.status === 0 && file.tempFileURL || "";

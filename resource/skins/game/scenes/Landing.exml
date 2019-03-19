@@ -14,6 +14,9 @@
 		</e:Group>
 		<game:CtrlGroup3 id="ctrlGroup3" x="30" y="739"/>
 		<game:CtrlGroup2 id="ctrlGroup2" y="739" x="648"/>
+		<game:Me x="21" y="21"/>
+		<game:CtrlEnergy x="40" y="114"/>
+		<game:CtrlCoin x="40" y="168"/>
 	</e:Group>
 	<e:Label id="tfdVersion" textAlign="center" verticalAlign="middle" alpha="0.5" left="0" right="0" size="24"/>
 	<e:Image id="imgFavorite" source="sprites_json.favorite" visible="false" right="50" y="104"/>

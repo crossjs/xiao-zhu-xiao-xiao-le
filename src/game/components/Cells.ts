@@ -67,7 +67,7 @@ namespace game {
 
     public async startup(useSnapshot: boolean = false) {
       this.model = yyw.Model.create(useSnapshot);
-      this.currentLevel = yyw.Levels.current();
+      this.currentLevel = yyw.LevelSys.current();
       this.createCells();
     }
 

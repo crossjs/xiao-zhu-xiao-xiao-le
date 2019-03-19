@@ -2,7 +2,7 @@ namespace game {
   export class Playing extends yyw.Base {
     private bgHead: eui.Rect;
     private boxAll: box.All;
-    private ctrlShop: CtrlShop;
+    private ctrlShop: CtrlCoin;
     private arena: ArenaBase;
     private tools: Tools;
     private isPlaying: boolean = false;
@@ -11,6 +11,16 @@ namespace game {
       const useSnapshot = yyw.USER.arena
         && yyw.USER.arena[yyw.CONFIG.mode]
         && (await yyw.showModal("继续上一次的进度？"));
+
+      if (!useSnapshot) {
+        if (!yyw.EnergySys.use()) {
+          if (await yyw.showModal("体力不足", false)) {
+            this.isPlaying = false;
+            yyw.director.toScene("landing");
+          }
+          return;
+        }
+      }
 
       await this.ensureArena(useSnapshot);
       await this.ensureTools(useSnapshot);
@@ -113,9 +123,9 @@ namespace game {
 
     private getSnapshot() {
       return {
-        ...this.tools.getSnapshot(),
         arena: {
           ...yyw.USER.arena,
+          ...this.tools.getSnapshot(),
           [yyw.CONFIG.mode]: this.arena.getSnapshot(),
         },
       };

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="CtrlEnergySkin" xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing">
+	<e:Group id="main">
+		<e:Image id="img" scaleX="0.4" scaleY="0.4" source="sprites_json.energy" y="0"/>
+		<e:BitmapLabel id="tfd" font="score_fnt" width="72" scaleX="0.5" scaleY="0.5" x="42" y="2" text="0"/>
+		<e:Image id="btn" source="sprites_json.circle_add" x="84" y="3"/>
+	</e:Group>
+</e:Skin>

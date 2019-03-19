@@ -3,7 +3,7 @@
 	<e:Group id="main" touchEnabled="false" width="750" height="90">
         <game:RandomKind verticalCenter="0"/>
         <game:RandomLine verticalCenter="0"/>
-        <game:Shuffle verticalCenter="0"/>
+        <game:RandomSort verticalCenter="0"/>
 		<e:layout>
 			<e:HorizontalLayout gap="60" horizontalAlign="center" verticalAlign="middle"/>
 		</e:layout>

@@ -2,20 +2,20 @@ namespace game {
   interface ToolAmount {
     randomLine: number;
     randomKind: number;
-    shuffle: number;
+    randomSort: number;
   }
 
   export class Tools extends yyw.Base {
     private toolAmounts: ToolAmount = {
       randomLine: yyw.CONFIG.toolAmount,
       randomKind: yyw.CONFIG.toolAmount,
-      shuffle: yyw.CONFIG.toolAmount,
+      randomSort: yyw.CONFIG.toolAmount,
     };
 
     public async startup(useSnapshot: boolean = false) {
       if (useSnapshot) {
-        const { randomLine, randomKind, shuffle } = yyw.USER.arena;
-        Object.assign(this.toolAmounts, { randomLine, randomKind, shuffle });
+        const { randomLine, randomKind, randomSort } = yyw.USER.arena;
+        Object.assign(this.toolAmounts, { randomLine, randomKind, randomSort });
       }
 
       yyw.eachChild(this.main, (tool: ToolBase) => {
@@ -27,8 +27,8 @@ namespace game {
       yyw.eachChild(this.main, (tool: ToolBase) => {
         this.toolAmounts[tool.type] = tool.getAmount();
       });
-      const { randomLine, randomKind, shuffle } = this.toolAmounts;
-      return { randomLine, randomKind, shuffle };
+      const { randomLine, randomKind, randomSort } = this.toolAmounts;
+      return { randomLine, randomKind, randomSort };
     }
 
     protected initialize() {

@@ -1,5 +1,5 @@
 namespace yyw {
-  export class Levels {
+  export class LevelSys {
     public static current(mode: string = CONFIG.mode): Level {
       if (mode === "level") {
         const { level } = CONFIG;

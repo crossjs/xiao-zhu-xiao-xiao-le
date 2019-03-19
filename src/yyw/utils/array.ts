@@ -26,10 +26,11 @@ namespace yyw {
     }
   }
 
-  export function arr2obj(arr: any[], key: string) {
+  export function arr2obj(arr: any[], key: string, replacer?: ((key: string) => string)) {
     return arr.reduce((o, v) => {
+      const k = replacer ? replacer(v[key]) : v[key];
       return Object.assign(o, {
-        [v[key]]: v,
+        [k]: v,
       });
     }, {});
   }

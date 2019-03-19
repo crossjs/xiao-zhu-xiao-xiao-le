@@ -1,7 +1,7 @@
 namespace game {
   export class Shop extends yyw.Base {
     private prices: number[] = [1000, 2000, 1500];
-    private goods: string[] = ["valueUp", "shuffle", "breaker"];
+    private goods: string[] = ["valueUp", "sort", "breaker"];
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       super.createView(fromChildrenCreated);

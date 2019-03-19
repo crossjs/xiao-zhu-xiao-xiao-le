@@ -8,10 +8,26 @@ namespace yyw {
     province?: string;
     city?: string;
     country?: string;
+    /**
+     * 金币
+     */
     coins?: number;
     points?: number;
+    /**
+     * 精力
+     */
+    energies?: number;
+    /**
+     * 上次恢复精力的时间
+     */
+    renewedAt?: number;
+    /**
+     * 最高得分
+     */
     score?: number;
-    combo?: number;
+    /**
+     * 最高关卡
+     */
     level?: number;
     /**
      * 是否已完成“新手引导”
@@ -25,7 +41,7 @@ namespace yyw {
       // from tools
       randomKind?: number;
       randomLine?: number;
-      shuffle?: number;
+      randomSort?: number;
       level?: {
         // from playing
         // from arena

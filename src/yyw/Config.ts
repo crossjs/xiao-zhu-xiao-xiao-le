@@ -28,6 +28,9 @@ namespace yyw {
     toolReward: number;
     checkinReward: number;
     reviveReward: number;
+    energyAmount: number;
+    renewInterval: number;
+    levelScore: number;
     boxEnabled: boolean;
     bannerAd: string;
     rewardAd: string;
@@ -58,6 +61,12 @@ namespace yyw {
     checkinReward: 0,
     // 复活方式
     reviveReward: 0,
+    // 体力最大值
+    energyAmount: 5,
+    // 恢复 1 点体力需要的分钟数
+    renewInterval: 5,
+    // 进入关卡模式要求的最低得分
+    levelScore: 10000,
     bannerAd: "",
     rewardAd: "",
     soundEnabled: true,
@@ -74,7 +83,6 @@ namespace yyw {
       get(): number {
         return level || (USER && USER.level || 0) || 1;
       },
-
       set(v: number) {
         level = v;
       },
@@ -91,6 +99,9 @@ namespace yyw {
         toolReward = 0,
         checkinReward = 0,
         reviveReward = 0,
+        energyAmount = 5,
+        renewInterval = 5,
+        levelScore = 10000,
         boxEnabled = true,
         bannerAd = "",
         rewardAd = "",
@@ -106,6 +117,9 @@ namespace yyw {
         toolReward,
         checkinReward,
         reviveReward,
+        energyAmount,
+        renewInterval,
+        levelScore,
         boxEnabled,
         bannerAd,
         rewardAd,

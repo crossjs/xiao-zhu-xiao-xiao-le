@@ -70,6 +70,7 @@ class Main extends eui.UILayer {
         加载素材资源: 0,
         加载游戏配置: 0.5,
         加载用户信息: 0.6,
+        加载体力系统: 0.7,
         加载每日任务: 0.8,
       });
       this.stage.addChild(this.loadingView);
@@ -97,6 +98,11 @@ class Main extends eui.UILayer {
       this.loadingView.setProgress("加载用户信息", 0.2, 1);
       await yyw.getLogin();
       this.loadingView.setProgress("加载用户信息", 1, 1);
+
+      // 加载体力系统
+      this.loadingView.setProgress("加载体力系统", 0.2, 1);
+      await yyw.EnergySys.initialize();
+      this.loadingView.setProgress("加载体力系统", 1, 1);
 
       // 获取每日任务
       this.loadingView.setProgress("加载每日任务", 0.2, 1);

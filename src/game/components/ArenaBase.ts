@@ -52,12 +52,12 @@ namespace game {
       if (!this.offTool) {
         this.offTool = yyw.on("TOOL_USED", ({ data: { type } }: egret.Event) => {
           switch (type) {
-            case "randomKind":
-              return this.doRandomKind();
             case "randomLine":
               return this.doRandomLine();
-            case "shuffle":
-              return this.doShuffle();
+            case "randomKind":
+              return this.doRandomKind();
+            case "randomSort":
+              return this.doRandomSort();
             default:
               return;
           }
@@ -187,7 +187,7 @@ namespace game {
     }
 
     protected ensureData(useSnapshot: boolean) {
-      this.currentLevel = yyw.Levels.current();
+      this.currentLevel = yyw.LevelSys.current();
       const { cols, rows } = this.currentLevel.limit;
       const width = yyw.CELL_WIDTH * cols;
       const height = yyw.CELL_HEIGHT * rows;
@@ -499,7 +499,7 @@ namespace game {
     /**
      * 随机重排
      */
-    private async doShuffle(): Promise<void> {
+    private async doRandomSort(): Promise<void> {
       this.isRunning = true;
       await yyw.twirlOut(this.cells, 300);
 
