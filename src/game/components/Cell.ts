@@ -1,11 +1,4 @@
 namespace game {
-  export const CELL_TYPES = {
-    DEF: 1,
-    ICE: 2,
-    FIX: 4,
-    NIL: 8,
-  };
-
   export class Cell extends yyw.Base {
     /**
      * 99 魔法数，可以触发其它数 + 1
@@ -23,7 +16,7 @@ namespace game {
     constructor(
       public col: number,
       public row: number,
-      private type: number = CELL_TYPES.DEF,
+      private type: number = yyw.CELL_TYPES.DEF,
     ) {
       super();
       this.width = yyw.CELL_WIDTH;
@@ -42,9 +35,9 @@ namespace game {
 
     public setType(type: number) {
       this.type = type;
-      this.imgIce.visible = type === CELL_TYPES.ICE;
-      this.imgFix.visible = type === CELL_TYPES.FIX;
-      this.imgNil.visible = type === CELL_TYPES.NIL;
+      this.imgIce.visible = type === yyw.CELL_TYPES.ICE;
+      this.imgFix.visible = type === yyw.CELL_TYPES.FIX;
+      this.imgNil.visible = type === yyw.CELL_TYPES.NIL;
     }
 
     public isMagic(): boolean {
@@ -79,8 +72,8 @@ namespace game {
     }
 
     public unfreeze() {
-      if (this.type === CELL_TYPES.ICE) {
-        this.setType(CELL_TYPES.DEF);
+      if (this.type === yyw.CELL_TYPES.ICE) {
+        this.setType(yyw.CELL_TYPES.DEF);
       }
     }
 

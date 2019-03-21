@@ -38,6 +38,7 @@ export const main = async ({ fullUserInfo }, context) => {
       renewedAt,
       nickName,
       avatarUrl,
+      tools,
       arena,
       sticked,
       guided,
@@ -52,6 +53,7 @@ export const main = async ({ fullUserInfo }, context) => {
       renewedAt,
       nickName,
       avatarUrl,
+      tools,
       arena,
       sticked,
       guided,
@@ -67,6 +69,8 @@ export const main = async ({ fullUserInfo }, context) => {
   const { result: { now }} = await cloud.callFunction({
     name: "dateUtil",
   });
+
+  console.log("当前用户：", openid, isNew);
 
   if (isNew) {
     await doc.set({

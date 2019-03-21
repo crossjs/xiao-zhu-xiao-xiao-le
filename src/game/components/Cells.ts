@@ -68,11 +68,14 @@ namespace game {
     public async startup(useSnapshot: boolean = false) {
       this.model = yyw.Model.create(useSnapshot);
       this.currentLevel = yyw.LevelSys.current();
-      this.createCells();
+      this.createCells(useSnapshot);
     }
 
     public getSnapshot() {
-      return this.model.getSnapshot();
+      return {
+        cells: this.traverse((cell: Cell) => cell.getType()),
+        ...this.model.getSnapshot(),
+      };
     }
 
     public getCellAt(point: yyw.Point | Cell): Cell {
@@ -98,8 +101,13 @@ namespace game {
       return this.model.getRandomNumber();
     }
 
-    public traverse(handler?: any, filter?: any) {
-      return yyw.traverseMatrix(this.cellMatrix, handler, filter);
+    public traverse(replacer?: any): any[][] {
+      return yyw.traverseMatrix(this.cellMatrix, replacer);
+    }
+
+    public flatten(filter?: any): any[] {
+      const res = [].concat(...this.traverse());
+      return filter ? res.filter(filter) : res;
     }
 
     /**
@@ -161,32 +169,27 @@ namespace game {
       return [0, []];
     }
 
-    private createCells() {
-      const { limit: { cols, rows, ice = [], fix = [], nil = [] } } = this.currentLevel;
+    private createCells(useSnapshot?: boolean) {
+      const { limit } = this.currentLevel;
+
+      const cells = useSnapshot ? yyw.USER.arena[yyw.CONFIG.mode].cells : limit.cells;
 
       // 清除
       yyw.removeChildren(this.main);
 
       // 重建
       const cm = this.cellMatrix = [];
-      for (let row = 0; row < rows; row++) {
+      for (let row = 0; row < limit.rows; row++) {
         const r = cm[row] = [];
-        for (let col = 0; col < cols; col++) {
+        for (let col = 0; col < limit.cols; col++) {
           const c = r[col] = new Cell(col, row);
           this.main.addChild(c);
         }
       }
       this.traverse((cell: Cell, point: yyw.Point) => {
         cell.setNumber(this.model.getNumberAt(point));
-        const index = point[1] * cols + point[0];
-        if (ice.indexOf(index) !== -1) {
-          cell.setType(CELL_TYPES.ICE);
-        } else if (fix.indexOf(index) !== -1) {
-          cell.setType(CELL_TYPES.FIX);
-        } else if (nil.indexOf(index) !== -1) {
-          cell.setType(CELL_TYPES.NIL);
-        } else {
-          cell.setType(CELL_TYPES.DEF);
+        if (cells.length) {
+          cell.setType(cells[point[1]][point[0]]);
         }
       });
     }

@@ -40,8 +40,15 @@ namespace game {
 
       yyw.on("LEVEL_PASS", () => {
         this.isPlaying = false;
+        // 通关，清理快照
+        this.saveSnapshot(null);
         yyw.director.toScene("pass", true);
         yyw.analysis.onEnd();
+      });
+
+      // 实时保存快照
+      yyw.on("SNAPSHOT", ({ data }) => {
+        this.saveSnapshot(data);
       });
 
       // 预处理龙骨动画
@@ -49,10 +56,6 @@ namespace game {
     }
 
     protected async destroy(): Promise<void> {
-      if (this.isPlaying) {
-        yyw.update(this.getSnapshot());
-      }
-
       yyw.removeElement(this.arena);
       this.arena = null;
 
@@ -104,31 +107,22 @@ namespace game {
       }
 
       await this.arena.startup(useSnapshot);
-
-      if (yyw.USER.arena && yyw.USER.arena[yyw.CONFIG.mode]) {
-        // 清空快照
-        await yyw.update({
-          arena: {
-            ...yyw.USER.arena,
-            // 只清当前模式
-            [yyw.CONFIG.mode]: null,
-          },
-        });
-      }
     }
 
     private async ensureTools(useSnapshot: boolean) {
       await this.tools.startup(useSnapshot);
     }
 
-    private getSnapshot() {
-      return {
+    private async saveSnapshot(payload: any) {
+      const { arena } = yyw.USER;
+      const { mode } = yyw.CONFIG;
+      await yyw.update({
+        tools: this.tools.getSnapshot(),
         arena: {
-          ...yyw.USER.arena,
-          ...this.tools.getSnapshot(),
-          [yyw.CONFIG.mode]: this.arena.getSnapshot(),
+          ...arena,
+          [mode]: payload,
         },
-      };
+      });
     }
   }
 }

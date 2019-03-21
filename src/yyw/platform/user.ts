@@ -1,5 +1,5 @@
 namespace yyw {
-  interface IUser {
+  interface User {
     openid?: string;
     unionid?: string;
     nickName?: string;
@@ -37,31 +37,31 @@ namespace yyw {
      * 是否已添加到“我的小程序”
      */
     sticked?: boolean;
-    arena?: {
+    tools?: {
       // from tools
       randomKind?: number;
       randomLine?: number;
       randomSort?: number;
+    };
+    arena?: {
       level?: {
-        // from playing
         // from arena
         goals?: {
           [num: string]: number;
         };
         duration?: number;
+        // from cells
+        cells?: number[][];
         // from model
-        cols?: number;
-        rows?: number;
         matrix?: number[][];
         maxNum?: number;
       };
       score?: {
-        // from playing
         // from arena
         score?: number;
+        // from cells
+        cells?: number[][];
         // from model
-        cols?: number;
-        rows?: number;
         matrix?: number[][];
         maxNum?: number;
       };
@@ -70,7 +70,7 @@ namespace yyw {
 
   const USER_KEY = "USER";
 
-  export const USER: IUser = {};
+  export const USER: User = {};
 
   function getUserInfo(): Promise<object> {
     return new Promise((resolve) => {

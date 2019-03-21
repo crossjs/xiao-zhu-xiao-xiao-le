@@ -1,0 +1,103 @@
+<select id="input">
+  <option value="4">4×4</option>
+  <option value="6">6×6</option>
+  <option value="8" selected>8×8</option>
+</select>
+<div class="flex-row">
+  <div class="flex-col">
+    <pre>●: 普通 ○: 冰冻 ≡: 固定 ×: 黑洞</pre>
+    <table>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+  <div class="flex-col">
+    <p id="tip"></p>
+    <textarea id="output" wrap="soft"></textarea>
+  </div>
+</div>
+<style>
+  .flex-col {
+    display: flex;
+    flex-direction: column;
+  }
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+  }
+  table {
+    border-collapse: collapse;
+  }
+  td {
+    border: 1px solid gray;
+    font-size: 2em;
+    width: 1.4em;
+    height: 1.4em;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+  }
+  textarea {
+    border: none;
+    width: 100%;
+  }
+</style>
+<script>
+  const typesMap = {
+    "●": 1,
+    "○": 2,
+    "≡": 4,
+    "×": 8
+  };
+  const typesMapReverse = {
+    1: "●",
+    2: "○",
+    4: "≡",
+    8: "×"
+  };
+  const tbody = document.querySelector("#tbody");
+  const input = document.querySelector("#input");
+  const output = document.querySelector("#output");
+  const tip = document.querySelector("#tip");
+  let size = 8;
+  input.addEventListener("change", e => {
+    size = +e.target.value;
+    updateTable();
+  });
+  output.addEventListener("click", () => {});
+  function updateTable() {
+    tbody.innerHTML = "";
+    for (let i = 0; i < size; i++) {
+      const row = document.createElement("tr");
+      for (let j = 0; j < size; j++) {
+        const col = document.createElement("td");
+        let index = 0;
+        col.textContent = typesMapReverse[[1, 2, 4, 8][index++]];
+        col.addEventListener("click", () => {
+          col.textContent = typesMapReverse[[1, 2, 4, 8][index++ % 4]];
+          echoMatrix();
+        });
+        row.appendChild(col);
+      }
+      tbody.append(row);
+    }
+  }
+  function echoMatrix(init) {
+    const numbers = tbody.textContent.split("").map((v, col) => typesMap[v]);
+    const matrix = [];
+    numbers.forEach((v, index) => {
+      const row = (index / size) | 0;
+      if (!matrix[row]) {
+        matrix[row] = [];
+      }
+      matrix[row][index % size] = v;
+    });
+    output.textContent = `cells: ${JSON.stringify(matrix)}`;
+    if (!init) {
+      output.select();
+      document.execCommand("copy");
+      tip.textContent = "已复制到剪贴板。";
+    }
+  }
+  updateTable();
+  echoMatrix(true);
+</script>

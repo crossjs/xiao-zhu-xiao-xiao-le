@@ -2,24 +2,6 @@ namespace yyw {
   const systemInfo: wx.systemInfo = wx.getSystemInfoSync();
   const launchOptions: wx.launchOptions = wx.getLaunchOptionsSync();
 
-  export interface Level {
-    level?: number;
-    limit?: {
-      cols?: number;
-      rows?: number;
-      maxNum?: number;
-      // 冻住，消除后可移动
-      ice?: number[];
-      // 固定，只可消除，不可移动
-      fix?: number[];
-      // 黑洞，无棋子
-      nil?: number[];
-    };
-    goals?: {
-      [num: string]: number;
-    };
-  }
-
   interface Config extends wx.systemInfo, wx.launchOptions {
     speedRatio: number;
     coinReward: number;

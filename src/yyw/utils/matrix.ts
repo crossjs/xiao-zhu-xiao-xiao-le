@@ -4,26 +4,20 @@ namespace yyw {
 
   export type Point = [ col, row ];
 
-  const identify = (value: any, point?: Point) => value;
-  const satisfy = (value: any, point?: Point) => true;
-
   export function traverseMatrix(
     matrix: any[][],
-    handler: (value?: any, point?: Point) => any = identify,
-    filter: (value: any, point?: Point) => boolean = satisfy,
-  ): any[] {
-    const arr = [];
-    let row = matrix.length;
-    while (row--) {
+    replacer?: (value?: any, point?: Point) => any,
+  ): any[][] {
+    const res = [];
+    const rows = matrix.length;
+    for (let row = 0; row < rows; row++) {
+      res[row] = [];
       const r = matrix[row];
-      let col = r.length;
-      while (col--) {
-        const v = handler(r[col], [col, row]);
-        if (filter(v)) {
-          arr.push(v);
-        }
+      const cols = r.length;
+      for (let col = 0; col < cols; col++) {
+        res[row].push(replacer ? replacer(r[col], [col, row]) : r[col]);
       }
     }
-    return arr;
+    return res;
   }
 }

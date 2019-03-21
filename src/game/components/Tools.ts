@@ -14,7 +14,7 @@ namespace game {
 
     public async startup(useSnapshot: boolean = false) {
       if (useSnapshot) {
-        const { randomLine, randomKind, randomSort } = yyw.USER.arena;
+        const { randomLine, randomKind, randomSort } = yyw.USER.tools;
         Object.assign(this.toolAmounts, { randomLine, randomKind, randomSort });
       }
 
@@ -24,11 +24,11 @@ namespace game {
     }
 
     public getSnapshot(): ToolAmount {
-      yyw.eachChild(this.main, (tool: ToolBase) => {
-        this.toolAmounts[tool.type] = tool.getAmount();
-      });
-      const { randomLine, randomKind, randomSort } = this.toolAmounts;
-      return { randomLine, randomKind, randomSort };
+      return yyw.eachChild(this.main, (tool: ToolBase) => {
+        return {
+          [tool.type]: tool.getAmount(),
+        };
+      }).reduce((obj, kv) => Object.assign(obj, kv), {});
     }
 
     protected initialize() {

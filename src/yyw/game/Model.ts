@@ -12,12 +12,12 @@ namespace yyw {
 
   export class Model {
     public static create(useSnapshot: boolean = false): Model {
+      const { limit } = LevelSys.current();
       if (useSnapshot) {
-        const { cols, rows, maxNum, matrix } = USER.arena[CONFIG.mode];
-        return new Model(cols, rows, maxNum, matrix);
+        const { maxNum, matrix } = USER.arena[CONFIG.mode];
+        return new Model(limit.cols, limit.rows, maxNum, matrix);
       }
-      const { limit: { cols, rows, maxNum } } = LevelSys.current();
-      return new Model(cols, rows, maxNum);
+      return new Model(limit.cols, limit.rows, limit.maxNum);
     }
 
     constructor(
@@ -58,13 +58,12 @@ namespace yyw {
 
     private createMatrix() {
       this.matrix = [];
-      const { limit: { nil = [], cols, rows } } = LevelSys.current();
+      const { limit: { cells = [], cols, rows } } = LevelSys.current();
       for (let row = 0; row < rows; row++) {
         this.matrix[row] = [];
         let num: number;
         for (let col = 0; col < cols; col++) {
-          const index = row * cols + col;
-          if (nil.indexOf(index) !== -1) {
+          if (cells[row][col] === CELL_TYPES.NIL) {
             num = NIL_NUMBER;
           } else {
             // 将上一个值加入排除列表，以避免连续数字过多导致难度太低

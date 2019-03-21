@@ -111,40 +111,61 @@ Score：
 
 ```js
 // 6×6
-const index = `
-● ● ● ● ● ●
+// ● def
+// ○ ice
+// ≡ fix
+// × nil
+const typesMap = {
+  "●": 1,
+  "○": 2,
+  "≡": 4,
+  "×": 8,
+};
+const matrix = `
+≡ ● ● ● ● ≡
 ● ● ○ ○ ● ●
-● ○ ● ● ○ ●
-● ○ ● ● ○ ●
+● ○ × × ○ ●
+● ○ × × ○ ●
 ● ● ○ ○ ● ●
-● ● ● ● ● ●
+≡ ● ● ● ● ≡
 `
-.replace(/\s/gm, "")
-.split("")
-.map((v, index) => v === "○" ? index : -1)
-.filter((v) => v !== -1);
+.replace(/^\s| +|\s$/g, "")
+.split(/[\r\n]+/)
+.map((line, row) => line.split("").map((v, col) => typesMap[v]))
 
-console.log(index);
+console.log(matrix);
 
-// [8, 9, 13, 16, 19, 22, 26, 27]
+// [ [ 4, 1, 1, 1, 1, 4 ],
+//   [ 1, 1, 2, 2, 1, 1 ],
+//   [ 1, 2, 8, 8, 2, 1 ],
+//   [ 1, 2, 8, 8, 2, 1 ],
+//   [ 1, 1, 2, 2, 1, 1 ],
+//   [ 4, 1, 1, 1, 1, 4 ] ]
 ```
 
 ```js
 // 6×6
-const index = `
+// ● def
+// ○ ice
+// ≡ fix
+// × nil
+const typesMap = {
+  "●": 1,
+  "○": 2,
+  "≡": 4,
+  "×": 8,
+};
+const matrix = `
+● ● ● ● ● ●
+● × ● ● × ●
 ● ● ● ● ● ●
 ● ● ● ● ● ●
-● ● ○ ○ ● ●
-● ● ○ ○ ● ●
-● ● ● ● ● ●
+● × ● ● × ●
 ● ● ● ● ● ●
 `
-.replace(/\s/gm, "")
-.split("")
-.map((v, index) => v === "○" ? index : -1)
-.filter((v) => v !== -1);
+.replace(/^\s| +|\s$/g, "")
+.split(/[\r\n]+/)
+.map((line, row) => line.split("").map((v, col) => typesMap[v]))
 
-console.log(index);
-
-// [ 14, 15, 20, 21 ]
+console.log(matrix);
 ```

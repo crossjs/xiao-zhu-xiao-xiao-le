@@ -283,10 +283,7 @@ namespace game {
       // 播放得分音效
       PointSound.play();
       // 同步消除
-      const cells = this.cells.traverse(
-        undefined,
-        (cell: Cell) => cell.getType() !== CELL_TYPES.NIL,
-      );
+      const cells = this.cells.flatten((cell: Cell) => cell.getType() !== yyw.CELL_TYPES.NIL);
       await Promise.all(
         cells.map((cell: Cell) => this.collectCell(cell)),
       );
@@ -303,14 +300,11 @@ namespace game {
       // 播放得分音效
       PointSound.play();
       // 同步消除
-      const cells = this.cells.traverse(
-        undefined,
-        (cell: Cell) =>
-          cell.getType() !== CELL_TYPES.NIL
-            // 消除 from/toCell 的“卫星”
-            && (Cells.isSatellite(cell, toCell, distance)
-              || (fromCell && Cells.isSatellite(cell, fromCell, distance))),
-      );
+      const cells = this.cells.flatten((cell: Cell) =>
+      cell.getType() !== yyw.CELL_TYPES.NIL
+        // 消除 from/toCell 的“卫星”
+        && (Cells.isSatellite(cell, toCell, distance)
+          || (fromCell && Cells.isSatellite(cell, fromCell, distance))));
       await Promise.all(
         cells.map((cell: Cell) => this.collectCell(cell)),
       );
@@ -328,10 +322,7 @@ namespace game {
       // 同步消除
       // TODO 如果是冰冻，应该先消冰
       const num = toCell.getNumber();
-      const cells = this.cells.traverse(
-        undefined,
-        (cell: Cell) => cell.getNumber() === num,
-      );
+      const cells = this.cells.flatten((cell: Cell) => cell.getNumber() === num);
       await Promise.all([
         ...cells.map((cell: Cell) => this.collectCell(cell)),
         this.collectCell(fromCell),
@@ -451,10 +442,7 @@ namespace game {
       PointSound.play();
       // 同步消除
       const num = this.cells.getRandomNumber();
-      const cells = this.cells.traverse(
-        undefined,
-        (cell: Cell) => cell.getNumber() === num,
-      );
+      const cells = this.cells.flatten((cell: Cell) => cell.getNumber() === num);
       await Promise.all(
         cells.map((cell: Cell) => this.collectCell(cell)),
       );
@@ -479,10 +467,7 @@ namespace game {
       // 同步消除
       const isRow = yyw.random(2) === 1;
       const index = yyw.random(this.currentLevel.limit[isRow ? "rows" : "cols"]);
-      const cells = this.cells.traverse(
-        undefined,
-        (cell: Cell) => cell[isRow ? "row" : "col"] === index,
-      );
+      const cells = this.cells.flatten((cell: Cell) => cell[isRow ? "row" : "col"] === index);
       await Promise.all(
         cells.map((cell: Cell) => this.collectCell(cell)),
       );
@@ -503,12 +488,7 @@ namespace game {
       this.isRunning = true;
       await yyw.twirlOut(this.cells, 300);
 
-      // 先取得一个拍平的
-      // 因为 traverse 是反向广度优先遍历，所以此处需要反转
-      const cells = this.cells.traverse(
-        undefined,
-        (cell: Cell) => cell.getType() !== CELL_TYPES.NIL,
-      ).reverse();
+      const cells = this.cells.flatten((cell: Cell) => cell.getType() !== yyw.CELL_TYPES.NIL);
       const numbers = cells.map((cell: Cell) => cell.getNumber());
       // 再遍历重新设置
       cells.forEach((cell: Cell) => {

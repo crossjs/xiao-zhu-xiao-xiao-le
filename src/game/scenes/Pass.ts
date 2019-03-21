@@ -51,6 +51,8 @@ namespace game {
         duration: this.duration,
       });
 
+      // 通关恢复 1 点体力
+      yyw.EnergySys.up();
       yyw.CONFIG.level++;
 
       this.btnEscape.visible = false;

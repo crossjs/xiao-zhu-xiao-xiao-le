@@ -26,5 +26,16 @@
     {
       "name": "promise"
     }
-  ]
+  ],
+  "targets": {
+    "android": {
+      "appname": "g4",
+      "packagename": "com.minipx.g4"
+    },
+    "ios": {
+      "appname": "g4",
+      "packagename": "com.minipx.g4",
+      "hybrid": false
+    }
+  }
 }
