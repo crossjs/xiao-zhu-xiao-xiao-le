@@ -10,6 +10,7 @@ namespace yyw {
     }
 
     private static instance: Sound;
+    private soundPool: wx.InnerAudioContext[] = [];
 
     public constructor(private url: string) {
       if (this.url) {
@@ -21,12 +22,17 @@ namespace yyw {
       if (!CONFIG.soundEnabled) {
         return;
       }
+      const sound = this.soundPool.pop() || await this.createSound();
+      sound.play();
+    }
+
+    private async createSound(): Promise<wx.InnerAudioContext> {
       const sound = wx.createInnerAudioContext();
       sound.src = await fs.ensure(this.url);
       sound.onEnded(() => {
-        sound.destroy();
+        this.soundPool.unshift(sound);
       });
-      sound.play();
+      return sound;
     }
   }
 }
