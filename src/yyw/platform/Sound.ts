@@ -10,14 +10,12 @@ namespace yyw {
     }
 
     private static instance: Sound;
-
-    protected sound: egret.Sound;
+    private innerAudioContext: wx.InnerAudioContext;
 
     public constructor(url: string) {
       if (url) {
-        egret.setTimeout(async () => {
-          this.sound = await loadAudio(url);
-        }, null, 0);
+        this.innerAudioContext = wx.createInnerAudioContext();
+        this.innerAudioContext.src = url;
         (this.constructor as any).instance = this;
       }
     }
@@ -26,17 +24,11 @@ namespace yyw {
       if (!CONFIG.soundEnabled) {
         return;
       }
-      if (!this.sound) {
+      if (!this.innerAudioContext) {
         return;
       }
-      const soundChannel = this.sound.play(0, 1);
-      soundChannel.once(
-        egret.Event.SOUND_COMPLETE,
-        () => {
-          soundChannel.stop();
-        },
-        this,
-      );
+
+      this.innerAudioContext.play();
     }
   }
 }

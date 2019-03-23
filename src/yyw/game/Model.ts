@@ -12,19 +12,18 @@ namespace yyw {
 
   export class Model {
     public static create(useSnapshot: boolean = false): Model {
-      const { limit } = LevelSys.current();
       if (useSnapshot) {
-        const { maxNum, matrix } = USER.arena[CONFIG.mode];
-        return new Model(limit.cols, limit.rows, maxNum, matrix);
+        const { matrix, maxNum } = yyw.LevelSys.snapshot;
+        return new Model(matrix, maxNum);
       }
-      return new Model(limit.cols, limit.rows, limit.maxNum);
+      return new Model();
     }
 
     constructor(
-      private cols: number,
-      private rows: number,
-      private maxNum: number,
       private matrix?: Matrix,
+      private maxNum: number = LevelSys.maxNum,
+      private cols: number = LevelSys.cols,
+      private rows: number = LevelSys.rows,
     ) {
       if (!this.matrix) {
         this.createMatrix();
@@ -32,8 +31,8 @@ namespace yyw {
     }
 
     public getSnapshot() {
-      const { maxNum, matrix } = this;
-      return { maxNum, matrix };
+      const { matrix, maxNum } = this;
+      return { matrix, maxNum };
     }
 
     public getNumberAt([ col, row ]: Point): number {
@@ -58,12 +57,12 @@ namespace yyw {
 
     private createMatrix() {
       this.matrix = [];
-      const { limit: { cells = [], cols, rows } } = LevelSys.current();
-      for (let row = 0; row < rows; row++) {
+      const { cells } = LevelSys;
+      for (let row = 0; row < this.rows; row++) {
         this.matrix[row] = [];
         let num: number;
-        for (let col = 0; col < cols; col++) {
-          if (cells[row][col] === CELL_TYPES.NIL) {
+        for (let col = 0; col < this.cols; col++) {
+          if (cells[row] && cells[row][col] === CELL_TYPES.NIL) {
             num = NIL_NUMBER;
           } else {
             // 将上一个值加入排除列表，以避免连续数字过多导致难度太低

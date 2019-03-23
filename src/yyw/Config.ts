@@ -16,11 +16,8 @@ namespace yyw {
     boxEnabled: boolean;
     bannerAd: string;
     rewardAd: string;
-    levels: Level[];
     soundEnabled: boolean;
     vibrationEnabled: boolean;
-    mode: "score" | "level";
-    level: number;
   }
 
   export const CONFIG: Config = {
@@ -53,23 +50,7 @@ namespace yyw {
     rewardAd: "",
     soundEnabled: true,
     vibrationEnabled: true,
-    mode: "score",
-    levels: [],
-    level: 0,
   };
-
-  let level = 0;
-
-  Object.defineProperties(CONFIG, {
-    level: {
-      get(): number {
-        return level || (USER && USER.level || 0) || 1;
-      },
-      set(v: number) {
-        level = v;
-      },
-    },
-  });
 
   export async function initConfig() {
     try {
@@ -89,8 +70,6 @@ namespace yyw {
         rewardAd = "",
       } = await cloud.call("getConfig");
 
-      const levels = await cloud.read("levels.json") || [];
-
       Object.assign(CONFIG, {
         speedRatio,
         coinReward,
@@ -105,7 +84,6 @@ namespace yyw {
         boxEnabled,
         bannerAd,
         rewardAd,
-        levels,
       });
     } catch (error) {
       egret.error(error);

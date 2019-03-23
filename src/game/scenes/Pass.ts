@@ -21,7 +21,7 @@ namespace game {
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       super.createView(fromChildrenCreated);
 
-      const { level } = yyw.LevelSys.current();
+      const level = yyw.LevelSys.level;
 
       if (fromChildrenCreated) {
         yyw.onTap(this.btnOK, () => {
@@ -32,7 +32,8 @@ namespace game {
         });
 
         yyw.onTap(this.btnEscape, () => {
-          if (yyw.LevelSys.current().level > 0) {
+          yyw.LevelSys.forward();
+          if (yyw.LevelSys.level > 0) {
             yyw.emit("GAME_START");
           } else {
             yyw.showModal("暂无可用关卡，敬请期待！", false);
@@ -53,7 +54,6 @@ namespace game {
 
       // 通关恢复 1 点体力
       yyw.EnergySys.up();
-      yyw.CONFIG.level++;
 
       this.btnEscape.visible = false;
       await yyw.sleep();
@@ -74,7 +74,7 @@ namespace game {
           openid: yyw.USER.openid || 0,
           nickName: yyw.USER.nickName,
           avatarUrl: yyw.USER.avatarUrl,
-          mode: yyw.CONFIG.mode,
+          mode: yyw.LevelSys.mode,
           level,
           score: this.duration,
         });

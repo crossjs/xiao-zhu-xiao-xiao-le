@@ -16,9 +16,9 @@ namespace yyw {
     },
 
     async save({
-      score,
-      level,
-      duration,
+      score = 0,
+      level = 0,
+      duration = 0,
     }: {
       score?: number,
       level?: number,

@@ -72,7 +72,12 @@ namespace game {
           yyw.showToast("加载中……");
           this.rankingData = await yyw.pbl.all();
           yyw.hideToast();
-          this.myRankingData = this.rankingData.find(({ openid }) => yyw.USER.openid === openid);
+          this.myRankingData = this.rankingData.find(({ openid }) => yyw.USER.openid === openid) || {
+            key: 999,
+            nickName: yyw.USER.nickName,
+            avatarUrl: yyw.USER.avatarUrl,
+            score: yyw.USER.score,
+          };
           this.pageTotal = Math.ceil(this.rankingData.length / this.pageSize);
         }
         // 重置当前页

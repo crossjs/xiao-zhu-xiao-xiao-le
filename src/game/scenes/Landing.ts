@@ -78,7 +78,7 @@ namespace game {
 
         // 开始游戏
         yyw.onTap(this.btnStart, async () => {
-          yyw.CONFIG.mode = "score";
+          yyw.LevelSys.current("score");
           await yyw.director.toScene("playing");
           yyw.emit("GAME_START");
         });
@@ -87,8 +87,8 @@ namespace game {
           if (yyw.USER.score < yyw.CONFIG.levelScore) {
             yyw.showModal(`无尽模式达到 ${yyw.CONFIG.levelScore} 分后开启`, false);
           } else {
-            if (yyw.LevelSys.current("level").level > 0) {
-              yyw.CONFIG.mode = "level";
+            yyw.LevelSys.current("level");
+            if (yyw.LevelSys.level > 0) {
               await yyw.director.toScene("playing");
               yyw.emit("GAME_START");
             } else {
@@ -112,24 +112,6 @@ namespace game {
             this.imgFavorite.visible = true;
           }
         }
-
-        // const shape = new egret.Shape();
-        // shape.graphics.beginFill(0x0000ff);
-        // shape.graphics.drawCircle(0, 0, 50);
-        // shape.graphics.endFill();
-        // this.stage.addChild(shape);
-        // yyw.onTap(this.tfdVersion, () => {
-        //   shape.x = yyw.random(25, 726);
-        //   shape.y = yyw.random(25, 1048);
-        //   yyw.bezierTo(
-        //     shape,
-        //     {
-        //       x: yyw.random(25, 726),
-        //       y: yyw.random(25, 1048),
-        //     },
-        //     10000,
-        //   );
-        // });
       } else {
         yyw.analysis.addEvent("8回到主页");
       }
@@ -142,7 +124,7 @@ namespace game {
 
       this.tfdVersion.text = VERSION;
       yyw.onTap(this.tfdVersion, () => {
-        yyw.CONFIG.level = 1;
+        yyw.LevelSys[`${"cursor"}`] = 0;
         yyw.USER.score = yyw.CONFIG.levelScore;
         yyw.USER.level = 0;
         this.tfdScore.text = `最高分数：${yyw.USER.score || 0}`;

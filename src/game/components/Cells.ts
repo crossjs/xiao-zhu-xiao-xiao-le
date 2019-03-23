@@ -62,12 +62,10 @@ namespace game {
     }
 
     private model: yyw.Model;
-    private currentLevel: yyw.Level;
     private cellMatrix: CellMatrix;
 
     public async startup(useSnapshot: boolean = false) {
       this.model = yyw.Model.create(useSnapshot);
-      this.currentLevel = yyw.LevelSys.current();
       this.createCells(useSnapshot);
     }
 
@@ -170,18 +168,18 @@ namespace game {
     }
 
     private createCells(useSnapshot?: boolean) {
-      const { limit } = this.currentLevel;
-
-      const cells = useSnapshot ? yyw.USER.arena[yyw.CONFIG.mode].cells : limit.cells;
+      const cells = (useSnapshot ? yyw.LevelSys.snapshot.cells : yyw.LevelSys.cells) || [];
+      const rows = yyw.LevelSys.rows;
+      const cols = yyw.LevelSys.cols;
 
       // 清除
       yyw.removeChildren(this.main);
 
       // 重建
       const cm = this.cellMatrix = [];
-      for (let row = 0; row < limit.rows; row++) {
+      for (let row = 0; row < rows; row++) {
         const r = cm[row] = [];
-        for (let col = 0; col < limit.cols; col++) {
+        for (let col = 0; col < cols; col++) {
           const c = r[col] = new Cell(col, row);
           this.main.addChild(c);
         }

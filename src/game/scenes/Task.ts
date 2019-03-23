@@ -14,7 +14,7 @@ namespace game {
 
       // 获得分数
       yyw.on("SNAPSHOT", ({ data: { score } }: egret.Event) => {
-        if (yyw.CONFIG.mode === "score") {
+        if (yyw.LevelSys.mode === "score") {
           if (score > this.scoreReach) {
             this.scoreReach = score;
             this.checkTasks();

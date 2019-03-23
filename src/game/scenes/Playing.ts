@@ -8,8 +8,7 @@ namespace game {
     private isPlaying: boolean = false;
 
     public async startGame() {
-      const useSnapshot = yyw.USER.arena
-        && yyw.USER.arena[yyw.CONFIG.mode]
+      const useSnapshot = yyw.LevelSys.snapshot
         && (await yyw.showModal("继续上一次的进度？"));
 
       if (!useSnapshot) {
@@ -40,6 +39,7 @@ namespace game {
 
       yyw.on("LEVEL_PASS", () => {
         this.isPlaying = false;
+        this.clearArena();
         // 通关，清理快照
         this.saveSnapshot(null);
         yyw.director.toScene("pass", true);
@@ -48,7 +48,9 @@ namespace game {
 
       // 实时保存快照
       yyw.on("SNAPSHOT", ({ data }) => {
-        this.saveSnapshot(data);
+        if (this.isPlaying) {
+          this.saveSnapshot(data);
+        }
       });
 
       // 预处理龙骨动画
@@ -56,9 +58,7 @@ namespace game {
     }
 
     protected async destroy(): Promise<void> {
-      yyw.removeElement(this.arena);
-      this.arena = null;
-
+      this.clearArena();
       super.destroy();
     }
 
@@ -67,7 +67,7 @@ namespace game {
 
       if (fromChildrenCreated) {
         if (yyw.USER.guided) {
-          if (yyw.CONFIG.mode === "score") {
+          if (yyw.LevelSys.mode === "score") {
             yyw.director.toScene("task", true);
           }
         } else {
@@ -97,7 +97,7 @@ namespace game {
     }
 
     private async ensureArena(useSnapshot: boolean) {
-      const Arena = yyw.CONFIG.mode === "score" ? ArenaScore : ArenaLevel;
+      const Arena = yyw.LevelSys.level === 0 ? ArenaScore : ArenaLevel;
       if (!(this.arena instanceof Arena)) {
         if (this.arena) {
           yyw.removeElement(this.arena);
@@ -115,7 +115,7 @@ namespace game {
 
     private async saveSnapshot(payload: any) {
       const { arena } = yyw.USER;
-      const { mode } = yyw.CONFIG;
+      const { mode } = yyw.LevelSys;
       await yyw.update({
         tools: this.tools.getSnapshot(),
         arena: {
@@ -123,6 +123,11 @@ namespace game {
           [mode]: payload,
         },
       });
+    }
+
+    private clearArena() {
+      yyw.removeElement(this.arena);
+      this.arena = null;
     }
   }
 }

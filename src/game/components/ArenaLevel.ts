@@ -24,7 +24,7 @@ namespace game {
       const numGoals = useSnapshot && yyw.USER.arena.level.goals || {};
       const duration = useSnapshot && yyw.USER.arena.level.duration || 0;
       this.startTime = Date.now() - duration;
-      this.tfdLevel.text = `${this.currentLevel.level}`;
+      this.tfdLevel.text = `${yyw.LevelSys.level}`;
 
       // 清除
       yyw.removeChildren(this.grpGoals);
@@ -32,7 +32,7 @@ namespace game {
       this.insGoals = {};
 
       // 重建
-      Object.entries(this.currentLevel.goals)
+      Object.entries(yyw.LevelSys.goals)
       .forEach(([ num, amount ]: [ string, number ], index: number) => {
         const key = `${index}`;
         // 创建 Goal 实例

@@ -6,7 +6,6 @@ namespace game {
     protected running: boolean = false;
     /** 连击 */
     protected combo: number = 0;
-    protected currentLevel: yyw.Level;
     private offTool: () => void;
     private offDnd: () => void;
 
@@ -22,7 +21,9 @@ namespace game {
     public async startup(useSnapshot: boolean = false) {
       this.cells.startup(useSnapshot);
       this.ensureData(useSnapshot);
-      this.handleChange();
+      egret.setTimeout(() => {
+        this.handleChange();
+      }, null, 0);
       this.isRunning = false;
     }
 
@@ -187,10 +188,8 @@ namespace game {
     }
 
     protected ensureData(useSnapshot: boolean) {
-      this.currentLevel = yyw.LevelSys.current();
-      const { cols, rows } = this.currentLevel.limit;
-      const width = yyw.CELL_WIDTH * cols;
-      const height = yyw.CELL_HEIGHT * rows;
+      const width = yyw.CELL_WIDTH * yyw.LevelSys.cols;
+      const height = yyw.CELL_HEIGHT * yyw.LevelSys.rows;
       const anchorOffsetX = width >> 1;
       const anchorOffsetY = height >> 1;
       this.cells.width = width;
@@ -199,7 +198,7 @@ namespace game {
       this.cells.anchorOffsetY = anchorOffsetY;
       this.cells.x = (yyw.MAX_COLS * yyw.CELL_WIDTH) >> 1;
       this.cells.y = (yyw.MAX_ROWS * yyw.CELL_HEIGHT) >> 1;
-      this.combo = (useSnapshot && yyw.USER.arena[this.mode].combo) || 0;
+      this.combo = (useSnapshot && yyw.LevelSys.snapshot.combo) || 0;
     }
 
     protected async collectCell(cell: Cell, num: number = 0) {
@@ -220,7 +219,7 @@ namespace game {
     }
 
     private xy2p([x, y]: yyw.Point): yyw.Point {
-      const { cols, rows } = this.currentLevel.limit;
+      const { cols, rows } = yyw.LevelSys;
       return [
         Math.max(
           0,
@@ -386,10 +385,10 @@ namespace game {
     }
 
     private async dropCellsDown() {
-      const { cells, currentLevel: { limit } } = this;
-      let col = limit.cols;
+      const { cols, rows } = yyw.LevelSys;
+      let col = cols;
       while (col-- > 0) {
-        let row = limit.rows;
+        let row = rows;
         while (row-- > 0) {
           const point: yyw.Point = [col, row];
           const cell = this.cells.getCellAt(point);
@@ -399,7 +398,7 @@ namespace game {
             // 第一行，无可填补，直接设置随机值
             if (row === 0) {
               // TODO 向下的动画
-              cells.setNumberAt(cell);
+              this.cells.setNumberAt(cell);
               await cell.tweenDown(50);
             } else {
               let rowAbove = row;
@@ -408,17 +407,17 @@ namespace game {
               // 往上找
               while (numAbove === yyw.PENDING_NUMBER && rowAbove--) {
                 pointAbove = [col, rowAbove];
-                numAbove = cells.getNumberAt(pointAbove);
+                numAbove = this.cells.getNumberAt(pointAbove);
               }
               // 找完了
               if (numAbove === yyw.NIL_NUMBER) {
                 // 往上找碰壁了（黑洞、墙），则在墙下第一个填入随机值
                 pointAbove = [col, rowAbove + 1];
-                cells.setNumberAt(pointAbove);
+                this.cells.setNumberAt(pointAbove);
               } else if (numAbove === yyw.PENDING_NUMBER) {
                 // 往上没有找到可用数字（连墙都没有），则在第一个填入随机值
                 pointAbove = [col, 0];
-                cells.setNumberAt(pointAbove);
+                this.cells.setNumberAt(pointAbove);
               }
               // 接着，往下传
               const cellAbove = this.cells.getCellAt(pointAbove);
@@ -466,7 +465,7 @@ namespace game {
       PointSound.play();
       // 同步消除
       const isRow = yyw.random(2) === 1;
-      const index = yyw.random(this.currentLevel.limit[isRow ? "rows" : "cols"]);
+      const index = yyw.random(yyw.LevelSys[isRow ? "rows" : "cols"]);
       const cells = this.cells.flatten((cell: Cell) => cell[isRow ? "row" : "col"] === index);
       await Promise.all(
         cells.map((cell: Cell) => this.collectCell(cell)),

@@ -1,10 +1,9 @@
 {
   "name": "g4",
-  "version": "1.8.0",
+  "version": "1.8.3",
   "description": "小猪消消乐",
   "private": true,
   "scripts": {
-    "image": "cli compress",
     "lint": "tslint -p ./ --fix",
     "dev": "cli dev",
     "debug": "cli debug",
@@ -35,7 +34,7 @@
       "release": "dev-529ffe"
     },
     "CLOUD_DIR": {
-      "dev": "cloud://dev-529ffe.6465-dev-529ffe",
+      "dev": "cloud://releas-529ffe.7265-releas-529ffe",
       "release": "cloud://dev-529ffe.6465-dev-529ffe"
     }
   },
@@ -55,7 +54,7 @@
       "release": "dev-529ffe"
     },
     "CLOUD_DIR": {
-      "dev": "cloud://dev-529ffe.6465-dev-529ffe",
+      "dev": "cloud://releas-529ffe.7265-releas-529ffe",
       "release": "cloud://dev-529ffe.6465-dev-529ffe"
     }
   },
@@ -75,7 +74,7 @@
       "release": "dev-529ffe"
     },
     "CLOUD_DIR": {
-      "dev": "cloud://dev-529ffe.6465-dev-529ffe",
+      "dev": "cloud://releas-529ffe.7265-releas-529ffe",
       "release": "cloud://dev-529ffe.6465-dev-529ffe"
     }
   }

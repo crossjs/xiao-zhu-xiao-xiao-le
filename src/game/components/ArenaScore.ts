@@ -26,9 +26,16 @@ namespace game {
     /**
      * 更新分数
      */
-    protected increaseScore(n: number) {
+    protected async increaseScore(n: number) {
       this.score += n;
-      this.flashScore();
+      await this.flashScore();
+      // 每 1000 分更新
+      if (this.score - yyw.USER.score > 1000) {
+        yyw.showToast("得分破了记录！");
+        await yyw.pbl.save({
+          score: this.score,
+        });
+      }
     }
 
     @yyw.debounce()
