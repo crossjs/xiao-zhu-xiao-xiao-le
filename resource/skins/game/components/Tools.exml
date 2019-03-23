@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="ToolsSkin" xmlns:e="http://ns.egret.com/eui" xmlns:game="game.*">
-	<e:Group id="main" touchEnabled="false" width="750" height="90">
+	<e:Group id="main" touchEnabled="false" width="750" height="72">
         <game:RandomKind verticalCenter="0"/>
         <game:RandomLine verticalCenter="0"/>
         <game:RandomSort verticalCenter="0"/>

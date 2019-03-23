@@ -2,7 +2,7 @@ namespace game {
   export class Playing extends yyw.Base {
     private bgHead: eui.Rect;
     private boxAll: box.All;
-    private ctrlShop: CtrlCoin;
+    private ctrlCoin: CtrlCoin;
     private arena: ArenaBase;
     private tools: Tools;
     private isPlaying: boolean = false;
@@ -76,9 +76,9 @@ namespace game {
 
         if (yyw.CONFIG.shopStatus) {
           if (this.stage.stageHeight > 1334) {
-            this.ctrlShop.x = 729 - this.ctrlShop.width;
+            this.ctrlCoin.x = 729 - this.ctrlCoin.width;
           }
-          this.ctrlShop.visible = true;
+          this.ctrlCoin.visible = true;
         }
 
         // 初次进入，刷新广告

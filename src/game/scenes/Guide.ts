@@ -2,8 +2,8 @@ namespace game {
   export class Guide extends yyw.Base {
     private btnNext: eui.Button;
     private currentIndex: number = -1;
-    private currentStep: Step1 | Step2 | Step3;
-    private stepClasses = [Step1, Step2, Step3];
+    private currentStep: Step1 | Step2 | Step3 | Step4;
+    private stepClasses = [Step1, Step2, Step3, Step4];
 
     protected async createView(fromChildrenCreated?: boolean): Promise<void> {
       super.createView(fromChildrenCreated);

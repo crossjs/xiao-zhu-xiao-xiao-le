@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e:Skin class="Step3Skin"
+ xmlns:e="http://ns.egret.com/eui" width="750" height="1072">
+	<e:Group y="240" horizontalCenter="0" x="255">
+		<e:Image source="sprites_json.round_white" width="72" height="72" y="0" horizontalCenter="0"/>
+		<e:Image y="15" source="sprites_json.tool_kind" horizontalCenter="0"/>
+		<e:Label y="84" text="随机消除一种水果" fontFamily="sans-serif"/>
+	</e:Group>
+	<e:Group y="600" horizontalCenter="0" x="225">
+		<e:Image source="sprites_json.round_white" width="72" height="72" horizontalCenter="0"/>
+		<e:Image source="sprites_json.tool_sort" y="12" horizontalCenter="0"/>
+		<e:Label y="84" text="所有水果重随机排列" fontFamily="sans-serif"/>
+	</e:Group>
+	<e:Group y="420" horizontalCenter="0" x="285">
+		<e:Image source="sprites_json.round_white" width="72" height="72" y="0" horizontalCenter="0"/>
+		<e:Image y="30" source="sprites_json.tool_line" horizontalCenter="0"/>
+		<e:Label y="84" text="随机消除一行或一列" fontFamily="sans-serif"/>
+	</e:Group>
+</e:Skin>

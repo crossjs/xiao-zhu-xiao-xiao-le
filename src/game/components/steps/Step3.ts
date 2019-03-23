@@ -1,3 +1,3 @@
 namespace game {
-  export class Step3 extends yyw.Base {}
+  export class Step3 extends Step1 {}
 }

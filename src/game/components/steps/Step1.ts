@@ -32,23 +32,23 @@ namespace game {
         tweenNumTo.to({
           y: y1,
         }, 500);
-        await tweenFinger.to({
+        tweenFinger.to({
           y: fy2,
         }, 500);
+        await yyw.sleep(4);
         tweenNumFrom.to({
           y: y1,
         }, 500);
         tweenNumTo.to({
           y: y2,
         }, 500);
-        await tweenFinger.to({
+        tweenFinger.to({
           y: fy1,
         }, 500);
-        egret.setTimeout(() => {
-          if (this.parent) {
-            tween();
-          }
-        }, null, 3000);
+        await yyw.sleep(2);
+        if (this.parent) {
+          tween();
+        }
       };
       if (this.parent) {
         tween();

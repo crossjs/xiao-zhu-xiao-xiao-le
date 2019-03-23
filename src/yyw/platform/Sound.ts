@@ -10,25 +10,23 @@ namespace yyw {
     }
 
     private static instance: Sound;
-    private innerAudioContext: wx.InnerAudioContext;
 
-    public constructor(url: string) {
-      if (url) {
-        this.innerAudioContext = wx.createInnerAudioContext();
-        this.innerAudioContext.src = url;
+    public constructor(private url: string) {
+      if (this.url) {
         (this.constructor as any).instance = this;
       }
     }
 
-    private play() {
+    private async play() {
       if (!CONFIG.soundEnabled) {
         return;
       }
-      if (!this.innerAudioContext) {
-        return;
-      }
-
-      this.innerAudioContext.play();
+      const sound = wx.createInnerAudioContext();
+      sound.src = await fs.ensure(this.url);
+      sound.onEnded(() => {
+        sound.destroy();
+      });
+      sound.play();
     }
   }
 }

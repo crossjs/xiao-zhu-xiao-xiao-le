@@ -5,8 +5,8 @@
 		<e:Rect id="bgHead" height="232" width="750" y="0" fillColor="6798572"/>
 		<game:CtrlGroup1 id="ctrlGroup1" x="114" y="30" scaleX="0.75" scaleY="0.75"/>
 		<game:CtrlEnergy id="ctrlEnergy" x="40" y="114"/>
-		<game:CtrlCoin id="ctrlShop" x="40" y="168" visible="true"/>
-		<game:Tools id="tools" bottom="0"/>
+		<game:CtrlCoin id="ctrlCoin" x="40" y="168" visible="false"/>
+		<game:Tools id="tools" bottom="18"/>
 		<game:Me id="me" x="21" y="21"/>
 	</e:Group>
 </e:Skin>

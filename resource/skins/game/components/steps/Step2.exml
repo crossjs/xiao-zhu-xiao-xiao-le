@@ -1,16 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <e:Skin class="Step2Skin"
- xmlns:e="http://ns.egret.com/eui">
-	<e:Group id="body" width="750" height="1072" bottom="262">
-		<e:Label y="717" text="五个连成直线可获得特殊奖励" fontFamily="sans-serif" horizontalCenter="0"/>
-		<e:Group horizontalCenter="0" y="352">
-			<e:Image id="numTo" source="numbers_json.4" y="144" x="287"/>
-			<e:Image source="numbers_json.3" x="0" y="144"/>
-			<e:Image source="numbers_json.3" x="144" y="144"/>
-			<e:Image source="numbers_json.3" x="576" y="144"/>
-			<e:Image source="numbers_json.3" x="432" y="144"/>
-			<e:Image id="numFrom" source="numbers_json.3" x="287" y="0"/>
-			<e:Image id="finger" source="sprites_json.finger" x="347" y="60"/>
+ xmlns:e="http://ns.egret.com/eui" xmlns:w="http://ns.egret.com/wing" width="750" height="1072">
+	<e:Label y="600" text="五个连成直线可获得特殊奖励" fontFamily="sans-serif" horizontalCenter="0" x="180"/>
+	<e:Group horizontalCenter="0" y="360" x="150">
+		<e:Group id="numFrom" width="90" height="90" x="180" y="0">
+		<e:Image source="fruits_json.3" horizontalCenter="0" verticalCenter="0"/>
 		</e:Group>
+		<e:Group width="90" height="90" y="90">
+		<e:Image source="fruits_json.3" horizontalCenter="0" verticalCenter="0"/>
+		</e:Group>
+		<e:Group width="90" height="90" y="90" x="90">
+		<e:Image source="fruits_json.3" horizontalCenter="0" verticalCenter="0"/>
+		</e:Group>
+		<e:Group width="90" height="90" x="270" y="90">
+		<e:Image source="fruits_json.3" horizontalCenter="0" verticalCenter="0"/>
+		</e:Group>
+		<e:Group width="90" height="90" x="360" y="90">
+		<e:Image source="fruits_json.3" horizontalCenter="0" verticalCenter="0"/>
+		</e:Group>
+		<e:Group id="numTo" width="90" height="90" x="180" y="90">
+		<e:Image source="fruits_json.4" horizontalCenter="0" verticalCenter="0"/>
+		</e:Group>
+		<e:Image id="finger" source="sprites_json.finger" x="218" y="40" scaleX="0.5" scaleY="0.5"/>
 	</e:Group>
 </e:Skin>

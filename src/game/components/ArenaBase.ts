@@ -394,7 +394,7 @@ namespace game {
           const cell = this.cells.getCellAt(point);
           const num = cell.getNumber();
           // 0，说明需要填补，从上往下填补
-          if (num === 0) {
+          if (num === yyw.PENDING_NUMBER) {
             // 第一行，无可填补，直接设置随机值
             if (row === 0) {
               // TODO 向下的动画
@@ -466,7 +466,9 @@ namespace game {
       // 同步消除
       const isRow = yyw.random(2) === 1;
       const index = yyw.random(yyw.LevelSys[isRow ? "rows" : "cols"]);
-      const cells = this.cells.flatten((cell: Cell) => cell[isRow ? "row" : "col"] === index);
+      const cells = this.cells.flatten((cell: Cell) => {
+        return cell[isRow ? "row" : "col"] === index && cell.getType() !== yyw.CELL_TYPES.NIL;
+      });
       await Promise.all(
         cells.map((cell: Cell) => this.collectCell(cell)),
       );

@@ -31,17 +31,17 @@ namespace yyw {
     });
   }
 
-  export function loadAudio(url: string): Promise<egret.Sound> {
-    return new Promise(async (resolve, reject) => {
-      const loader: egret.URLLoader = new egret.URLLoader();
-      loader.once(egret.Event.COMPLETE, () => {
-        resolve(loader.data);
-      }, this);
-      loader.once(egret.IOErrorEvent.IO_ERROR, () => {
-        resolve(null);
-      }, this);
-      loader.dataFormat = egret.URLLoaderDataFormat.SOUND;
-      loader.load(new egret.URLRequest(await fs.ensure(url)));
-    });
-  }
+  // export function loadAudio(url: string): Promise<egret.Sound> {
+  //   return new Promise(async (resolve, reject) => {
+  //     const loader: egret.URLLoader = new egret.URLLoader();
+  //     loader.once(egret.Event.COMPLETE, () => {
+  //       resolve(loader.data);
+  //     }, null);
+  //     loader.once(egret.IOErrorEvent.IO_ERROR, () => {
+  //       resolve(null);
+  //     }, null);
+  //     loader.dataFormat = egret.URLLoaderDataFormat.SOUND;
+  //     loader.load(new egret.URLRequest(await fs.ensure(url)));
+  //   });
+  // }
 }
