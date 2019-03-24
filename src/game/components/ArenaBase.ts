@@ -432,7 +432,7 @@ namespace game {
     }
 
     /**
-     * 随机重排
+     * 随机类型
      */
     private async doRandomKind(): Promise<void> {
       this.isRunning = true;
@@ -456,7 +456,7 @@ namespace game {
     }
 
     /**
-     * 随机重排
+     * 随机行列
      */
     private async doRandomLine(): Promise<void> {
       this.isRunning = true;

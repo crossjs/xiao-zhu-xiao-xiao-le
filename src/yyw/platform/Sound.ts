@@ -14,6 +14,8 @@ namespace yyw {
 
     public constructor(private url: string) {
       if (this.url) {
+        // 先建一个
+        this.createSound();
         (this.constructor as any).instance = this;
       }
     }
@@ -22,17 +24,20 @@ namespace yyw {
       if (!CONFIG.soundEnabled) {
         return;
       }
-      const sound = this.soundPool.pop() || await this.createSound();
+      if (!this.soundPool.length) {
+        await this.createSound();
+      }
+      const sound = this.soundPool.pop();
       sound.play();
     }
 
-    private async createSound(): Promise<wx.InnerAudioContext> {
+    private async createSound() {
       const sound = wx.createInnerAudioContext();
       sound.src = await fs.ensure(this.url);
       sound.onEnded(() => {
         this.soundPool.unshift(sound);
       });
-      return sound;
+      this.soundPool.push(sound);
     }
   }
 }

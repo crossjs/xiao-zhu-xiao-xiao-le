@@ -45,11 +45,13 @@ namespace game {
     protected async collectCell(cell: Cell, num: number = 0) {
       const key = `${cell.getNumber()}`;
       await super.collectCell(cell, num);
-      if (this.insGoals.hasOwnProperty(key)) {
-        const goal = this.insGoals[key];
-        await this.flyCellToGoal(cell, goal, key);
-        goal.increaseAmount(1);
-        this.checkGoals();
+      if (!this.detached) {
+        if (this.insGoals.hasOwnProperty(key)) {
+          const goal = this.insGoals[key];
+          await this.flyCellToGoal(cell, goal, key);
+          goal.increaseAmount(1);
+          this.checkGoals();
+        }
       }
     }
 
