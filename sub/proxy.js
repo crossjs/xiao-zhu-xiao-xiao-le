@@ -9,7 +9,7 @@ export const Proxy = {
   },
 
   async openRanking(data) {
-    const rankingData = await Proxy.getRankingData();
+    const rankingData = await Proxy.getRankingData("score");
     Ranking.create({
       ...data,
       rankingData,
@@ -20,7 +20,7 @@ export const Proxy = {
     Ranking.destroy();
   },
 
-  async saveScore({ score = 0, level = 0, duration }) {
+  async saveScore({ score = 0, level = 0, duration = 0 }) {
     await Proxy.getUserData();
     const KVDataList = [];
     const now = Math.floor(Date.now() / 1000);
@@ -68,12 +68,12 @@ export const Proxy = {
   },
 
   async openNeighbor(data) {
-    const rankingData = await Proxy.getRankingData();
-    const { mode = "score", level = "" } = data;
-    const key = `${mode}${level}`;
+    const { level = 0 } = data;
+    const key = `level${level}`;
+    const rankingData = await Proxy.getRankingData(key);
     Neighbor.create({
       ...data,
-      rankingData: rankingData.filter((item) => item.hasOwnProperty(key)),
+      rankingData,
     });
   },
 
@@ -92,7 +92,7 @@ export const Proxy = {
       wx.getUserCloudStorage({
         keyList: ["score", "level"],
         success: ({ KVDataList }) => {
-          const { score, level } = getValueFormKVDataList(KVDataList);
+          const { score = 0, level = 0 } = getValueFormKVDataList(KVDataList);
           this.cachedScore = score;
           this.cachedLevel = level;
           resolve();
@@ -104,20 +104,25 @@ export const Proxy = {
     });
   },
 
-  async getRankingData() {
-    if (this.cachedRankingData) {
-      return this.cachedRankingData;
+  cachedRankingData: {},
+
+  async getRankingData(key) {
+    if (this.cachedRankingData[key]) {
+      return this.cachedRankingData[key];
     }
     return new Promise((resolve, reject) => {
       wx.getFriendCloudStorage({
-        keyList: ["score"],
+        keyList: [key],
         success: ({ data }) => {
-          this.cachedRankingData = data.map(({ KVDataList, nickName, nickname, ...rest }) => ({
-            ...rest,
-            nickName: sliceString(nickName || nickname),
-            ...getValueFormKVDataList(KVDataList),
-          }));
-          resolve(this.cachedRankingData);
+          this.cachedRankingData[key] = data
+            // 过滤掉空数据
+            .filter(({ KVDataList }) => KVDataList.length !== 0)
+            .map(({ KVDataList, nickName, nickname, ...rest }) => ({
+              ...rest,
+              nickName: sliceString(nickName || nickname),
+              ...getValueFormKVDataList(KVDataList),
+            }));
+          resolve(this.cachedRankingData[key]);
         },
         fail: (e) => {
           reject(e);
@@ -146,17 +151,11 @@ function sliceString(value, size = 6, asciiAsHalf = true) {
   return value.substring(0, size);
 }
 
-const fallback = { score: 0, level: 0 };
-
 function getValueFormKVDataList(KVDataList) {
-  const [ KVData ] = KVDataList;
-  if (!KVData) {
-    return fallback;
-  }
-  try {
-    const { score = 0, level = 0 } = JSON.parse(KVData.value).wxgame;
-    return { score, level };
-  } catch (error) {
-    return fallback;
-  }
+  return KVDataList.reduce((obj, { key, value }) => {
+    const { score } = JSON.parse(value).wxgame;
+    return score ? Object.assign(obj, {
+      [key]: score,
+    }) : obj;
+  }, {});
 }

@@ -44,13 +44,13 @@ namespace game {
       this.tfdRes.text = `关卡 ${level}，用时 ${(this.duration / 1000) | 0} 秒`;
       this.tfdTip.text = `打败了全国 ${yyw.random(8000, 10000) / 100}% 的用户`;
 
-      this.createNeighbor(level);
-
       // 保存数据
       yyw.pbl.save({
         level,
         duration: this.duration,
       });
+
+      this.createNeighbor(level);
 
       // 通关恢复 1 点体力
       yyw.EnergySys.up();
@@ -74,9 +74,9 @@ namespace game {
           openid: yyw.USER.openid || 0,
           nickName: yyw.USER.nickName,
           avatarUrl: yyw.USER.avatarUrl,
-          mode: yyw.LevelSys.mode,
+          // mode: yyw.LevelSys.mode,
           level,
-          score: this.duration,
+          duration: this.duration,
         });
       }
     }

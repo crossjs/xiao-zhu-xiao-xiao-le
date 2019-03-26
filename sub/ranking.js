@@ -138,7 +138,7 @@ export const Ranking = {
       height,
       assets
     } = this;
-    const { key, avatarUrl, nickName, nickname, [this.key]: score } = data;
+    const { key, avatarUrl, nickName, [this.key]: score } = data;
     const y =
       i === this.pageSize
         ? height - myBarHeight
@@ -167,7 +167,7 @@ export const Ranking = {
       iconWidth
     );
     // 绘制名称
-    this.drawText(nickName || nickname, xArr[3], y, nameWidth, barHeight, {
+    this.drawText(nickName, xArr[3], y, nameWidth, barHeight, {
       align: "left",
       color: "#101C24"
     });

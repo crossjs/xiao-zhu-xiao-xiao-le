@@ -117,7 +117,9 @@ namespace game {
       // 先按数字序列化，以便于将长度不足的先剔除
       this.traverse((cell: Cell) => {
         const num = cell.getNumber();
-        if (num !== yyw.NIL_NUMBER) {
+        if (num !== yyw.NIL_NUMBER
+          && num !== yyw.BOMB_NUMBER
+          && num !== yyw.MAGIC_NUMBER) {
           const key = `${num}`;
           if (!numMap[key]) {
             numMap[key] = [];

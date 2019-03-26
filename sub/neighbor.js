@@ -21,7 +21,7 @@ export const Neighbor = {
    * 这个函数会在加载完所有资源之后被调用
    */
   async create({
-    width, height, mode = "score", level = "", score, rankingData,
+    width, height, level = 0, duration = 0, rankingData,
     openid = 0, nickName = "", avatarUrl = "",
   }) {
     if (sharedCanvas.width && sharedCanvas.height) {
@@ -30,48 +30,32 @@ export const Neighbor = {
       this.assets = await AssetsManager.getAssets();
       this.width = width;
       this.height = height;
-      this.mode = mode;
-      this.level = level;
-      this.key = `${mode}${level}`;
+      this.key = `level${level}`;
       let prev;
       let next;
       let mine = {
         openid,
         nickName,
         avatarUrl,
-        [this.key]: score,
+        [this.key]: duration,
       };
-      rankingData.forEach((item, index) => {
-        item.key = index + 1;
+      rankingData.forEach((item) => {
         if (item.openid === openid) {
           mine = item;
         } else {
-          const _score = item[this.key];
-          if (_score > score) {
-            if (!prev || prev[this.key] > _score) {
+          const score = item[this.key];
+          if (score > duration) {
+            if (!prev || prev[this.key] > score) {
               prev = item;
             }
-          } else if (_score < score) {
-            if (!next || next[this.key] < _score) {
+          } else if (score < duration) {
+            if (!next || next[this.key] < score) {
               next = item;
             }
           }
         }
       });
-      if (!mine.key) {
-        if (prev) {
-          mine.key = prev.key + 1;
-          if (next) {
-            next.key = mine.key + 1;
-          }
-        } else if (next) {
-          mine.key = next.key;
-          next.key = mine.key + 1;
-        } else {
-          mine.key = 1;
-        }
-      }
-      this.rankingData = [prev, mine, next].filter((v) => !!v);
+      this.rankingData = [next, mine, prev].filter((v) => !!v);
       this.scaleX = sharedCanvas.width / width;
       this.scaleY = sharedCanvas.height / height;
       context.setTransform(this.scaleX, 0, 0, this.scaleY, 0, 0);
@@ -117,12 +101,12 @@ export const Neighbor = {
     const crownHeight = 53;
     const iconWidth = 72;
     const fontSize = 24;
-    const x = (i === 0 ? 1 : i === 1 ? 0 : 2) * colWidth;
-    const { key, avatarUrl, nickName, nickname, [this.key]: score } = data;
-    let y = i === 0 ? 0 : 30;
+    const x = i * colWidth;
+    const { avatarUrl, nickName, [this.key]: score } = data;
+    let y = 10;
     // 绘制序号
     this.drawImage(
-      assets[`top${key}`],
+      assets[`top${i + 1}`],
       x + (colWidth - crownWidth) / 2,
       y,
       crownWidth,
@@ -140,7 +124,7 @@ export const Neighbor = {
     y += iconWidth + gutterHeight * 2;
     // 绘制名称
     this.drawText(
-      nickName || nickname,
+      nickName,
       x,
       y,
       colWidth,
@@ -152,7 +136,7 @@ export const Neighbor = {
     y += fontSize + gutterHeight;
     // 绘制分数
     this.drawText(
-      this.transScore(score),
+      `${(score / 1000).toFixed(1)}s`,
       x,
       y,
       colWidth,
@@ -161,13 +145,6 @@ export const Neighbor = {
         fontSize,
       },
     );
-  },
-
-  transScore(score) {
-    if (this.level) {
-      return `${(score / 1000).toFixed(1)}s`;
-    }
-    return score;
   },
 
   /**
