@@ -9,7 +9,8 @@ namespace game {
 
     public async startGame() {
       const useSnapshot = yyw.LevelSys.snapshot
-        && (await yyw.showModal("继续上一次的进度？"));
+        // 无尽模式，总是使用上一次的进度
+        && (yyw.LevelSys.mode === "score" || await yyw.showModal("继续上一次的进度？"));
 
       if (!useSnapshot) {
         if (!yyw.EnergySys.use()) {
