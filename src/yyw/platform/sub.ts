@@ -17,10 +17,14 @@ namespace yyw {
         const context = renderContext.context;
         if (!context.wxBindCanvasTexture) {
           // 每半秒调用一次，避免性能问题
-          egret.setInterval(() => {
+          egret.startTick((t: number): any => {
             egret.WebGLUtils.deleteWebGLTexture(bitmapData.webGLTexture);
             bitmapData.webGLTexture = null;
-          }, this, 500);
+          }, this);
+          // egret.setInterval(() => {
+          //   egret.WebGLUtils.deleteWebGLTexture(bitmapData.webGLTexture);
+          //   bitmapData.webGLTexture = null;
+          // }, this, 500);
         }
       }
       return bitmap;

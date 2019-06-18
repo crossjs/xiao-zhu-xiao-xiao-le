@@ -18,8 +18,8 @@ namespace game {
         this.imageKey.visible = key < 4;
         this.labelKey.text = `${key}`;
         this.labelKey.y = key < 4 ? 16 : 8;
-        const avatar: egret.Bitmap = await yyw.loadImage(avatarUrl);
-        this.imageAvatar.source = avatar.texture;
+        const avatarTexture: egret.Texture = await yyw.loadImage(avatarUrl, true);
+        this.imageAvatar.source = avatarTexture;
         this.labelNickname.text = yyw.sliceString(nickName);
         this.labelScore.text = `${score}`;
       }

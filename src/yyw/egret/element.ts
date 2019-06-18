@@ -8,13 +8,15 @@ namespace yyw {
     }
   }
 
-  export function removeElement(target: any) {
+  export function removeElement(target: any): boolean {
     if (target) {
       const { parent } = target;
       if (parent) {
         parent.removeChild(target);
+        return true;
       }
     }
+    return false;
   }
 
   export function getZIndex(target: egret.DisplayObject) {
